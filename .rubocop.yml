@@ -1,0 +1,21 @@
+Rails:
+  Enabled: true
+
+require: rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Exclude:
+    - 'bin/*'
+    - '*/vendor//'
+    - 'actionpack/lib/action_dispatch/journey/parser.rb'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'config/initializers/*'
+    - 'config/environments/*'
+    - 'spec/support/*'
+
+Style/Documentation:
+  Enabled: false
+
