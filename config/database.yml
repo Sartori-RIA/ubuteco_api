@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  username: <%= ENV['db.username'] %>
+  password: <%= ENV['db.password'] %>
+  host:  <%= ENV['db.host'] %>
+
+development:
+  <<: *default
+  database: ibuteco_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: ibuteco_test
+
+production:
+  <<: *default
+  database: ibuteco_production

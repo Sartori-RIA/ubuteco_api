@@ -1,0 +1,7 @@
+FactoryBot.define do
+  factory :maker do
+    sequence(:name) { |n| "name #{n}" }
+    sequence(:country) { |n| "country #{n}" }
+    user
+  end
+end

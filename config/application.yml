@@ -1,0 +1,32 @@
+database: &database
+  db.username: postgres
+  db.password: postgres
+  db.host: db
+
+mailer: &mailer
+  mailer.host: localhost
+  mailer.port: '3000'
+
+development:
+  <<: *database
+  <<: *mailer
+
+test:
+  <<: *database
+  <<: *mailer
+
+production:
+  <<: *database
+  mailer.host: ibuteco.com.br
+  mailer.port: '80'
+
+aws:
+  provider: AWS
+  access_key_id:
+  secret_access_key:
+  region: us-east-2
+  buket: cookiecode-ibuteco.s3
+
+redis:
+  host: redis
+  port: 6379
