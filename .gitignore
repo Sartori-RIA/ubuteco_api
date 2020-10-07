@@ -31,3 +31,7 @@ coverage
 
 spec/examples.txt
 .DS_Store
+config/application.yml
+.generators
+.idea
+*.iml

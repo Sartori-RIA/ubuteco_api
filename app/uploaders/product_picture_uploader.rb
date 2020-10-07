@@ -10,7 +10,7 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
     end
   
     def default_url(*args)
-      "https://cookiecode-ibuteco.s3.us-east-2.amazonaws.com/defaults/default.jpg"
+      "https://cookiecode-restaurant_manager.s3.us-east-2.amazonaws.com/defaults/default.jpg"
     end
   
     def asset_host

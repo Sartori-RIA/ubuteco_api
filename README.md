@@ -1,4 +1,4 @@
-# iButeco
+# restaurant_manager
 
 ### Comandos
 

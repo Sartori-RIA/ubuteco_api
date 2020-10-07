@@ -17,15 +17,15 @@ test:
 
 production:
   <<: *database
-  mailer.host: ibuteco.com.br
+  mailer.host: restaurant_manager.com.br
   mailer.port: '80'
 
 aws:
   provider: AWS
   access_key_id:
   secret_access_key:
-  region: us-east-2
-  buket: cookiecode-ibuteco.s3
+  region:
+  buket:
 
 redis:
   host: redis

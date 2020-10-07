@@ -17,7 +17,7 @@ test:
 
 production:
   <<: *database
-  mailer.host: ibuteco.com.br
+  mailer.host: restaurant_manager.com.br
   mailer.port: '80'
 
 DEVISE_JWT_SECRET_KEY
@@ -27,7 +27,7 @@ aws:
   access_key_id:
   secret_access_key:
   region: us-east-2
-  buket: cookiecode-ibuteco.s3
+  buket: cookiecode-restaurant_manager.s3
 
 redis:
   host: localhost
