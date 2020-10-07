@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Dish, type: :model do
@@ -17,7 +19,6 @@ RSpec.describe Dish, type: :model do
       dish = create(:dish_with_ingredients)
       JSON.parse(dish.to_json)
     end
-
 
     context 'when has ingredients' do
       subject { dish_json }

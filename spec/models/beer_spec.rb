@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Beer, type: :model do
@@ -7,7 +9,6 @@ RSpec.describe Beer, type: :model do
     it {is_expected.to validate_presence_of(:quantity_stock)}
     it {is_expected.to validate_presence_of(:ibu)}
     it {is_expected.to validate_presence_of(:abv)}
-
   end
 
   describe 'associations' do

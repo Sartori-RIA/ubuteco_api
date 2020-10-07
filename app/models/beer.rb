@@ -1,5 +1,6 @@
-class Beer < Product
+# frozen_string_literal: true
 
+class Beer < Product
   validates :ibu, presence: true
   validates :abv, presence: true
   validates :quantity_stock, presence: true
@@ -9,7 +10,7 @@ class Beer < Product
   belongs_to :beer_style
   belongs_to :user
 
-  def to_json
-    super(include: %i(beer_style maker))
+  def to_json(*_args)
+    super(include: %i[beer_style maker])
   end
 end

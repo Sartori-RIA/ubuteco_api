@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :dish do
     sequence(:name) { |n| "snack_#{n}" }
@@ -9,11 +11,9 @@ FactoryBot.define do
         ingredients_count { 5 }
       end
 
-      after (:create) do | dish, evaluator |
+      after(:create) do |dish, evaluator|
         create_list(:dish_ingredient, evaluator.ingredients_count, dish: dish)
       end
     end
-
   end
-
 end

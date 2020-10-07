@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
-require "rails"
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
-require "action_cable/engine"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'action_cable/engine'
 # require "sprockets/railtie"
-require "rails/test_unit/railtie"
+require 'rails/test_unit/railtie'
 # require "rack/attack"
 # use Rack::Attack
 # Require the gems listed in Gemfile, including any gems
@@ -43,9 +45,9 @@ module Back
     config.i18n.default_locale = :'pt-BR'
 
     config.navigational_formats = []
-	
+
     # config.middleware.use Rack::Attack
-    
+
     Settings.add_source!("#{Rails.root}/config/application.yml")
     Settings.reload!
   end

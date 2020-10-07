@@ -1,30 +1,34 @@
-class Api::ProfilesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_user, only: %i[me update]
+# frozen_string_literal: true
 
-  def me
-    render json: @user, include: [:theme]
-  end
+module Api
+  class ProfilesController < ApplicationController
+    before_action :authenticate_user!
+    before_action :set_user, only: %i[me update]
 
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    def me
+      render json: @user, include: [:theme]
     end
-  end
 
-  protected
+    def update
+      if @user.update(user_params)
+        render json: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    end
 
-  def set_user
-    @user = User.find_by(id: current_user.id)
-  end
+    protected
 
-  def user_params
-    params.permit(
+    def set_user
+      @user = User.find_by(id: current_user.id)
+    end
+
+    def user_params
+      params.permit(
         :name,
         :company_name,
         :cnpj
-    )
+      )
+    end
   end
 end

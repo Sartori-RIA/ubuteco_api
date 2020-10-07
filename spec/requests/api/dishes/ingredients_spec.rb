@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::Dishes::IngredientsController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:foods) { create_list(:food, 10, user: user) }
   let!(:dishes_with_ingredients) { create_list(:dish_with_ingredients, 10, user: user) }
@@ -19,7 +20,7 @@ RSpec.describe Api::Dishes::IngredientsController, type: :request do
     let!(:dish) { dishes_with_ingredients.sample }
     it 'should add ingredient to dish' do
       attributes = attributes_for(:dish_ingredient).merge(
-          food_id: foods.sample.id
+        food_id: foods.sample.id
       )
       post api_dish_ingredients_path(dish_id: dish.id), params: attributes.to_json, headers: auth_header(user)
       expect(response).to have_http_status(201)

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::BeersController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:beer_styles) { create_list(:beer_style, 10, user: user) }
   let!(:makers) { create_list(:maker, 10, user: user) }
@@ -24,8 +25,8 @@ RSpec.describe Api::BeersController, type: :request do
   describe '#POST /api/beers' do
     it 'should create a beer' do
       attributes = attributes_for(:beer).merge(
-          maker_id: makers.sample.id,
-          beer_style_id: beer_styles.sample.id
+        maker_id: makers.sample.id,
+        beer_style_id: beer_styles.sample.id
       )
       post api_beers_path, params: attributes.to_json, headers: auth_header(user)
       expect(response).to have_http_status(201)
@@ -39,12 +40,12 @@ RSpec.describe Api::BeersController, type: :request do
   describe '#PUT /api/beers/:id' do
     let!(:beer) { beers.sample }
     it 'should update a beer' do
-      beer.name = "editado"
+      beer.name = 'editado'
       put api_beer_path(beer.id), params: beer.to_json, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      beer.name = ""
+      beer.name = ''
       put api_beer_path(beer.id), params: beer.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

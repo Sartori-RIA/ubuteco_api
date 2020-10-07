@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::FoodsController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:foods) { create_list(:food, 10, user: user) }
 
@@ -34,12 +35,12 @@ RSpec.describe Api::FoodsController, type: :request do
   describe '#PUT /api/foods/:id' do
     let!(:food) {foods.sample}
     it 'should update a food' do
-      food.name = "editado"
+      food.name = 'editado'
       put api_food_path(food.id), params: food.to_json, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      food.name = ""
+      food.name = ''
       put api_food_path(food.id), params: food.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

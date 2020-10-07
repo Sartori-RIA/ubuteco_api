@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   acts_as_paranoid
 
@@ -6,5 +8,4 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
 
   monetize :total_cents, :total_with_discount_cents, :discount_cents
-
 end

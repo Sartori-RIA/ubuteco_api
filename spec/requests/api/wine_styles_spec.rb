@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::WineStylesController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:wine_styles) { create_list(:wine_style, 10, user: user) }
 
@@ -32,14 +33,14 @@ RSpec.describe Api::WineStylesController, type: :request do
   end
 
   describe '#PUT /api/wine_styles/:id' do
-    let!(:wine_style){wine_styles.sample}
+    let!(:wine_style) {wine_styles.sample}
     it 'should update a wine style' do
-      wine_style.name = "editado"
+      wine_style.name = 'editado'
       put api_wine_style_path(wine_style.id), params: wine_style.to_json, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      wine_style.name = ""
+      wine_style.name = ''
       put api_wine_style_path(wine_style.id), params: wine_style.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

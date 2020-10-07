@@ -1,5 +1,6 @@
-class Dish < Product
+# frozen_string_literal: true
 
+class Dish < Product
   has_many :dish_ingredients
   has_many :foods, through: :dish_ingredients
 
@@ -7,7 +8,7 @@ class Dish < Product
 
   accepts_nested_attributes_for :dish_ingredients, allow_destroy: true
 
-  def to_json
-    super(include: [dish_ingredients: {include: :food}])
+  def to_json(*_args)
+    super(include: [dish_ingredients: { include: :food }])
   end
 end

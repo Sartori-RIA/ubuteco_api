@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::DishesController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:dishes) { create_list(:dish, 10, user: user) }
 
@@ -38,7 +39,7 @@ RSpec.describe Api::DishesController, type: :request do
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      dish.name = ""
+      dish.name = ''
       put api_dish_path(dish.id), params: dish.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

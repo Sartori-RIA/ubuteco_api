@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WineStyle < ApplicationRecord
   acts_as_paranoid
 

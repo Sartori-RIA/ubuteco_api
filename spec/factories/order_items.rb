@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :order_item do
     order { nil }
-    quantity { "" }
+    quantity { '' }
     item { nil }
     user
   end

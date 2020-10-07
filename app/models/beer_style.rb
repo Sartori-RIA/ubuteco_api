@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BeerStyle < ApplicationRecord
   acts_as_paranoid
 

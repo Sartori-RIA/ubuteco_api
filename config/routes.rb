@@ -1,18 +1,17 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   devise_for :users,
              path: 'auth',
              path_names: {
-                 registration: 'sign_up'
+               registration: 'sign_up'
              },
              controllers: {
-                 sessions: 'sessions',
-                 registrations: 'registrations'
+               sessions: 'sessions',
+               registrations: 'registrations'
              }
 
   namespace :api do
-
-
     resources :tables
     resources :foods
     resources :beers
@@ -20,10 +19,10 @@ Rails.application.routes.draw do
     resources :makers
     resources :beer_styles
     resources :themes
-    resources :kitchens, only: %i(index update)
-    resources :profiles, only: %i(update) do
+    resources :kitchens, only: %i[index update]
+    resources :profiles, only: %i[update] do
       scope module: :profiles do
-        resources :themes, only: %i(show update)
+        resources :themes, only: %i[show update]
       end
     end
     get 'profiles/me' => 'profiles#me'

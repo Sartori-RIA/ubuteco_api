@@ -1,46 +1,50 @@
-class Api::BeerStylesController < ApplicationController
-  before_action :set_beer_style, only: [:show, :update, :destroy]
-  before_action :authenticate_user!
+# frozen_string_literal: true
 
-  def index
-    @beer_styles = BeerStyle.where(user: current_user).order(name: :asc)
+module Api
+  class BeerStylesController < ApplicationController
+    before_action :set_beer_style, only: %i[show update destroy]
+    before_action :authenticate_user!
 
-    render json: @beer_styles
-  end
+    def index
+      @beer_styles = BeerStyle.where(user: current_user).order(name: :asc)
 
-  def show
-    render json: @beer_style
-  end
-
-  def create
-    @beer_style = BeerStyle.new(beer_style_params)
-
-    if @beer_style.save
-      render json: @beer_style, status: :created
-    else
-      render json: @beer_style.errors, status: :unprocessable_entity
+      render json: @beer_styles
     end
-  end
 
-  def update
-    if @beer_style.update(beer_style_params)
+    def show
       render json: @beer_style
-    else
-      render json: @beer_style.errors, status: :unprocessable_entity
     end
-  end
 
-  def destroy
-    @beer_style.destroy
-  end
+    def create
+      @beer_style = BeerStyle.new(beer_style_params)
 
-  private
+      if @beer_style.save
+        render json: @beer_style, status: :created
+      else
+        render json: @beer_style.errors, status: :unprocessable_entity
+      end
+    end
 
-  def set_beer_style
-    @beer_style = BeerStyle.find_by(id: params[:id], user: current_user)
-  end
+    def update
+      if @beer_style.update(beer_style_params)
+        render json: @beer_style
+      else
+        render json: @beer_style.errors, status: :unprocessable_entity
+      end
+    end
 
-  def beer_style_params
-    params.permit(:name).merge(user: current_user)
+    def destroy
+      @beer_style.destroy
+    end
+
+    private
+
+    def set_beer_style
+      @beer_style = BeerStyle.find_by(id: params[:id], user: current_user)
+    end
+
+    def beer_style_params
+      params.permit(:name).merge(user: current_user)
+    end
   end
 end

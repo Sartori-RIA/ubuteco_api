@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::MakersController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:makers) { create_list(:maker, 10, user: user) }
 
@@ -34,12 +35,12 @@ RSpec.describe Api::MakersController, type: :request do
   describe '#PUT /api/makers/:id' do
     let!(:maker) { makers.sample }
     it 'should update a maker' do
-      maker.name = "editado"
+      maker.name = 'editado'
       put api_maker_path(maker.id), params: maker.to_json, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      maker.name = ""
+      maker.name = ''
       put api_maker_path(maker.id), params: maker.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

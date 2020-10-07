@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::TablesController, type: :request do
-
   let!(:user) { create(:user) }
   let!(:tables) { create_list(:table, 10, user: user) }
 
@@ -34,12 +35,12 @@ RSpec.describe Api::TablesController, type: :request do
   describe '#PUT /api/tables/:id' do
     let!(:table) { tables.sample }
     it 'should update a table' do
-      table.name = "editado"
+      table.name = 'editado'
       put api_table_path(table.id), params: table.to_json, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      table.name = ""
+      table.name = ''
       put api_table_path(table.id), params: table.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end

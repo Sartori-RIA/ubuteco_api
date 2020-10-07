@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Whitelist
 
@@ -23,27 +25,22 @@ class User < ApplicationRecord
 
   has_one :theme
 
-  after_create { |user| user.set_default_theme }
+  after_create(&:set_default_theme)
 
   def password_salt
     'no salt'
   end
 
-  def password_salt=(new_salt)
-  end
-
-  def on_jwt_dispatch(token, payload)
-    super
-  end
+  def password_salt=(new_salt); end
 
   protected
 
   def set_default_theme
     Theme.create(name: 'default',
-                      color_footer: 'slate',
-                      color_header: 'white',
-                      color_sidebar: 'slate',
-                      rtl: false,
-                      user: self)
+                 color_footer: 'slate',
+                 color_header: 'white',
+                 color_sidebar: 'slate',
+                 rtl: false,
+                 user: self)
   end
 end

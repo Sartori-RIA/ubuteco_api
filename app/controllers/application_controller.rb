@@ -1,5 +1,6 @@
-class ApplicationController < ActionController::API
+# frozen_string_literal: true
 
+class ApplicationController < ActionController::API
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
@@ -10,15 +11,14 @@ class ApplicationController < ActionController::API
 
   def validation_error(resource)
     render json: {
-        errors: [
-            {
-                status: '400',
-                title: 'Bad Request',
-                detail: resource.errors,
-                code: '100'
-            }
-        ]
+      errors: [
+        {
+          status: '400',
+          title: 'Bad Request',
+          detail: resource.errors,
+          code: '100'
+        }
+      ]
     }, status: :bad_request
   end
-
 end

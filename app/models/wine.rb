@@ -1,5 +1,6 @@
-class Wine < Product
+# frozen_string_literal: true
 
+class Wine < Product
   validates :abv, presence: true
   validates :quantity_stock, presence: true
   validates :description, presence: true
@@ -14,7 +15,7 @@ class Wine < Product
   belongs_to :wine_style
   belongs_to :user
 
-  def to_json
-    super(include: %i(wine_style maker))
+  def to_json(*_args)
+    super(include: %i[wine_style maker])
   end
 end

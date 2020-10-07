@@ -1,46 +1,50 @@
-class Api::TablesController < ApplicationController
-  before_action :set_table, only: [:show, :update, :destroy]
-  before_action :authenticate_user!
+# frozen_string_literal: true
 
-  def index
-    @tables = Table.where(user: current_user).order(name: :asc)
+module Api
+  class TablesController < ApplicationController
+    before_action :set_table, only: %i[show update destroy]
+    before_action :authenticate_user!
 
-    render json: @tables
-  end
+    def index
+      @tables = Table.where(user: current_user).order(name: :asc)
 
-  def show
-    render json: @table
-  end
-
-  def create
-    @table = Table.new(table_params)
-
-    if @table.save
-      render json: @table, status: :created
-    else
-      render json: @table.errors, status: :unprocessable_entity
+      render json: @tables
     end
-  end
 
-  def update
-    if @table.update(table_params)
+    def show
       render json: @table
-    else
-      render json: @table.errors, status: :unprocessable_entity
     end
-  end
 
-  def destroy
-    @table.destroy
-  end
+    def create
+      @table = Table.new(table_params)
 
-  private
+      if @table.save
+        render json: @table, status: :created
+      else
+        render json: @table.errors, status: :unprocessable_entity
+      end
+    end
 
-  def set_table
-    @table = Table.find_by(id: params[:id], user: current_user)
-  end
+    def update
+      if @table.update(table_params)
+        render json: @table
+      else
+        render json: @table.errors, status: :unprocessable_entity
+      end
+    end
 
-  def table_params
-    params.permit(:name, :chairs).merge(user: current_user)
+    def destroy
+      @table.destroy
+    end
+
+    private
+
+    def set_table
+      @table = Table.find_by(id: params[:id], user: current_user)
+    end
+
+    def table_params
+      params.permit(:name, :chairs).merge(user: current_user)
+    end
   end
 end
