@@ -33,7 +33,7 @@ RSpec.describe Api::BeerStylesController, type: :request do
   end
 
   describe '#PUT /api/beer_styles/:id' do
-    let!(:beer_style) {beer_styles.sample}
+    let!(:beer_style) { beer_styles.sample}
     it 'should update a beer style' do
       beer_style.name = 'editado'
       put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(user)
