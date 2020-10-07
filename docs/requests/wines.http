@@ -1,0 +1,76 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://{{host}}:{{port}}/api/wines
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Bera 2",
+  "maker_id": 1,
+  "wine_style_id": 1,
+  "wine_style": {
+    "id": 1,
+    "name": "Strong Golsden Ale",
+    "deleted_at": null,
+    "created_at": "2020-04-20T11:39:53.076-03:00",
+    "updated_at": "2020-04-20T11:39:53.076-03:00",
+    "user_id": 1
+  },
+  "price": 14,
+  "abv": 20,
+  "quantity_stock": 100,
+  "alcohol": 5.5,
+  "description": "Asdasdasd",
+  "vintage_wine": "ASdasda",
+  "visual": "asdasdasd",
+  "ripening": "asd",
+  "grapes": "asd"
+}
+
+> {% client.global.set("wine_id", response.body.id) %}
+
+###
+
+GET http://{{host}}:{{port}}/api/wines
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+GET http://{{host}}:{{port}}/api/wines/{{wine_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/wines/{{wine_id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Bera 2",
+  "maker_id": 2,
+  "price": 14,
+  "ibu": 20,
+  "quantity_stock": 100,
+  "alcohol": 5.5
+}
+
+###
+
+DELETE http://{{host}}:{{port}}/api/wines/{{wine_id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###

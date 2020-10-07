@@ -1,0 +1,43 @@
+POST http://{{host}}:{{port}}/api/tables
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "name": "Mesa 1",
+  "chairs": 12
+}
+
+###
+
+GET http://{{host}}:{{port}}/api/tables
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+GET http://{{host}}:{{port}}/api/tables/1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/tables/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Mesa 1 editada"
+}
+
+###
+
+DELETE http://{{host}}:{{port}}/api/tables/1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###

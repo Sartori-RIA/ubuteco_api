@@ -1,0 +1,37 @@
+POST http://{{host}}:{{port}}/api/orders/{{order_id}}/items
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "item_id": 1,
+  "item_type": "Drink",
+  "quantity": 1
+}
+
+###
+
+GET http://{{host}}:{{port}}/api/orders/1/items
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/orders/{{order_id}}/items/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "quantity": 2
+}
+
+###
+
+DELETE http://{{host}}:{{port}}/api/orders/2/items/18
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###

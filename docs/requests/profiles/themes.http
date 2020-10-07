@@ -1,0 +1,19 @@
+GET http://{{host}}:{{port}}/api/profiles/1/themes
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+PUT http://{{host}}:{{port}}/api/profiles/1/themes/1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "color_sidebar": "red",
+  "color_header": "red",
+  "color_footer": "red",
+  "name": "my_theme",
+  "rtl": false
+}
+###

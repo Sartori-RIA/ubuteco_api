@@ -1,0 +1,17 @@
+GET http://{{host}}:{{port}}/api/profiles/me
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/profiles/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Admin"
+}
+
+###

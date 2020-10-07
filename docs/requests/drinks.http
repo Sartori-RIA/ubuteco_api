@@ -1,0 +1,52 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://{{host}}:{{port}}/api/drinks
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "name": "Bera 1",
+  "price": 99.0,
+  "quantity_stock": 20,
+  "maker_id": 1
+}
+
+> {% client.global.set("drink_id", response.body.id) %}
+
+###
+
+GET http://{{host}}:{{port}}/api/drinks
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+GET http://{{host}}:{{port}}/api/drinks/{{drink_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/drinks/{{drink_id}}
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+}
+
+###
+
+DELETE http://{{host}}:{{port}}/api/drinks/{{drink_id}}
+Authorization: {{token}}
+
+###

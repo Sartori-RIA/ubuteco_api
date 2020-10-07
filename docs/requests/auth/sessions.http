@@ -1,0 +1,20 @@
+POST http://{{host}}:{{port}}/auth/sign_in
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@cookiecode.com.br",
+  "password": "123123123"
+}
+
+> {% client.global.set("token", response.headers.valueOf('Authorization')) %}
+
+
+###
+
+DELETE http://{{host}}:{{port}}/auth/sign_in
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###

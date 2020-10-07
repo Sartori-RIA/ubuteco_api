@@ -1,0 +1,55 @@
+
+version: "3.1"
+
+services:
+
+  redis:
+    container_name: restaurant_manager_redis
+    image: redis:5.0
+    command: --appendonly no
+    ports:
+      - 6379:6379
+  db:
+    image: postgres:10-alpine
+    container_name: restaurant_manager_db
+    ports:
+      - 5432:5432
+    tty: true
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+
+  adminer:
+    image: adminer
+    container_name: restaurant_manager_adminer
+    ports:
+      - 8080:8080
+
+  api:
+    image: cookiecode/base-ruby-on-rails
+    container_name: restaurant_manager_api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./projects/back:/var/www
+      - .bundle:/usr/local/bundle
+      - .coverage:/var/www/.coverage
+    stdin_open: true
+    tty: true
+    links:
+      - db
+      - redis
+#      - node
+#
+#  node:
+#    build: environment/realtime
+#    container_name: restaurant_manager_node
+#    ports:
+#      - 8081:8081
+#    tty: true
+#    volumes:
+#      - ./projects/realtime:/var/www
+#    links:
+#      - redis
+#    depends_on:
+#      - redis

@@ -1,0 +1,39 @@
+POST http://{{host}}:{{port}}/api/orders
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+> {% client.global.set("order_id", response.body.id); %}
+
+###
+
+GET http://{{host}}:{{port}}/api/orders
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+GET http://{{host}}:{{port}}/api/orders/2
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+PUT http://{{host}}:{{port}}/api/orders/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "table_id": 1
+}
+###
+
+DELETE http://{{host}}:{{port}}/api/orders/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+###
