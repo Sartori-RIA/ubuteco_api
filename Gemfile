@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'pg_search'
 gem 'puma', '~> 4.1'
@@ -24,7 +24,6 @@ gem "devise-encryptable"
 gem 'devise-argon2'
 gem 'config'
 gem 'rack-attack'
-gem 'rack-cors'
 gem "cpf_cnpj"
 gem "validators"
 gem 'redis-rails'
