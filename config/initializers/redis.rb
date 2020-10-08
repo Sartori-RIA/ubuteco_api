@@ -1,1 +1,1 @@
-$redis = Redis.new(host: Settings.redis.host, port: Settings.redis.port )
+$redis = Redis.new(host: ENV['redis.host'], port: ENV["redis.port"] )

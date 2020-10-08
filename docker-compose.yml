@@ -31,7 +31,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./projects/back:/var/www
+      - .:/var/www
       - .bundle:/usr/local/bundle
       - .coverage:/var/www/.coverage
     stdin_open: true
