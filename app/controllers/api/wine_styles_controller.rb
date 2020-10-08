@@ -2,12 +2,10 @@
 
 module Api
   class WineStylesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :set_wine_style, only: %i[show update destroy]
+    load_and_authorize_resource
 
     def index
-      @wine_styles = WineStyle.where(user: current_user).order(name: :asc)
-      render json: @wine_styles
+      paginate json: @wine_styles.order(name: :asc)
     end
 
     def show
@@ -37,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_wine_style
-      @wine_style = WineStyle.find_by(id: params[:id], user: current_user)
-    end
 
     def wine_style_params
       params.permit(:name).merge(user: current_user)

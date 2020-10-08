@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include CanCan::ControllerAdditions
+
+  rescue_from CanCan::AccessDenied do |_exception|
+    render status: :forbidden
+  end
+
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource

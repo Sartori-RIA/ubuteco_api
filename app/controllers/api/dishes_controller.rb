@@ -2,13 +2,10 @@
 
 module Api
   class DishesController < ApplicationController
-    before_action :set_dish, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @dishes = Dish.where(user: current_user).order(name: :asc)
-
-      render json: @dishes
+      paginate json: @dishes.order(name: :asc)
     end
 
     def show
@@ -37,11 +34,6 @@ module Api
     end
 
     private
-
-    def set_dish
-      @dish = Dish.includes([:dish_ingredients])
-                  .find_by(id: params[:id], user: current_user)
-    end
 
     def dish_params
       params.permit(:name,

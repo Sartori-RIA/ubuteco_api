@@ -5,8 +5,9 @@ class User < ApplicationRecord
 
   acts_as_paranoid
 
-  devise :database_authenticatable, :encryptable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  devise :database_authenticatable, :registerable,
+         :recoverable, :validatable,
+         :confirmable, :lockable, :trackable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   validates :name, presence: true
@@ -14,24 +15,26 @@ class User < ApplicationRecord
   validates :cnpj, presence: true
   validates_cnpj_format_of :cnpj
 
-  has_many :beer_styles
-  has_many :beers
-  has_many :makers
-  has_many :drinks
-  has_many :foods
-  has_many :orders
-  has_many :dishes
-  has_many :tables
+  has_many :beer_styles, dependent: :delete_all
+  has_many :beers, dependent: :delete_all
+  has_many :makers, dependent: :delete_all
+  has_many :drinks, dependent: :delete_all
+  has_many :foods, dependent: :delete_all
+  has_many :orders, dependent: :delete_all
+  has_many :dishes, dependent: :delete_all
+  has_many :tables, dependent: :delete_all
 
-  has_one :theme
+  has_one :theme, dependent: :delete
 
-  after_create(&:set_default_theme)
+  after_create :set_default_theme
 
   def password_salt
     'no salt'
   end
 
-  def password_salt=(new_salt); end
+  def password_salt=(new_salt)
+    ;
+  end
 
   protected
 

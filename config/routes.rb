@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     resources :drinks
     resources :makers
     resources :beer_styles
-    resources :themes
     resources :kitchens, only: %i[index update]
     resources :profiles, only: %i[update] do
       scope module: :profiles do

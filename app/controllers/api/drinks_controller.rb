@@ -2,13 +2,10 @@
 
 module Api
   class DrinksController < ApplicationController
-    before_action :set_drink, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @drinks = Drink.where(user: current_user).order(name: :asc)
-
-      render json: @drinks, include: %i[maker]
+      paginate json: @drinks.order(name: :asc), include: %i[maker]
     end
 
     def show
@@ -38,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_drink
-      @drink = Drink.find_by(id: params[:id], user: current_user)
-    end
 
     def drink_params
       params.permit(:name,

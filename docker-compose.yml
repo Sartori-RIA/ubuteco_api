@@ -25,20 +25,28 @@ services:
     ports:
       - 8080:8080
 
-  api:
-    image: cookiecode/base-ruby-on-rails
-    container_name: restaurant_manager_api
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/var/www
-      - .bundle:/usr/local/bundle
-      - .coverage:/var/www/.coverage
-    stdin_open: true
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    container_name: restaurant_manager_mailcatcher
     tty: true
-    links:
-      - db
-      - redis
+    ports:
+      - 1080:1080
+      - 1025:1025
+ # api:
+ #   image: cookiecode/base-ruby-on-rails
+ #   container_name: restaurant_manager_api
+ #   ports:
+ #     - 3000:3000
+ #   volumes:
+ #     - .:/var/www
+ #     - .bundle:/usr/local/bundle
+ #     - .coverage:/var/www/.coverage
+ #   stdin_open: true
+ #   tty: true
+ #   links:
+ #     - db
+ #     - redis
 #      - node
 #
 #  node:

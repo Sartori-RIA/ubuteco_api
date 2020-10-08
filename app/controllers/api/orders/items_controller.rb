@@ -3,14 +3,16 @@
 module Api
   module Orders
     class ItemsController < ApplicationController
-      before_action :set_order, only: [:create]
-      before_action :set_item, only: [:create]
-      before_action :set_order_item, only: %i[update destroy]
-      before_action :authenticate_user!
+      #      before_action :set_order, only: [:create]
+      #before_action :set_item, only: [:create]
+      #before_action :set_order_item, only: %i[update destroy]
+      #before_action :authenticate_user!
+      load_and_authorize_resource
 
       def index
-        @order_items = OrderItem.where(order_id: params[:order_id])
-        render json: @order_items, include: [:item]
+        puts "batman"
+        #@order_items = OrderItem.where(order_id: params[:order_id])
+        render json: {}
       end
 
       def create

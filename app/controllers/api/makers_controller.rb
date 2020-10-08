@@ -2,13 +2,10 @@
 
 module Api
   class MakersController < ApplicationController
-    before_action :set_maker, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @makers = Maker.where(user: current_user).order(name: :asc)
-
-      render json: @makers
+      paginate json: @makers.order(name: :asc)
     end
 
     def show
@@ -38,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_maker
-      @maker = Maker.find_by(id: params[:id], user: current_user)
-    end
 
     def maker_params
       params.permit(:name, :country).merge(user: current_user)

@@ -2,13 +2,10 @@
 
 module Api
   class TablesController < ApplicationController
-    before_action :set_table, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @tables = Table.where(user: current_user).order(name: :asc)
-
-      render json: @tables
+      paginate json: @tables.order(name: :asc)
     end
 
     def show
@@ -38,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_table
-      @table = Table.find_by(id: params[:id], user: current_user)
-    end
 
     def table_params
       params.permit(:name, :chairs).merge(user: current_user)

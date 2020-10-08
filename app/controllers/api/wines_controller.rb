@@ -2,12 +2,10 @@
 
 module Api
   class WinesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :set_wine, only: %i[show update destroy]
+    load_and_authorize_resource
 
     def index
-      @wines = Wine.where(user: current_user).order(name: :asc)
-      render json: @wines, include: %i[wine_style maker]
+      paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
     def show
@@ -36,10 +34,6 @@ module Api
     end
 
     private
-
-    def set_wine
-      @wine = Wine.find_by(id: params[:id], user: current_user)
-    end
 
     def wine_params
       params.permit(:name,

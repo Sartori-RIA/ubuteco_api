@@ -17,37 +17,27 @@ namespace :db do
       WineStyle
     ].each(&:delete_all)
 
-    # User.create_with(password: '12345678',
-    #                  name: 'Lucas A. R. Sartori',
-    #                  company_name: 'CookieCode',
-    #                  cnpj: '31.515.296/0001-07')
-    #     .find_or_create_by!(email: 'admin@cookiecode.com.br')
-
-    # Theme.create(color_footer: 'slate',
-    #                   color_header: 'white',
-    #                   color_sidebar: 'slate',
-    #                   name: 'default',
-    #                   user: User.find_by(email: 'admin@cookiecode.com.br'),
-    #                   rtl: false)
-
-    100.times do |n|
+    100.times do
       BeerStyle.create!(
         user: User.all.sample,
         name: Faker::Beer.style
       )
-
+    end
+    100.times do
       Maker.create!(
         user: User.all.sample,
         country: Faker::Address.country,
         name: Faker::Company.name
       )
-
+    end
+    100.times do |n|
       Table.create!(
         user: User.all.sample,
         chairs: Faker::Number.between(from: 1, to: 12),
         name: "mesa #{n}"
       )
-
+    end
+    100.times do
       Beer.create!(
         maker: Maker.all.sample,
         beer_style: BeerStyle.all.sample,
@@ -58,7 +48,8 @@ namespace :db do
         price: Faker::Number.between(from: 1, to: 99),
         quantity_stock: Faker::Number.between(from: 1, to: 99)
       )
-
+    end
+    100.times do
       Drink.create!(
         user: User.all.sample,
         maker: Maker.all.sample,
@@ -67,7 +58,8 @@ namespace :db do
         price: Faker::Number.between(from: 1, to: 99),
         quantity_stock: Faker::Number.between(from: 1, to: 99)
       )
-
+    end
+    100.times do
       Food.create!(
         user: User.all.sample,
         name: Faker::Food.ingredient,
@@ -75,24 +67,29 @@ namespace :db do
         quantity_stock: Faker::Number.between(from: 1, to: 99),
         valid_until: Faker::Date.forward(days: 30)
       )
-
+    end
+    100.times do
       Dish.create!(
         user: User.all.sample,
         name: Faker::Food.dish,
         price: Faker::Number.between(from: 1, to: 99)
       )
-
+    end
+    100.times do
       DishIngredient.create!(
         dish: Dish.all.sample,
         food: Food.all.sample,
         quantity: Faker::Number.between(from: 1, to: 2)
       )
-
+    end
+    100.times do
       Order.create!(
         table: Table.all.sample,
         user: User.all.sample
       )
+    end
 
+    100.times do
       clazz = [Drink, Beer, Dish].sample
       OrderItem.create!(
         order: Order.all.sample,

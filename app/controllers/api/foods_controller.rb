@@ -2,13 +2,10 @@
 
 module Api
   class FoodsController < ApplicationController
-    before_action :set_food, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @foods = Food.where(user: current_user).order(name: :asc)
-
-      render json: @foods
+      paginate json: @foods.order(name: :asc)
     end
 
     def show
@@ -38,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_food
-      @food = Food.find_by(id: params[:id], user: current_user)
-    end
 
     def food_params
       params.permit(:name,

@@ -2,13 +2,10 @@
 
 module Api
   class BeersController < ApplicationController
-    before_action :set_beer, only: %i[show update destroy]
-    before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
-      @beers = Beer.where(user: current_user).order(name: :asc)
-
-      render json: @beers, include: %i[beer_style maker]
+      paginate json: @beers.order(name: :asc), include: %i[beer_style maker]
     end
 
     def show
@@ -38,10 +35,6 @@ module Api
     end
 
     private
-
-    def set_beer
-      @beer = Beer.find_by(id: params[:id], user: current_user)
-    end
 
     def beer_params
       params.permit(:name,

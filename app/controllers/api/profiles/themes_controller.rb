@@ -3,8 +3,7 @@
 module Api
   module Profiles
     class ThemesController < ApplicationController
-      before_action :authenticate_user!
-      before_action :set_theme, only: %i[show update destroy]
+      load_and_authorize_resource
 
       def show
         render json: @theme
@@ -20,12 +19,7 @@ module Api
 
       private
 
-      def set_theme
-        @theme = Theme.find_by(id: params[:id], user: current_user)
-      end
-
       def theme_params
-        puts params
         params.permit(:id,
                       :color_header,
                       :color_sidebar,
