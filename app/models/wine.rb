@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 class Wine < Product
-  validates :abv, presence: true
-  validates :quantity_stock, presence: true
-  validates :description, presence: true
-  validates :vintage_wine, presence: true
-  validates :visual, presence: true
-  validates :ripening, presence: true
-  validates :grapes, presence: true
-  validates :wine_style, presence: true
-  validates :maker, presence: true
+  validates :abv,
+            :quantity_stock,
+            :description,
+            :vintage_wine,
+            :maker,
+            :visual,
+            :ripening,
+            :grapes,
+            :wine_style,
+            presence: true
 
   belongs_to :maker
   belongs_to :wine_style

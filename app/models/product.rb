@@ -7,8 +7,7 @@ class Product < ApplicationRecord
 
   has_many :order_items, as: :item
 
-  validates :name, presence: true
-  validates :price, presence: true
+  validates :name, :price, presence: true
 
   mount_uploader :image, ProductPictureUploader
 
