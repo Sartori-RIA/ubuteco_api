@@ -32,8 +32,26 @@ class User < ApplicationRecord
     'no salt'
   end
 
-  def password_salt=(new_salt)
-    ;
+  def password_salt=(new_salt) end
+
+  def on_jwt_dispatch(token, payload)
+    super
+  end
+
+  def send_reset_password_instructions; end
+
+  def generate_code
+    loop do
+      code = ''
+      6.times do
+        code += (0..9).to_a.sample.to_s
+      end
+      break code unless User.find_by(reset_password_token: code)
+    end
+  end
+
+  def send_welcome
+    UserMailer.with(user: self).welcome.deliver_now!
   end
 
   protected

@@ -4,8 +4,11 @@ database: &database
   db.host: db
 
 mailer: &mailer
-  mailer.host: localhost
-  mailer.port: '3000'
+  mailer.address: smtp.gmail.com
+  mailer.port: '587'
+  mailer.user_name: fluffy.bunnybr@gmail.com
+  mailer.password: cvxkxtoqrrwevdtt
+  mailer.domain: gmail.com
 
 development:
   <<: *database
