@@ -3,22 +3,20 @@
 module Api
   module Orders
     class ItemsController < ApplicationController
-      #      before_action :set_order, only: [:create]
-      #before_action :set_item, only: [:create]
-      #before_action :set_order_item, only: %i[update destroy]
-      #before_action :authenticate_user!
-      load_and_authorize_resource
+      load_and_authorize_resource class: OrderItem
+      before_action :set_order, only: [:create]
+      before_action :set_item, only: [:create]
+      before_action :set_order_item, only: %i[update destroy]
 
       def index
-        puts "batman"
-        #@order_items = OrderItem.where(order_id: params[:order_id])
-        render json: {}
+        @order_items = OrderItem.where(order_id: params[:order_id])
+        render json: @order_items
       end
 
       def create
         @order_item = OrderItem.new(order: @order, item: @item, quantity: params[:quantity])
         if @order_item.save
-          render json: @order_item, include: [:item], status: :created
+          render json: @order_item, status: :created
         else
           render json: @order_item.errors, status: :unprocessable_entity
         end
@@ -26,7 +24,7 @@ module Api
 
       def update
         if @order_item.update(quantity: params[:quantity])
-          render json: @order_item, include: [:item]
+          render json: @order_item
         else
           render json: @order_item.errors, status: :unprocessable_entity
         end
@@ -35,9 +33,9 @@ module Api
       def destroy
         @order_item.destroy
         render json: {
-          message: 'Item deleted from order',
-          id: params[:id],
-          order_id: params[:order_id]
+            message: 'Item deleted from order',
+            id: params[:id],
+            order_id: params[:order_id]
         }, status: :ok
       end
 
@@ -55,6 +53,7 @@ module Api
         @order = Order.find_by(id: params[:order_id], user: current_user)
       end
 
+      # noinspection RubyCaseWithoutElseBlockInspection
       def set_item
         case params[:item_type]
         when 'Beer'
@@ -65,9 +64,6 @@ module Api
           @item = Drink.find_by(id: params[:item_id], user: current_user)
         when 'Wine'
           @item = Wine.find_by(id: params[:item_id], user: current_user)
-        else
-          puts 'deu ruim '
-          puts params
         end
       end
     end

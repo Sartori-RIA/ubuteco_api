@@ -11,7 +11,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/orders/25/items
+GET http://{{host}}:{{port}}/api/orders/125/items
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}
@@ -29,7 +29,7 @@ Authorization: {{token}}
 
 ###
 
-DELETE http://{{host}}:{{port}}/api/orders/2/items/18
+DELETE http://{{host}}:{{port}}/api/orders/125/items/146
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

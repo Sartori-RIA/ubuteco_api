@@ -3,7 +3,7 @@
 module Api
   module Dishes
     class IngredientsController < ApplicationController
-      before_action :authenticate_user!
+      load_and_authorize_resource class: DishIngredient
       before_action :set_dish
       before_action :set_food, only: %i[create]
       before_action :set_dish_ingredient, only: %i[update destroy]

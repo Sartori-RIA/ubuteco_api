@@ -18,19 +18,20 @@ class Ability
 
     return if user.blank?
 
-    can :manage, BeerStyle, user: { id: user.id }
-    can :manage, Beer, user: { id: user.id }
-    can :manage, Dish, user: { id: user.id }
-    can :manage, Drink, user: { id: user.id }
-    can :manage, Food, user: { id: user.id }
-    can :manage, Maker, user: { id: user.id }
+    can :manage, BeerStyle, user: {id: user.id}
+    can :manage, Beer, user: {id: user.id}
+    can :manage, Dish, user: {id: user.id}
+    can :manage, DishIngredient, dish: {user: {id: user.id}}
+    can :manage, Drink, user: {id: user.id}
+    can :manage, Food, user: {id: user.id}
+    can :manage, Maker, user: {id: user.id}
     can :manage, Order,
-        user: { id: user.id },
+        user: {id: user.id},
         created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
-    #can :manage, OrderItem, [order: { user: { id: user.id } }]
-    can :manage, Table, user: { id: user.id }
-    can :manage, WineStyle, user: { id: user.id }
-    can :manage, Wine, user: { id: user.id }
-    can :manage, Theme, user: { id: user.id }
+    can :manage, OrderItem, order: {user: {id: user.id}}
+    can :manage, Table, user: {id: user.id}
+    can :manage, WineStyle, user: {id: user.id}
+    can :manage, Wine, user: {id: user.id}
+    can :manage, Theme, user: {id: user.id}
   end
 end
