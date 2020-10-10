@@ -16,6 +16,7 @@ aws: &aws
   secret_access_key:
   region:
   buket:
+  s3_folder:
 
 redis: &redis
   host: localhost

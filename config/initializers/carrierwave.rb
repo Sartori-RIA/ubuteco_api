@@ -1,31 +1,19 @@
+require 'carrierwave/orm/activerecord'
 
 CarrierWave.configure do |config|
-  config.permissions = 0666
-  config.directory_permissions = 0777
-  config.asset_host = ActionController::Base.asset_host
-
-  # Use local storage if in development or test
-  # if Rails.env.development? || Rails.env.test?
-  #   CarrierWave.configure do |config|
-      config.storage = :file
-  #   end
-  # end
-
-  # Use AWS storage if in production
-  # if Rails.env.production?
-  #   CarrierWave.configure do |config|
-  #     config.storage = :fog
-    # end
-  # end
-
-  # config.fog_credentials = {
-  #     :provider               => 'AWS',                             # required
-  #     :aws_access_key_id      => '<your key goes here>',            # required
-  #     :aws_secret_access_key  => '<your secret key goes here>',     # required
-  #     :region                 => 'eu-west-1'                        # optional, defaults to 'us-east-1'
-  # }
-  # config.fog_directory  = '<bucket name goes here>'               # required
-  #config.fog_host       = 'https://assets.example.com'           # optional, defaults to nil
-  #config.fog_public     = false                                  # optional, defaults to true
-  # config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}
+  if Rails.env.staging? || Rails.env.production?
+    config.fog_credentials = {
+        provider: 'AWS',
+        aws_access_key_id: ENV['aws.access_key_id'],
+        aws_secret_access_key: ENV['aws.secret_access_key'],
+        region: ENV['aws.region'],
+    }
+    config.storage = :fog
+    config.fog_directory = ENV['aws.s3_folder']
+    config.fog_public = false
+    config.fog_attributes = {cache_control: "public, max-age=#{365.days.to_i}"} # optional, defaults to {}
+  else
+    config.storage = :file
+    config.enable_processing = Rails.env.development?
+  end
 end
