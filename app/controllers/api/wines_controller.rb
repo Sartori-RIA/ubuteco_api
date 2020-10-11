@@ -12,6 +12,11 @@ module Api
       render json: @wine.to_json
     end
 
+    def search
+      @wines = Wine.search params[:q]
+      render json: @wines.order(name: :asc), include: %i[wine_style maker]
+    end
+
     def create
       @wine = Wine.new(wine_params)
       if @wine.save

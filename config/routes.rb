@@ -19,11 +19,31 @@ Rails.application.routes.draw do
   put 'auth/reset_passwords' => 'reset_passwords#update'
 
   namespace :api do
-    resources :tables
-    resources :foods
-    resources :beers
-    resources :drinks
-    resources :makers
+    resources :tables do
+      collection do
+        get 'search' => 'tables#search'
+      end
+    end
+    resources :foods do
+      collection do
+        get 'search' => 'foods#search'
+      end
+    end
+    resources :beers do
+      collection do
+        get 'search' => 'beers#search'
+      end
+    end
+    resources :drinks do
+      collection do
+        get 'search' => 'drinks#search'
+      end
+    end
+    resources :makers do
+      collection do
+        get 'search' => 'makers#search'
+      end
+    end
     resources :beer_styles
     resources :kitchens, only: %i[index update]
     resources :profiles, only: %i[update] do
@@ -33,16 +53,26 @@ Rails.application.routes.draw do
     end
     get 'profiles/me' => 'profiles#me'
     resources :dishes do
+      collection do
+        get 'search' => 'dishes#search'
+      end
       scope module: :dishes do
         resources :ingredients, except: :show
       end
     end
     resources :orders do
+      collection do
+        get 'search' => 'orders#search'
+      end
       scope module: :orders do
         resources :items, except: :show
       end
     end
     resources :wine_styles
-    resources :wines
+    resources :wines do
+      collection do
+        get 'search' => 'wines#search'
+      end
+    end
   end
 end

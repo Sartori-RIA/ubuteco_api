@@ -4,8 +4,6 @@ module Api
   module Orders
     class ItemsController < ApplicationController
       authorize_resource class: OrderItem
-      before_action :set_order, only: [:create]
-      before_action :set_item, only: [:create]
       before_action :set_order_item, only: %i[update destroy]
 
       def index
@@ -14,7 +12,7 @@ module Api
       end
 
       def create
-        @order_item = OrderItem.new(order: @order, item: @item, quantity: params[:quantity])
+        @order_item = OrderItem.new(order_item_params)
         if @order_item.save
           render json: @order_item, status: :created
         else
@@ -42,15 +40,11 @@ module Api
       private
 
       def order_item_params
-        params.permit(:item_type, :item_id)
+        params.permit(:item_type, :item_id, :quantity, :order_id)
       end
 
       def set_order_item
         @order_item = OrderItem.find_by(id: params[:id])
-      end
-
-      def set_order
-        @order = Order.find_by(id: params[:order_id], user: current_user)
       end
 
       # noinspection RubyCaseWithoutElseBlockInspection

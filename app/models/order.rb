@@ -8,4 +8,13 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
 
   monetize :total_cents, :total_with_discount_cents, :discount_cents
+
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name],
+                  associated_against: {
+                      table: %w[name],
+                      user: %w[name]
+                  }
 end

@@ -12,6 +12,11 @@ module Api
       render json: @table
     end
 
+    def search
+      @tables = Table.search params[:q]
+      render json: @tables.order(name: :asc)
+    end
+
     def create
       @table = Table.new(table_params)
 

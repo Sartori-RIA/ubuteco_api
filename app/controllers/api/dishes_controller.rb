@@ -12,6 +12,11 @@ module Api
       render json: @dish.to_json
     end
 
+    def search
+      @dishes = Dish.search params[:q]
+      render json: @dishes.order(name: :asc)
+    end
+
     def create
       @dish = Dish.new(dish_params)
       if @dish.save

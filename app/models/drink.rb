@@ -5,4 +5,12 @@ class Drink < Product
 
   belongs_to :maker, optional: true
   belongs_to :user
+
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name],
+                  associated_against: {
+                      maker: %w[name],
+                  }
 end

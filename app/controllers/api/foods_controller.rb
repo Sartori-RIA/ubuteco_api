@@ -12,6 +12,11 @@ module Api
       render json: @foods
     end
 
+    def search
+      @foods = Food.search params[:q]
+      render json: @foods.order(name: :asc)
+    end
+
     def create
       @foods = Food.new(food_params)
 

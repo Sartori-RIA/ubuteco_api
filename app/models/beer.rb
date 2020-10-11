@@ -7,6 +7,15 @@ class Beer < Product
   belongs_to :beer_style
   belongs_to :user
 
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name],
+                  associated_against: {
+                    maker: %w[name],
+                    beer_style: %w[name]
+                  }
+
   def to_json(*_args)
     super(include: %i[beer_style maker])
   end

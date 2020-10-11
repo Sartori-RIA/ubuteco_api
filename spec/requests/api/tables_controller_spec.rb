@@ -20,6 +20,13 @@ RSpec.describe Api::TablesController, type: :request do
     end
   end
 
+  describe '#GET /api/tables/search' do
+    it 'should search tables' do
+      get search_api_tables_path, params: {q: 'tralala'}, headers: auth_header(user)
+      expect(response).to have_http_status(200)
+    end
+  end
+
   describe '#POST /api/tables' do
     it 'should create a table' do
       attributes = attributes_for(:table).except(:user)

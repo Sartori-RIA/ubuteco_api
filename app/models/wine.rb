@@ -16,6 +16,14 @@ class Wine < Product
   belongs_to :wine_style
   belongs_to :user
 
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name],
+                  associated_against: {
+                    wine_style: %w[name]
+                  }
+
   def to_json(*_args)
     super(include: %i[wine_style maker])
   end

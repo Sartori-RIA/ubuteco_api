@@ -12,6 +12,11 @@ module Api
       render json: @drink, include: %i[maker]
     end
 
+    def search
+      @drinks = Drink.search params[:q]
+      render json: @drinks.order(name: :asc), include: %i[maker]
+    end
+
     def create
       @drink = Drink.new(drink_params)
 

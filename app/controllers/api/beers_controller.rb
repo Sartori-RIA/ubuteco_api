@@ -10,6 +10,11 @@ module Api
       render json: @beer.to_json
     end
 
+    def search
+      @beers = Beer.search params[:q]
+      render json: @beers.order(name: :asc), include: %i[beer_style maker]
+    end
+
     def create
       @beer = Beer.new(beer_params)
 

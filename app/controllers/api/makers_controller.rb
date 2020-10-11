@@ -12,6 +12,11 @@ module Api
       render json: @maker
     end
 
+    def search
+      @makers = Maker.search params[:q]
+      render json: @makers.order(name: :asc)
+    end
+
     def create
       @maker = Maker.new(maker_params)
 

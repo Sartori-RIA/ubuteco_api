@@ -20,6 +20,13 @@ RSpec.describe Api::DrinksController, type: :request do
     end
   end
 
+  describe '#GET /api/drinks/search' do
+    it 'should search drinks' do
+      get search_api_drinks_path, params: {q: 'tralala'}, headers: auth_header(user)
+      expect(response).to have_http_status(200)
+    end
+  end
+
   describe '#POST /api/drinks' do
     it 'should create a drink' do
       attributes = attributes_for(:drink).except(:user)

@@ -20,6 +20,13 @@ RSpec.describe Api::MakersController, type: :request do
     end
   end
 
+  describe '#GET /api/makers/search' do
+    it 'should search makers' do
+      get search_api_makers_path, params: {q: 'tralala'}, headers: auth_header(user)
+      expect(response).to have_http_status(200)
+    end
+  end
+
   describe '#POST /api/makers' do
     it 'should create a maker' do
       attributes = attributes_for(:maker).except(:user)

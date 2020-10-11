@@ -8,6 +8,11 @@ class Dish < Product
 
   accepts_nested_attributes_for :dish_ingredients, allow_destroy: true
 
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name]
+
   def to_json(*_args)
     super(include: [dish_ingredients: { include: :food }])
   end

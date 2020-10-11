@@ -12,6 +12,11 @@ module Api
       render json: @order, include: %i[order_items table]
     end
 
+    def search
+      @orders = Order.search params[:q]
+      render json: @orders, include: %i[table]
+    end
+
     def create
       @order = Order.new(order_params)
 
