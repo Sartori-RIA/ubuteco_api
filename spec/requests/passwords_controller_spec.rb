@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PasswordsController, type: :request do
@@ -6,7 +8,7 @@ RSpec.describe PasswordsController, type: :request do
   describe '#PUT /auth/passwords' do
     it 'should email code to reset password' do
       params = {
-          email: user.email
+        email: user.email
       }
       post user_password_path,
            params: params.to_json,
@@ -16,7 +18,7 @@ RSpec.describe PasswordsController, type: :request do
 
     it 'should throw error when user not found' do
       params = {
-          email: 'bacon@email.com'
+        email: 'bacon@email.com'
       }
       post user_password_path,
            params: params.to_json,

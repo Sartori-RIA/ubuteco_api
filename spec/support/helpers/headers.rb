@@ -17,4 +17,3 @@ module Helpers
     end
   end
 end
-

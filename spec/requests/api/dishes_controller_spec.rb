@@ -22,7 +22,7 @@ RSpec.describe Api::DishesController, type: :request do
 
   describe '#GET /api/dishes/search' do
     it 'should search drishes' do
-      get search_api_dishes_path, params: {q: 'tralala'}, headers: auth_header(user)
+      get search_api_dishes_path, params: { q: 'tralala' }, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
   end

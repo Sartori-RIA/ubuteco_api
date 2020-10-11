@@ -36,12 +36,12 @@ gem 'validators'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'cpf_faker'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'fuubar'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'cpf_faker'
 end
 
 group :development do

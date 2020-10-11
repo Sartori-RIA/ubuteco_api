@@ -22,7 +22,7 @@ RSpec.describe Api::MakersController, type: :request do
 
   describe '#GET /api/makers/search' do
     it 'should search makers' do
-      get search_api_makers_path, params: {q: 'tralala'}, headers: auth_header(user)
+      get search_api_makers_path, params: { q: 'tralala' }, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
   end

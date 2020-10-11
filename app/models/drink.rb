@@ -11,6 +11,6 @@ class Drink < Product
   pg_search_scope :search,
                   against: %w[name],
                   associated_against: {
-                      maker: %w[name],
+                    maker: %w[name]
                   }
 end

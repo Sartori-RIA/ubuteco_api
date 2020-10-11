@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe RegistrationsController, type: :request do
-
   describe '#POST create new account' do
     it 'when user is unauthenticated' do
       user = attributes_for(:user)

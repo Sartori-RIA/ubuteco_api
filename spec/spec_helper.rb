@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 RSpec.configure do |config|
@@ -27,5 +29,4 @@ RSpec.configure do |config|
 
   config.add_formatter 'Fuubar'
   config.fuubar_auto_refresh = true
-
 end

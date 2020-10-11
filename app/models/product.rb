@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   acts_as_paranoid
 
-  has_many :order_items, as: :item
+  has_many :order_items, as: :item, dependent: :restrict_with_error
 
   validates :name, :price, presence: true
 

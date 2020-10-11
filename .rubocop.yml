@@ -14,8 +14,12 @@ AllCops:
     - 'db/migrate/*'
     - 'config/initializers/*'
     - 'config/environments/*'
-    - 'spec/support/*'
+    - 'lib/tasks/populate.rake'
+    - 'config/routes.rb'
+    - 'spec/*/*/*/*'
+    - 'spec/*/*/*'
+    - 'spec/*/*'
+    - 'spec/*'
 
 Style/Documentation:
   Enabled: false
-

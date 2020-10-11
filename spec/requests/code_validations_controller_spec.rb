@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CodeValidationsController, type: :request do
@@ -10,7 +12,7 @@ RSpec.describe CodeValidationsController, type: :request do
       user.save
 
       attributes = {
-          code: token
+        code: token
       }
       post auth_code_path,
            params: attributes.to_json,
@@ -21,7 +23,7 @@ RSpec.describe CodeValidationsController, type: :request do
 
     it 'should throw error 404 when code not exists' do
       attributes = {
-          code: 'bacon'
+        code: 'bacon'
       }
       post auth_code_path,
            params: attributes.to_json,

@@ -32,10 +32,6 @@ class User < ApplicationRecord
 
   def password_salt=(new_salt) end
 
-  def on_jwt_dispatch(token, payload)
-    super
-  end
-
   def send_reset_password_instructions; end
 
   def generate_code

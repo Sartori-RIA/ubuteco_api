@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PasswordsController < Devise::PasswordsController
   before_action :find_user
 

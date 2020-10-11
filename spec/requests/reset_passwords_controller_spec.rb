@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ResetPasswordsController, type: :request do
@@ -6,7 +8,7 @@ RSpec.describe ResetPasswordsController, type: :request do
   describe '#PUT /auth/reset_passwords' do
     it 'should update password when user forget then' do
       params = {
-          password: '123456789'
+        password: '123456789'
       }
       put auth_reset_passwords_path,
           params: params.to_json,

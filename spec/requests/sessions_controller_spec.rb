@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do
@@ -6,8 +8,8 @@ RSpec.describe SessionsController, type: :request do
   describe 'when params are correct' do
     it 'signs in with email' do
       params = {
-          email: user.email,
-          password: user.password
+        email: user.email,
+        password: user.password
       }
       post user_session_path, params: params.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:ok)

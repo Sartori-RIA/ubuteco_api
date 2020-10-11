@@ -14,7 +14,7 @@ class Order < ApplicationRecord
   pg_search_scope :search,
                   against: %w[name],
                   associated_against: {
-                      table: %w[name],
-                      user: %w[name]
+                    table: %w[name],
+                    user: %w[name]
                   }
 end

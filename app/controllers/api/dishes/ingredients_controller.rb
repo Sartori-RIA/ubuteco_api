@@ -34,9 +34,9 @@ module Api
       def destroy
         @dish_ingredient.destroy
         render json: {
-            message: 'Ingredient deleted from dish',
-            id: params[:id],
-            dish_id: params[:dish_id]
+          message: 'Ingredient deleted from dish',
+          id: params[:id],
+          dish_id: params[:dish_id]
         }, status: :ok
       end
 
@@ -56,9 +56,9 @@ module Api
 
       def dish_ingredient_params
         params.permit(
-            :quantity,
-            :food_id,
-            :dish_id
+          :quantity,
+          :food_id,
+          :dish_id
         )
       end
     end

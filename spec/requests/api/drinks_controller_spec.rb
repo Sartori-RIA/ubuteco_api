@@ -22,7 +22,7 @@ RSpec.describe Api::DrinksController, type: :request do
 
   describe '#GET /api/drinks/search' do
     it 'should search drinks' do
-      get search_api_drinks_path, params: {q: 'tralala'}, headers: auth_header(user)
+      get search_api_drinks_path, params: { q: 'tralala' }, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
   end
