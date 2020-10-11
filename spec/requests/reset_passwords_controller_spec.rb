@@ -12,6 +12,6 @@ RSpec.describe ResetPasswordsController, type: :request do
           params: params.to_json,
           headers: auth_header(user)
       expect(response).to have_http_status(:ok)
-      end
+    end
   end
 end

@@ -1,0 +1,4 @@
+GET http://{{host}}:{{port}}/auth/confirmations
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}

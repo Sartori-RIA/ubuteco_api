@@ -3,7 +3,8 @@
 module Api
   module Dishes
     class IngredientsController < ApplicationController
-      load_and_authorize_resource class: DishIngredient
+      authorize_resource class: DishIngredient
+
       before_action :set_dish
       before_action :set_food, only: %i[create]
       before_action :set_dish_ingredient, only: %i[update destroy]
@@ -33,9 +34,9 @@ module Api
       def destroy
         @dish_ingredient.destroy
         render json: {
-          message: 'Ingredient deleted from dish',
-          id: params[:id],
-          dish_id: params[:dish_id]
+            message: 'Ingredient deleted from dish',
+            id: params[:id],
+            dish_id: params[:dish_id]
         }, status: :ok
       end
 
@@ -55,12 +56,9 @@ module Api
 
       def dish_ingredient_params
         params.permit(
-          :quantity,
-          :food,
-          :food_id,
-          :dish,
-          :dish_id,
-          :id
+            :quantity,
+            :food_id,
+            :dish_id
         )
       end
     end

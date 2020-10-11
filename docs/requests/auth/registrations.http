@@ -1,0 +1,11 @@
+POST http://{{host}}:{{port}}/auth/sign_up
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "dsadasd@asdasdasdfssdad.com",
+  "password": "123123123",
+  "name": "teste",
+  "company_name": "restaurante teste",
+  "cnpj": "99.182.796/0001-08"
+}

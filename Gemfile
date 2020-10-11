@@ -41,6 +41,7 @@ group :development, :test do
   gem 'fuubar'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'cpf_faker'
 end
 
 group :development do

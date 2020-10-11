@@ -10,7 +10,7 @@ class User < ApplicationRecord
          :confirmable, :lockable, :trackable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  validates :name,:company_name, :cnpj, presence: true
+  validates :name, :company_name, :cnpj, presence: true
   validates_cnpj_format_of :cnpj
 
   has_many :beer_styles, dependent: :delete_all

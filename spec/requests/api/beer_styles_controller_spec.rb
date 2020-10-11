@@ -8,11 +8,7 @@ RSpec.describe Api::BeerStylesController, type: :request do
 
   describe '#GET /api/beer_styles' do
     it 'should request all beer styles' do
-      puts user.id
-      puts auth_header(user)
-      get api_beer_styles_path
-      puts response.body
-      puts response
+      get api_beer_styles_path, headers: auth_header(user)
       expect(response).to have_http_status(200)
     end
   end

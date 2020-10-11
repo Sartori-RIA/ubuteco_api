@@ -1,5 +1,5 @@
 class ResetPasswordsController < ApplicationController
-  load_and_authorize_resource
+  before_action :authenticate_user!
 
   def update
     if current_user.update(reset_params)

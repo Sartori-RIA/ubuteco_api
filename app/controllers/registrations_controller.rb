@@ -7,7 +7,12 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     resource.save
-    render_resource(resource)
+    if resource.errors.empty?
+      sign_in(resource)
+      render json: resource, include: [:theme]
+    else
+      validation_error(resource)
+    end
   end
 
   protected

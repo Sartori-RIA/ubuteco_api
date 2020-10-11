@@ -5,7 +5,11 @@ RSpec.describe SessionsController, type: :request do
 
   describe 'when params are correct' do
     it 'signs in with email' do
-      post user_session_path, params: user.to_json, headers: unauthenticated_header
+      params = {
+          email: user.email,
+          password: user.password
+      }
+      post user_session_path, params: params.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:ok)
       expect(response.headers['Authorization']).to be_present
     end
@@ -21,7 +25,7 @@ RSpec.describe SessionsController, type: :request do
 
   describe '#DELETE JWR' do
     it 'returns 200, no content' do
-      delete destroy_credential_session_path, headers: auth_header(user)
+      delete destroy_user_session_path, headers: auth_header(user)
       expect(response).to have_http_status(:ok)
     end
   end

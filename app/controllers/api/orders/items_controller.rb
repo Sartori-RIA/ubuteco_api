@@ -3,7 +3,7 @@
 module Api
   module Orders
     class ItemsController < ApplicationController
-      load_and_authorize_resource class: OrderItem
+      authorize_resource class: OrderItem
       before_action :set_order, only: [:create]
       before_action :set_item, only: [:create]
       before_action :set_order_item, only: %i[update destroy]
