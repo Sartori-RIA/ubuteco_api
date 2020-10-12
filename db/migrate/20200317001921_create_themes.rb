@@ -5,7 +5,6 @@ class CreateThemes < ActiveRecord::Migration[5.2]
       t.string :color_header
       t.string :color_sidebar
       t.string :color_footer
-      t.boolean :rtl
       t.timestamps
     end
   end

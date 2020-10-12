@@ -1,10 +1,10 @@
-GET http://{{host}}:{{port}}/api/profiles/1/themes
+GET http://{{host}}:{{port}}/api/users/1/themes
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}
 
 ###
-PUT http://{{host}}:{{port}}/api/profiles/1/themes/1
+PUT http://{{host}}:{{port}}/api/users/1/themes/1
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}

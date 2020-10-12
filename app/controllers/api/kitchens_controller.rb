@@ -3,7 +3,7 @@
 module Api
   class KitchensController < ApplicationController
     before_action :set_order_item, only: [:update]
-    before_action :authenticate_user!
+    authorize_resource class: OrderItem
 
     include KitchensHelper
 

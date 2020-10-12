@@ -1,11 +1,11 @@
-GET http://{{host}}:{{port}}/api/profiles/me
+GET http://{{host}}:{{port}}/api/users
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
 
 ###
 
-PUT http://{{host}}:{{port}}/api/profiles/1
+PUT http://{{host}}:{{port}}/api/users/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

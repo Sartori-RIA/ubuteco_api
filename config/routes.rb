@@ -46,12 +46,6 @@ Rails.application.routes.draw do
     end
     resources :beer_styles
     resources :kitchens, only: %i[index update]
-    resources :profiles, only: %i[update] do
-      scope module: :profiles do
-        resources :themes, only: %i[show update]
-      end
-    end
-    get 'profiles/me' => 'profiles#me'
     resources :dishes do
       collection do
         get 'search' => 'dishes#search'
@@ -66,6 +60,11 @@ Rails.application.routes.draw do
       end
       scope module: :orders do
         resources :items, except: :show
+      end
+    end
+    resources :users do
+      scope module: :users do
+        resources :themes, except: :delete
       end
     end
     resources :wine_styles

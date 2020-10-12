@@ -170,7 +170,6 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
     t.string "color_header"
     t.string "color_sidebar"
     t.string "color_footer"
-    t.boolean "rtl"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"

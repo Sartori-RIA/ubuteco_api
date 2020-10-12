@@ -55,7 +55,6 @@ class User < ApplicationRecord
                  color_footer: 'slate',
                  color_header: 'white',
                  color_sidebar: 'slate',
-                 rtl: false,
                  user: self)
   end
 end

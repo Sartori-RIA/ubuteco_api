@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   include PgSearch::Model
 
   pg_search_scope :search,
-                  against: %w[name],
+                  against: %w[created_at total_cents total_with_discount_cents],
                   associated_against: {
                     table: %w[name],
                     user: %w[name]

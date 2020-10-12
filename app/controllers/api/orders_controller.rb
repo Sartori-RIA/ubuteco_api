@@ -5,6 +5,10 @@ module Api
     load_and_authorize_resource
 
     def index
+      @orders = Order.where(
+        user: current_user,
+        created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+      )
       paginate json: @orders, include: [:table]
     end
 

@@ -31,9 +31,9 @@ module Api
       def destroy
         @order_item.destroy
         render json: {
-          message: 'Item deleted from order',
-          id: params[:id],
-          order_id: params[:order_id]
+            message: 'Item deleted from order',
+            id: params[:id],
+            order_id: params[:order_id]
         }, status: :ok
       end
 
@@ -45,20 +45,6 @@ module Api
 
       def set_order_item
         @order_item = OrderItem.find_by(id: params[:id])
-      end
-
-      # noinspection RubyCaseWithoutElseBlockInspection
-      def set_item
-        case params[:item_type]
-        when 'Beer'
-          @item = Beer.find_by(id: params[:item_id], user: current_user)
-        when 'Dish'
-          @item = Dish.find_by(id: params[:item_id], user: current_user)
-        when 'Drink'
-          @item = Drink.find_by(id: params[:item_id], user: current_user)
-        when 'Wine'
-          @item = Wine.find_by(id: params[:item_id], user: current_user)
-        end
       end
     end
   end
