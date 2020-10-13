@@ -73,7 +73,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
-      item.quantity = nil
+      item.quantity = 0
       put api_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(user)
       expect(response).to have_http_status(422)
     end
