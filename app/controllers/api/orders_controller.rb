@@ -6,8 +6,8 @@ module Api
 
     def index
       @orders = Order.where(
-        user: current_user,
-        created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+          user: current_user,
+          created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
       )
       paginate json: @orders, include: [:table]
     end
@@ -48,8 +48,9 @@ module Api
     def order_params
       params.permit(:total,
                     :total_with_discount,
+                    :status,
                     :discount,
-                    :table_id).merge(user: current_user)
+                    :table_id).merge(user_id: current_user.id)
     end
   end
 end

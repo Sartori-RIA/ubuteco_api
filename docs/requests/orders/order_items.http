@@ -1,10 +1,10 @@
-POST http://{{host}}:{{port}}/api/orders/{{order_id}}/items
+POST http://{{host}}:{{port}}/api/orders/1/items
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "item_id": 1,
+  "item_id": 2,
   "item_type": "Drink",
   "quantity": 1
 }

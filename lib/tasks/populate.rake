@@ -19,7 +19,6 @@ namespace :db do
 
     100.times do
       BeerStyle.create!(
-        user: User.all.sample,
         name: Faker::Beer.style
       )
     end
