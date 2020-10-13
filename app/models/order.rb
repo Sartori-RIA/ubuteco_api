@@ -19,24 +19,20 @@ class Order < ApplicationRecord
                       user: %w[name]
                   }
 
-  after_update :update_storage
+  after_update :update_stock
 
   protected
 
-  def update_storage
-    return unless closed?
+  def update_stock
 
-    order_items.map do |item|
+    return unless status == 'payed'
+
+    order_items.each do |item|
       case item.item_type
-      when 'Drink'
-        drink = Drink.find_by(id: item.item_id)
-        Drink.update(drink.id, quantity_stock: drink.quantity_stock - item.quantity)
-      when 'Beer'
-        beer = Beer.find_by(id: item.item_id)
-        Beer.update(beer.id, quantity_stock: beer.quantity_stock - item.quantity)
-      when 'Wine'
-        wine = Wine.find_by(id: item.item_id)
-        Wine.update(wine.id, quantity_stock: wine.quantity_stock - item.quantity)
+      when 'Dish'
+        puts 'é comida'
+      else
+        item.item.update(quantity_stock: item.item.quantity_stock - item.quantity)
       end
     end
   end
