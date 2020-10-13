@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::MakersController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:makers) { create_list(:maker, 10, user: user) }
 
   describe '#GET /api/makers' do

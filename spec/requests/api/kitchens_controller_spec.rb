@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::KitchensController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:orders) { create_list(:order_with_dish, 10, user: user) }
 
   describe "#GET /api/kitchens" do

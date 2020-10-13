@@ -3,9 +3,7 @@
 class BeerStyle < ApplicationRecord
   acts_as_paranoid
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   has_many :beers, dependent: :restrict_with_error
-
-  belongs_to :user
 end

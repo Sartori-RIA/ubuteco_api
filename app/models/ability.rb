@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#noinspection ALL
+# noinspection ALL
 class Ability
   include CanCan::Ability
 
@@ -9,14 +9,25 @@ class Ability
   def initialize(user)
     return if user.blank?
 
-    only_authenticated_user(user)
+    if user.role.name == 'ADMIN'
+      only_admin(user)
+    else
+      only_authenticated_user(user)
+    end
   end
 
   private
 
+  def only_admin(_user)
+    can :manage, BeerStyle
+    can :manage, WineStyle
+    can :manage, User
+  end
+
   def only_authenticated_user(user)
+    can :read, BeerStyle
+    can :read, WineStyle
     can :manage, User, id: user.id
-    can :manage, BeerStyle, user_id: user.id
     can %i[manage search], Beer, user_id: user.id
     can %i[manage search], Dish, user_id: user.id
     can :manage, DishIngredient, dish: { user_id: user.id }
@@ -26,7 +37,6 @@ class Ability
     can %i[manage search], Order, user_id: user.id
     can :manage, OrderItem, order: { user_id: user.id }
     can %i[manage search], Table, user_id: user.id
-    can :manage, WineStyle, user_id: user.id
     can %i[manage search], Wine, user_id: user.id
     can :manage, Theme, user_id: user.id
   end

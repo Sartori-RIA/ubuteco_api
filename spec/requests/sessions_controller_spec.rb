@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do
+  let!(:role) { create(:role_as_restaurant) }
   let!(:user) { create(:user) }
 
   describe 'when params are correct' do

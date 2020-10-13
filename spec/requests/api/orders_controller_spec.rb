@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::OrdersController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:orders) { create_list(:order, 10, user: user) }
 
   describe '#GET /api/orders' do

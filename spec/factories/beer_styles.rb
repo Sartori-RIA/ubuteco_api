@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :beer_style do
-    sequence(:name) { |n| n }
-    user
+    sequence(:name) { |n| "beer_style_#{n}" }
   end
 end

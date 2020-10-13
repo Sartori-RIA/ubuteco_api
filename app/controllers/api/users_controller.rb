@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class UsersController < ApplicationController
     load_and_authorize_resource
@@ -12,10 +14,10 @@ module Api
 
     def create
       @user = User.new(users_params)
-
       if @user.save
         render json: @user, status: :created
       else
+        puts @user.errors.to_json
         render json: @user.errors, status: :unprocessable_entity
       end
     end
@@ -35,7 +37,7 @@ module Api
     private
 
     def users_params
-      params.permit(:name)
+      params.permit(:name, :cnpj, :company_name, :role_id)
     end
   end
 end

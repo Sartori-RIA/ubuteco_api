@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::BeersController, type: :request do
-  let!(:user) { create(:user) }
-  let!(:beer_styles) { create_list(:beer_style, 10, user: user) }
+  let!(:user) { create(:user_restaurant) }
+  let!(:beer_styles) { create_list(:beer_style, 10) }
   let!(:makers) { create_list(:maker, 10, user: user) }
   let!(:beers) { create_list(:beer, 10, user: user) }
 

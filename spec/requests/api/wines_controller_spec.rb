@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::WinesController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:makers) { create_list(:maker, 10, user: user) }
-  let!(:wine_styles) { create_list(:wine_style, 10, user: user) }
+  let!(:wine_styles) { create_list(:wine_style, 10) }
   let!(:wines) { create_list(:wine, 10, user: user) }
 
   describe '#GET /api/wines' do

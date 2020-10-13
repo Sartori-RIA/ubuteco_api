@@ -31,9 +31,9 @@ module Api
       def destroy
         @order_item.destroy
         render json: {
-            message: 'Item deleted from order',
-            id: params[:id],
-            order_id: params[:order_id]
+          message: 'Item deleted from order',
+          id: params[:id],
+          order_id: params[:order_id]
         }, status: :ok
       end
 

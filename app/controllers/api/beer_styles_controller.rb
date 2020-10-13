@@ -37,7 +37,7 @@ module Api
     private
 
     def beer_style_params
-      params.permit(:name).merge(user: current_user)
+      params.permit(:name)
     end
   end
 end

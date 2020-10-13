@@ -15,6 +15,7 @@ RSpec.describe Dish, type: :model do
   end
 
   describe '#to_json' do
+    let!(:role) { create(:role_as_restaurant) }
     let!(:dish_json) do
       dish = create(:dish_with_ingredients)
       JSON.parse(dish.to_json)

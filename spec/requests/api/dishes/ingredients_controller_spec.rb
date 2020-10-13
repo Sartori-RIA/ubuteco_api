@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::Dishes::IngredientsController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:foods) { create_list(:food, 10, user: user) }
   let!(:dishes_with_ingredients) { create_list(:dish_with_ingredients, 10, user: user) }
   let!(:dish) { dishes_with_ingredients.sample }

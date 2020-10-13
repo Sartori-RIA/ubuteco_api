@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::Orders::ItemsController, type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_restaurant) }
   let!(:dishes) { create_list(:dish, 10, user: user) }
   let!(:wines) { create_list(:wine, 10, user: user) }
   let!(:beers) { create_list(:beer, 10, user: user) }

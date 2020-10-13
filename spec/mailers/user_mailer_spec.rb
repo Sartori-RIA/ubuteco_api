@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe UserMailer, type: :mailer do
+  let!(:user) { create(:user_restaurant) }
+
   describe 'welcome' do
-    let!(:user) { create(:user) }
     let!(:mail) do
       described_class.with(user: user).welcome.deliver_now
     end
@@ -27,7 +28,6 @@ RSpec.describe UserMailer, type: :mailer do
   end
 
   describe 'Reset password code' do
-    let!(:user) { create(:user) }
     let!(:code) { '123456' }
     let!(:mail) do
       described_class

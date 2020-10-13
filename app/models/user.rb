@@ -13,7 +13,6 @@ class User < ApplicationRecord
   validates :name, :company_name, :cnpj, presence: true
   validates_cnpj_format_of :cnpj
 
-  has_many :beer_styles, dependent: :delete_all
   has_many :beers, dependent: :delete_all
   has_many :makers, dependent: :delete_all
   has_many :drinks, dependent: :delete_all
@@ -24,6 +23,9 @@ class User < ApplicationRecord
 
   has_one :theme, dependent: :delete
 
+  belongs_to :role
+
+  before_validation :set_role
   after_create :set_default_theme
 
   def password_salt
@@ -49,6 +51,10 @@ class User < ApplicationRecord
   end
 
   protected
+
+  def set_role
+    self.role_id = Role.find_by(name: 'RESTAURANT').id if role_id.nil?
+  end
 
   def set_default_theme
     Theme.create(name: 'default',

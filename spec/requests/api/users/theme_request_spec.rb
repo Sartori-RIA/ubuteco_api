@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::Users::ThemesController, type: :request do
+  let!(:role) { create(:role_as_restaurant) }
   let!(:theme) { create(:theme) }
 
   describe '#GET /api/users/:id/themes' do

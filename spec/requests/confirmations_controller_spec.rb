@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ConfirmationsController, type: :request do
+  let!(:role) { create(:role_as_restaurant) }
   let!(:user) { create(:user) }
 
   describe '#GET should confirm user account creation' do

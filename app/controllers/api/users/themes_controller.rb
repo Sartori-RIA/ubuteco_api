@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Users
     class ThemesController < ApplicationController
@@ -6,6 +8,7 @@ module Api
       def index
         render json: @themes
       end
+
       def show
         render json: @theme
       end
@@ -26,9 +29,8 @@ module Api
                       :color_sidebar,
                       :color_footer,
                       :rtl)
-            .merge(user: current_user)
+              .merge(user: current_user)
       end
     end
   end
 end
-

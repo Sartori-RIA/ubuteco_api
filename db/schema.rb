@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_234018) do
+ActiveRecord::Schema.define(version: 2020_10_12_120509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,9 +30,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
     t.index ["deleted_at"], name: "index_beer_styles_on_deleted_at"
-    t.index ["user_id"], name: "index_beer_styles_on_user_id"
   end
 
   create_table "beers", force: :cascade do |t|
@@ -154,6 +152,12 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "tables", force: :cascade do |t|
     t.string "name"
     t.integer "chairs"
@@ -200,9 +204,11 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
     t.string "name"
     t.string "company_name"
     t.string "cnpj"
+    t.bigint "role_id"
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   create_table "wine_styles", force: :cascade do |t|
@@ -210,9 +216,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
     t.index ["deleted_at"], name: "index_wine_styles_on_deleted_at"
-    t.index ["user_id"], name: "index_wine_styles_on_user_id"
   end
 
   create_table "wines", force: :cascade do |t|
@@ -240,7 +244,6 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
   end
 
   add_foreign_key "allowlisted_jwts", "users", on_delete: :cascade
-  add_foreign_key "beer_styles", "users"
   add_foreign_key "beers", "beer_styles"
   add_foreign_key "beers", "makers"
   add_foreign_key "beers", "users"
@@ -256,7 +259,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_234018) do
   add_foreign_key "orders", "users"
   add_foreign_key "tables", "users"
   add_foreign_key "themes", "users"
-  add_foreign_key "wine_styles", "users"
+  add_foreign_key "users", "roles"
   add_foreign_key "wines", "makers"
   add_foreign_key "wines", "users"
   add_foreign_key "wines", "wine_styles"
