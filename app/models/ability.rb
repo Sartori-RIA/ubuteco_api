@@ -6,31 +6,32 @@ class Ability
 
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-  def initialize(user)
+  def initialize(user, params)
     return if user.blank?
 
     if user.role.name == 'ADMIN'
       only_admin(user)
-      only_authenticated_user(user)
+      only_authenticated_user(user, params)
     else
-      only_authenticated_user(user)
+      puts "NAO É ADMIN"
+      only_authenticated_user(user, params)
       only_read_for_all
     end
   end
 
   private
 
-  def only_admin(_user)
+  def only_admin(_user, params)
     can :manage, BeerStyle
     can :manage, WineStyle
     can :manage, User
   end
 
-  def only_authenticated_user(user)
+  def only_authenticated_user(user, params)
     can :manage, User, id: user.id
     can %i[manage search], Beer, user_id: user.id
     can %i[manage search], Dish, user_id: user.id
-    can :manage, DishIngredient, dish: {user_id: user.id}
+    can :manage, DishIngredient, dish_id: params[:dish_id]
     can %i[manage search], Drink, user_id: user.id
     can %i[manage search], Food, user_id: user.id
     can %i[manage search], Maker, user_id: user.id

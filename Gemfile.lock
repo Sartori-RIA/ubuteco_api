@@ -451,9 +451,3 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
   validators
-
-RUBY VERSION
-   ruby 2.7.2p137
-
-BUNDLED WITH
-   1.17.3
