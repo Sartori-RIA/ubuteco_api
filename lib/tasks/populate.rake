@@ -18,10 +18,10 @@ namespace :db do
     ].each(&:delete_all)
 
     100.times do
-      BeerStyle.create!(
-        name: Faker::Beer.style
-      )
+      BeerStyle.find_or_create_by!(name: Faker::Beer.style)
+      WineStyle.find_or_create_by!(name: Faker::Beer.style)
     end
+
     100.times do
       Maker.create!(
         user: User.all.sample,

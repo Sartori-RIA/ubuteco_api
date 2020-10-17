@@ -11,8 +11,10 @@ class Ability
 
     if user.role.name == 'ADMIN'
       only_admin(user)
+      only_authenticated_user(user)
     else
       only_authenticated_user(user)
+      only_read_for_all
     end
   end
 
@@ -25,8 +27,6 @@ class Ability
   end
 
   def only_authenticated_user(user)
-    can :read, BeerStyle
-    can :read, WineStyle
     can :manage, User, id: user.id
     can %i[manage search], Beer, user_id: user.id
     can %i[manage search], Dish, user_id: user.id
@@ -40,5 +40,10 @@ class Ability
     can %i[manage search], Table, user_id: user.id
     can %i[manage search], Wine, user_id: user.id
     can :manage, Theme, user_id: user.id
+  end
+
+  def only_read_for_all
+    can :read, BeerStyle
+    can :read, WineStyle
   end
 end
