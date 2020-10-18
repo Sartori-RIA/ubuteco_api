@@ -1,4 +1,4 @@
-GET http://{{host}}:{{port}}/api/dishes/92/ingredients
+GET http://{{host}}:{{port}}/api/dishes/105/ingredients
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}

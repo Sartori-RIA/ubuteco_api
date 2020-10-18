@@ -13,7 +13,6 @@ class Ability
       only_admin(user)
       only_authenticated_user(user, params)
     else
-      puts "NAO É ADMIN"
       only_authenticated_user(user, params)
       only_read_for_all
     end
@@ -21,7 +20,7 @@ class Ability
 
   private
 
-  def only_admin(_user, params)
+  def only_admin(_user)
     can :manage, BeerStyle
     can :manage, WineStyle
     can :manage, User
@@ -31,13 +30,13 @@ class Ability
     can :manage, User, id: user.id
     can %i[manage search], Beer, user_id: user.id
     can %i[manage search], Dish, user_id: user.id
-    can :manage, DishIngredient, dish_id: params[:dish_id]
+    can :manage, DishIngredient, dish_id: params[:dish_id], dish: {user_id: user.id}
     can %i[manage search], Drink, user_id: user.id
     can %i[manage search], Food, user_id: user.id
     can %i[manage search], Maker, user_id: user.id
     can %i[manage search], Order, user_id: user.id
     cannot :update, Order, user_id: user.id, status: 'payed'
-    can :manage, OrderItem, order: {user_id: user.id}
+    can :manage, OrderItem, order_id: params[:order_id], order: {user_id: user.id}
     can %i[manage search], Table, user_id: user.id
     can %i[manage search], Wine, user_id: user.id
     can :manage, Theme, user_id: user.id

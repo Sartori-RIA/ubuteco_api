@@ -12,7 +12,7 @@ RSpec.describe Api::Dishes::IngredientsController, type: :request do
   describe '#GET /api/dishes/:dish_id/ingredients' do
     it 'should request all dish ingredients' do
       get api_dish_ingredients_path(dish_id: dish.id), headers: auth_header(user)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -23,11 +23,11 @@ RSpec.describe Api::Dishes::IngredientsController, type: :request do
         food_id: foods.sample.id
       )
       post api_dish_ingredients_path(dish_id: dish.id), params: attributes.to_json, headers: auth_header(user)
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(:created)
     end
     it 'should throw error with invalid params' do
       post api_dish_ingredients_path(dish_id: dish.id), headers: auth_header(user)
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
@@ -35,19 +35,19 @@ RSpec.describe Api::Dishes::IngredientsController, type: :request do
     it 'should update a dish ingredient' do
       ingredient.quantity = 10
       put api_dish_ingredient_path(dish_id: dish.id, id: ingredient.id), params: ingredient.to_json, headers: auth_header(user)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
     it 'should throw error with invalid params' do
       ingredient.quantity = nil
       put api_dish_ingredient_path(dish_id: dish.id, id: ingredient.id), params: ingredient.to_json, headers: auth_header(user)
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
   describe '#DELETE /api/dishes/:dish_id/ingredients/:id' do
     it 'should remove ingredient from dish' do
       delete api_dish_ingredient_path(dish_id: dish.id, id: ingredient.id), headers: auth_header(user)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end
