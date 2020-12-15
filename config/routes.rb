@@ -62,11 +62,12 @@ Rails.application.routes.draw do
         resources :items, except: :show
       end
     end
-    resources :users do
-      scope module: :users do
+    resources :organizations do
+      scope module: :organizations do
         resources :themes, except: :delete
       end
     end
+    resources :users
     resources :wine_styles
     resources :wines do
       collection do
