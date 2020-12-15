@@ -1,0 +1,11 @@
+POST http://{{host}}:{{port}}/api/users
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "email": "cozinha@asd.com",
+  "name": "cozinha",
+  "password": "123123123",
+  "role_id": 3
+}

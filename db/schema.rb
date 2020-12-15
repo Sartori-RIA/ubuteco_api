@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_094509) do
+ActiveRecord::Schema.define(version: 2020_12_15_104505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,16 +20,16 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "aud"
     t.datetime "exp", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_allowlisted_jwts_on_user_id"
   end
 
   create_table "beer_styles", force: :cascade do |t|
     t.string "name"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["deleted_at"], name: "index_beer_styles_on_deleted_at"
   end
 
@@ -46,21 +46,21 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.bigint "maker_id"
     t.bigint "beer_style_id"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["beer_style_id"], name: "index_beers_on_beer_style_id"
     t.index ["deleted_at"], name: "index_beers_on_deleted_at"
     t.index ["maker_id"], name: "index_beers_on_maker_id"
-    t.index ["user_id"], name: "index_beers_on_user_id"
+    t.index ["organization_id"], name: "index_beers_on_organization_id"
   end
 
   create_table "dish_ingredients", force: :cascade do |t|
     t.bigint "food_id"
     t.bigint "dish_id"
     t.decimal "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["dish_id"], name: "index_dish_ingredients_on_dish_id"
     t.index ["food_id"], name: "index_dish_ingredients_on_food_id"
   end
@@ -71,11 +71,11 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "price_currency", default: "BRL", null: false
     t.string "image"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["deleted_at"], name: "index_dishes_on_deleted_at"
-    t.index ["user_id"], name: "index_dishes_on_user_id"
+    t.index ["organization_id"], name: "index_dishes_on_organization_id"
   end
 
   create_table "drinks", force: :cascade do |t|
@@ -89,12 +89,12 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.decimal "abv"
     t.bigint "maker_id"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["deleted_at"], name: "index_drinks_on_deleted_at"
     t.index ["maker_id"], name: "index_drinks_on_maker_id"
-    t.index ["user_id"], name: "index_drinks_on_user_id"
+    t.index ["organization_id"], name: "index_drinks_on_organization_id"
   end
 
   create_table "foods", force: :cascade do |t|
@@ -105,22 +105,22 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.integer "quantity_stock"
     t.datetime "valid_until"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["deleted_at"], name: "index_foods_on_deleted_at"
-    t.index ["user_id"], name: "index_foods_on_user_id"
+    t.index ["organization_id"], name: "index_foods_on_organization_id"
   end
 
   create_table "makers", force: :cascade do |t|
     t.string "name"
     t.string "country"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["deleted_at"], name: "index_makers_on_deleted_at"
-    t.index ["user_id"], name: "index_makers_on_user_id"
+    t.index ["organization_id"], name: "index_makers_on_organization_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -128,8 +128,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.integer "quantity"
     t.string "item_type"
     t.bigint "item_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0
     t.index ["item_type", "item_id"], name: "index_order_items_on_item_type_and_item_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -144,13 +144,28 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "discount_currency", default: "BRL", null: false
     t.bigint "table_id"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.integer "status", default: 0
+    t.integer "customer_id"
     t.index ["deleted_at"], name: "index_orders_on_deleted_at"
+    t.index ["organization_id"], name: "index_orders_on_organization_id"
     t.index ["table_id"], name: "index_orders_on_table_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "cnpj"
+    t.string "phone"
+    t.string "logo"
+    t.bigint "user_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cnpj"], name: "index_organizations_on_cnpj"
+    t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
+    t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -163,11 +178,11 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "name"
     t.integer "chairs"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["deleted_at"], name: "index_tables_on_deleted_at"
-    t.index ["user_id"], name: "index_tables_on_user_id"
+    t.index ["organization_id"], name: "index_tables_on_organization_id"
   end
 
   create_table "themes", force: :cascade do |t|
@@ -175,10 +190,10 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "color_header"
     t.string "color_sidebar"
     t.string "color_footer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_themes_on_user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_themes_on_organization_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -200,23 +215,26 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "name"
-    t.string "company_name"
-    t.string "cnpj"
+    t.string "avatar"
+    t.bigint "organization_id"
     t.bigint "role_id"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   create_table "wine_styles", force: :cascade do |t|
     t.string "name"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["deleted_at"], name: "index_wine_styles_on_deleted_at"
   end
 
@@ -234,34 +252,36 @@ ActiveRecord::Schema.define(version: 2020_10_13_094509) do
     t.string "ripening"
     t.string "grapes"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.bigint "wine_style_id"
     t.index ["deleted_at"], name: "index_wines_on_deleted_at"
     t.index ["maker_id"], name: "index_wines_on_maker_id"
-    t.index ["user_id"], name: "index_wines_on_user_id"
+    t.index ["organization_id"], name: "index_wines_on_organization_id"
     t.index ["wine_style_id"], name: "index_wines_on_wine_style_id"
   end
 
   add_foreign_key "allowlisted_jwts", "users", on_delete: :cascade
   add_foreign_key "beers", "beer_styles"
   add_foreign_key "beers", "makers"
-  add_foreign_key "beers", "users"
+  add_foreign_key "beers", "organizations"
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "foods"
-  add_foreign_key "dishes", "users"
+  add_foreign_key "dishes", "organizations"
   add_foreign_key "drinks", "makers"
-  add_foreign_key "drinks", "users"
-  add_foreign_key "foods", "users"
-  add_foreign_key "makers", "users"
+  add_foreign_key "drinks", "organizations"
+  add_foreign_key "foods", "organizations"
+  add_foreign_key "makers", "organizations"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "organizations"
   add_foreign_key "orders", "tables"
-  add_foreign_key "orders", "users"
-  add_foreign_key "tables", "users"
-  add_foreign_key "themes", "users"
+  add_foreign_key "organizations", "users"
+  add_foreign_key "tables", "organizations"
+  add_foreign_key "themes", "organizations"
+  add_foreign_key "users", "organizations"
   add_foreign_key "users", "roles"
   add_foreign_key "wines", "makers"
-  add_foreign_key "wines", "users"
+  add_foreign_key "wines", "organizations"
   add_foreign_key "wines", "wine_styles"
 end

@@ -81,21 +81,22 @@ namespace :db do
         quantity: Faker::Number.between(from: 1, to: 2)
       )
     end
-    100.times do
-      Order.create!(
-        table: Table.all.sample,
-        user: User.all.sample
-      )
-    end
 
-    100.times do
-      clazz = [Drink, Beer, Dish].sample
-      OrderItem.create!(
-        order: Order.all.sample,
-        quantity: Faker::Number.between(from: 1, to: 2),
-        item: clazz.all.sample,
-        status: OrderItem.statuses.values.sample
-      )
-    end
+    #100.times do
+    #  Order.create!(
+    #    table: Table.all.sample,
+    #    user: User.all.sample
+    #  )
+    #end
+    #
+    #100.times do
+    #  clazz = [Drink, Beer, Dish].sample
+    #  OrderItem.create!(
+    #    order: Order.all.sample,
+    #    quantity: Faker::Number.between(from: 1, to: 2),
+    #    item: clazz.all.sample,
+    #    status: OrderItem.statuses.values.sample
+    #  )
+    # end
   end
 end
