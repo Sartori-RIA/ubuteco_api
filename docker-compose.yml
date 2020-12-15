@@ -3,7 +3,7 @@ version: "3.1"
 services:
 
   redis:
-    container_name: restaurant_manager_redis
+    container_name: rm_redis
     image: redis:5.0
     command: --appendonly no
     ports:
@@ -11,7 +11,7 @@ services:
 
   db:
     image: postgres:10-alpine
-    container_name: restaurant_manager_db
+    container_name: rm_db
     ports:
       - 5432:5432
     tty: true
@@ -21,13 +21,13 @@ services:
 
   adminer:
     image: adminer
-    container_name: restaurant_manager_adminer
+    container_name: rm_adminer
     ports:
       - 8080:8080
 
   mailcatcher:
     image: schickling/mailcatcher
-    container_name: restaurant_manager_mailcatcher
+    container_name: rm_mailcatcher
     tty: true
     ports:
       - 1080:1080
@@ -35,7 +35,7 @@ services:
 
   api:
     image: cookiecode/base-ruby-on-rails
-    container_name: restaurant_manager_api
+    container_name: rm_api
     ports:
       - 3000:3000
     volumes:
