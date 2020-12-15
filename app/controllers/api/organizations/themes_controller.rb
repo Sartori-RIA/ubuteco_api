@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  module Users
+  module Organizations
     class ThemesController < ApplicationController
       load_and_authorize_resource
 
@@ -29,7 +29,7 @@ module Api
                       :color_sidebar,
                       :color_footer,
                       :rtl)
-              .merge(user: current_user)
+              .merge(organization_id: current_user.organization_id)
       end
     end
   end

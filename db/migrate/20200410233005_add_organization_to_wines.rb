@@ -1,4 +1,4 @@
-class AddUserToWines < ActiveRecord::Migration[5.2]
+class AddOrganizationToWines < ActiveRecord::Migration[6.0]
   def change
     add_reference :wines, :organization, foreign_key: true
   end

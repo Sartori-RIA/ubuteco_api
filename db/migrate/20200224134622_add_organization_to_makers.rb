@@ -1,5 +1,5 @@
-class AddUserToMakers < ActiveRecord::Migration[5.2]
+class AddOrganizationToMakers < ActiveRecord::Migration[6.0]
   def change
-    add_reference :makers, :user, foreign_key: true
+    add_reference :makers, :organization, foreign_key: true
   end
 end

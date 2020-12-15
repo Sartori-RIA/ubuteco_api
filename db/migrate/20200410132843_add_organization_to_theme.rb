@@ -1,4 +1,4 @@
-class AddUserToTheme < ActiveRecord::Migration[5.2]
+class AddOrganizationToTheme < ActiveRecord::Migration[6.0]
   def change
     add_reference :themes, :organization, foreign_key: true
   end

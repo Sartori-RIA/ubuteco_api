@@ -1,4 +1,4 @@
-class AddUserToDishes < ActiveRecord::Migration[5.2]
+class AddOrganizationToDishes < ActiveRecord::Migration[6.0]
   def change
     add_reference :dishes, :organization, foreign_key: true
   end

@@ -1,4 +1,4 @@
-class CreateOrders < ActiveRecord::Migration[5.2]
+class CreateOrders < ActiveRecord::Migration[6.0]
   def change
     create_table :orders do |t|
       t.monetize :total

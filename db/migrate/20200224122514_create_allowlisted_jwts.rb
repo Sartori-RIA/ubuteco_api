@@ -1,4 +1,4 @@
-class CreateAllowlistedJwts < ActiveRecord::Migration[5.2]
+class CreateAllowlistedJwts < ActiveRecord::Migration[6.0]
   def change
     create_table :allowlisted_jwts do |t|
       t.string :jti, null: false, unique: true
