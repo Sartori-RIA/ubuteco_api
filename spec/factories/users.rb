@@ -2,17 +2,27 @@
 
 FactoryBot.define do
   factory :user do
-    name {'Admin'}
-    sequence(:email) { |n| "admin#{n}@email.com"}
-    sequence(:company_name) { |n| "company_#{n}"}
-    password {'password'}
-    cnpj { Faker::CNPJ.pretty }
-
+    name { 'Admin' }
+    sequence(:email) { |n| "admin#{n}@email.com" }
+    password { 'password' }
+    organization
     factory :user_admin do
-      association :role, factory: :role_as_admin
+      association :role, factory: :admin
     end
-    factory :user_restaurant do
-      association :role, factory: :role_as_restaurant
+    factory :user_staff do
+      association :role, factory: :staff
+    end
+    factory :user_kitchen do
+      association :role, factory: :kitchen
+    end
+    factory :user_waiter do
+      association :role, factory: :waiter
+    end
+    factory :user_cash_register do
+      association :role, factory: :cash_register
+    end
+    factory :user_customer do
+      association :role, factory: :customer
     end
   end
 end

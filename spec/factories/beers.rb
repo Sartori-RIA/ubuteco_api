@@ -9,6 +9,6 @@ FactoryBot.define do
     quantity_stock {3}
     beer_style
     maker
-    user
+    organization
   end
 end

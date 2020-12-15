@@ -5,6 +5,6 @@ FactoryBot.define do
     sequence(:name) { |n| "food#{n} " }
     price { 1.0 }
     quantity_stock { 10 }
-    user
+    organization
   end
 end

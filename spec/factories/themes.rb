@@ -5,6 +5,6 @@ FactoryBot.define do
     color_header { 'white' }
     color_sidebar { 'white' }
     color_footer { 'white' }
-    user
+    organization
   end
 end

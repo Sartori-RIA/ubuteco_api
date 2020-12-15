@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :dish do
     sequence(:name) { |n| "snack_#{n}" }
     price { 10.0 }
-    user
+    organization
 
     factory :dish_with_ingredients do
       transient do

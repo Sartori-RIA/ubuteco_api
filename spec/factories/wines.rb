@@ -12,7 +12,7 @@ FactoryBot.define do
     visual { 'MyString' }
     ripening { 'Ripening' }
     grapes { 'MyString' }
-    user
+    organization
     maker
     wine_style
   end
