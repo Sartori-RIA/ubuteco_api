@@ -6,6 +6,6 @@ class DishIngredient < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
-  accepts_nested_attributes_for :food, allow_destroy: true
-  accepts_nested_attributes_for :dish, allow_destroy: true
+  # accepts_nested_attributes_for :food, allow_destroy: true
+  #accepts_nested_attributes_for :dish, allow_destroy: true
 end

@@ -12,6 +12,12 @@ class OrderItem < ApplicationRecord
 
   enum status: { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
+  def already_in_order(attributes)
+    exists?(item_id: attributes[:item_id],
+            order_id: attributes[:order_id],
+            item_type: attributes[:item_type])
+  end
+
   def message(action)
     msg = {
       obj: format_dish_to_make(self),

@@ -8,7 +8,7 @@ class Maker < ApplicationRecord
   has_many :drinks, dependent: :destroy
   has_many :beers, dependent: :destroy
 
-  belongs_to :user
+  belongs_to :organization
 
   include PgSearch::Model
 

@@ -2,10 +2,15 @@
 
 class Order < ApplicationRecord
   acts_as_paranoid
-  enum status: {open: 0, closed: 1, payed: 2}
+
+  after_update :update_stock
+
+  enum status: { open: 0, closed: 1, payed: 2 }
 
   belongs_to :table, optional: true
-  belongs_to :user
+  belongs_to :organization
+  belongs_to :customer, class_name: 'User', optional: true
+
   has_many :order_items, dependent: :destroy
 
   monetize :total_cents, :total_with_discount_cents, :discount_cents
@@ -15,16 +20,13 @@ class Order < ApplicationRecord
   pg_search_scope :search,
                   against: %w[created_at total_cents total_with_discount_cents],
                   associated_against: {
-                      table: %w[name],
-                      user: %w[name]
+                    table: %w[name],
+                    user: %w[name]
                   }
-
-  after_update :update_stock
 
   protected
 
   def update_stock
-
     return unless status == 'payed'
 
     order_items.each do |item|

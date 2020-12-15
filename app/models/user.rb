@@ -10,23 +10,14 @@ class User < ApplicationRecord
          :confirmable, :lockable, :trackable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  validates :name, :company_name, :cnpj, presence: true
-  validates_cnpj_format_of :cnpj
+  mount_uploader :avatar, AvatarUploader
 
-  has_many :beers, dependent: :delete_all
-  has_many :makers, dependent: :delete_all
-  has_many :drinks, dependent: :delete_all
-  has_many :foods, dependent: :delete_all
-  has_many :orders, dependent: :delete_all
-  has_many :dishes, dependent: :delete_all
-  has_many :tables, dependent: :delete_all
+  validates :name, :email, presence: true
 
-  has_one :theme, dependent: :delete
+  belongs_to :organization, optional: true
+  accepts_nested_attributes_for :organization, allow_destroy: true
 
   belongs_to :role
-
-  before_validation :set_role
-  after_create :set_default_theme
 
   def password_salt
     'no salt'
@@ -48,19 +39,5 @@ class User < ApplicationRecord
 
   def send_welcome
     UserMailer.with(user: self).welcome.deliver_now!
-  end
-
-  protected
-
-  def set_role
-    self.role_id = Role.find_by(name: 'RESTAURANT').id if role_id.nil?
-  end
-
-  def set_default_theme
-    Theme.create(name: 'default',
-                 color_footer: 'slate',
-                 color_header: 'white',
-                 color_sidebar: 'slate',
-                 user: self)
   end
 end

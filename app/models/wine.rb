@@ -14,7 +14,7 @@ class Wine < Product
 
   belongs_to :maker
   belongs_to :wine_style
-  belongs_to :user
+  belongs_to :organization
 
   include PgSearch::Model
 

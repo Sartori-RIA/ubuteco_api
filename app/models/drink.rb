@@ -4,7 +4,7 @@ class Drink < Product
   validates :quantity_stock, presence: true
 
   belongs_to :maker, optional: true
-  belongs_to :user
+  belongs_to :organization
 
   include PgSearch::Model
 

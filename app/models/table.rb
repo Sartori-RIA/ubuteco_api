@@ -4,7 +4,7 @@ class Table < ApplicationRecord
   acts_as_paranoid
   validates :name, :chairs, presence: true
 
-  belongs_to :user
+  belongs_to :organization
 
   include PgSearch::Model
 
