@@ -31,6 +31,8 @@ class ApplicationController < ActionController::API
   private
 
   def current_ability
-    @current_ability ||= Ability.new(current_user, params)
+    controller_name_segments = params[:controller].split('/')
+    controller_name = controller_name_segments.join('/').camelize
+    @current_ability ||= Ability.new(current_user, params, controller_name)
   end
 end

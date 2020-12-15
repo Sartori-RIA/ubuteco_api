@@ -49,7 +49,7 @@ module Api
                       food
                       food_id
                       id
-                    ]).merge(user: current_user)
+                    ]).merge(organization_id: current_user.organization_id)
     end
   end
 end

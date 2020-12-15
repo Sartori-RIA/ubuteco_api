@@ -49,7 +49,7 @@ module Api
                     :maker,
                     :price,
                     :quantity_stock,
-                    :flavor).merge(user: current_user)
+                    :flavor).merge(organization_id: current_user.organization_id)
     end
   end
 end

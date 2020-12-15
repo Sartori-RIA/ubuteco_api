@@ -10,9 +10,8 @@ module Api
       end
 
       def create
-        attributes = order_item_params
-        if already_exists_in_order(attributes)
-          @item = OrderItem.find_by(item_id: attributes[:item_id])
+        if OrderItem.already_exists_in_order(order_item_params)
+          @item = OrderItem.find_by(item_id: order_item_params[:item_id])
           update
         else
           @item = OrderItem.new(order_item_params)

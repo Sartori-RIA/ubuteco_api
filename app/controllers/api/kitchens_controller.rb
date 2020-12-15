@@ -2,18 +2,13 @@
 
 module Api
   class KitchensController < ApplicationController
-    before_action :set_order_item, only: [:update]
-    authorize_resource class: OrderItem
+    load_and_authorize_resource
 
     include KitchensHelper
 
     def index
-      @dishes = OrderItem.where(
-        item_type: :Dish,
-        created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
-      ).includes(:item).order(:created_at)
-      @dishes = @dishes.map { |it| format_dish_to_make(it) }
-      render json: @dishes
+      @kitchens = @kitchens.includes(:item).order(:created_at)
+      render json: @kitchens.map { |it| format_dish_to_make(it) }
     end
 
     def update
@@ -28,10 +23,6 @@ module Api
 
     def kitchen_params
       params.permit(:id, :status)
-    end
-
-    def set_order_item
-      @dish = OrderItem.find_by(id: params[:id])
     end
   end
 end

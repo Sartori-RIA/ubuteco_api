@@ -56,7 +56,7 @@ module Api
                     :ripening,
                     :grapes,
                     :wine_style,
-                    :wine_style_id).merge(user: current_user)
+                    :wine_style_id).merge(organization_id: current_user.organization_id)
     end
   end
 end

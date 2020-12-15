@@ -42,7 +42,7 @@ module Api
     private
 
     def maker_params
-      params.permit(:name, :country).merge(user: current_user)
+      params.permit(:name, :country).merge(organization_id: current_user.organization_id)
     end
   end
 end

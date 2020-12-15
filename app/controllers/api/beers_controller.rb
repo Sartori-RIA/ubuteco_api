@@ -60,7 +60,7 @@ module Api
                     :deleted_at,
                     :created_at,
                     :updated_at,
-                    :valid_until).merge(user: current_user)
+                    :valid_until).merge(organization_id: current_user.organization_id)
     end
   end
 end

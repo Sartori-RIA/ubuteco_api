@@ -42,7 +42,7 @@ module Api
     private
 
     def table_params
-      params.permit(:name, :chairs).merge(user: current_user)
+      params.permit(:name, :chairs).merge(organization_id: current_user.organization_id)
     end
   end
 end

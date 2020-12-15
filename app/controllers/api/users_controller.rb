@@ -2,7 +2,6 @@
 
 module Api
   class UsersController < ApplicationController
-    load_and_authorize_resource
 
     def index
       paginate json: @users.order(name: :asc)
@@ -37,7 +36,7 @@ module Api
     private
 
     def users_params
-      params.permit(:name, :cnpj, :company_name, :role_id)
+      params.permit(:name, :email, :password, :avatar, :role_id)
     end
   end
 end
