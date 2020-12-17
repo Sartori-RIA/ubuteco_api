@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::TablesController, type: :request do
-  let!(:user) { create(:user_restaurant) }
-  let!(:tables) { create_list(:table, 10, user: user) }
+  let!(:user) { create(:user_admin) }
+  let!(:tables) { create_list(:table, 10, organization: user.organization) }
 
   describe '#GET /api/tables' do
     it 'should request all tables' do

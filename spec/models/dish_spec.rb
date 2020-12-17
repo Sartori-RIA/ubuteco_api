@@ -11,7 +11,7 @@ RSpec.describe Dish, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:dish_ingredients) }
     it { is_expected.to have_many(:foods) }
-    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:organization) }
   end
 
   describe '#to_json' do

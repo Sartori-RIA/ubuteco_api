@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-%w[STAFF ADMIN KITCHEN WAITER CASH_REGISTER CUSTOMER].each { |role| Role.find_or_create_by!(name: role) }
+%w[SUPER_ADMIN ADMIN KITCHEN WAITER CASH_REGISTER CUSTOMER].each { |role| Role.find_or_create_by!(name: role) }
 
 #User.create_with(password: '123123123',
 #                 name: 'Lucas A. R. Sartori',

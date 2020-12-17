@@ -11,7 +11,7 @@ RSpec.describe Drink, type: :model do
 
   describe 'associations' do
     it {is_expected.to belong_to(:maker)}
-    it {is_expected.to belong_to(:user)}
+    it {is_expected.to belong_to(:organization)}
     it {is_expected.to have_many(:order_items)}
   end
 end

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::DrinksController, type: :request do
-  let!(:user) { create(:user_restaurant) }
-  let!(:drinks) { create_list(:drink, 10, user: user) }
+  let!(:user) { create(:user_admin) }
+  let!(:drinks) { create_list(:drink, 10, organization: user.organization) }
 
   describe '#GET /api/drinks' do
     it 'should request all drinks' do

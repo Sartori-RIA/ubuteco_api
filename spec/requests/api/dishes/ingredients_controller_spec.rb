@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::Dishes::IngredientsController, type: :request do
-  let!(:user) { create(:user_restaurant) }
-  let!(:foods) { create_list(:food, 10, user: user) }
-  let!(:dishes) { create_list(:dish, 10, user: user) }
+  let!(:user) { create(:user_admin) }
+  let!(:foods) { create_list(:food, 10, organization: user.organization) }
+  let!(:dishes) { create_list(:dish, 10, organization: user.organization) }
   let!(:dish_ingredients) { create_list(:dish_ingredient, 10, food: foods.sample, dish: dishes.sample) }
 
   describe '#GET /api/dishes/:dish_id/ingredients' do

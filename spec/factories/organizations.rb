@@ -2,9 +2,9 @@ require "cpf_cnpj"
 
 FactoryBot.define do
   factory :organization do
-    sequence(:name) {|n| "organization_#{n}"}
+    name { Faker::Company.unique.name }
     cnpj { Faker::Company.unique.brazilian_company_number }
     sequence(:phone) {|n| "429999-999#{n}"}
-    user
+    association :user, factory: :user_admin
   end
 end

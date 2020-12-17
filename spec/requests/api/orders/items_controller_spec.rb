@@ -3,12 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::Orders::ItemsController, type: :request do
-  let!(:user) { create(:user_restaurant) }
-  let!(:dishes) { create_list(:dish, 10, user: user) }
-  let!(:wines) { create_list(:wine, 10, user: user) }
-  let!(:beers) { create_list(:beer, 10, user: user) }
-  let!(:drinks) { create_list(:drink, 10, user: user) }
-  let!(:orders) { create_list(:order_with_items, 10, user: user) }
+  let!(:user) { create(:user_admin) }
+  let!(:customer) { create(:user_customer) }
+  let!(:dishes) { create_list(:dish, 10, organization: user.organization) }
+  let!(:wines) { create_list(:wine, 10, organization: user.organization) }
+  let!(:beers) { create_list(:beer, 10, organization: user.organization) }
+  let!(:drinks) { create_list(:drink, 10, organization: user.organization) }
+  let!(:orders) { create_list(:order_with_items, 10, organization: user.organization, user: customer) }
   let!(:order) { orders.sample }
   let!(:item) { order.order_items.sample }
 

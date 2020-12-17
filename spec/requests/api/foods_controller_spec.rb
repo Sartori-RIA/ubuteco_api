@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::FoodsController, type: :request do
-  let!(:user) { create(:user_restaurant) }
+  let!(:user) { create(:user_admin) }
   let!(:foods) { create_list(:food, 10, user: user) }
 
   describe '#GET /api/foods' do

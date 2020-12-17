@@ -7,13 +7,13 @@ class Ability
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   def initialize(user, params, controller_name)
-    Ability::PublicAbility.new(user, params, controller_name)
+    Abilities::PublicAbility.new(user, params, controller_name)
 
     return if user.blank?
 
     case user.role.name
-    when 'STAFF'
-      StaffAbility.new(user, params, controller_name)
+    when 'SUPER_ADMIN'
+      Abilities::SuperAdminAbility.new
     when 'ADMIN'
       Abilities::AdminAbility.new(user, params, controller_name)
     when 'KITCHEN'

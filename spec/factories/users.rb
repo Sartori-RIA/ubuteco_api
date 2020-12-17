@@ -5,12 +5,15 @@ FactoryBot.define do
     name { 'Admin' }
     sequence(:email) { |n| "admin#{n}@email.com" }
     password { 'password' }
-    organization
+
+    factory :user_with_organization do
+      association :organization, factory: organization
+    end
     factory :user_admin do
       association :role, factory: :admin
     end
-    factory :user_staff do
-      association :role, factory: :staff
+    factory :user_super_admin do
+      association :role, factory: :super_admin
     end
     factory :user_kitchen do
       association :role, factory: :kitchen

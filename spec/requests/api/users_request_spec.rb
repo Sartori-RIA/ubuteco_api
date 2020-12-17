@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :request do
-  let!(:admin) { create(:user_admin) }
-  let!(:user) { create(:user_restaurant) }
+  let!(:admin) { create(:user_super_admin) }
+  let!(:user) { create(:user_admin) }
 
   describe '#GET /api/users' do
     it 'should retrieves all user' do

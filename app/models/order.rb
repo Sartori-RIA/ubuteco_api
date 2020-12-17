@@ -9,7 +9,7 @@ class Order < ApplicationRecord
 
   belongs_to :table, optional: true
   belongs_to :organization
-  belongs_to :customer, class_name: 'User', optional: true
+  belongs_to :user
 
   has_many :order_items, dependent: :destroy
 

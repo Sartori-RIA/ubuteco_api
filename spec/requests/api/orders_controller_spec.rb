@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::OrdersController, type: :request do
-  let!(:user) { create(:user_restaurant) }
-  let!(:orders) { create_list(:order, 10, user: user) }
+  let!(:user) { create(:user_admin) }
+  let!(:customer) { create(:user_customer) }
+  let!(:orders) { create_list(:order, 10, organization: user.organization, user: customer) }
 
   describe '#GET /api/orders' do
     it 'should request all orders' do

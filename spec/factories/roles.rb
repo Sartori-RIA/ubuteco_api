@@ -4,8 +4,8 @@ FactoryBot.define do
     factory :admin do
       name { 'ADMIN' }
     end
-    factory :staff do
-      name { 'STAFF' }
+    factory :super_admin do
+      name { 'SUPER_ADMIN' }
     end
     factory :kitchen do
       name { 'KITCHEN' }

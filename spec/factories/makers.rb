@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :maker do
-    sequence(:name) { |n| "name #{n}" }
+    name { Faker::Company.unique.name }
     sequence(:country) { |n| "country #{n}" }
     organization
   end

@@ -50,7 +50,11 @@ module Api
                     :total_with_discount,
                     :status,
                     :discount,
-                    :table_id).merge(user_id: current_user.id)
+                    :user,
+                    :user_id,
+                    :organization,
+                    :organization_id,
+                    :table_id)
     end
   end
 end
