@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do
-  let!(:role) { create(:role_as_restaurant) }
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_admin) }
 
   describe 'when params are correct' do
     it 'signs in with email' do

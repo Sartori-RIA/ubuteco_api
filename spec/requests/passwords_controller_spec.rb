@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PasswordsController, type: :request do
-  let!(:role) { create(:role_as_restaurant) }
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_admin) }
 
   describe '#PUT /auth/passwords' do
     it 'should email code to reset password' do

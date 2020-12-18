@@ -1,0 +1,39 @@
+database: &database
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+  DB_HOST: localhost
+
+aws: &aws
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_S3_DIRECTORY:
+
+mailer: &mailer
+  MAILER_ADDRESS: smtp.gmail.com
+  MAILER_PORT: '587'
+  MAILER_USER_NAME: example@email.com
+  MAILER_PASSWORD:
+  MAILER_DOMAIN: gmail.com
+
+development:
+  <<: *mailer
+  <<: *aws
+  <<: *database
+  JWT_KEY: 42dcb8f62dd54def56861cee45b61350268713d82c0cbe32013d395638908b1f2217de4dabb95ee3868f9d3063ea040d5304cbfe73e875db4bd5f08704632f85
+  FRONT_CONFIRM_URLl: http://localhost:4200/#/auth/confirmar
+
+test:
+  <<: *mailer
+  <<: *database
+  JWT_KEY: 42dcb8f62dd54def56861cee45b61350268713d82c0cbe32013d395638908b1f2217de4dabb95ee3868f9d3063ea040d5304cbfe73e875db4bd5f08704632f85
+  FRONT_CONFIRM_URL: http://localhost:4200/#/auth/confirmar
+
+production:
+  JWT_KEY: 42dcb8f62dd54def56861cee45b61350268713d82c0cbe32013d395638908b1f2217de4dabb95ee3868f9d3063ea040d5304cbfe73e875db4bd5f08704632f85
+  FRONT_CONFIRM_URL: https://twitter-c0ffa.web.app/#/auth/confirmar
+  DB_USERNAME:
+  DB_PASSWORD:
+  DB_HOST:
+  DB_DATABASE:
+  <<: *mailer
+  <<: *aws

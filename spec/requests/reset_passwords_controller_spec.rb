@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ResetPasswordsController, type: :request do
-  let!(:role) { create(:role_as_restaurant) }
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_admin) }
 
   describe '#PUT /auth/reset_passwords' do
     it 'should update password when user forget then' do

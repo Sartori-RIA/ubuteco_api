@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CodeValidationsController, type: :request do
-  let!(:role) { create(:role_as_restaurant) }
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_admin) }
 
   describe '#POST /auth/code_validations' do
     it 'should return user token when send code received in email' do

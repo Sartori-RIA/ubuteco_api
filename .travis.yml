@@ -1,0 +1,42 @@
+
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+      - postgresql-10
+      - postgresql-client-10
+
+services:
+  - docker
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=6b4cd29b9f460ff040c6fe957982124891c405013386b612bb423be1f85eb778
+    - PGPORT=5432
+
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - cp config/application.yml.travis config/application.yml
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - docker pull schickling/mailcatcher
+  - docker run -d -p 127.0.0.1:1025:1025 schickling/mailcatcher
+  - docker ps -a
+
+dist: xenial
+
+language: ruby
+
+rvm:
+  - 2.7.2
+
+script:
+  - bundle exec rails db:create RAILS_ENV=test
+  - bundle exec rails db:migrate RAILS_ENV=test
+  - bundle exec rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter format-coverage -t simplecov -o ./coverage/codeclimate.$CI_NODE_INDEX.json ./coverage/spec/.resultset.json; fi
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter sum-coverage --output - --parts 1 coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --input -; fi

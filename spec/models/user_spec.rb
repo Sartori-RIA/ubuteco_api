@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let!(:role) { create(:role_as_restaurant) }
+  let!(:role) { create(:admin) }
 
   describe 'validations' do
     it {is_expected.to validate_presence_of(:name)}

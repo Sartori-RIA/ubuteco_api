@@ -45,6 +45,15 @@ group :development, :test do
 end
 
 group :development do
+  # Recommend to lock the mutant gems current major version, via '~> # 0.9.x'
+  gem 'mutant-rspec', '~> 0.10.20'
+  source 'https://oss:wKXUfu1alkPFjjIkCqNag7ya5NcXJxcd@gem.mutant.dev' do
+    # Do not lock the mutant license to any version.
+    gem 'mutant-license', require: false
+  end
+end
+
+group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'mailcatcher'
   gem 'rubocop', require: false
