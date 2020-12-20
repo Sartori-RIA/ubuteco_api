@@ -11,7 +11,6 @@ class Organization < ApplicationRecord
   validates :phone, :cnpj, uniqueness: true
   validates_cnpj_format_of :cnpj
 
-
   belongs_to :user
   accepts_nested_attributes_for :user, allow_destroy: true
 

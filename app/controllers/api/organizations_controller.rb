@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class OrganizationsController < ApplicationController
     load_and_authorize_resource

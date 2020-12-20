@@ -2,7 +2,6 @@
 
 module Abilities
   class AdminAbility < Abilities::BaseAbility
-
     def initialize(user:, params:)
       super()
       can :manage, User, organization_id: user.organization_id

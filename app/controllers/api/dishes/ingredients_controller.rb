@@ -58,7 +58,7 @@ module Api
         params.permit(
           :id,
           :quantity,
-          :food_id,
+          :food_id
         )
       end
     end

@@ -2,7 +2,6 @@
 
 module Abilities
   class CustomerAbility < Abilities::BaseAbility
-
     def initialize(user:)
       super()
       can :manage, User, id: user.id

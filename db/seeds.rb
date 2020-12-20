@@ -2,7 +2,7 @@
 
 %w[SUPER_ADMIN ADMIN KITCHEN WAITER CASH_REGISTER CUSTOMER].each { |role| Role.find_or_create_by!(name: role) }
 
-#User.create_with(password: '123123123',
+# User.create_with(password: '123123123',
 #                 name: 'Lucas A. R. Sartori',
 #                 company_name: 'CookieCode',
 #                 confirmed_at: Time.zone.now,
@@ -10,7 +10,7 @@
 #                 cnpj: '31.515.296/0001-07')
 #    .find_or_create_by!(email: 'admin@cookiecode.com.br')
 #
-#User.create_with(password: '123123123',
+# User.create_with(password: '123123123',
 #                 name: 'restaurante',
 #                 company_name: 'Armazem do malte',
 #                 confirmed_at: Time.zone.now,
