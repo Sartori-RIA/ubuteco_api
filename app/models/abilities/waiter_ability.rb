@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Abilities
-  class WaiterAbility
-    include CanCan::Ability
-
-    def initialize(user, params, controller_name)
+  class WaiterAbility < Abilities::BaseAbility
+    def initialize(user:)
+      super()
       can :manage, User, id: user.id
       can %i[read search], Table, organization_id: user.organization_id
       can %i[read search], Wine, organization_id: user.organization_id

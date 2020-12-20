@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Abilities
-  class CashRegisterAbility
-    def initialize(user, params, controller_name)
-
+  class CashRegisterAbility < Abilities::BaseAbility
+    def initialize(user:, params:, controller_name:)
+      super()
       can :manage, User, id: user.id
       can %i[manage search], Order, organization_id: user.organization_id
       can :manage, OrderItem, order: {

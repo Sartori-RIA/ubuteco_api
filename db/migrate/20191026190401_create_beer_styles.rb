@@ -6,5 +6,6 @@ class CreateBeerStyles < ActiveRecord::Migration[6.0]
       t.timestamps
     end
     add_index :beer_styles, :deleted_at
+    add_index :beer_styles, :name, unique: true
   end
 end

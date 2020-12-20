@@ -3,26 +3,31 @@
 require 'rails_helper'
 
 RSpec.describe Api::DishesController, type: :request do
-  let!(:user) { create(:user_admin) }
-  let!(:dishes) { create_list(:dish, 10, organization: user.organization) }
+
+  before :all do
+    @organization = create :organization
+    @admin = @organization.user
+    @admin.update(organization: @organization)
+    @dishes = create_list :dish, 10, organization: @organization
+  end
 
   describe '#GET /api/dishes' do
     it 'should request all dishes' do
-      get api_dishes_path, headers: auth_header(user)
+      get api_dishes_path, headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/dishes/:id' do
     it 'should request dish by id' do
-      get api_dish_path(dishes.sample.id), headers: auth_header(user)
+      get api_dish_path(@dishes.sample.id), headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/dishes/search' do
     it 'should search drishes' do
-      get search_api_dishes_path, params: { q: 'tralala' }, headers: auth_header(user)
+      get search_api_dishes_path, params: { q: 'tralala' }, headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
@@ -30,7 +35,7 @@ RSpec.describe Api::DishesController, type: :request do
   describe '#POST /api/dishes' do
     it 'should create a dish' do
       attributes = attributes_for(:dish).except(:user)
-      post api_dishes_path, params: attributes.to_json, headers: auth_header(user)
+      post api_dishes_path, params: attributes.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
@@ -40,21 +45,21 @@ RSpec.describe Api::DishesController, type: :request do
   end
 
   describe '#PUT /api/dishes/:id' do
-    let!(:dish) {dishes.sample}
+    let!(:dish) { @dishes.sample }
     it 'should update a dish' do
-      put api_dish_path(dish.id), headers: auth_header(user)
+      put api_dish_path(dish.id), headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
       dish.name = ''
-      put api_dish_path(dish.id), params: dish.to_json, headers: auth_header(user)
+      put api_dish_path(dish.id), params: dish.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(422)
     end
   end
 
   describe '#DELETE /api/dishes/:id' do
     it 'should delete dish' do
-      delete api_dish_path(dishes.sample.id), headers: auth_header(user)
+      delete api_dish_path(@dishes.sample.id), headers: auth_header(@admin)
       expect(response).to have_http_status(204)
     end
   end

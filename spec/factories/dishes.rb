@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :dish do
-    sequence(:name) { |n| "snack_#{n}" }
+    name { Faker::Food.dish }
     price { 10.0 }
     organization
 

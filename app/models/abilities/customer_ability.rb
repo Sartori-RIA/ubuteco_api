@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Abilities
-  class CustomerAbility
-    include CanCan::Ability
+  class CustomerAbility < Abilities::BaseAbility
 
-    def initialize(user, params, controller_name)
+    def initialize(user:)
+      super()
       can :manage, User, id: user.id
       can %i[search], Beer
       can %i[read search], Dish

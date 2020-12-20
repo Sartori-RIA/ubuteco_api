@@ -5,9 +5,7 @@ FactoryBot.define do
     total { 10 }
     total_with_discount { 10 }
     discount { 10 }
-    table
     organization
-    user
 
     factory :order_with_items do
       transient do

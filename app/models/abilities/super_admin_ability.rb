@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Abilities
-  class SuperAdminAbility
-    include CanCan::Ability
-
+  class SuperAdminAbility < Abilities::BaseAbility
     def initialize
+      super()
       can %i[manage search], Beer
       can %i[manage search], BeerStyle
       can %i[manage search], Dish

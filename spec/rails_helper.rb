@@ -16,7 +16,7 @@ require 'support/file_spec_helper'
 require 'support/shoulda'
 require 'support/helpers/headers'
 require 'support/carrier_wave'
-
+require "cancan/matchers"
 require 'spec_helper'
 
 begin

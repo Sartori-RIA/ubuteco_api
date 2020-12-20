@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Abilities
-  class KitchenAbility
-    include CanCan::Ability
-
-    def initialize(user, params, controller_name)
+  class KitchenAbility < Abilities::BaseAbility
+    def initialize(user:, params:, controller_name:)
+      super()
       can :manage, User, id: user.id
       return unless controller_name == 'Api::Kitchens'
 

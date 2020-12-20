@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 module Abilities
-  class AdminAbility
-    include CanCan::Ability
+  class AdminAbility < Abilities::BaseAbility
 
-    def initialize(user, params, _controller_name)
-      can :manage, User, organization_id: user.organization_id
+    def initialize(user:, params:)
+      super()
+      can :create, User
+      can %i[read update destroy], User, organization_id: user.organization_id
       can :read, Theme, organization_id: user.organization_id
       can :update, Theme, organization: { user_id: user.id }
       can :read, Organization, id: user.organization_id

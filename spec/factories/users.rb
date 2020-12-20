@@ -2,12 +2,13 @@
 
 FactoryBot.define do
   factory :user do
-    name { 'Admin' }
+    sequence(:name) { |n| "user_#{n}" }
     sequence(:email) { |n| "admin#{n}@email.com" }
+    avatar { Faker::LoremPixel.image }
     password { 'password' }
 
     factory :user_with_organization do
-      association :organization, factory: organization
+      association :organization, factory: :organization
     end
     factory :user_admin do
       association :role, factory: :admin

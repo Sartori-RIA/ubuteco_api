@@ -3,20 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe Api::BeerStylesController, type: :request do
-  let!(:super_admin) { create(:user_super_admin) }
-  let!(:admin) { create(:user_admin) }
-  let!(:beer_styles) { create_list(:beer_style, 10) }
+  before :all do
+    @organization = create :organization
+    @super_admin = create :user_super_admin
+    @admin = @organization.user
+    @admin.update(organization: @organization)
+    @beer_styles = create_list :beer_style, 10
+  end
 
   describe '#GET /api/beer_styles' do
     it 'should request all beer styles' do
-      get api_beer_styles_path, headers: auth_header(user)
+      get api_beer_styles_path, headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/beer_styles/:id' do
     it 'should request beer style by id' do
-      get api_beer_style_path(beer_styles.sample.id), headers: auth_header(user)
+      get api_beer_style_path(@beer_styles.sample.id), headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
@@ -24,45 +28,45 @@ RSpec.describe Api::BeerStylesController, type: :request do
   describe '#POST /api/beer_styles' do
     it 'should create a beer style' do
       attributes = attributes_for(:beer_style)
-      post api_beer_styles_path, params: attributes.to_json, headers: auth_header(super_admin)
+      post api_beer_styles_path, params: attributes.to_json, headers: auth_header(@super_admin)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
-      post api_beer_styles_path, headers: auth_header(super_admin)
+      post api_beer_styles_path, headers: auth_header(@super_admin)
       expect(response).to have_http_status(422)
     end
     it 'should throw error with invalid params' do
-      post api_beer_styles_path, headers: auth_header(admin)
+      post api_beer_styles_path, headers: auth_header(@admin)
       expect(response).to have_http_status(403)
     end
   end
 
   describe '#PUT /api/beer_styles/:id' do
-    let!(:beer_style) { beer_styles.sample }
+    let!(:beer_style) { @beer_styles.sample }
     it 'should update a beer style' do
       beer_style.name = 'editado'
-      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(super_admin)
+      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(@super_admin)
       expect(response).to have_http_status(200)
     end
     it 'should trow forbidden status' do
       beer_style.name = 'editado'
-      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(super_admin)
+      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(403)
     end
     it 'should throw error with invalid params' do
       beer_style.name = ''
-      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(admin)
+      put api_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(@super_admin)
       expect(response).to have_http_status(422)
     end
   end
 
   describe '#DELETE /api/beer_styles/:id' do
     it 'should delete beer style' do
-      delete api_beer_style_path(beer_styles.sample.id), headers: auth_header(super_admin)
+      delete api_beer_style_path(@beer_styles.sample.id), headers: auth_header(@super_admin)
       expect(response).to have_http_status(204)
     end
     it 'should trow forbidden status' do
-      delete api_beer_style_path(beer_styles.sample.id), headers: auth_header(admin)
+      delete api_beer_style_path(@beer_styles.sample.id), headers: auth_header(@admin)
       expect(response).to have_http_status(403)
     end
   end

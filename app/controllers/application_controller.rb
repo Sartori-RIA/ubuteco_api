@@ -30,9 +30,31 @@ class ApplicationController < ActionController::API
 
   private
 
+  # See the wiki for details:
+  # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   def current_ability
     controller_name_segments = params[:controller].split('/')
     controller_name = controller_name_segments.join('/').camelize
-    @current_ability ||= Ability.new(current_user, params, controller_name)
+    @current_ability ||= case current_user.role.name
+                         when 'SUPER_ADMIN'
+                           Abilities::SuperAdminAbility.new
+                         when 'ADMIN'
+                           Abilities::AdminAbility.new user: current_user,
+                                                       params: params
+                         when 'KITCHEN'
+                           Abilities::KitchenAbility.new user: current_user,
+                                                         params: params,
+                                                         controller_name: controller_name
+                         when 'WAITER'
+                           Abilities::WaiterAbility.new user: current_user
+                         when 'CASH_REGISTER'
+                           Abilities::CashRegisterAbility.new user: current_user,
+                                                         params: params,
+                                                         controller_name: controller_name
+                         when 'CUSTOMER'
+                           Abilities::CustomerAbility.new user: current_user
+                         else
+                           Abilities::BaseAbility.new
+                         end
   end
 end

@@ -4,10 +4,10 @@ FactoryBot.define do
   factory :wine do
     name { Faker::Beer.unique.name }
     quantity_stock { 20 }
-    image { 'MyString' }
+    image { Faker::LoremPixel.image }
     abv { 30 }
     price { 10 }
-    description { 'MyText' }
+    description { Faker::Lorem.paragraph }
     vintage_wine { 2010 }
     visual { 'MyString' }
     ripening { 'Ripening' }
