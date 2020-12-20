@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :wine do
-    name { Faker::Beer.unique.name }
+    name { Faker::Beer.name }
     quantity_stock { 20 }
     image { Faker::LoremPixel.image }
     abv { 30 }

@@ -5,8 +5,7 @@ module Abilities
 
     def initialize(user:, params:)
       super()
-      can :create, User
-      can %i[read update destroy], User, organization_id: user.organization_id
+      can :manage, User, organization_id: user.organization_id
       can :read, Theme, organization_id: user.organization_id
       can :update, Theme, organization: { user_id: user.id }
       can :read, Organization, id: user.organization_id

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::WaiterAbility do
+RSpec.describe Abilities::WaiterAbility, type: :ability do
   describe "abilities" do
     before :all do
       @user = create :user_waiter

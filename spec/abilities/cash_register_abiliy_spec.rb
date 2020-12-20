@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::CashRegisterAbility do
+RSpec.describe Abilities::CashRegisterAbility, type: :ability do
   describe "abilities" do
     before :all do
       @user = create :user_cash_register

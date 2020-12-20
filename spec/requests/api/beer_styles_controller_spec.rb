@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::BeerStylesController, type: :request do
-  before :all do
+  before :each do
     @organization = create :organization
     @super_admin = create :user_super_admin
     @admin = @organization.user

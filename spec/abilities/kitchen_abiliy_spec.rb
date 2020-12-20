@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::KitchenAbility do
+RSpec.describe Abilities::KitchenAbility, type: :ability do
   describe "abilities" do
     before :all do
       @user = create :user_kitchen

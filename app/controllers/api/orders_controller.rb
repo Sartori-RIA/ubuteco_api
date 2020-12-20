@@ -6,8 +6,8 @@ module Api
 
     def index
       @orders = Order.where(
-          user: current_user,
-          created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+        user: current_user,
+        created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
       )
       paginate json: @orders, include: [:table]
     end
@@ -22,7 +22,7 @@ module Api
     end
 
     def create
-      @order = Order.new(order_params)
+      @order = Order.new(create_params)
 
       if @order.save
         render json: @order, status: :created
@@ -32,7 +32,7 @@ module Api
     end
 
     def update
-      if @order.update(order_params)
+      if @order.update(update_params)
         render json: @order
       else
         render json: @order.errors, status: :unprocessable_entity
@@ -45,7 +45,7 @@ module Api
 
     private
 
-    def order_params
+    def create_params
       params.permit(:total,
                     :total_with_discount,
                     :status,
@@ -54,6 +54,16 @@ module Api
                     :user_id,
                     :organization,
                     :organization_id,
+                    :table_id)
+    end
+
+    def update_params
+      params.permit(:total,
+                    :total_with_discount,
+                    :status,
+                    :discount,
+                    :user,
+                    :user_id,
                     :table_id)
     end
   end

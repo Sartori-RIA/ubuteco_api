@@ -10,11 +10,11 @@ module Api
       end
 
       def create
-        if OrderItem.already_exists_in_order(order_item_params)
-          @item = OrderItem.find_by(item_id: order_item_params[:item_id])
+        if OrderItem.already_exists_in_order(create_params)
+          @item = OrderItem.find_by(item_id: create_params[:item_id])
           update
         else
-          @item = OrderItem.new(order_item_params)
+          @item = OrderItem.new(create_params)
           if @item.save
             render json: @item, status: :created
           else
@@ -24,7 +24,7 @@ module Api
       end
 
       def update
-        attributes = order_item_params
+        attributes = update_params
         attributes[:quantity] = @item.quantity + attributes[:quantity]
         if @item.update(attributes)
           render json: @item
@@ -44,8 +44,12 @@ module Api
 
       private
 
-      def order_item_params
+      def create_params
         params.permit(:item_type, :item_id, :quantity, :order_id)
+      end
+
+      def update_params
+        params.permit(:item_type, :item_id, :quantity)
       end
 
       def already_exists_in_order(attributes)

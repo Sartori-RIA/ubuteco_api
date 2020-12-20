@@ -6,7 +6,7 @@ FactoryBot.define do
     sequence(:email) { |n| "admin#{n}@email.com" }
     avatar { Faker::LoremPixel.image }
     password { 'password' }
-
+    role
     factory :user_with_organization do
       association :organization, factory: :organization
     end

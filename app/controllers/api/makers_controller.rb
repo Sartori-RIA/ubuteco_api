@@ -18,7 +18,7 @@ module Api
     end
 
     def create
-      @maker = Maker.new(maker_params)
+      @maker = Maker.new(create_params)
 
       if @maker.save
         render json: @maker, status: :created
@@ -28,7 +28,7 @@ module Api
     end
 
     def update
-      if @maker.update(maker_params)
+      if @maker.update(update_params)
         render json: @maker
       else
         render json: @maker.errors, status: :unprocessable_entity
@@ -41,8 +41,12 @@ module Api
 
     private
 
-    def maker_params
-      params.permit(:name, :country).merge(organization_id: current_user.organization_id)
+    def create_params
+      update_params.merge(organization_id: current_user.organization_id)
+    end
+
+    def update_params
+      params.permit(:name, :country)
     end
   end
 end

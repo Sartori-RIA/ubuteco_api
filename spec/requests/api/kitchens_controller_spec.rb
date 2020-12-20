@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::KitchensController, type: :request do
-  before :all do
+  before :each do
     @organization = create :organization
     @admin = @organization.user
     @admin.update(organization: @organization)

@@ -3,11 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::DrinksController, type: :request do
-  before :all do
+  before :each do
     @organization = create :organization
     @admin = @organization.user
     @admin.update(organization: @organization)
-    @drinks =  create_list :drink, 10, organization: @organization
+    @makers = create_list :maker, 10
+    @drinks =  create_list :drink, 10, organization: @organization, maker: @makers.sample
+
   end
 
   describe '#GET /api/drinks' do

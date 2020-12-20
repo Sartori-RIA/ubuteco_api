@@ -13,7 +13,7 @@ module Api
     end
 
     def create
-      @wine_style = WineStyle.new(wine_style_params)
+      @wine_style = WineStyle.new(create_params)
 
       if @wine_style.save
         render json: @wine_style, status: :created
@@ -23,7 +23,7 @@ module Api
     end
 
     def update
-      if @wine_style.update(wine_style_params)
+      if @wine_style.update(update_params)
         render json: @wine_style
       else
         render json: @wine_style.errors, status: :unprocessable_entity
@@ -36,7 +36,11 @@ module Api
 
     private
 
-    def wine_style_params
+    def create_params
+      params.permit(:name)
+    end
+
+    def update_params
       params.permit(:name)
     end
   end

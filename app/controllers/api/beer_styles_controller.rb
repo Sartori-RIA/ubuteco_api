@@ -13,7 +13,7 @@ module Api
     end
 
     def create
-      @beer_style = BeerStyle.new(beer_style_params)
+      @beer_style = BeerStyle.new(create_params)
 
       if @beer_style.save
         render json: @beer_style, status: :created
@@ -23,7 +23,7 @@ module Api
     end
 
     def update
-      if @beer_style.update(beer_style_params)
+      if @beer_style.update(update_params)
         render json: @beer_style
       else
         render json: @beer_style.errors, status: :unprocessable_entity
@@ -36,7 +36,11 @@ module Api
 
     private
 
-    def beer_style_params
+    def create_params
+      update_params
+    end
+
+    def update_params
       params.permit(:name)
     end
   end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::DishesController, type: :request do
 
-  before :all do
+  before :each do
     @organization = create :organization
     @admin = @organization.user
     @admin.update(organization: @organization)
@@ -34,12 +34,12 @@ RSpec.describe Api::DishesController, type: :request do
 
   describe '#POST /api/dishes' do
     it 'should create a dish' do
-      attributes = attributes_for(:dish).except(:user)
+      attributes = attributes_for(:dish).except(:organization)
       post api_dishes_path, params: attributes.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
-      post api_dishes_path, headers: auth_header(user)
+      post api_dishes_path, headers: auth_header(@admin)
       expect(response).to have_http_status(422)
     end
   end

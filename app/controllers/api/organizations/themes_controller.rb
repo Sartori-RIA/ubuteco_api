@@ -14,7 +14,7 @@ module Api
       end
 
       def update
-        if @theme.update(theme_params)
+        if @theme.update(update_params)
           render json: @theme
         else
           render json: @theme.errors, status: :unprocessable_entity
@@ -23,7 +23,7 @@ module Api
 
       private
 
-      def theme_params
+      def update_params
         params.permit(:id,
                       :color_header,
                       :color_sidebar,

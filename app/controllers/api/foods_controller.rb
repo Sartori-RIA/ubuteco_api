@@ -18,7 +18,7 @@ module Api
     end
 
     def create
-      @foods = Food.new(food_params)
+      @foods = Food.new(create_params)
 
       if @foods.save
         render json: @foods, status: :created
@@ -28,7 +28,7 @@ module Api
     end
 
     def update
-      if @food.update(food_params)
+      if @food.update(update_params)
         render json: @food
       else
         render json: @food.errors, status: :unprocessable_entity
@@ -41,12 +41,18 @@ module Api
 
     private
 
-    def food_params
-      params.permit(:name,
-                    :price,
-                    :quantity_stock,
-                    :image,
-                    :valid_until).merge(organization_id: current_user.organization_id)
+    def create_params
+      update_params.merge(organization_id: current_user.organization_id)
+    end
+
+    def update_params
+      params.permit(
+        :name,
+        :price,
+        :quantity_stock,
+        :image,
+        :valid_until
+      )
     end
   end
 end

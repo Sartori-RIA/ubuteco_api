@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::AdminAbility do
+RSpec.describe Abilities::AdminAbility, type: :ability do
   describe "abilities" do
 
     before :all do

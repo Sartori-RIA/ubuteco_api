@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :request do
-  before :all do
-    @super_admin = create :user_super_admin
+  before :each do
     @organization = create :organization
     @admin = @organization.user
+    @roles = create_list :role, 5
     @admin.update(organization: @organization)
   end
 
@@ -24,20 +24,15 @@ RSpec.describe Api::UsersController, type: :request do
 
  describe '#POST /api/users' do
     it 'should create user' do
-      attributes = attributes_for(:user)
-      puts "batman"
-      puts attributes
+      attributes = attributes_for(:user).merge(
+        role_id: @roles.sample.id
+      )
       post api_users_path, params: attributes.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(201)
     end
    it 'should throw error with invalid params' do
       post api_users_path, params: {}, headers: auth_header(@admin)
       expect(response).to have_http_status(422)
-    end
-    it 'should throw error forbidden status' do
-      attributes = attributes_for(:user)
-      post api_users_path, params: attributes.to_json, headers: auth_header(@admin)
-      expect(response).to have_http_status(403)
     end
   end
 

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :maker do
-    name { Faker::Company.unique.name }
+    name { Faker::Company.name }
     country { Faker::Address.country }
     organization
   end

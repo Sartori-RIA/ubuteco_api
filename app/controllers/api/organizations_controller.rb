@@ -11,7 +11,7 @@ module Api
     end
 
     def create
-      @organization = Organization.new(organization_params)
+      @organization = Organization.new(create_params)
 
       if @organization.save
         render json: @organization, status: :created, location: @organization
@@ -21,7 +21,7 @@ module Api
     end
 
     def update
-      if @organization.update(organization_params)
+      if @organization.update(update_params)
         render json: @organization
       else
         render json: @organization.errors, status: :unprocessable_entity
@@ -34,8 +34,12 @@ module Api
 
     private
 
-    def organization_params
+    def create_params
       params.permit(:name, :cnpj, :phone, :user_id, :logo)
+    end
+
+    def update_params
+      params.permit(:name, :phone, :user_id, :logo)
     end
   end
 end

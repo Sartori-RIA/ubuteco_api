@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::BaseAbility do
+RSpec.describe Abilities::BaseAbility, type: :ability do
   describe "abilities" do
 
     subject { Abilities::BaseAbility.new }

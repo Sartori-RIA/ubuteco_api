@@ -12,7 +12,7 @@ module Api
     end
 
     def update
-      if @dish.update(kitchen_params)
+      if @dish.update(update_params)
         render json: format_dish_to_make(@dish)
       else
         render json: @dish.errors, status: :unprocessable_entity
@@ -21,7 +21,7 @@ module Api
 
     protected
 
-    def kitchen_params
+    def update_params
       params.permit(:id, :status)
     end
   end

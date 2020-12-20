@@ -10,12 +10,12 @@ module Api
       end
 
       def create
-        attributes = dish_ingredient_params
+        attributes = create_params
         if DishIngredient.exists?(id: attributes[:id])
           @ingredient = DishIngredient.find_by(id: attributes[:id])
           update
         else
-          @ingredient = DishIngredient.new(dish_ingredient_params)
+          @ingredient = DishIngredient.new(create_params)
           if @ingredient.save
             render json: @ingredient, status: :created
           else
@@ -25,7 +25,7 @@ module Api
       end
 
       def update
-        attributes = dish_ingredient_params
+        attributes = update_params
         attributes[:quantity] = @ingredient.quantity + attributes[:quantity]
         if @ingredient.update(attributes)
           render json: @ingredient
@@ -45,12 +45,20 @@ module Api
 
       protected
 
-      def dish_ingredient_params
+      def create_params
         params.permit(
           :id,
           :quantity,
           :food_id,
           :dish_id
+        )
+      end
+
+      def update_params
+        params.permit(
+          :id,
+          :quantity,
+          :food_id,
         )
       end
     end

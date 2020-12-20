@@ -18,7 +18,7 @@ module Api
     end
 
     def create
-      @drink = Drink.new(drink_params)
+      @drink = Drink.new(create_params)
 
       if @drink.save
         render json: @drink, status: :created
@@ -28,7 +28,7 @@ module Api
     end
 
     def update
-      if @drink.update(drink_params)
+      if @drink.update(update_params)
         render json: @drink
       else
         render json: @drink.errors, status: :unprocessable_entity
@@ -41,15 +41,21 @@ module Api
 
     private
 
-    def drink_params
-      params.permit(:name,
-                    :description,
-                    :image,
-                    :maker_id,
-                    :maker,
-                    :price,
-                    :quantity_stock,
-                    :flavor).merge(organization_id: current_user.organization_id)
+    def create_params
+      update_params.merge(organization_id: current_user.organization_id)
+    end
+
+    def update_params
+      params.permit(
+        :name,
+        :description,
+        :image,
+        :maker_id,
+        :maker,
+        :price,
+        :quantity_stock,
+        :flavor
+      )
     end
   end
 end

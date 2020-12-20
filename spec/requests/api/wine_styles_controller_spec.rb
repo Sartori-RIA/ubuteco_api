@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::WineStylesController, type: :request do
 
-  before :all do
+  before :each do
     @admin = create :user_customer
     @super_admin = create :user_super_admin
     @wine_styles = create_list :wine_style, 10

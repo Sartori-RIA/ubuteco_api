@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::CustomerAbility do
+RSpec.describe Abilities::CustomerAbility, type: :ability do
   describe "abilities" do
     before :all do
       @user = create :user_customer

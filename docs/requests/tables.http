@@ -5,7 +5,8 @@ Authorization: {{token}}
 
 {
   "name": "Mesa 1",
-  "chairs": 12
+  "chairs": 12,
+  "organization_id": 1
 }
 
 ###

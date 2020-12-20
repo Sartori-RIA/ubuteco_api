@@ -18,7 +18,7 @@ module Api
     end
 
     def create
-      @table = Table.new(table_params)
+      @table = Table.new(create_params)
 
       if @table.save
         render json: @table, status: :created
@@ -28,7 +28,7 @@ module Api
     end
 
     def update
-      if @table.update(table_params)
+      if @table.update(update_params)
         render json: @table
       else
         render json: @table.errors, status: :unprocessable_entity
@@ -41,8 +41,12 @@ module Api
 
     private
 
-    def table_params
-      params.permit(:name, :chairs).merge(organization_id: current_user.organization_id)
+    def create_params
+      update_params.merge(organization_id: current_user.organization_id)
+    end
+
+    def update_params
+      params.permit(:name, :chairs)
     end
   end
 end

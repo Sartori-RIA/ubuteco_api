@@ -9,6 +9,8 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'devise/jwt/test_helpers'
 require 'money-rails/test_helpers'
+require "cancan/matchers"
+require 'carrierwave/test/matchers'
 
 require 'support/database_cleaner'
 require 'support/factory_bot'
@@ -16,7 +18,6 @@ require 'support/file_spec_helper'
 require 'support/shoulda'
 require 'support/helpers/headers'
 require 'support/carrier_wave'
-require "cancan/matchers"
 require 'spec_helper'
 
 begin

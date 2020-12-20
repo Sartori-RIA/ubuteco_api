@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::BeersController, type: :request do
-  before :all do
+  before :each do
     @organization = create :organization
     @admin = @organization.user
     @admin.update(organization: @organization)
     @beer_styles = create_list :beer_style, 10
     @makers = create_list :maker, 10, organization: @organization
-    @beers = create_list :beer, 10, organization: @organization
+    @beers = create_list :beer, 10, organization: @organization, beer_style: @beer_styles.sample, maker: @makers.sample
   end
 
   describe '#GET /api/beers' do
@@ -21,7 +21,7 @@ RSpec.describe Api::BeersController, type: :request do
 
   describe '#GET /api/beers/:id' do
     it 'should request beer by id' do
-      get api_beer_path(beers.sample.id), headers: auth_header(@admin)
+      get api_beer_path(@beers.sample.id), headers: auth_header(@admin)
       expect(response).to have_http_status(200)
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe Api::BeersController, type: :request do
   describe '#POST /api/beers' do
     it 'should create a beer' do
       attributes = attributes_for(:beer).merge(
-        maker_id: makers.sample.id,
+        maker_id: @makers.sample.id,
         beer_style_id: @beer_styles.sample.id
       )
       post api_beers_path, params: attributes.to_json, headers: auth_header(@admin)

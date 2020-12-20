@@ -49,8 +49,8 @@ class ApplicationController < ActionController::API
                            Abilities::WaiterAbility.new user: current_user
                          when 'CASH_REGISTER'
                            Abilities::CashRegisterAbility.new user: current_user,
-                                                         params: params,
-                                                         controller_name: controller_name
+                                                              params: params,
+                                                              controller_name: controller_name
                          when 'CUSTOMER'
                            Abilities::CustomerAbility.new user: current_user
                          else

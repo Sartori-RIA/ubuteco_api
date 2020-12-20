@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Abilities::SuperAdminAbility do
+RSpec.describe Abilities::SuperAdminAbility, type: :ability do
   describe "abilities" do
 
     subject { Abilities::SuperAdminAbility.new }

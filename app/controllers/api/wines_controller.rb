@@ -18,7 +18,7 @@ module Api
     end
 
     def create
-      @wine = Wine.new(wine_params)
+      @wine = Wine.new(create_params)
       if @wine.save
         render json: @wine.to_json, status: :created
       else
@@ -27,7 +27,7 @@ module Api
     end
 
     def update
-      if @wine.update(wine_params)
+      if @wine.update(update_params)
         render json: @wine.to_json
       else
         render json: @wine.errors, status: :unprocessable_entity
@@ -40,7 +40,11 @@ module Api
 
     private
 
-    def wine_params
+    def create_params
+      update_params.merge(organization_id: current_user.organization_id)
+    end
+
+    def update_params
       params.permit(:name,
                     :quantity_stock,
                     :image,
@@ -56,7 +60,7 @@ module Api
                     :ripening,
                     :grapes,
                     :wine_style,
-                    :wine_style_id).merge(organization_id: current_user.organization_id)
+                    :wine_style_id)
     end
   end
 end
