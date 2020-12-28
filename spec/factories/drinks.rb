@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :drink do
-    name { Faker::Beer.name }
+    sequence(:name) { |n| "drink_#{n}" }
     quantity_stock { 3 }
     maker
     organization

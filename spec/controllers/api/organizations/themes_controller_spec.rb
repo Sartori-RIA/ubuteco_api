@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Api::Organizations::ThemesController, type: :request do
 
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:theme) { create :theme, organization: organization }
+  let!(:theme) { create(:theme, organization: organization) }
 
   describe '#GET /api/users/:id/themes' do
     it 'should request user theme' do

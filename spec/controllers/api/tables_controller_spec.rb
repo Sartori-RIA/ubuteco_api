@@ -4,12 +4,12 @@ require 'rails_helper'
 
 RSpec.describe Api::TablesController, type: :request do
 
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:tables) { create_list :table, 10, organization: organization }
+  let!(:tables) { create_list(:table, 10, organization: organization) }
 
   describe '#GET /api/tables' do
     it 'should request all tables' do

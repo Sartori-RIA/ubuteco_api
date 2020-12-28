@@ -9,7 +9,7 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
     subject { Abilities::CashRegisterAbility.new(user: @user, params: {}, controller_name: "") }
 
     context "when is an kitchen" do
-      it {is_expected.to be_able_to(:manage, @user)}
+      it { is_expected.to be_able_to(:manage, @user) }
     end
   end
 end

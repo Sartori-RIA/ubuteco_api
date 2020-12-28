@@ -12,8 +12,11 @@ module Api
       def create
         attributes = create_params
         if DishIngredient.exists?(id: attributes[:id])
-          @ingredient = DishIngredient.find_by(id: attributes[:id])
-          update
+          @ingredient = DishIngredient
+                        .update(attributes[:id], {
+                                  quantity: @ingredient.quantity.to_f + attributes[:quantity].to_f
+                                })
+          render json: @ingredient
         else
           @ingredient = DishIngredient.new(create_params)
           if @ingredient.save
@@ -25,9 +28,7 @@ module Api
       end
 
       def update
-        attributes = update_params
-        attributes[:quantity] = @ingredient.quantity + attributes[:quantity]
-        if @ingredient.update(attributes)
+        if @ingredient.update(update_params)
           render json: @ingredient
         else
           render json: @ingredient.errors, status: :unprocessable_entity

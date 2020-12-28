@@ -5,18 +5,18 @@ FactoryBot.define do
     order
     quantity { 2 }
 
-    factory :order_item_drink do
+    trait :with_drink do
       association :item, factory: :drink
     end
 
-    factory :order_item_beer do
+    trait :with_beer do
       association :item, factory: :beer
     end
 
-    factory :order_item_dish do
+    trait :with_dish do
       association :item, factory: :dish
     end
-    factory :order_item_wine do
+    trait :with_wine do
       association :item, factory: :wine
     end
   end

@@ -8,6 +8,6 @@ RSpec.describe WineStyle, type: :model do
   end
 
   describe 'associations' do
-    it {is_expected.to have_many(:wines)}
+    it { is_expected.to have_many(:wines) }
   end
 end

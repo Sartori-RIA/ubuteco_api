@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::OrdersController, type: :request do
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:customer) { create :user_customer }
-  let!(:orders) { create_list :order, 10, organization: organization, user: customer }
+  let!(:customer) { create(:user_customer) }
+  let!(:orders) { create_list(:order, 10, :with_items, organization: organization, user: customer) }
 
   describe '#GET /api/orders' do
     it 'should request all orders' do
@@ -37,7 +37,7 @@ RSpec.describe Api::OrdersController, type: :request do
       attributes = attributes_for(:order).merge(organization_id: organization.id)
       post api_orders_path, params: attributes.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(201)
-      end
+    end
     it 'should throw error with invalid params' do
       attributes = attributes_for(:order)
       post api_orders_path, params: attributes.to_json, headers: auth_header(admin)

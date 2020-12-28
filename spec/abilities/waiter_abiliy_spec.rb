@@ -9,7 +9,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
     subject { Abilities::WaiterAbility.new(user: @user) }
 
     context "when is an admin" do
-      it {is_expected.to be_able_to(:manage, @user)}
+      it { is_expected.to be_able_to(:manage, @user) }
     end
   end
 end

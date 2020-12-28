@@ -4,12 +4,12 @@ require 'rails_helper'
 
 RSpec.describe Api::DishesController, type: :request do
 
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:dishes) { create_list :dish, 10, organization: organization }
+  let!(:dishes) { create_list(:dish, 10, organization: organization) }
 
   describe '#GET /api/dishes' do
     it 'should request all dishes' do

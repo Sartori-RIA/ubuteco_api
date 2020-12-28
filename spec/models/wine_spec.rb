@@ -16,8 +16,8 @@ RSpec.describe Wine, type: :model do
   end
 
   describe 'associations' do
-    it {is_expected.to belong_to(:organization)}
-    it {is_expected.to belong_to(:maker)}
-    it {is_expected.to belong_to(:wine_style)}
+    it { is_expected.to belong_to(:organization) }
+    it { is_expected.to belong_to(:maker) }
+    it { is_expected.to belong_to(:wine_style) }
   end
 end

@@ -28,7 +28,7 @@ RSpec.describe Dish, type: :model do
       context 'with food' do
         subject { dish_json['dish_ingredients'][0] }
 
-        it { is_expected.to include('food')}
+        it { is_expected.to include('food') }
       end
     end
   end

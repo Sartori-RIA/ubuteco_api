@@ -6,7 +6,7 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
     subject { Abilities::SuperAdminAbility.new }
 
     context "when is an admin" do
-      it {is_expected.to be_able_to(:manage, Beer.new)}
+      it { is_expected.to be_able_to(:manage, Beer.new) }
     end
   end
 end

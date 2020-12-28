@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :request do
 
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:roles) { create_list :role, 5 }
+  let!(:roles) { create_list(:role, 5) }
 
   describe '#GET /api/users' do
     it 'should retrieves all user' do

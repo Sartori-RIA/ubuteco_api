@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Api::BeerStylesController, type: :request do
 
-  let!(:super_admin) { create :user_super_admin }
-  let!(:beer_styles) { create_list :beer_style, 10 }
-  let!(:organization) { create :organization }
+  let!(:super_admin) { create(:user_super_admin) }
+  let!(:beer_styles) { create_list(:beer_style, 10) }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user

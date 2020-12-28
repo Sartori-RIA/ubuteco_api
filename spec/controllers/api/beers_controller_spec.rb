@@ -3,14 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe Api::BeersController, type: :request do
-  let!(:organization) { create :organization }
+  let!(:organization) { create(:organization) }
   let!(:admin) do
     organization.user.update(organization: organization)
     organization.user
   end
-  let!(:beer_styles) { create_list :beer_style, 10 }
-  let!(:makers) { create_list :maker, 10, organization: organization }
-  let!(:beers) { create_list :beer, 10, organization: organization, beer_style: beer_styles.sample, maker: makers.sample }
+  let!(:beer_styles) { create_list(:beer_style, 10) }
+  let!(:makers) { create_list(:maker, 10, organization: organization) }
+  let!(:beers) { create_list(:beer, 10,
+                             organization: organization,
+                             beer_style: beer_styles.sample,
+                             maker: makers.sample) }
 
   describe '#GET /api/beers' do
     it 'should request all beers' do

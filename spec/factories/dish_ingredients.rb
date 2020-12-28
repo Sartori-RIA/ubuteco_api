@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :dish_ingredient do
-    quantity { 1 }
+    quantity { 1.0 }
     food
     dish
   end
