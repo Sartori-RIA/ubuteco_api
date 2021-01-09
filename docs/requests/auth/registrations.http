@@ -4,13 +4,6 @@ Content-Type: application/json
 
 {
   "user": {
-    "email": "lucas@email.com",
-    "password": "123123123",
-    "name": "teste"
-  },
-  "organization_attributes": {
-    "name": "cookiecode",
-    "phone": "123123123",
-    "cnpj": "46.691.527/0001-00"
+
   }
 }

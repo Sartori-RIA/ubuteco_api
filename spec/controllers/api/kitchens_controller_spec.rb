@@ -22,7 +22,7 @@ RSpec.describe Api::KitchensController, type: :request do
   describe "#PUT /api/kitchens/:id" do
     let!(:item) { orders.sample.order_items.sample }
     it 'should update order' do
-      put api_kitchen_path(item.id), params: item.to_json, headers: auth_header(kitchen)
+      put api_kitchen_path(id: item.id), params: item.to_json, headers: auth_header(kitchen)
       expect(response).to have_http_status(200)
     end
   end

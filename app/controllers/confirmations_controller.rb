@@ -9,7 +9,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if resource.errors.empty?
-      render json: resource, include: [:theme]
+      render json: resource, include: [organization: { include: [:theme] }]
     else
       respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
     end

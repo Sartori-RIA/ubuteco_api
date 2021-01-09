@@ -12,7 +12,8 @@ module Abilities
       can %i[read search], Drink, organization_id: user.organization_id
       can %i[read search], Food, organization_id: user.organization_id
       can %i[read search], Maker, organization_id: user.organization_id
-      can %i[read search], Order, organization_id: user.organization_id
+      can %i[manage search], Order, organization_id: user.organization_id
+      can %i[manage search], OrderItem, order: { organization_id: user.organization_id }
     end
   end
 end

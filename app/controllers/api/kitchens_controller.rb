@@ -2,7 +2,7 @@
 
 module Api
   class KitchensController < ApplicationController
-    load_and_authorize_resource
+    load_and_authorize_resource class: OrderItem
 
     include KitchensHelper
 
@@ -12,10 +12,10 @@ module Api
     end
 
     def update
-      if @dish.update(update_params)
-        render json: format_dish_to_make(@dish)
+      if @kitchen.update(update_params)
+        render json: format_dish_to_make(@kitchen)
       else
-        render json: @dish.errors, status: :unprocessable_entity
+        render json: @kitchen.errors, status: :unprocessable_entity
       end
     end
 

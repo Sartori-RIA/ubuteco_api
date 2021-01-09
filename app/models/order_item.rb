@@ -21,9 +21,8 @@ class OrderItem < ApplicationRecord
   def message(action)
     msg = {
       obj: format_dish_to_make(self),
-      action: action,
-      room: order.user.email
+      action: action
     }
-    $redis.publish 'kitchen', msg.to_json
+    ActionCable.server.broadcast("kitchens_#{order.organization.cnpj}", msg.to_json)
   end
 end

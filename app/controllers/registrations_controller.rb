@@ -23,19 +23,25 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def sign_up_params
-    params.permit(
-      user: %i[name password email avatar],
-      organization_attributes: %i[cnpj logo name phone]
-    )
+    params.permit(user: %i[name password email avatar])
+  end
+
+  def organization_params
+    params.permit(organization_attributes: %i[cnpj logo name phone])
   end
 
   def user_attributes
-    @attributes = sign_up_params[:user]
-    @attributes[:role] = if sign_up_params[:organization_attributes].present?
-                           Role.find_by!(name: 'ADMIN')
-                         else
-                           Role.find_by!(name: 'CUSTOMER')
-                         end
+    if sign_up_params[:user].present?
+      @attributes = sign_up_params[:user]
+      @attributes[:role] =
+        if sign_up_params[:organization_attributes].present?
+          Role.find_by!(name: 'ADMIN')
+        else
+          Role.find_by!(name: 'CUSTOMER')
+        end
+    else
+      render status: :unprocessable_entity
+    end
   end
 
   def build_organization(user)

@@ -3,7 +3,8 @@
 class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
 
-  rescue_from CanCan::AccessDenied do |_exception|
+  rescue_from CanCan::AccessDenied do |exception|
+    Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
     render status: :forbidden
   end
 

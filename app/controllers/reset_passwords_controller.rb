@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ResetPasswordsController < ApplicationController
-  before_action :authenticate_user!
+  authorize_resource class: User
 
   def update
     if current_user.update(reset_params)
-      render json: current_user, include: [:theme]
+      render json: current_user, include: [organization: { include: [:theme] }]
     else
       render json: current_user.errors, status: :unprocessable_entity
     end

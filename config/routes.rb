@@ -74,5 +74,6 @@ Rails.application.routes.draw do
         get 'search' => 'wines#search'
       end
     end
+    mount ActionCable.server => '/cable'
   end
 end
