@@ -1,5 +1,6 @@
-class KitchenChannel < ApplicationCable::Channel
+# frozen_string_literal: true
 
+class KitchenChannel < ApplicationCable::Channel
   def subscribed
     stream_from "kitchens_#{current_user.organization.cnpj}"
   end

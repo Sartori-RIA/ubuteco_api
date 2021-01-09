@@ -30,12 +30,7 @@ class Order < ApplicationRecord
     return unless status == 'payed'
 
     order_items.each do |item|
-      case item.item_type
-      when 'Dish'
-        puts 'é comida'
-      else
-        item.item.update(quantity_stock: item.item.quantity_stock - item.quantity)
-      end
+      item.item.update(quantity_stock: item.item.quantity_stock - item.quantity) unless item.item_type == 'Dish'
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OrdersHelper
   def already_exists_in_order?(attributes)
     OrderItem.exists?(item_id: attributes[:item_id],
