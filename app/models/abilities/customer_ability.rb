@@ -10,12 +10,15 @@ module Abilities
       can %i[read search], Drink
       can %i[read search], Food
       can %i[read search], Maker
-      can %i[manage search], Order, user_id: user.id
-      can %i[manage search], OrderItem, order: { user_id: user.id }
       can %i[read search], Table
       can %i[read search], Wine
-      cannot %i[create update destroy], Order, status: :payed
-      cannot %i[create update destroy], OrderItem, order: { status: :payed }
+
+      can %i[read search], Order, user_id: user.id
+      can %i[read search], OrderItem, order: { user_id: user.id }
+      can %i[manage search], Order, user_id: user.id, status: :open
+      can %i[manage search], OrderItem, order: { user_id: user.id, status: :open }
+      cannot %i[create update destroy], Order, status: :open, user_id: user.id
+      cannot %i[create update destroy], OrderItem, order: { status: :open, user_id: user.id }
     end
   end
 end

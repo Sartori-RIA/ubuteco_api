@@ -10,6 +10,9 @@ module Abilities
         id: params[:order_id],
         organization_id: user.organization_id
       }
+      can %i[read search], Dish, organization_id: user.organization_id
+      can %i[read search], Beer, organization_id: user.organization_id
+      can %i[read search], Wine, organization_id: user.organization_id
       can %i[read search], Drink, organization_id: user.organization_id
       can %i[read search], Food, organization_id: user.organization_id
       cannot %i[update destroy], Order, organization_id: user.organization_id, status: 'payed'
