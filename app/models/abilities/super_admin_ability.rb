@@ -2,7 +2,7 @@
 
 module Abilities
   class SuperAdminAbility < Abilities::BaseAbility
-    def initialize
+    def initialize(user:)
       super()
       can %i[manage search], Beer
       can %i[manage search], BeerStyle
@@ -16,7 +16,8 @@ module Abilities
       can %i[manage search], Organization
       can %i[manage search], Role
       can %i[manage search], Table
-      can %i[manage search], Theme
+      can :read, Theme, organization_id: user.organization_id
+      can :update, Theme, organization: { user_id: user.id }
       can %i[manage search], User
       can %i[manage search], Wine
       can %i[manage search], WineStyle

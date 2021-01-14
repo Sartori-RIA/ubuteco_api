@@ -2,7 +2,7 @@
 
 module Abilities
   class KitchenAbility < Abilities::BaseAbility
-    def initialize(user:, params:, controller_name:)
+    def initialize(user:, controller_name:)
       super()
       can :manage, User, id: user.id
       return unless controller_name == 'Api::Kitchens'

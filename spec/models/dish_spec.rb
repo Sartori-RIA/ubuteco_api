@@ -14,22 +14,22 @@ RSpec.describe Dish, type: :model do
     it { is_expected.to belong_to(:organization) }
   end
 
-  xdescribe '#to_json' do
-    let!(:dish_json) do
-      dish = create(:dish, :with_ingredients)
-      JSON.parse(dish.to_json)
-    end
-
-    context 'when has ingredients' do
-      subject { dish_json }
-
-      it { is_expected.to include('dish_ingredients') }
-
-      context 'with food' do
-        subject { dish_json['dish_ingredients'][0] }
-
-        it { is_expected.to include('food') }
-      end
-    end
-  end
+  #describe '#to_json' do
+  #  let!(:dish_json) do
+  #    dish = create(:dish, :with_ingredients)
+  #    JSON.parse(dish.to_json)
+  #  end
+  #
+  #    context 'when has ingredients' do
+  #    subject { dish_json }
+  #
+  #    it { is_expected.to include('dish_ingredients') }
+  #
+  #    context 'with food' do
+  #      subject { dish_json['dish_ingredients'][0] }
+  #
+  #      it { is_expected.to include('food') }
+  #    end
+  #  end
+  #end
 end
