@@ -6,7 +6,7 @@ database: &database
 mailer: &mailer
   mailer.address: smtp.gmail.com
   mailer.port: '587'
-  mailer.user_name:
+  mailer.user_name: example@email.com
   mailer.password:
   mailer.domain: gmail.com
 
