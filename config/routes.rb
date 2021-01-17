@@ -62,7 +62,10 @@ Rails.application.routes.draw do
         resources :items, except: :show
       end
     end
-    resources :organizations do
+    resources :organizations, except: :create do
+      collection do
+        get 'search' => 'organizations#search'
+      end
       scope module: :organizations do
         resources :themes, except: :delete
       end

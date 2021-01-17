@@ -12,14 +12,9 @@ module Api
       render json: @organization
     end
 
-    def create
-      @organization = Organization.new(create_params)
-
-      if @organization.save
-        render json: @organization, status: :created, location: @organization
-      else
-        render json: @organization.errors, status: :unprocessable_entity
-      end
+    def search
+      @organization = Organization.search params[:q]
+      render json: @organization.order(name: :asc)
     end
 
     def update
@@ -31,14 +26,11 @@ module Api
     end
 
     def destroy
+      @organization.user.destroy
       @organization.destroy
     end
 
     private
-
-    def create_params
-      params.permit(:name, :cnpj, :phone, :user_id, :logo)
-    end
 
     def update_params
       params.permit(:name, :phone, :user_id, :logo)

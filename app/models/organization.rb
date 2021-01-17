@@ -12,7 +12,7 @@ class Organization < ApplicationRecord
   validates_cnpj_format_of :cnpj
 
   belongs_to :user
-  accepts_nested_attributes_for :user, allow_destroy: true
+  accepts_nested_attributes_for :user, allow_destroy: true, limit: 1
 
   has_many :users, dependent: :delete_all
   has_many :beers, dependent: :delete_all
@@ -23,6 +23,11 @@ class Organization < ApplicationRecord
   has_many :dishes, dependent: :delete_all
   has_many :tables, dependent: :delete_all
   has_one :theme, dependent: :delete
+
+  include PgSearch::Model
+
+  pg_search_scope :search,
+                  against: %w[name cnpj]
 
   private
 

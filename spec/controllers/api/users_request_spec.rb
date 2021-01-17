@@ -18,7 +18,7 @@ RSpec.describe Api::UsersController, type: :request do
 
   describe '#GET /api/users/:id' do
     it 'should retrieves user by id' do
-      get api_users_path(admin.id), headers: auth_header(admin)
+      get api_user_path(admin.id), headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end

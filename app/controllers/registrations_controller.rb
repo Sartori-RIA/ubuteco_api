@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource @attributes
     resource.save
     if resource.errors.empty?
-      if sign_up_params[:organization_attributes].nil?
+      if params[:organization_attributes].nil?
         sign_in resource
         render json: resource, include: :role
       else
@@ -45,7 +45,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def build_organization(user)
-    attributes = sign_up_params[:organization_attributes]
+    attributes = organization_params[:organization_attributes]
     attributes[:user_id] = user.id
     @organization = Organization.new(attributes)
     if @organization.save
