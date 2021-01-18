@@ -22,7 +22,10 @@ module Api
     end
 
     def create
-      @order = Order.new(create_params)
+      byebug
+      attr = create_params
+      attr[:organization_id] = current_user.organization_id
+      @order = Order.new(attr)
 
       if @order.save
         render json: @order, status: :created

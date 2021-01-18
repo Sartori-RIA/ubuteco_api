@@ -7,13 +7,18 @@ module Abilities
       can :manage, User, id: user.id
       return unless controller_name == 'Api::Kitchens'
 
+      orders_permissions(user)
+    end
+
+    def orders_permissions(user)
       can :read, OrderItem,
           item_type: 'Dish',
           created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day,
           order: { organization_id: user.organization_id }
       can :update, OrderItem,
           order: {
-            organization_id: user.organization_id
+            organization_id: user.organization_id,
+            status: :open
           }
     end
   end

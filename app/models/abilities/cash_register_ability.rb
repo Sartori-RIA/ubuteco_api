@@ -4,22 +4,30 @@ module Abilities
   class CashRegisterAbility < Abilities::BaseAbility
     def initialize(user:, params:, controller_name:)
       super()
-      can :manage, User, id: user.id
-      can %i[manage search], Order, organization_id: user.organization_id
-      can :manage, OrderItem, order: {
-        id: params[:order_id],
-        organization_id: user.organization_id
-      }
+      can %i[read update], User, id: user.id
+      products_permissions(user)
+      orders_permissions(user, params, controller_name)
+    end
+
+    def products_permissions(user)
       can %i[read search], Dish, organization_id: user.organization_id
       can %i[read search], Beer, organization_id: user.organization_id
       can %i[read search], Wine, organization_id: user.organization_id
       can %i[read search], Drink, organization_id: user.organization_id
       can %i[read search], Food, organization_id: user.organization_id
-      cannot %i[update destroy], Order, organization_id: user.organization_id, status: 'payed'
-      cannot %i[create update destroy], OrderItem, order: {
-        id: params[:order_id],
-        organization_id: user.organization_id, status: 'payed'
-      }
+    end
+
+    def orders_permissions(user, params, controller_name)
+      can :create, Order
+      can :manage, OrderItem,
+          order_id: params[:order_id],
+          order: { organization_id: user.organization_id }
+      can %i[update destroy], Order,
+          organization_id: user.organization_id,
+          status: :open
+      can %i[edit destroy], OrderItem,
+          order_id: params[:order_id],
+          order: { organization_id: user.organization_id, status: :open }
       if controller_name == 'Api::Kitchens'
         can :read, OrderItem,
             item_type: :Dish,

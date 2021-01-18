@@ -52,7 +52,8 @@ class ApplicationController < ActionController::API
                                                               params: params,
                                                               controller_name: controller_name
                          when 'CUSTOMER'
-                           Abilities::CustomerAbility.new user: current_user
+                           Abilities::CustomerAbility.new user: current_user,
+                                                          params: params
                          else
                            Abilities::BaseAbility.new
                          end
