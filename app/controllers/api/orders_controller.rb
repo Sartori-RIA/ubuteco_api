@@ -5,10 +5,6 @@ module Api
     load_and_authorize_resource
 
     def index
-      @orders = Order.where(
-        user: current_user,
-        created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
-      )
       paginate json: @orders, include: [:table]
     end
 
@@ -22,7 +18,6 @@ module Api
     end
 
     def create
-      byebug
       attr = create_params
       attr[:organization_id] = current_user.organization_id
       @order = Order.new(attr)

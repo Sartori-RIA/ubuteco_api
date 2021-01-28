@@ -12,7 +12,7 @@ module Api
 
       def create
         if already_exists_in_order?(create_params)
-          @item = OrderItem.find_by(item_id: create_params[:item_id])
+          @item = OrderItem.find_by(order_id: create_params[:id], item_id: create_params[:item_id])
           update
         else
           @item = OrderItem.new(create_params)
@@ -46,7 +46,7 @@ module Api
       private
 
       def create_params
-        params.permit(:item_type, :item_id, :quantity, :order_id)
+        params.permit(:item_type, :item_id, :quantity, :order_id, :id)
       end
 
       def update_params

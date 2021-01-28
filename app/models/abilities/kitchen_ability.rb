@@ -11,11 +11,11 @@ module Abilities
     end
 
     def orders_permissions(user)
-      can :read, OrderItem,
+      can %i[read], OrderItem,
           item_type: 'Dish',
           created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day,
           order: { organization_id: user.organization_id }
-      can :update, OrderItem,
+      can %i[update], OrderItem,
           order: {
             organization_id: user.organization_id,
             status: :open

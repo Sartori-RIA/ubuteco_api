@@ -2,7 +2,7 @@
 
 module Abilities
   class WaiterAbility < Abilities::BaseAbility
-    def initialize(user:)
+    def initialize(user:, params:)
       super()
       can :manage, User, id: user.id
       products_permissions(user)
@@ -20,16 +20,19 @@ module Abilities
     end
 
     def orders_permissions(user, params)
-      can :create, Order
-      can :manage, OrderItem,
-          order_id: params[:order_id],
-          order: { organization_id: user.organization_id }
+      can %i[create], Order
       can %i[update destroy], Order,
           organization_id: user.organization_id,
           status: :open
-      can %i[edit destroy], OrderItem,
+      can %i[create], OrderItem,
           order_id: params[:order_id],
-          order: { organization_id: user.organization_id, status: :open }
+          order: { organization_id: user.organization_id }
+      can %i[create update destroy], OrderItem,
+          order_id: params[:order_id],
+          order: {
+            organization_id: user.organization_id,
+            status: :open
+          }
     end
   end
 end

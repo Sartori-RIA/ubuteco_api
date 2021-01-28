@@ -38,7 +38,8 @@ class ApplicationController < ActionController::API
     controller_name = controller_name_segments.join('/').camelize
     @current_ability ||= case current_user.role.name
                          when 'SUPER_ADMIN'
-                           Abilities::SuperAdminAbility.new user: current_user
+                           Abilities::SuperAdminAbility.new user: current_user,
+                                                            params: params
                          when 'ADMIN'
                            Abilities::AdminAbility.new user: current_user,
                                                        params: params
@@ -46,7 +47,8 @@ class ApplicationController < ActionController::API
                            Abilities::KitchenAbility.new user: current_user,
                                                          controller_name: controller_name
                          when 'WAITER'
-                           Abilities::WaiterAbility.new user: current_user
+                           Abilities::WaiterAbility.new user: current_user,
+                                                        params: params
                          when 'CASH_REGISTER'
                            Abilities::CashRegisterAbility.new user: current_user,
                                                               params: params,

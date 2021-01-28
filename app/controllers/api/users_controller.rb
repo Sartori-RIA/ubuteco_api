@@ -9,7 +9,7 @@ module Api
     end
 
     def show
-      render json: @user
+      render json: @user, include: %i[organization]
     end
 
     def create
