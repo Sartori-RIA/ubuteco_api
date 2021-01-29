@@ -3,14 +3,28 @@ require 'rails_helper'
 RSpec.describe Abilities::SuperAdminAbility, type: :ability do
   describe "abilities" do
 
-    subject { Abilities::SuperAdminAbility.new user: create(:user), params: {} }
+    let!(:organization) { create(:organization) }
+    let!(:user) do
+      organization.update(user: create(:user_super_admin))
+      organization.user
+    end
+    let!(:order) { create(:order, :open, :with_items, organization: organization) }
+    let!(:table) { create(:table, organization: organization) }
+    let!(:wine) { create(:wine, organization: organization) }
+    let!(:beer) { create(:beer, organization: organization) }
+    let!(:dish) { create(:dish, organization: organization) }
+    let!(:drink) { create(:drink, organization: organization) }
+    let!(:food) { create(:food, organization: organization) }
+    let!(:maker) { create(:maker, organization: organization) }
+
+    subject { Abilities::SuperAdminAbility.new user: user, params: { id: order.id } }
 
     context "when is an super admin" do
       context 'can' do
         it { is_expected.to be_able_to(:manage, Beer.new) }
         it { is_expected.to be_able_to(:manage, Role.new) }
-        it { is_expected.to be_able_to(:read, Theme.new) }
-        it { is_expected.to be_able_to(:update, Theme.new) }
+        it { is_expected.to be_able_to(:read, organization.theme) }
+        it { is_expected.to be_able_to(:update, organization.theme) }
         it { is_expected.to be_able_to(:manage, User.new) }
         it { is_expected.to be_able_to(:manage, Wine.new) }
         it { is_expected.to be_able_to(:manage, WineStyle.new) }
@@ -21,8 +35,16 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
         it { is_expected.to be_able_to(:manage, Food.new) }
         it { is_expected.to be_able_to(:manage, Maker.new) }
         it { is_expected.to be_able_to(:manage, Table.new) }
-        it { is_expected.to be_able_to(:manage, Order.new) }
-        it { is_expected.to be_able_to(:manage, OrderItem.new) }
+        it { is_expected.to be_able_to(:create, order) }
+        it { is_expected.to be_able_to(:read, order) }
+        it { is_expected.to be_able_to(:search, order) }
+        it { is_expected.to be_able_to(:update, order) }
+        it { is_expected.to be_able_to(:destroy, order) }
+        it { is_expected.to be_able_to(:read, order.order_items.sample) }
+        it { is_expected.to be_able_to(:search, order.order_items.sample) }
+        it { is_expected.to be_able_to(:create, order.order_items.sample) }
+        it { is_expected.to be_able_to(:update, order.order_items.sample) }
+        it { is_expected.to be_able_to(:destroy, order.order_items.sample) }
       end
     end
   end

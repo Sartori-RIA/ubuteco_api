@@ -5,10 +5,8 @@ module Abilities
     def initialize(user:, params:)
       super()
       can :manage, User, organization_id: user.organization_id
-      can %i[read], Theme, organization_id: user.organization_id
-      can %i[update], Theme, organization: { user_id: user.id }
-      can %i[read], Organization, id: user.organization_id
-      can :manage, Organization, user_id: user.id
+      can %i[update read], Theme, organization_id: user.organization_id
+      can :manage, Organization, id: user.organization_id
       products_permissions(user)
       orders_permissions(user: user, params: params)
     end
@@ -27,7 +25,7 @@ module Abilities
     end
 
     def orders_permissions(user:, params:)
-      can %i[create], Order
+      can :create, Order
       can %i[read search], Order, organization_id: user.organization_id
       can %i[update destroy], Order, organization_id: user.organization_id, status: :open
       can %i[create read search], OrderItem

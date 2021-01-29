@@ -5,6 +5,7 @@ module Abilities
     def initialize(user:, params:, controller_name:)
       super()
       can %i[read update], User, id: user.id
+      can %i[read search], User, role: { name: 'CUSTOMER' }
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)
     end
@@ -20,6 +21,7 @@ module Abilities
     def orders_permissions(user:, params:, controller_name:)
       can %i[create], Order
       can :manage, OrderItem, order_id: params[:order_id], order: { organization_id: user.organization_id }
+      can %i[read], Order, organization_id: user.organization_id
       can %i[update destroy], Order, organization_id: user.organization_id, status: :open
       can %i[edit destroy], OrderItem, order_id: params[:order_id], order: { organization_id: user.organization_id, status: :open }
       if controller_name == 'Api::Kitchens'

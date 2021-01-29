@@ -6,7 +6,17 @@ FactoryBot.define do
     total_with_discount { 10 }
     discount { 10 }
     organization
+    status { 0 }
 
+    trait :open do
+      status { 0 }
+    end
+    trait :closed do
+      status { 1 }
+    end
+    trait :payed do
+      status { 2 }
+    end
     trait :with_items do
       transient do
         items_count { 5 }

@@ -2,15 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Abilities::CustomerAbility, type: :ability do
   describe "abilities" do
-    before :all do
-      @user = create :user_customer
-    end
 
-    subject { Abilities::CustomerAbility.new(user: @user, params: {}) }
+    let!(:organization) { create(:organization) }
+    let!(:user) { create :user_customer }
+    let!(:order) { create(:order, :with_items, organization: organization, user: user) }
+
+    subject { Abilities::CustomerAbility.new(user: user, params: { order_id: order.id }) }
 
     context "when is an customer" do
       context 'can' do
-        it { is_expected.to be_able_to(:manage, @user) }
+        it { is_expected.to be_able_to(:manage, user) }
         it { is_expected.to be_able_to(:read, Beer.new) }
         it { is_expected.to be_able_to(:search, Beer.new) }
         it { is_expected.to be_able_to(:read, Dish.new) }
@@ -25,8 +26,8 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
         it { is_expected.to be_able_to(:search, Table.new) }
         it { is_expected.to be_able_to(:read, Wine.new) }
         it { is_expected.to be_able_to(:search, Wine.new) }
-        it { is_expected.to be_able_to(:manage, Order.new) }
-        it { is_expected.to be_able_to(:manage, OrderItem.new) }
+        it { is_expected.to be_able_to(:manage, order) }
+        it { is_expected.to be_able_to(:manage, order.order_items.sample) }
       end
     end
   end
