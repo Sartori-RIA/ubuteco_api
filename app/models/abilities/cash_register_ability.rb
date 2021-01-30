@@ -19,13 +19,14 @@ module Abilities
     end
 
     def orders_permissions(user:, params:, controller_name:)
-      can %i[create], Order
-      can :manage, OrderItem, order_id: params[:order_id], order: { organization_id: user.organization_id }
-      can %i[read], Order, organization_id: user.organization_id
+      can :create, Order
+      can %i[read search], Order, organization_id: user.organization_id
       can %i[update destroy], Order, organization_id: user.organization_id, status: :open
-      can %i[edit destroy], OrderItem, order_id: params[:order_id], order: { organization_id: user.organization_id, status: :open }
+      can %i[read search], OrderItem, order: { id: params[:order_id], organization_id: user.organization_id }
+      can :create, OrderItem, order: { organization_id: user.organization_id, status: :open }
+      can %i[update destroy], OrderItem, order: { id: params[:order_id], organization_id: user.organization_id, status: :open }
       if controller_name == 'Api::Kitchens'
-        can %i[read], OrderItem,
+        can :read, OrderItem,
             item_type: :Dish,
             created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day,
             order: {

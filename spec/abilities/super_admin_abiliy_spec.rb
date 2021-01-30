@@ -5,7 +5,7 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
 
     let!(:organization) { create(:organization) }
     let!(:user) do
-      organization.update(user: create(:user_super_admin))
+      organization.update(user: create(:user_super_admin, organization: organization))
       organization.user
     end
     let!(:order) { create(:order, :open, :with_items, organization: organization) }

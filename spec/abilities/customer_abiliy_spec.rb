@@ -26,8 +26,16 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
         it { is_expected.to be_able_to(:search, Table.new) }
         it { is_expected.to be_able_to(:read, Wine.new) }
         it { is_expected.to be_able_to(:search, Wine.new) }
-        it { is_expected.to be_able_to(:manage, order) }
-        it { is_expected.to be_able_to(:manage, order.order_items.sample) }
+        it { is_expected.to be_able_to(:create, order) }
+        it { is_expected.to be_able_to(:read, order) }
+        it { is_expected.to be_able_to(:search, order) }
+        it { is_expected.to be_able_to(:update, order) }
+        it { is_expected.to be_able_to(:destroy, order) }
+        it { is_expected.to be_able_to(:read, order.order_items.sample) }
+        it { is_expected.to be_able_to(:update, order.order_items.sample) }
+        it { is_expected.to be_able_to(:create, order.order_items.sample) }
+        it { is_expected.to be_able_to(:edit, order.order_items.sample) }
+        it { is_expected.to be_able_to(:destroy, order.order_items.sample) }
       end
     end
   end

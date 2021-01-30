@@ -20,19 +20,11 @@ module Abilities
     end
 
     def orders_permissions(user, params)
-      can %i[create], Order
-      can %i[update destroy], Order,
-          organization_id: user.organization_id,
-          status: :open
-      can %i[create], OrderItem,
-          order_id: params[:order_id],
-          order: { organization_id: user.organization_id }
-      can %i[create update destroy], OrderItem,
-          order_id: params[:order_id],
-          order: {
-            organization_id: user.organization_id,
-            status: :open
-          }
+      can :create, Order
+      can %i[read search], Order, organization_id: user.organization_id
+      can %i[update destroy], Order, organization_id: user.organization_id, status: :open
+      can %i[read search], OrderItem, order: { id: params[:order_id], organization_id: user.organization_id }
+      can %i[create update destroy], OrderItem, order: { organization_id: user.organization_id, status: :open }
     end
   end
 end

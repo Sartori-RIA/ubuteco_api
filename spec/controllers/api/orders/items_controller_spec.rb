@@ -5,18 +5,13 @@ require 'rails_helper'
 RSpec.describe Api::Orders::ItemsController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
   let!(:waiter) { create(:user_waiter, organization: organization) }
-  let!(:customer) { create(:user_customer) }
+  let!(:orders) { create_list(:order, 10, :with_items, :open, organization: organization) }
   let!(:maker) { create(:maker, organization: organization) }
   let!(:dishes) { create_list(:dish, 10, organization: organization) }
   let!(:wines) { create_list(:wine, 10, organization: organization, maker: maker) }
   let!(:beers) { create_list(:beer, 10, organization: organization, maker: maker) }
   let!(:drinks) { create_list(:drink, 10, organization: organization, maker: maker) }
-  let!(:orders) { create_list(:order, 10, :with_items, organization: organization, user: customer) }
 
   describe '#GET /api/orders/:order_id/items' do
     it 'should request all order items' do
@@ -31,7 +26,6 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_id: drinks.sample.id,
         item_type: 'Drink',
-        order_id: order.id,
         quantity: 10
       )
       post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
@@ -41,7 +35,6 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_type: 'Beer',
         item_id: beers.sample.id,
-        order_id: order.id,
         quantity: 10
       )
       post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
@@ -51,7 +44,6 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_type: 'Wine',
         item_id: wines.sample.id,
-        order_id: order.id,
         quantity: 10
       )
       post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
@@ -61,7 +53,6 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_id: dishes.sample.id,
         item_type: 'Dish',
-        order_id: order.id,
         quantity: 10
       )
       post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)

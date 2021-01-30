@@ -29,7 +29,7 @@ module Abilities
       can :create, Order
       can %i[read search], Order
       can %i[update destroy], Order, status: :open
-      can %i[read search], OrderItem, order: { id: params[:id] }
+      can %i[read search], OrderItem, order_id: params[:id]
       can %i[create update destroy], OrderItem, order: { id: params[:id], status: :open }
     end
   end
