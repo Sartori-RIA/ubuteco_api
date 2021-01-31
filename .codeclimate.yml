@@ -1,4 +1,4 @@
-version: "2"
+version: "2"         # required to adjust maintainability checks
 
 checks:
   argument-count:
@@ -35,6 +35,7 @@ checks:
 plugins:
   rubocop:
     enabled: true
+    channel: rubocop-0-73
     config:
       file: ".rubocop.yml"
   brakeman:

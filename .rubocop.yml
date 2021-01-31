@@ -16,10 +16,10 @@ AllCops:
     - 'config/environments/*'
     - 'lib/tasks/populate.rake'
     - 'config/routes.rb'
-    - 'spec/*/*/*/*'
-    - 'spec/*/*/*'
-    - 'spec/*/*'
     - 'spec/*'
+    - 'spec/*/*'
+    - 'spec/*/*/*'
+    - 'spec/*/*/*/*'
 
 Style/Documentation:
   Enabled: false
