@@ -12,7 +12,6 @@ module Abilities
     end
 
     def organization_order(user:, params:)
-      byebug
       can :create, Order
       can :read, Order, organization_id: user.organization_id
       can %i[update destroy], Order, organization_id: user.organization_id, status: :open
