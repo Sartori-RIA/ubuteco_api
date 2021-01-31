@@ -6,8 +6,32 @@ module Abilities
     include CanCan::Ability
 
     def initialize
-      can %i[read search], BeerStyle
-      can %i[read search], WineStyle
+      alias_action :index, :show, :search, to: :read
+      can :read, BeerStyle
+      can :read, WineStyle
+    end
+
+    def organization_order(user:, params:)
+      byebug
+      can :create, Order
+      can :read, Order, organization_id: user.organization_id
+      can %i[update destroy], Order, organization_id: user.organization_id, status: :open
+      can :read, OrderItem, order: { id: params[:order_id], organization_id: user.organization_id }
+      can %i[create update destroy], OrderItem, order: { organization_id: user.organization_id, status: :open }
+    end
+
+    def kitchens_namespace(controller_name:, user:)
+      return unless controller_name == 'Api::Kitchens'
+
+      can :read, OrderItem,
+          item_type: 'Dish',
+          created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day,
+          order: { organization_id: user.organization_id }
+      can :update, OrderItem,
+          order: {
+            organization_id: user.organization_id,
+            status: :open
+          }
     end
   end
 end

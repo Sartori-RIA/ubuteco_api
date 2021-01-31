@@ -33,12 +33,7 @@ class RegistrationsController < Devise::RegistrationsController
   def user_attributes
     if sign_up_params[:user].present?
       @attributes = sign_up_params[:user]
-      @attributes[:role] =
-        if sign_up_params[:organization_attributes].present?
-          Role.find_by!(name: 'ADMIN')
-        else
-          Role.find_by!(name: 'CUSTOMER')
-        end
+      @attributes[:role] = params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER')
     else
       render status: :unprocessable_entity
     end

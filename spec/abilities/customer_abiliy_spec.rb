@@ -13,22 +13,14 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
       context 'can' do
         it { is_expected.to be_able_to(:manage, user) }
         it { is_expected.to be_able_to(:read, Beer.new) }
-        it { is_expected.to be_able_to(:search, Beer.new) }
         it { is_expected.to be_able_to(:read, Dish.new) }
-        it { is_expected.to be_able_to(:search, Dish.new) }
         it { is_expected.to be_able_to(:read, Drink.new) }
-        it { is_expected.to be_able_to(:search, Drink.new) }
         it { is_expected.to be_able_to(:read, Food.new) }
-        it { is_expected.to be_able_to(:search, Food.new) }
         it { is_expected.to be_able_to(:read, Maker.new) }
-        it { is_expected.to be_able_to(:search, Maker.new) }
         it { is_expected.to be_able_to(:read, Table.new) }
-        it { is_expected.to be_able_to(:search, Table.new) }
         it { is_expected.to be_able_to(:read, Wine.new) }
-        it { is_expected.to be_able_to(:search, Wine.new) }
         it { is_expected.to be_able_to(:create, order) }
         it { is_expected.to be_able_to(:read, order) }
-        it { is_expected.to be_able_to(:search, order) }
         it { is_expected.to be_able_to(:update, order) }
         it { is_expected.to be_able_to(:destroy, order) }
         it { is_expected.to be_able_to(:read, order.order_items.sample) }

@@ -17,32 +17,23 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
     let!(:food) { create(:food, organization: organization) }
     let!(:maker) { create(:maker, organization: organization) }
 
-    subject { Abilities::WaiterAbility.new(user: waiter, params: { order_id: order.id }) }
+    subject { Abilities::WaiterAbility.new(user: waiter, params: { order_id: order.id }, controller_name: 'Api::Kitchens') }
 
     context "when is an waiter" do
       context 'can' do
         it { is_expected.to be_able_to(:manage, waiter) }
         it { is_expected.to be_able_to(:read, table) }
-        it { is_expected.to be_able_to(:search, table) }
         it { is_expected.to be_able_to(:read, wine) }
-        it { is_expected.to be_able_to(:search, wine) }
         it { is_expected.to be_able_to(:read, beer) }
-        it { is_expected.to be_able_to(:search, beer) }
         it { is_expected.to be_able_to(:read, dish) }
-        it { is_expected.to be_able_to(:search, dish) }
         it { is_expected.to be_able_to(:read, drink) }
-        it { is_expected.to be_able_to(:search, drink) }
         it { is_expected.to be_able_to(:read, food) }
-        it { is_expected.to be_able_to(:search, food) }
         it { is_expected.to be_able_to(:read, maker) }
-        it { is_expected.to be_able_to(:search, maker) }
         it { is_expected.to be_able_to(:create, order) }
         it { is_expected.to be_able_to(:read, order) }
-        it { is_expected.to be_able_to(:search, order) }
         it { is_expected.to be_able_to(:update, order) }
         it { is_expected.to be_able_to(:destroy, order) }
         it { is_expected.to be_able_to(:read, order.order_items.sample) }
-        it { is_expected.to be_able_to(:search, order.order_items.sample) }
         it { is_expected.to be_able_to(:create, order.order_items.sample) }
         it { is_expected.to be_able_to(:update, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }

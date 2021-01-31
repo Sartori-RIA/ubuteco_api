@@ -19,7 +19,7 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
     let!(:user) { create(:user, organization: organization) }
     let!(:dish_ingredient) { create(:dish_ingredient, food: food, dish: dish) }
 
-    subject { Abilities::AdminAbility.new(user: admin, params: { id: order.id }) }
+    subject { Abilities::AdminAbility.new(user: admin, params: { order_id: order.id },  controller_name: 'Api::Kitchens') }
 
     context "when is an admin" do
       context 'can' do
@@ -38,11 +38,9 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
         it { is_expected.to be_able_to(:manage, wine) }
         it { is_expected.to be_able_to(:create, order) }
         it { is_expected.to be_able_to(:read, order) }
-        it { is_expected.to be_able_to(:search, order) }
         it { is_expected.to be_able_to(:update, order) }
         it { is_expected.to be_able_to(:destroy, order) }
         it { is_expected.to be_able_to(:read, order.order_items.sample) }
-        it { is_expected.to be_able_to(:search, order.order_items.sample) }
         it { is_expected.to be_able_to(:create, order.order_items.sample) }
         it { is_expected.to be_able_to(:update, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }

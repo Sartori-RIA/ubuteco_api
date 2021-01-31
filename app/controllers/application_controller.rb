@@ -36,28 +36,25 @@ class ApplicationController < ActionController::API
   def current_ability
     controller_name_segments = params[:controller].split('/')
     controller_name = controller_name_segments.join('/').camelize
-    @current_ability ||= case current_user.role.name
-                         when 'SUPER_ADMIN'
-                           Abilities::SuperAdminAbility.new user: current_user,
-                                                            params: params
-                         when 'ADMIN'
-                           Abilities::AdminAbility.new user: current_user,
-                                                       params: params
-                         when 'KITCHEN'
-                           Abilities::KitchenAbility.new user: current_user,
-                                                         controller_name: controller_name
-                         when 'WAITER'
-                           Abilities::WaiterAbility.new user: current_user,
-                                                        params: params
-                         when 'CASH_REGISTER'
-                           Abilities::CashRegisterAbility.new user: current_user,
-                                                              params: params,
-                                                              controller_name: controller_name
-                         when 'CUSTOMER'
-                           Abilities::CustomerAbility.new user: current_user,
-                                                          params: params
-                         else
-                           Abilities::BaseAbility.new
-                         end
+    @current_ability ||= load_permissions(params: params, controller_name: controller_name)
+  end
+
+  def load_permissions(params:, controller_name:)
+    case current_user.role.name
+    when 'SUPER_ADMIN'
+      Abilities::SuperAdminAbility.new user: current_user, params: params
+    when 'ADMIN'
+      Abilities::AdminAbility.new user: current_user, params: params, controller_name: controller_name
+    when 'KITCHEN'
+      Abilities::KitchenAbility.new user: current_user, controller_name: controller_name
+    when 'WAITER'
+      Abilities::WaiterAbility.new user: current_user, params: params, controller_name: controller_name
+    when 'CASH_REGISTER'
+      Abilities::CashRegisterAbility.new user: current_user, params: params, controller_name: controller_name
+    when 'CUSTOMER'
+      Abilities::CustomerAbility.new user: current_user, params: params
+    else
+      Abilities::BaseAbility.new
+    end
   end
 end

@@ -22,24 +22,16 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
         it { is_expected.to be_able_to(:read, user) }
         it { is_expected.to be_able_to(:read, customer) }
         it { is_expected.to be_able_to(:update, user) }
-        it { is_expected.to be_able_to(:search, customer) }
         it { is_expected.to be_able_to(:read, dish) }
-        it { is_expected.to be_able_to(:search, dish) }
         it { is_expected.to be_able_to(:read, beer) }
-        it { is_expected.to be_able_to(:search, beer) }
         it { is_expected.to be_able_to(:read, wine) }
-        it { is_expected.to be_able_to(:search, wine) }
         it { is_expected.to be_able_to(:read, drink) }
-        it { is_expected.to be_able_to(:search, drink) }
         it { is_expected.to be_able_to(:read, food) }
-        it { is_expected.to be_able_to(:search, food) }
         it { is_expected.to be_able_to(:create, order) }
         it { is_expected.to be_able_to(:read, order) }
-        it { is_expected.to be_able_to(:search, order) }
         it { is_expected.to be_able_to(:update, order) }
         it { is_expected.to be_able_to(:destroy, order) }
         it { is_expected.to be_able_to(:read, order.order_items.sample) }
-        it { is_expected.to be_able_to(:search, order.order_items.sample) }
         it { is_expected.to be_able_to(:create, order.order_items.sample) }
         it { is_expected.to be_able_to(:update, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }

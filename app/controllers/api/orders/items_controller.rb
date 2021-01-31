@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource class: OrderItem
 
       def index
-        render json: @items
+        render json: @items, include: :item
       end
 
       def create
