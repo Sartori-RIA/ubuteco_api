@@ -12,7 +12,7 @@ module Api
       def create
         @item = OrderItem.new(create_params)
         if @item.save
-          render json: @item, status: :created
+          render json: @item, include: :item, status: :created
         else
           render json: @item.errors, status: :unprocessable_entity
         end
@@ -20,7 +20,7 @@ module Api
 
       def update
         if @item.update(update_params)
-          render json: @item
+          render json: @item, include: :item
         else
           render json: @item.errors, status: :unprocessable_entity
         end
