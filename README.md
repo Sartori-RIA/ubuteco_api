@@ -14,6 +14,7 @@
 + `rails db:seed` -> populate database with real data
 + `rails db:populate` -> populate database with fake data
 + `rspec` -> run all tests
++ `bundle exec mutant run --use rspec` -> run all mutant tests
 + `rails s -b 0.0.0.0` -> start server
 
 ### Connection

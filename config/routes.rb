@@ -65,12 +65,18 @@ Rails.application.routes.draw do
     resources :organizations, except: :create do
       collection do
         get 'search' => 'organizations#search'
+        get 'check/cnpj' => 'organizations#cnpj_available?'
       end
       scope module: :organizations do
-        resources :themes, except: :delete
+        resources :themes, except: :destroy
       end
     end
-    resources :users
+    resources :users do
+      collection do
+        get 'search' => 'users#search'
+        get 'check/email' => 'users#email_available?'
+      end
+    end
     resources :wine_styles
     resources :wines do
       collection do

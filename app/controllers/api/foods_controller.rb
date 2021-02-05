@@ -14,7 +14,7 @@ module Api
 
     def search
       @foods = Food.search params[:q]
-      render json: @foods.order(name: :asc)
+      paginate json: @foods.order(name: :asc)
     end
 
     def create

@@ -14,7 +14,7 @@ module Api
 
     def search
       @orders = Order.search params[:q]
-      render json: @orders, include: %i[table]
+      paginate json: @orders, include: %i[table]
     end
 
     def create

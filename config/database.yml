@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   encoding: utf8
   pool: 5
-  username: <%= ENV['db.username'] %>
-  password: <%= ENV['db.password'] %>
-  host:  <%= ENV['db.host'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host:  <%= ENV['DB_HOST'] %>
 
 development:
   <<: *default
@@ -19,4 +19,5 @@ test:
 
 production:
   <<: *default
-  database: restaurant_manager_production
+  database: <%= ENV['DB_DATABASE'] %>
+

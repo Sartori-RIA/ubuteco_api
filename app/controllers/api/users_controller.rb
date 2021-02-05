@@ -33,6 +33,21 @@ module Api
       @user.destroy
     end
 
+    def search
+      @user = User.search params[:q]
+      paginate json: @user.order(name: :asc)
+    end
+
+    def email_available?
+      param = params[:q]
+      user = User.find_by(email: param)
+      if user.nil?
+        render json: {}, status: :no_content
+      else
+        render json: {}, status: :ok
+      end
+    end
+
     private
 
     def create_params

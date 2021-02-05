@@ -14,7 +14,7 @@ module Api
 
     def search
       @dishes = Dish.search params[:q]
-      render json: @dishes.order(name: :asc)
+      paginate json: @dishes.order(name: :asc)
     end
 
     def create

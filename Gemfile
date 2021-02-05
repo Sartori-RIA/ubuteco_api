@@ -43,11 +43,10 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
-group :development do
+group :development, :test do
   # Recommend to lock the mutant gems current major version, via '~> # 0.9.x'
   gem 'mutant-rspec', '~> 0.10.20'
   source 'https://oss:wKXUfu1alkPFjjIkCqNag7ya5NcXJxcd@gem.mutant.dev' do
-    # Do not lock the mutant license to any version.
     gem 'mutant-license', require: false
   end
 end

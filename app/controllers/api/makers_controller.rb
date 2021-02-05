@@ -14,7 +14,7 @@ module Api
 
     def search
       @makers = Maker.search params[:q]
-      render json: @makers.order(name: :asc)
+      paginate json: @makers.order(name: :asc)
     end
 
     def create

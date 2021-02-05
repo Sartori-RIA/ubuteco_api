@@ -8,7 +8,7 @@ class Organization < ApplicationRecord
   after_create :set_default_theme
 
   validates :name, :phone, :cnpj, presence: true
-  validates :phone, :cnpj, uniqueness: true
+  validates :cnpj, uniqueness: true
   validates_cnpj_format_of :cnpj
 
   belongs_to :user

@@ -14,7 +14,7 @@ module Api
 
     def search
       @beers = Beer.search params[:q]
-      render json: @beers.order(name: :asc), include: %i[beer_style maker]
+      paginate json: @beers.order(name: :asc), include: %i[beer_style maker]
     end
 
     def create

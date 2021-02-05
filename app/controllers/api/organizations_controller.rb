@@ -30,6 +30,16 @@ module Api
       @organization.destroy
     end
 
+    def cnpj_available?
+      param = CNPJ.new(params[:q])
+      organization = Organization.find_by(cnpj: param.formatted)
+      if organization.nil?
+        render json: {}, status: :no_content
+      else
+        render json: {}, status: :ok
+      end
+    end
+
     private
 
     def update_params
