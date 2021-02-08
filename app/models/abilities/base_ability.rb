@@ -9,6 +9,8 @@ module Abilities
       alias_action :index, :show, :search, to: :read
       can :read, BeerStyle
       can :read, WineStyle
+      can :email_available?, User
+      can :cnpj_available?, Organization
     end
 
     def organization_order(user:, params:)

@@ -40,6 +40,8 @@ class ApplicationController < ActionController::API
   end
 
   def load_permissions(params:, controller_name:)
+    return Abilities::BaseAbility.new if current_user.nil?
+
     case current_user.role.name
     when 'SUPER_ADMIN'
       Abilities::SuperAdminAbility.new user: current_user, params: params
@@ -53,8 +55,6 @@ class ApplicationController < ActionController::API
       Abilities::CashRegisterAbility.new user: current_user, params: params, controller_name: controller_name
     when 'CUSTOMER'
       Abilities::CustomerAbility.new user: current_user, params: params
-    else
-      Abilities::BaseAbility.new
     end
   end
 end
