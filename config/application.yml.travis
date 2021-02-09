@@ -1,38 +1,39 @@
-database: &database
-  db.username: postgres
-  db.password: postgres
-  db.host: localhost
+DATABASE: &database
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+  DB_HOST: localhost
+  DB_DATABASE:
 
-mailer: &mailer
-  mailer.address: smtp.gmail.com
-  mailer.port: '587'
-  mailer.user_name: example@email.com
-  mailer.password:
-  mailer.domain: gmail.com
+MAILER: &mailer
+  MAILER_ADDRESS: smtp.gmail.com
+  MAILER_PORT: '587'
+  MAILER_USER_NAME: fluffy.bunnybr@gmail.com
+  MAILER_PASSWORD:
+  MAILER_DOMAIN: gmail.com
 
-aws: &aws
-  provider: AWS
-  access_key_id:
-  secret_access_key:
-  region:
-  buket:
-  s3_folder:
+AWS: &aws
+  AWS_PROVIDER: AWS
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_REGION:
+  AWS_BUCKET:
+  AWS_S3_FOLDER:
 
 development:
   <<: *database
   <<: *mailer
   <<: *aws
-  jwt_secret: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
 
 test:
   <<: *database
   <<: *mailer
   <<: *aws
-  jwt_secret: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
 
 production:
   <<: *database
   <<: *aws
-  mailer.host: restaurant_manager.com.br
-  mailer.port: '80'
-  jwt_secret: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
+  MAILER_HOST: restaurant_manager.com.br
+  MAILER_PORT: '80'
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
