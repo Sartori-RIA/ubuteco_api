@@ -6,4 +6,4 @@ test:
 
 production:
   adapter: redis
-  channel_prefix: back_production
+  url: <%= ENV['REDIS_URI'] %>

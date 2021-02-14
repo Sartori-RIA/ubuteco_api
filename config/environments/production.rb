@@ -97,4 +97,8 @@ Rails.application.configure do
     domain: ENV["MAILER_DOMAIN"],
     openssl_verify_mode: "none",
   }
+
+  # websocket config
+  config.web_socket_server_url = "wss://ibuteco.herokuapp.com/api/cable"
+  config.action_cable.allowed_request_origins = %w[https://ibuteco.cookiecode.com.br https://ibuteco-ce9c3.web.app/]
 end

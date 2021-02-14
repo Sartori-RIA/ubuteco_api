@@ -30,6 +30,7 @@ gem 'rack-attack'
 gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
 gem 'rails-i18n'
+gem 'redis', '~> 3.3', '>= 3.3.1'
 gem 'rubocop-rails'
 gem 'validators'
 
