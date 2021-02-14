@@ -20,6 +20,7 @@ gem 'dry-configurable', '0.9.0'
 gem 'figaro'
 gem 'fog-aws'
 gem 'kaminari'
+gem 'listen', '~> 3.2'
 gem 'mini_magick'
 gem 'money-rails', '~>1.13'
 gem 'paranoia', '~> 2.2'
@@ -53,7 +54,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'mailcatcher'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
