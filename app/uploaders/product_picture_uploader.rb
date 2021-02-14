@@ -12,7 +12,7 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
   end
 
   def default_url(*_args)
-    'https://cookiecode-restaurant_manager.s3.us-east-2.amazonaws.com/defaults/default.jpg'
+    'https://www.flymobi.com.br/images/placeholder-img.jpg'
   end
 
   def asset_host
