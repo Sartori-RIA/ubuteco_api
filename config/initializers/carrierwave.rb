@@ -9,7 +9,7 @@ CarrierWave.configure do |config|
         region: ENV['AWS_REGION'],
     }
     config.storage = :fog
-    config.fog_directory = ENV['AWS_S3_FOLDER']
+    config.fog_directory = ENV['AWS_S3_DIRECTORY']
     config.fog_public = false
     config.fog_attributes = {cache_control: "public, max-age=#{365.days.to_i}"} # optional, defaults to {}
   else

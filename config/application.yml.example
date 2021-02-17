@@ -17,7 +17,7 @@ AWS: &aws
   AWS_SECRET_ACCESS_KEY:
   AWS_REGION:
   AWS_BUCKET:
-  AWS_s3_folder:
+  AWS_S3_DIRECTORY:
 
 REDIS: &redis
   REDIS_HOST:
