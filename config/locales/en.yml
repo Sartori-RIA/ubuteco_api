@@ -1,2 +1,12 @@
 en:
-  hello: "Hello world"
+  welcome:
+    title: "Seja bem vindo ao iButeco"
+    subject: "Seja bem vindo ao iButeco"
+    text: "Seja bem vindo ao iButeco"
+  confirmations:
+    title: "Confirmação de conta"
+    instruction: "Para confirmar sua conta por favor clique no link abaixou ou copie a url abaixo e cole em seu navegador"
+    link_to_confirm: "Confirmar minha conta"
+  email_changed:
+    title: "Email changed"
+    message: "Email changed"

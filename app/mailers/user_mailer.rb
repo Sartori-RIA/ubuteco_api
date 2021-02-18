@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
   before_action :load_user
 
   def welcome
-    @subject = 'Seja bem vindo ao Cookie Restaurant Manager'
+    @subject = t('welcome.subject')
     mail to: @user.email, subject: @subject
   end
 
@@ -12,8 +12,6 @@ class UserMailer < ApplicationMailer
     @subject = 'Código de verificação - Cookie Restaurant Manager'
     mail to: @user.email, subject: @subject
   end
-
-  def confirmation; end
 
   protected
 

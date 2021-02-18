@@ -23,16 +23,16 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def sign_up_params
-    params.permit(user: %i[name password email avatar])
+    params.require(:user).permit(:name, :password, :email, :avatar)
   end
 
   def organization_params
-    params.permit(organization_attributes: %i[cnpj logo name phone])
+    params.require(:organization_attributes).permit(:cnpj, :logo, :name, :phone)
   end
 
   def user_attributes
-    if sign_up_params[:user].present?
-      @attributes = sign_up_params[:user]
+    if sign_up_params.present?
+      @attributes = sign_up_params
       @attributes[:role] = params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER')
     else
       render status: :unprocessable_entity
@@ -40,7 +40,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def build_organization(user)
-    attributes = organization_params[:organization_attributes]
+    attributes = organization_params
     attributes[:user_id] = user.id
     @organization = Organization.new(attributes)
     if @organization.save
@@ -51,8 +51,6 @@ class RegistrationsController < Devise::RegistrationsController
       false
     end
   end
-
-  private
 
   def create_with_organization
     if build_organization resource

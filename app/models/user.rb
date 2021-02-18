@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   belongs_to :role
 
+  after_create :send_welcome
+
   def password_salt
     'no salt'
   end
