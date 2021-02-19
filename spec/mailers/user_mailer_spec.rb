@@ -11,7 +11,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Seja bem vindo ao Cookie Restaurant Manager')
+      expect(mail.subject).to eq(I18n.t('welcome.subject'))
     end
 
     it 'renders the receiver email' do

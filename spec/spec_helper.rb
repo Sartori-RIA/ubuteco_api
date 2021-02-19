@@ -26,7 +26,4 @@ RSpec.configure do |config|
   config.order = :random
 
   Kernel.srand config.seed
-
-  config.add_formatter 'Fuubar'
-  config.fuubar_auto_refresh = true
 end

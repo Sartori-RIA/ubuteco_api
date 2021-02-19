@@ -9,13 +9,13 @@ module Api
     end
 
     def show
-      render json: @user, include: %i[organization]
+      render json: @user, include: [:role, organization: { include: [:theme]}]
     end
 
     def create
       @user = User.new(create_params)
       if @user.save
-        render json: @user, status: :created
+        render json: @user, include: [:role, organization: { include: [:theme]}], status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -23,7 +23,7 @@ module Api
 
     def update
       if @user.update(update_params)
-        render json: @user
+        render json: @user, include: [:role, organization: { include: [:theme]}]
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -35,7 +35,7 @@ module Api
 
     def search
       @user = User.search params[:q]
-      paginate json: @user.order(name: :asc)
+      paginate json: @user.order(name: :asc), include: [:role, :organization]
     end
 
     def email_available?

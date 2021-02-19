@@ -5,11 +5,11 @@ DATABASE: &database
   DB_DATABASE:
 
 MAILER: &mailer
-  MAILER_ADDRESS: smtp.gmail.com
-  MAILER_PORT: '587'
-  MAILER_USER_NAME: fluffy.bunnybr@gmail.com
+  MAILER_ADDRESS: localhost
+  MAILER_PORT: '1025'
+  MAILER_USER_NAME: example@email.com
   MAILER_PASSWORD:
-  MAILER_DOMAIN: gmail.com
+  MAILER_DOMAIN:
 
 development:
   <<: *database

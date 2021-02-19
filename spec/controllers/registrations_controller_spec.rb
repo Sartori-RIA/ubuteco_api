@@ -12,10 +12,12 @@ RSpec.describe RegistrationsController, type: :request do
       post user_registration_path, params: data.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:ok)
     end
-
+    it 'without params bad_request, raise ParameterMissing' do
+      expect { post user_registration_path, params: {}.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: user'
+    end
     it 'without params bad_request' do
-      post user_registration_path, params: {}, headers: unauthenticated_header
-      expect(response).to have_http_status(:unprocessable_entity)
+      post user_registration_path, params: { user: {name: "asd"} }.to_json, headers: unauthenticated_header
+      expect(response).to have_http_status(:bad_request)
     end
     it 'with email already taken' do
       email = 'teste@teste.com'
@@ -34,14 +36,13 @@ RSpec.describe RegistrationsController, type: :request do
       post user_registration_path, params: data.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:ok)
     end
-
-    it 'without params unprocessable_entity' do
-      post user_registration_path, params: {}.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:unprocessable_entity)
+    it 'without params , raise ParameterMissing' do
+      params = { user: attributes_for(:user), organization_attributes: {} }
+      expect{ post user_registration_path, params: params.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: organization_attributes'
     end
     it 'without params bad_request' do
-      post user_registration_path, params: { user: {} }.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:unprocessable_entity)
+      post user_registration_path, params: { user: { name: "asd" } }.to_json, headers: unauthenticated_header
+      expect(response).to have_http_status(:bad_request)
     end
     it 'with cnpj already taken' do
       cnpj = CNPJ.generate

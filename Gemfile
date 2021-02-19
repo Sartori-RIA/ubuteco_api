@@ -36,11 +36,6 @@ gem 'redis', '~> 3.3', '>= 3.3.1'
 gem 'rubocop-rails'
 gem 'validators'
 
-group :production do
-  gem "sentry-ruby"
-  gem "sentry-rails"
-end
-
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'cpf_faker'
@@ -49,6 +44,7 @@ group :development, :test do
   gem 'fuubar'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'rspec-json_expectations'
 end
 
 group :development, :test do

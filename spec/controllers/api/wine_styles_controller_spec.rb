@@ -11,10 +11,6 @@ RSpec.describe Api::WineStylesController, type: :request do
     organization.user
   end
 
-  before :each do
-
-  end
-
   describe '#GET /api/wine_styles' do
     it 'should request all wine styles' do
       get api_wine_styles_path, headers: auth_header(admin)

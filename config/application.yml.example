@@ -31,6 +31,7 @@ development:
   <<: *mailer
   <<: *aws
   CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
   JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
 
 test:
@@ -38,6 +39,7 @@ test:
   <<: *mailer
   <<: *aws
   CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
   JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
 
 production:
@@ -48,4 +50,5 @@ production:
   MAILER_PORT: '80'
   SENTRY_DSN: ''
   CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
   JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
