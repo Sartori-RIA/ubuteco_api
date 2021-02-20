@@ -7,7 +7,7 @@ class SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    render json: resource, include: [:role, organization: { include: [:theme] }]
+    render json: resource, include: [:role, { organization: { include: [:theme] } }]
   end
 
   def respond_to_on_destroy

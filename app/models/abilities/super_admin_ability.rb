@@ -8,21 +8,21 @@ module Abilities
       can :manage, Role
       can %i[update read], Theme, organization_id: user.organization_id
       can :manage, User
-      can :manage, Wine
-      can :manage, WineStyle
       products_permissions
       orders_permissions(params: params)
     end
 
     def products_permissions
       can :manage, Beer
-      can :manage, BeerStyle
+      can %i[manage style_available?], BeerStyle
       can :manage, Dish
       can :manage, DishIngredient
       can :manage, Drink
       can :manage, Food
       can :manage, Maker
       can :manage, Table
+      can :manage, Wine
+      can %i[manage style_available?], WineStyle
     end
 
     def orders_permissions(params:)

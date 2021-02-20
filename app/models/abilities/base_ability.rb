@@ -11,6 +11,7 @@ module Abilities
       can :read, WineStyle
       can :email_available?, User
       can :cnpj_available?, Organization
+      can :phone_available?, Organization
     end
 
     def organization_order(user:, params:)
