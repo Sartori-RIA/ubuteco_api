@@ -20,9 +20,8 @@ RSpec.describe RegistrationsController, type: :request do
       expect(response).to have_http_status(:bad_request)
     end
     it 'with email already taken' do
-      email = 'teste@teste.com'
-      create(:user, email: email)
-      attributes = { user: { email: email } }
+      user = create(:user)
+      attributes = { user: { email: user.email } }
       post user_registration_path, params: attributes.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:bad_request)
     end
@@ -45,11 +44,10 @@ RSpec.describe RegistrationsController, type: :request do
       expect(response).to have_http_status(:bad_request)
     end
     it 'with cnpj already taken' do
-      cnpj = CNPJ.generate
-      create(:organization, cnpj: cnpj)
+      org = create(:organization)
       data = {
         user: attributes_for(:user),
-        organization_attributes: attributes_for(:organization).merge(cnpj: cnpj),
+        organization_attributes: attributes_for(:organization).merge(cnpj: org.cnpj),
       }
       post user_registration_path, params: data.to_json, headers: unauthenticated_header
       expect(response).to have_http_status(:unprocessable_entity)

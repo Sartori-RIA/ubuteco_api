@@ -46,7 +46,7 @@ Rails.application.routes.draw do
     end
     resources :beer_styles do
       collection do
-        get 'check/style' => 'beer_styles#style_available??'
+        get 'check/style' => 'beer_styles#style_available?'
       end
     end
     resources :kitchens, only: %i[index update]
@@ -84,7 +84,7 @@ Rails.application.routes.draw do
     end
     resources :wine_styles do
       collection do
-        get 'check/style' => 'wine_styles#style_available??'
+        get 'check/style' => 'wine_styles#style_available?'
       end
     end
     resources :wines do

@@ -3,10 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::UsersController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:roles) { create_list(:role, 5) }
 
   describe '#GET /api/users' do
@@ -20,6 +17,24 @@ RSpec.describe Api::UsersController, type: :request do
     it 'should retrieves user by id' do
       get api_user_path(admin.id), headers: auth_header(admin)
       expect(response).to have_http_status(200)
+    end
+  end
+
+  describe '#GET /api/users/search' do
+    it 'should search drinks' do
+      get search_api_users_path, params: { q: 'tralala' }, headers: auth_header(admin)
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  describe '#GET /api/users/check/email' do
+    it 'should return :ok status to style in use' do
+      get check_email_api_users_path, params: { q: admin.email }, headers: unauthenticated_header
+      expect(response).to have_http_status(:ok)
+    end
+    it 'should return :no_content status to style available' do
+      get check_email_api_users_path, params: { q: Faker::Internet.unique.email }, headers: unauthenticated_header
+      expect(response).to have_http_status(:no_content)
     end
   end
 

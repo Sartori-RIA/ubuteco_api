@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
+  include PgSearch::Model
 
   acts_as_paranoid
 
@@ -20,6 +21,8 @@ class User < ApplicationRecord
   belongs_to :role
 
   after_create :send_welcome
+
+  pg_search_scope :search, against: %w[name email]
 
   def password_salt
     'no salt'

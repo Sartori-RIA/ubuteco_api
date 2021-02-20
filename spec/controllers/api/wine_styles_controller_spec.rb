@@ -6,10 +6,7 @@ RSpec.describe Api::WineStylesController, type: :request do
   let!(:super_admin) { create(:user_super_admin) }
   let!(:wine_styles) { create_list(:wine_style, 10) }
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
 
   describe '#GET /api/wine_styles' do
     it 'should request all wine styles' do
@@ -22,6 +19,17 @@ RSpec.describe Api::WineStylesController, type: :request do
     it 'should request wine style by id' do
       get api_wine_style_path(wine_styles.sample.id), headers: auth_header(admin)
       expect(response).to have_http_status(200)
+    end
+  end
+
+  describe '#GET /api/wine_styles/check/style' do
+    it 'should return :ok status to style in use' do
+      get check_style_api_wine_styles_path, params: { q: wine_styles.sample.name }, headers: auth_header(super_admin)
+      expect(response).to have_http_status(:ok)
+    end
+    it 'should return :no_content status to style available' do
+      get check_style_api_wine_styles_path, params: { q: Faker::Beer.unique.style }, headers: auth_header(super_admin)
+      expect(response).to have_http_status(:no_content)
     end
   end
 

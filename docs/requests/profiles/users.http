@@ -1,4 +1,4 @@
-GET http://{{host}}:{{port}}/api/users
+GET http://{{host}}:{{port}}/api/users/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

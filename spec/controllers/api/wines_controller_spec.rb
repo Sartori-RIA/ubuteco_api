@@ -5,10 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::WinesController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:makers) { create_list(:maker, 10, organization: organization) }
   let!(:wine_styles) { create_list(:wine_style, 10) }
   let!(:wines) { create_list(:wine, 10, organization: organization,

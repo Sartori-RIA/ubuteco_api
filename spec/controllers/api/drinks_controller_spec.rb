@@ -5,10 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::DrinksController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:makers) { create_list(:maker, 10, organization: organization) }
   let!(:drinks) { create_list(:drink, 10, organization: organization, maker: makers.sample) }
 

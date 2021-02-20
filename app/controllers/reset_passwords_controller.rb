@@ -14,6 +14,6 @@ class ResetPasswordsController < ApplicationController
   protected
 
   def reset_params
-    params.permit(:password)
+    params.require(:reset_params).permit(:password)
   end
 end

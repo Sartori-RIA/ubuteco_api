@@ -7,5 +7,9 @@ FactoryBot.define do
     phone { Faker::PhoneNumber.unique.phone_number }
     association :user, factory: :user_admin
     logo { Faker::LoremPixel.image }
+
+    after(:create) do |organization, evaluator|
+      organization.user.update(organization: organization)
+    end
   end
 end

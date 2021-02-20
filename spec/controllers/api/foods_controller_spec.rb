@@ -5,10 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::FoodsController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:foods) { create_list(:food, 10, organization: organization) }
 
   describe '#GET /api/foods' do

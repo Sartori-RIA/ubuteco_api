@@ -3,10 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::KitchensController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:kitchen) { create(:user_kitchen, organization: organization) }
   let!(:orders) { create_list(:order, 10, :with_dish, organization: organization) }
   let!(:foods) { create_list(:food, 10, organization: organization) }

@@ -39,8 +39,7 @@ module Api
     end
 
     def email_available?
-      param = params[:q]
-      user = User.find_by(email: param)
+      user = User.find_by(email: params[:q])
       if user.nil?
         render json: {}, status: :no_content
       else
