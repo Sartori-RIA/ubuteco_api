@@ -4,10 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::MakersController, type: :request do
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:makers) { create_list(:maker, 10, organization: organization) }
 
   describe '#GET /api/makers' do

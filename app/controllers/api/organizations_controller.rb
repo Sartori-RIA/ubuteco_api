@@ -40,6 +40,15 @@ module Api
       end
     end
 
+    def phone_available?
+      organization = Organization.find_by(phone: params[:q])
+      if organization.nil?
+        render json: {}, status: :no_content
+      else
+        render json: {}, status: :ok
+      end
+    end
+
     private
 
     def update_params

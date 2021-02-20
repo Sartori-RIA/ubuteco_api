@@ -5,7 +5,10 @@ class Organization < ApplicationRecord
 
   mount_uploader :logo, AvatarUploader
 
+  before_create :format_cnpj
   after_create :set_default_theme
+
+  before_update :format_cnpj
 
   validates :name, :phone, :cnpj, presence: true
   validates :cnpj, uniqueness: true
@@ -26,8 +29,7 @@ class Organization < ApplicationRecord
 
   include PgSearch::Model
 
-  pg_search_scope :search,
-                  against: %w[name cnpj]
+  pg_search_scope :search, against: %w[name cnpj]
 
   private
 
@@ -37,5 +39,9 @@ class Organization < ApplicationRecord
                  color_header: 'white',
                  color_sidebar: 'slate',
                  organization: self)
+  end
+
+  def format_cnpj
+    self.cnpj = CNPJ.new(cnpj).formatted
   end
 end

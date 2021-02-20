@@ -5,7 +5,7 @@ class ResetPasswordsController < ApplicationController
 
   def update
     if current_user.update(reset_params)
-      render json: current_user, include: [:role, organization: { include: [:theme] }]
+      render json: current_user, include: [:role, { organization: { include: [:theme] } }]
     else
       render json: current_user.errors, status: :unprocessable_entity
     end
@@ -14,6 +14,6 @@ class ResetPasswordsController < ApplicationController
   protected
 
   def reset_params
-    params.permit(:password)
+    params.require(:reset_params).permit(:password)
   end
 end

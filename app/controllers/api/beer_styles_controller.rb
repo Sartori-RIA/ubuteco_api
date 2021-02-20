@@ -34,6 +34,15 @@ module Api
       @beer_style.destroy
     end
 
+    def style_available?
+      beer_style = BeerStyle.find_by(name: params[:q])
+      if beer_style.nil?
+        render json: {}, status: :no_content
+      else
+        render json: {}, status: :ok
+      end
+    end
+
     private
 
     def create_params

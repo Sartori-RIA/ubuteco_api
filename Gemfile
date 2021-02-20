@@ -7,7 +7,7 @@ ruby '2.7.2'
 
 gem 'api-pagination'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem "bugsnag", "~> 6.19"
+gem 'bugsnag', '~> 6.19'
 gem 'cancancan'
 gem 'carrierwave', '~> 2.0'
 gem 'carrierwave-i18n'
@@ -43,8 +43,8 @@ group :development, :test do
   gem 'faker'
   gem 'fuubar'
   gem 'rspec'
-  gem 'rspec-rails'
   gem 'rspec-json_expectations'
+  gem 'rspec-rails'
 end
 
 group :development, :test do
@@ -72,4 +72,3 @@ group :test do
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-

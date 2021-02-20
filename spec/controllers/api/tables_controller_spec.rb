@@ -5,10 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::TablesController, type: :request do
 
   let!(:organization) { create(:organization) }
-  let!(:admin) do
-    organization.user.update(organization: organization)
-    organization.user
-  end
+  let!(:admin) { organization.user }
   let!(:tables) { create_list(:table, 10, organization: organization) }
 
   describe '#GET /api/tables' do

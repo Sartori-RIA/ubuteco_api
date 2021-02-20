@@ -44,7 +44,11 @@ Rails.application.routes.draw do
         get 'search' => 'makers#search'
       end
     end
-    resources :beer_styles
+    resources :beer_styles do
+      collection do
+        get 'check/style' => 'beer_styles#style_available?'
+      end
+    end
     resources :kitchens, only: %i[index update]
     resources :dishes do
       collection do
@@ -66,6 +70,7 @@ Rails.application.routes.draw do
       collection do
         get 'search' => 'organizations#search'
         get 'check/cnpj' => 'organizations#cnpj_available?'
+        get 'check/phone' => 'organizations#phone_available?'
       end
       scope module: :organizations do
         resources :themes, except: :destroy
@@ -77,7 +82,11 @@ Rails.application.routes.draw do
         get 'check/email' => 'users#email_available?'
       end
     end
-    resources :wine_styles
+    resources :wine_styles do
+      collection do
+        get 'check/style' => 'wine_styles#style_available?'
+      end
+    end
     resources :wines do
       collection do
         get 'search' => 'wines#search'

@@ -34,6 +34,15 @@ module Api
       @wine_style.destroy
     end
 
+    def style_available?
+      wine_style = WineStyle.find_by(name: params[:q])
+      if wine_style.nil?
+        render json: {}, status: :no_content
+      else
+        render json: {}, status: :ok
+      end
+    end
+
     private
 
     def create_params
