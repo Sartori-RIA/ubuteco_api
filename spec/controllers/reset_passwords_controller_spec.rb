@@ -15,8 +15,5 @@ RSpec.describe ResetPasswordsController, type: :request do
           headers: auth_header(user)
       expect(response).to have_http_status(:ok)
     end
-    it 'should thrown ActionController::ParameterMissing for invalid params' do
-      expect { put auth_reset_passwords_path, params: {}.to_json, headers: auth_header(user) }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: password'
-    end
   end
 end
