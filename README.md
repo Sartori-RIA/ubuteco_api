@@ -1,12 +1,12 @@
 # uButeco
 
-[![Build Status](https://travis-ci.org/Sartori-RIA/restaurant_manager_api.svg?branch=master)](https://travis-ci.org/Sartori-RIA/restaurant_manager_api)
-[![Maintainability](https://api.codeclimate.com/v1/badges/34002adbedb7a413e9b9/maintainability)](https://codeclimate.com/github/Sartori-RIA/restaurant_manager_api/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/34002adbedb7a413e9b9/test_coverage)](https://codeclimate.com/github/Sartori-RIA/restaurant_manager_api/test_coverage)
+[![Build Status](https://travis-ci.org/Sartori-RIA/ubuteco_api.svg?branch=master)](https://travis-ci.org/Sartori-RIA/ubuteco_api)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/maintainability)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/test_coverage)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/test_coverage)
 [![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop-hq/rubocop-rails)
 [![Paypal](https://img.shields.io/badge/support-PayPal-blue?logo=PayPal&style=flat-square&label=Donate)](https://www.paypal.com/donate?hosted_button_id=AVLYA9GPR8C6E)
-[![bitcoin-black](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/restaurant_manager_api/blob/master/bitcoin-address.txt)
-![GitHub](https://img.shields.io/github/license/sartori-ria/restaurant_manager_api)
+[![bitcoin-black](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-address.txt)
+![GitHub](https://img.shields.io/github/license/sartori-ria/ubuteco_api)
 
 ### Requirements
 
@@ -25,7 +25,7 @@
 
 + `cp config/application.yml.example config/application.yml` -> create environment file
 + `docker-compose up -d` -> start docker environment
-+ `docker exec -it rm_api /bin/bash` -> enter in docker container
++ `docker exec -it ubuteco_api /bin/bash` -> enter in docker container
 + `rails db:create` -> create database
 + `rails db:migrate` -> create tables and database updates
 + `rails db:seed` -> populate database with real data

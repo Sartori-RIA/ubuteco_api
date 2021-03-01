@@ -11,7 +11,7 @@ services:
 
 env:
   global:
-    - CC_TEST_REPORTER_ID=a17122169bdc0e4ee261077d9f2a9553dca72657126596b7d21c29efd7ad5599
+    - CC_TEST_REPORTER_ID=253a8ed9e5c44fd63c4dc58135e17087da1bbd9e80bb8a0461e54ab46af8133f
     - PGPORT=5432
 
 before_script:

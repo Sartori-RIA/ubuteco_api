@@ -6,6 +6,8 @@ module Abilities
       super()
       can %i[read update], User, id: user.id
       can %i[read search], User, role: { name: 'CUSTOMER' }
+      can :read, Theme, organization_id: user.organization_id
+      can :read, Organization, id: user.organization_id
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)
     end

@@ -4,7 +4,7 @@ services:
 
   db:
     image: postgres
-    container_name: rm_db
+    container_name: ubuteco_db
     ports:
       - 5432:5432
     tty: true
@@ -14,13 +14,13 @@ services:
 
   adminer:
     image: adminer
-    container_name: rm_adminer
+    container_name: ubuteco_adminer
     ports:
       - 8080:8080
 
   mailcatcher:
     image: schickling/mailcatcher
-    container_name: rm_mailcatcher
+    container_name: ubuteco_mailcatcher
     tty: true
     ports:
       - 1080:1080
@@ -28,7 +28,7 @@ services:
 
   api:
     image: cookiecode/base-ruby-on-rails
-    container_name: rm_api
+    container_name: ubuteco_api
     ports:
       - 3000:3000
     volumes:
