@@ -7,11 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if Rails.env.production?
-      origins 'https://ubuteco.cookiecode.com.br'
-    else
-      origins '*'
-    end
+    origins '*'
 
     resource '*',
              headers: :any,
