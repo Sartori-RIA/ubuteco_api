@@ -5,7 +5,8 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/test_coverage)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/test_coverage)
 [![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop-hq/rubocop-rails)
 [![Paypal](https://img.shields.io/badge/support-PayPal-blue?logo=PayPal&style=flat-square&label=Donate)](https://www.paypal.com/donate?hosted_button_id=AVLYA9GPR8C6E)
-[![bitcoin-black](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-address.txt)
+[![Bitcoin](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-address.txt)
+[![Pix](https://img.shields.io/badge/pix-e5c7ec40--4696--43c2--815a--08dab5071260-blue)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-pix.txt)
 ![GitHub](https://img.shields.io/github/license/sartori-ria/ubuteco_api)
 ![GitHub all releases](https://img.shields.io/github/downloads/sartori-ria/ubuteco_api/total)
 
