@@ -8,6 +8,7 @@ module Abilities
       can :manage, Role
       can %i[update read], Theme, organization_id: user.organization_id
       can :manage, User
+      customer_search
       products_permissions
       orders_permissions(params: params)
     end

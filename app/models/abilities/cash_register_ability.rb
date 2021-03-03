@@ -5,9 +5,8 @@ module Abilities
     def initialize(user:, params:, controller_name:)
       super()
       can %i[read update], User, id: user.id
-      can %i[read search], User, role: { name: 'CUSTOMER' }
-      can :read, Theme, organization_id: user.organization_id
-      can :read, Organization, id: user.organization_id
+      customer_search
+      theme(organization_id: user.organization_id)
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)
     end

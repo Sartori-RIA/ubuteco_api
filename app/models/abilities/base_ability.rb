@@ -22,6 +22,15 @@ module Abilities
       can %i[create update destroy], OrderItem, order: { organization_id: user.organization_id, status: :open }
     end
 
+    def theme(organization_id:)
+      can :read, Theme, organization_id: organization_id
+      can :read, Organization, id: organization_id
+    end
+
+    def customer_search
+      can %i[read search], User, role: { name: 'CUSTOMER' }
+    end
+
     def kitchens_namespace(controller_name:, user:)
       return unless controller_name == 'Api::Kitchens'
 
