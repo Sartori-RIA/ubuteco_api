@@ -5,14 +5,14 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/test_coverage)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/test_coverage)
 [![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop-hq/rubocop-rails)
 [![Paypal](https://img.shields.io/badge/support-PayPal-blue?logo=PayPal&style=flat-square&label=Donate)](https://www.paypal.com/donate?hosted_button_id=AVLYA9GPR8C6E)
-[![Bitcoin](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-address.txt)
-[![Pix](https://img.shields.io/badge/pix-e5c7ec40--4696--43c2--815a--08dab5071260-blue)](https://github.com/Sartori-RIA/ubuteco/blob/master/bitcoin-pix.txt)
+[![Bitcoin](https://img.shields.io/badge/btc-18piQ9NhZhBm1Msba9sFfffVxfjxFLX5Mr-informational)](https://github.com/Sartori-RIA/ubuteco_api/blob/master/bitcoin-address.txt)
+[![Pix](https://img.shields.io/badge/pix-e5c7ec40--4696--43c2--815a--08dab5071260-blue)](https://github.com/Sartori-RIA/ubuteco_api/blob/master/bitcoin-pix.txt)
 ![GitHub](https://img.shields.io/github/license/sartori-ria/ubuteco_api)
 ![GitHub all releases](https://img.shields.io/github/downloads/sartori-ria/ubuteco_api/total)
 
 ### Requirements
 
-+ [Frontend](https://github.com/Sartori-RIA/restaurant_manager_spa)
++ [Frontend](https://github.com/Sartori-RIA/ubuteco_spa)
   
 + With Docker
   + Docker
@@ -25,16 +25,16 @@
 
 ### Quick Start
 
-+ `cp config/application.yml.example config/application.yml` -> create environment file
-+ `docker-compose up -d` -> start docker environment
-+ `docker exec -it ubuteco_api /bin/bash` -> enter in docker container
-+ `rails db:create` -> create database
-+ `rails db:migrate` -> create tables and database updates
-+ `rails db:seed` -> populate database with real data
-+ `rails db:populate` -> populate database with fake data
-+ `rspec` -> run all tests
-+ `bundle exec mutant run --use rspec` -> run all mutant tests
-+ `rails s -b 0.0.0.0` -> start server
+1. `cp config/application.yml.example config/application.yml` -> create environment file
+2. `docker-compose up -d` -> start docker environment
+3. `docker exec -it ubuteco_api /bin/bash` -> enter in docker container
+4. `rails db:create` -> create database
+5. `rails db:migrate` -> create tables and database updates
+6. `rails db:seed` -> populate database with real data
+7. `rails db:populate` -> populate database with fake data
+8. `rspec` -> run all tests
+9. `bundle exec mutant run --use rspec` -> run all mutant tests
+10. `rails s -b 0.0.0.0` -> start server
 
 ### REST and WebSocket Connection
 
