@@ -1,0 +1,4 @@
+GET http://{{host}}:{{port}}/api/organizations/1/users
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}

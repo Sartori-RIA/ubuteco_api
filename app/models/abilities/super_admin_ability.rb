@@ -7,8 +7,9 @@ module Abilities
       can :manage, Organization
       can :manage, Role
       can %i[update read], Theme, organization_id: user.organization_id
-      can :manage, User
-      customer_search
+      can :manage, User, id: user.id if controller_name == 'Api::Users'
+      can :manage, User, organization_id: params[:organization_id] if controller_name == 'Api::Organizations::Users'
+      customer_search(controller_name: controller_name)
       products_permissions
       orders_permissions(params: params)
     end

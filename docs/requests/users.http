@@ -10,3 +10,21 @@ Authorization: {{token}}
   "role_id": 1,
   "organization_id": 1
 }
+
+###
+
+PUT http://{{host}}:{{port}}/api/users/1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "name": "cozinha1"
+}
+
+###
+
+DELETE http://{{host}}:{{port}}/api/users/1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}

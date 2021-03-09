@@ -5,7 +5,7 @@ module Abilities
     def initialize(user:, params:, controller_name:)
       super()
       can :manage, User, id: user.id
-      customer_search
+      customer_search(controller_name: controller_name)
       theme(organization_id: user.organization_id)
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)

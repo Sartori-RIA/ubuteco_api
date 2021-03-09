@@ -27,8 +27,8 @@ module Abilities
       can :read, Organization, id: organization_id
     end
 
-    def customer_search
-      can %i[read search], User, role: { name: 'CUSTOMER' }
+    def customer_search(controller_name:)
+      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::Customers'
     end
 
     def kitchens_namespace(controller_name:, user:)

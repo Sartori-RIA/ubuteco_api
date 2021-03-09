@@ -4,10 +4,6 @@ module Api
   class UsersController < ApplicationController
     load_and_authorize_resource
 
-    def index
-      paginate json: @users.order(name: :asc)
-    end
-
     def show
       render json: @user, include: [:role, { organization: { include: [:theme] } }]
     end
