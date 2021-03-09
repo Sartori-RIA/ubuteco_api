@@ -7,7 +7,13 @@ module Abilities
       can %i[update read], Theme, organization_id: user.organization_id
       can :manage, Organization, id: user.organization_id
       can :read, Role
-      can :manage, User, id: user.id if controller_name == 'Api::Users'
+
+      if controller_name == 'Api::Users'
+        can :manage, User do |data|
+          data.id == nil || data.id == user.id || data.organization_id == user.organization_id
+        end
+      end
+
       can :manage, User, organization_id: user.organization_id if controller_name == 'Api::Organizations::Users'
       customer_search(controller_name: controller_name)
       products_permissions(user)

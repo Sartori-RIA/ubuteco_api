@@ -10,6 +10,7 @@ module Api
 
     def create
       @user = User.new(create_params)
+      byebug
       if @user.save
         render json: @user, include: [:role, { organization: { include: [:theme] } }], status: :created
       else
@@ -54,7 +55,7 @@ module Api
         :role,
         :role_id,
         :organization_id
-      )
+      ).merge(organization_id: current_user.organization_id)
     end
 
     def update_params
@@ -64,7 +65,6 @@ module Api
         :password,
         :avatar,
         :role,
-        :role_id
       )
     end
   end

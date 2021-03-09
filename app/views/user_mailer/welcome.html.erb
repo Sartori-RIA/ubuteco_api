@@ -1,4 +1,8 @@
-
 <h1><%= I18n.t('welcome.title') %>, <%= @user.name %></h1>
 
-<h2><%= t('welcome.text') %></h2>
+<h2><%= I18n.t('welcome.text') %></h2>
+
+<% if @generated_password.present? %>
+  Email <%= @user.email %> <br>
+  Senha gerada <%= @generated_password %>
+<% end %>
