@@ -10,7 +10,6 @@ module Api
 
     def create
       @user = User.new(create_params)
-      byebug
       if @user.save
         render json: @user, include: [:role, { organization: { include: [:theme] } }], status: :created
       else

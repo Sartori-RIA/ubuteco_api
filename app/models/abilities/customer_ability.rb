@@ -2,9 +2,9 @@
 
 module Abilities
   class CustomerAbility < Abilities::BaseAbility
-    def initialize(user:, params:)
+    def initialize(user:, params:, controller_name:)
       super()
-      can :manage, User, id: user.id
+      can_manage_self(user: user, controller_name: controller_name)
       products_permissions
       order_permissions(user: user, params: params)
     end

@@ -4,14 +4,14 @@ require 'rails_helper'
 
 RSpec.describe Api::Orders::ItemsController, type: :request do
 
-  let!(:organization) { create(:organization) }
-  let!(:waiter) { create(:user_waiter, organization: organization) }
-  let!(:orders) { create_list(:order, 10, :with_items, :open, organization: organization) }
-  let!(:maker) { create(:maker, organization: organization) }
-  let!(:dishes) { create_list(:dish, 10, organization: organization) }
-  let!(:wines) { create_list(:wine, 10, organization: organization, maker: maker) }
-  let!(:beers) { create_list(:beer, 10, organization: organization, maker: maker) }
-  let!(:drinks) { create_list(:drink, 10, organization: organization, maker: maker) }
+  let(:organization) { create(:organization) }
+  let(:waiter) { create(:user_waiter, organization: organization) }
+  let(:orders) { create_list(:order, 10, :with_items, :open, organization: organization) }
+  let(:maker) { create(:maker, organization: organization) }
+  let(:dishes) { create_list(:dish, 10, organization: organization) }
+  let(:wines) { create_list(:wine, 10, organization: organization, maker: maker) }
+  let(:beers) { create_list(:beer, 10, organization: organization, maker: maker) }
+  let(:drinks) { create_list(:drink, 10, organization: organization, maker: maker) }
 
   describe '#GET /api/orders/:order_id/items' do
     it 'should request all order items' do

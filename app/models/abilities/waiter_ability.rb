@@ -4,7 +4,7 @@ module Abilities
   class WaiterAbility < Abilities::BaseAbility
     def initialize(user:, params:, controller_name:)
       super()
-      can :manage, User, id: user.id
+      can_manage_self(user: user, controller_name: controller_name)
       customer_search(controller_name: controller_name)
       theme(organization_id: user.organization_id)
       products_permissions(user)

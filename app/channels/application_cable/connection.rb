@@ -11,8 +11,8 @@ module ApplicationCable
     private
 
     def find_verified_user
-      token = request.params[:token].remove 'Bearer '
-      if (verified_user = Warden::JWTAuth::UserDecoder.new.call(token, :user, nil))
+      token = request.params[:token]&.remove 'Bearer '
+      if token.present? && (verified_user = Warden::JWTAuth::UserDecoder.new.call(token, :user, nil))
         verified_user
       else
         reject_unauthorized_connection
