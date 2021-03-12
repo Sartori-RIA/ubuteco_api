@@ -2,10 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe AvatarUploader, type: :uploader do
+RSpec.describe LogoUploader, type: :uploader do
   let!(:organization) { create(:organization) }
-  let!(:user) { organization.user }
-  let!(:uploader) { described_class.new(user, :avatar) }
+  let!(:uploader) { described_class.new(organization, :avatar) }
 
   before do
     described_class.enable_processing = true
@@ -35,7 +34,6 @@ RSpec.describe AvatarUploader, type: :uploader do
   end
 
   it 'in the folder' do
-    byebug
-    expect(uploader.store_dir.to_s).to match("uploads/#{user.class.to_s.underscore}/avatar/#{organization.id}")
+    expect(uploader.store_dir.to_s).to match("uploads/#{organization.class.to_s.underscore}/avatar/#{organization.id}")
   end
 end

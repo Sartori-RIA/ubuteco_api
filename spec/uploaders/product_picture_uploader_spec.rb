@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ProductPictureUploader, type: :uploader do
+  let!(:organization) { create(:organization) }
   let!(:product) { [create(:wine), create(:beer), create(:drink), create(:dish), create(:food)].sample }
   let!(:uploader) { described_class.new(product, :image) }
 
@@ -14,12 +15,6 @@ RSpec.describe ProductPictureUploader, type: :uploader do
   after do
     described_class.enable_processing = false
     uploader.remove!
-  end
-
-  xcontext 'the thumb version' do
-    it "scales down a landscape image to be exactly 150 by 150 pixels" do
-      expect(uploader.thumb).to have_dimensions(150, 150)
-    end
   end
 
   describe "#URLS" do
@@ -37,5 +32,9 @@ RSpec.describe ProductPictureUploader, type: :uploader do
 
   it "has the correct format" do
     expect(uploader.extension_whitelist).to eq(%w[jpg jpeg gif png])
+  end
+
+  it 'in the folder' do
+    expect(uploader.store_dir).to match("uploads/#{product.class.to_s.underscore}/image/#{product.id}")
   end
 end
