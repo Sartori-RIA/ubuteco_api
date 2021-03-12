@@ -16,7 +16,7 @@ class RegistrationsController < Devise::RegistrationsController
         create_with_organization
       end
     else
-      validation_error resource
+      render json: resource.errors, status: :unprocessable_entity
     end
   end
 
@@ -34,8 +34,6 @@ class RegistrationsController < Devise::RegistrationsController
     if sign_up_params.present?
       @attributes = sign_up_params
       @attributes[:role] = params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER')
-    else
-      render status: :unprocessable_entity
     end
   end
 

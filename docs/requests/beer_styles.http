@@ -44,7 +44,7 @@ Authorization: {{token}}
 
 ###
 
-DELETE http://{{host}}:{{port}}/api/beer_styles/{{style_id}}
+DELETE http://{{host}}:{{port}}/api/beer_styles/5555
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
