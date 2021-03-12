@@ -14,6 +14,7 @@ CarrierWave.configure do |config|
     config.fog_attributes = {cache_control: "public, max-age=#{365.days.to_i}"} # optional, defaults to {}
   else
     config.storage = :file
-    config.enable_processing = Rails.env.development?
+    #config.enable_processing = Rails.env.development?
+    config.enable_processing = true
   end
 end

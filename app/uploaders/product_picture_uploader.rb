@@ -16,12 +16,12 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
   end
 
   def default_url(*_args)
-    'https://www.flymobi.com.br/images/placeholder-img.jpg'
+    'https://s3.us-east-2.amazonaws.com/ibuteco.cookiecode.com.br/uploads/default.png'
   end
 
   def asset_host
     if Rails.env.production?
-      'https://api.alertamed.com.br'
+      'https://ibuteco.herokuapp.com/'
     else
       'http://192.168.0.193'
     end
