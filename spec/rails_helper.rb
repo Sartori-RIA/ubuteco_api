@@ -14,14 +14,8 @@ require 'money-rails/test_helpers'
 require "cancan/matchers"
 require 'carrierwave/test/matchers'
 
-require 'support/database_cleaner'
-require 'support/factory_bot'
-require 'support/file_spec_helper'
-require 'support/fuubar'
-require 'support/shoulda'
-require 'support/helpers/headers'
-require 'support/carrier_wave'
-require 'support/action_cable_helper'
+require 'support/helpers/*'
+require 'support/*'
 
 require 'spec_helper'
 
