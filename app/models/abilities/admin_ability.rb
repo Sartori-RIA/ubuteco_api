@@ -4,10 +4,12 @@ module Abilities
   class AdminAbility < Abilities::BaseAbility
     def initialize(user:, params:, controller_name:)
       super()
-      can :manage, User, organization_id: user.organization_id
       can %i[update read], Theme, organization_id: user.organization_id
       can :manage, Organization, id: user.organization_id
-      customer_search
+      can :read, Role
+      can_manage_organization_users(organization_id: user.organization_id, controller_name: controller_name)
+      can_manage_self(user: user, controller_name: controller_name)
+      customer_search(controller_name: controller_name)
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)
     end

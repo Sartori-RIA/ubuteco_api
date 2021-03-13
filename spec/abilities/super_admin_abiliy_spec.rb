@@ -3,21 +3,22 @@ require 'rails_helper'
 RSpec.describe Abilities::SuperAdminAbility, type: :ability do
   describe "abilities" do
 
-    let!(:organization) { create(:organization) }
-    let!(:user) do
-      organization.update(user: create(:user_super_admin, organization: organization))
-      organization.user
-    end
-    let!(:order) { create(:order, :open, :with_items, organization: organization) }
-    let!(:table) { create(:table, organization: organization) }
-    let!(:wine) { create(:wine, organization: organization) }
-    let!(:beer) { create(:beer, organization: organization) }
-    let!(:dish) { create(:dish, organization: organization) }
-    let!(:drink) { create(:drink, organization: organization) }
-    let!(:food) { create(:food, organization: organization) }
-    let!(:maker) { create(:maker, organization: organization) }
+    let(:organization) { create(:organization) }
+    let(:user) { organization.user }
+    let(:order) { create(:order, :open, :with_items, organization: organization) }
+    let(:table) { create(:table, organization: organization) }
+    let(:wine) { create(:wine, organization: organization) }
+    let(:beer) { create(:beer, organization: organization) }
+    let(:dish) { create(:dish, organization: organization) }
+    let(:drink) { create(:drink, organization: organization) }
+    let(:food) { create(:food, organization: organization) }
+    let(:maker) { create(:maker, organization: organization) }
 
-    subject { Abilities::SuperAdminAbility.new user: user, params: { id: order.id } }
+    subject {
+      Abilities::SuperAdminAbility.new(
+        user: user, params: { id: order.id }, controller_name: 'Api::Organizations::Users'
+      )
+    }
 
     context "when is an super admin" do
       context 'can' do

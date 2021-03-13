@@ -6,13 +6,6 @@ RSpec.describe Api::UsersController, type: :request do
   let!(:admin) { organization.user }
   let!(:roles) { create_list(:role, 5) }
 
-  describe '#GET /api/users' do
-    it 'should retrieves all user' do
-      get api_users_path, headers: auth_header(admin)
-      expect(response).to have_http_status(200)
-    end
-  end
-
   describe '#GET /api/users/:id' do
     it 'should retrieves user by id' do
       get api_user_path(admin.id), headers: auth_header(admin)

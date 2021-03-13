@@ -12,7 +12,7 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   mount_uploader :avatar, AvatarUploader
-
+  before_validation :set_initial_data
   validates :name, :email, presence: true
 
   belongs_to :organization, optional: true
@@ -42,7 +42,18 @@ class User < ApplicationRecord
     end
   end
 
+  def set_initial_data
+    return if organization_id.blank?
+
+    @generated_password = Devise.friendly_token.first(8)
+    self.password = @generated_password
+    skip_confirmation!
+  end
+
   def send_welcome
-    UserMailer.with(user: self).welcome.deliver_now!
+    UserMailer.with(
+      user: self,
+      generated_password: @generated_password
+    ).welcome.deliver_now!
   end
 end

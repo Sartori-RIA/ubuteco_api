@@ -3,7 +3,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "lucassartori@cookiecode.com.br",
+  "email": "super@email.com",
   "password": "123123123"
 }
 

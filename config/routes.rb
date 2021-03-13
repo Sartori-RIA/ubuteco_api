@@ -74,9 +74,11 @@ Rails.application.routes.draw do
       end
       scope module: :organizations do
         resources :themes, except: :destroy
+        resources :users, only: :index
       end
     end
-    resources :users do
+    resources :customers, only: :index
+    resources :users, except: :index do
       collection do
         get 'search' => 'users#search'
         get 'check/email' => 'users#email_available?'
@@ -92,6 +94,7 @@ Rails.application.routes.draw do
         get 'search' => 'wines#search'
       end
     end
+    resources :roles
     mount ActionCable.server => '/cable'
   end
 end

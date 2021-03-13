@@ -22,13 +22,22 @@ module Abilities
       can %i[create update destroy], OrderItem, order: { organization_id: user.organization_id, status: :open }
     end
 
+    def can_manage_self(user:, controller_name:)
+      can :manage, User, id: user.id unless controller_name == 'Api::Customers'
+    end
+
+    def can_manage_organization_users(organization_id:, controller_name:)
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::Organizations::Users'
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::Users'
+    end
+
     def theme(organization_id:)
       can :read, Theme, organization_id: organization_id
       can :read, Organization, id: organization_id
     end
 
-    def customer_search
-      can %i[read search], User, role: { name: 'CUSTOMER' }
+    def customer_search(controller_name:)
+      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::Customers'
     end
 
     def kitchens_namespace(controller_name:, user:)

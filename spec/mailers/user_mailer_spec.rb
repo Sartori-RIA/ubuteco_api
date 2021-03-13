@@ -40,7 +40,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Código de verificação - Cookie Restaurant Manager')
+      expect(mail.subject).to eq('Código de verificação - uButeco')
     end
 
     it 'renders the receiver email' do

@@ -3,7 +3,7 @@
 class Organization < ApplicationRecord
   acts_as_paranoid
 
-  mount_uploader :logo, AvatarUploader
+  mount_uploader :logo, LogoUploader
 
   before_create :format_cnpj
   after_create :set_default_theme

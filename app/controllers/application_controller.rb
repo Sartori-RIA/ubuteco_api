@@ -44,7 +44,7 @@ class ApplicationController < ActionController::API
 
     case current_user.role.name
     when 'SUPER_ADMIN'
-      Abilities::SuperAdminAbility.new user: current_user, params: params
+      Abilities::SuperAdminAbility.new user: current_user, params: params, controller_name: controller_name
     when 'ADMIN'
       Abilities::AdminAbility.new user: current_user, params: params, controller_name: controller_name
     when 'KITCHEN'
@@ -54,7 +54,9 @@ class ApplicationController < ActionController::API
     when 'CASH_REGISTER'
       Abilities::CashRegisterAbility.new user: current_user, params: params, controller_name: controller_name
     when 'CUSTOMER'
-      Abilities::CustomerAbility.new user: current_user, params: params
+      Abilities::CustomerAbility.new user: current_user, params: params, controller_name: controller_name
+    else
+      Abilities::BaseAbility.new
     end
   end
 end

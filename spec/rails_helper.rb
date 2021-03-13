@@ -6,9 +6,9 @@ require 'support/simplecov'
 require File.expand_path('../config/environment', __dir__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?
+
 require 'rspec/rails'
 require "rspec/json_expectations"
-
 require 'devise/jwt/test_helpers'
 require 'money-rails/test_helpers'
 require "cancan/matchers"
@@ -21,6 +21,7 @@ require 'support/fuubar'
 require 'support/shoulda'
 require 'support/helpers/headers'
 require 'support/carrier_wave'
+require 'support/action_cable_helper'
 
 require 'spec_helper'
 

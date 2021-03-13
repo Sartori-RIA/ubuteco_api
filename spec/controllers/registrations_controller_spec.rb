@@ -7,23 +7,32 @@ RSpec.describe RegistrationsController, type: :request do
   let!(:role_customer) { create(:customer) }
 
   describe '#POST create new account' do
-    it 'with valid params' do
-      data = { user: attributes_for(:user) }
-      post user_registration_path, params: data.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:ok)
+    context 'with success' do
+      it 'with valid params' do
+        data = { user: attributes_for(:user) }
+        post user_registration_path, params: data.to_json, headers: unauthenticated_header
+        expect(response).to have_http_status(:ok)
+      end
     end
-    it 'without params bad_request, raise ParameterMissing' do
-      expect { post user_registration_path, params: {}.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: user'
-    end
-    it 'without params bad_request' do
-      post user_registration_path, params: { user: {name: "asd"} }.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:bad_request)
-    end
-    it 'with email already taken' do
-      user = create(:user)
-      attributes = { user: { email: user.email } }
-      post user_registration_path, params: attributes.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:bad_request)
+    context 'with error' do
+      it 'without params bad_request, raise ParameterMissing' do
+        expect { post user_registration_path, params: {}.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: user'
+      end
+      it 'without params bad_request' do
+        post user_registration_path, params: { user: { name: "asd" } }.to_json, headers: unauthenticated_header
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+      it 'with email already taken' do
+        user = create(:user)
+        attributes = { user: { email: user.email } }
+        post user_registration_path, params: attributes.to_json, headers: unauthenticated_header
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+      it 'with valid params' do
+        data = { user: attributes_for(:user).merge(password: '1') }
+        post user_registration_path, params: data.to_json, headers: unauthenticated_header
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
   describe '#POST create new account with organization' do
@@ -37,11 +46,11 @@ RSpec.describe RegistrationsController, type: :request do
     end
     it 'without params , raise ParameterMissing' do
       params = { user: attributes_for(:user), organization_attributes: {} }
-      expect{ post user_registration_path, params: params.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: organization_attributes'
+      expect { post user_registration_path, params: params.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: organization_attributes'
     end
     it 'without params bad_request' do
       post user_registration_path, params: { user: { name: "asd" } }.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
     it 'with cnpj already taken' do
       org = create(:organization)

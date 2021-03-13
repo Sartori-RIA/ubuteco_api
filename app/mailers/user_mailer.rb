@@ -9,7 +9,7 @@ class UserMailer < ApplicationMailer
   end
 
   def password_reset_code
-    @subject = 'Código de verificação - Cookie Restaurant Manager'
+    @subject = 'Código de verificação - uButeco'
     mail to: @user.email, subject: @subject
   end
 
@@ -18,5 +18,6 @@ class UserMailer < ApplicationMailer
   def load_user
     @user = params[:user]
     @code = params[:code]
+    @generated_password = params[:generated_password]
   end
 end
