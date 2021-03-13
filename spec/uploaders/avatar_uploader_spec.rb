@@ -35,7 +35,6 @@ RSpec.describe AvatarUploader, type: :uploader do
   end
 
   it 'in the folder' do
-    byebug
-    expect(uploader.store_dir.to_s).to match("uploads/#{user.class.to_s.underscore}/avatar/#{organization.id}")
+    expect(uploader.store_dir.to_s).to match("uploads/#{user.class.to_s.underscore}/avatar/#{user.id}")
   end
 end

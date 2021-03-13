@@ -44,10 +44,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
-end
-
-group :development, :test do
-  # Recommend to lock the mutant gems current major version, via '~> # 0.9.x'
+  gem 'parallel_tests'
   gem 'mutant-rspec', '~> 0.10.20'
   source 'https://oss:wKXUfu1alkPFjjIkCqNag7ya5NcXJxcd@gem.mutant.dev' do
     gem 'mutant-license', require: false
@@ -68,6 +65,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'simplecov', '~>0.17.1', require: false
   gem 'simplecov-console', require: false
+  gem 'simplecov-parallel'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
