@@ -18,6 +18,7 @@ gem 'devise-encryptable'
 gem 'devise-i18n'
 gem 'devise-jwt', '~> 0.7.0'
 gem 'dry-configurable', '0.9.0'
+gem 'faker'
 gem 'figaro'
 gem 'fog-aws'
 gem 'kaminari'
@@ -39,13 +40,12 @@ gem 'validators'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'fuubar'
+  gem 'mutant-rspec', '~> 0.10.20'
+  gem 'parallel_tests'
   gem 'rspec'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
-  gem 'parallel_tests'
-  gem 'mutant-rspec', '~> 0.10.20'
   source 'https://oss:wKXUfu1alkPFjjIkCqNag7ya5NcXJxcd@gem.mutant.dev' do
     gem 'mutant-license', require: false
   end
