@@ -15,9 +15,6 @@ RSpec.describe RegistrationsController, type: :request do
       end
     end
     context 'with error' do
-      it 'without params bad_request, raise ParameterMissing' do
-        expect { post user_registration_path, params: {}.to_json, headers: unauthenticated_header }.to raise_error ActionController::ParameterMissing, 'param is missing or the value is empty: user'
-      end
       it 'without params bad_request' do
         post user_registration_path, params: { user: { name: "asd" } }.to_json, headers: unauthenticated_header
         expect(response).to have_http_status(:unprocessable_entity)
