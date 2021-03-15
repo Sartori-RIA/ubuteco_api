@@ -29,7 +29,7 @@ dist: xenial
 language: ruby
 
 rvm:
-  - 2.7.2
+  - 3.0.0
 
 script:
   - bundle exec rails db:create RAILS_ENV=test
