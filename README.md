@@ -21,19 +21,18 @@
 + Without Docker
   + Postgres
   + Rails 6.x
-  + Ruby 2.7.2
+  + Ruby 3.0.0
 
 ### Quick Start
 
 1. `cp config/application.yml.example config/application.yml` -> create environment file
 2. `docker-compose up -d` -> start docker environment
 3. `docker exec -it ubuteco_api /bin/bash` -> enter in docker container
-4. `rails parallel:setup` -> create tables and database updates
-5. `rails parallel:migrate` -> create tables and database updates
+4. `rails db:setup` -> create tables and database updates
+5. `rails db:migrate` -> create tables and database updates
 6. `rails db:seed` -> populate database with real data
 7. `rails db:populate` -> populate database with fake data
-8. `rspec` -> run all tests
-9. `rails parallel:spec` -> run all tests with parallel
+8. `rspec` -> run all tests11
 10. `bundle exec mutant run --use rspec` -> run all mutant tests
 11. `rails s -b 0.0.0.0` -> start server
 
@@ -50,3 +49,10 @@
     
 + Broadcasts:
     + "kitchens_#{organization_cnpj}"
+
+## Contributing
+
+* Fork it
+* Write your changes
+* Commit
+* Send a pull request

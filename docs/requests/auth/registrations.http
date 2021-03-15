@@ -4,13 +4,13 @@ Content-Type: application/json
 
 {
   "user": {
-    "email": "lucasss@email.com",
+    "email": "asdasdads@email.com",
     "password": "123123123",
     "name": "teste"
   },
   "organization_attributes": {
-    "name": "cookiecode",
-    "phone": "1231123123",
-    "cnpj": "50689466000114"
+    "name": "cookiedcode",
+    "phone": "asdasdasd",
+    "cnpj": "40.219.165/0001-73"
   }
 }

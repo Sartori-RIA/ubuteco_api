@@ -13,17 +13,14 @@ namespace :db do
       Drink,
       Wine,
       Maker,
-      BeerStyle,
-      WineStyle,
     ].each(&:delete_all)
 
-    super_admin =
-      User.create_with(
-        password: '123123123',
-        name: 'user super admin',
-        confirmed_at: Time.zone.now,
-        role: Role.find_by(name: 'SUPER_ADMIN'),
-      ).find_or_create_by!(email: 'super@email.com')
+    default_pwd = '123123123'
+    super_admin = User.create_with(
+      password: default_pwd,
+      name: 'user super admin',
+      role: Role.find_by(name: 'SUPER_ADMIN'),
+    ).find_or_create_by!(email: 'super@email.com')
 
     super_org = Organization.create_with(
       name: Faker::Company.name,
@@ -33,13 +30,11 @@ namespace :db do
 
     super_admin.update(organization: super_org)
 
-    admin =
-      User.create_with(
-        password: '123123123',
-        name: 'user admin',
-        confirmed_at: Time.zone.now,
-        role: Role.find_by(name: 'ADMIN'),
-      ).find_or_create_by!(email: 'admin@email.com')
+    admin = User.create_with(
+      password: default_pwd,
+      name: 'user admin',
+      role: Role.find_by(name: 'ADMIN'),
+    ).find_or_create_by!(email: 'admin@email.com')
 
     organization = Organization.create_with(
       name: Faker::Company.name,
@@ -47,48 +42,36 @@ namespace :db do
       user: admin
     ).find_or_create_by!(cnpj: Faker::Company.unique.brazilian_company_number(formatted: true))
 
-    admin.update(organization: organization)
+    admin.update(organization_id: organization.id)
 
     User.create_with(
-      password: '123123123',
+      password: default_pwd,
       name: 'user kitchen',
-      confirmed_at: Time.zone.now,
       role: Role.find_by(name: 'KITCHEN'),
-      organization: organization
+      organization_id: organization.id
     ).find_or_create_by!(email: 'kitchen@email.com')
 
     User.create_with(
-      password: '123123123',
+      password: default_pwd,
       name: 'user waiter',
-      confirmed_at: Time.zone.now,
       role: Role.find_by(name: 'WAITER'),
-      organization: organization
+      organization_id: organization.id
     ).find_or_create_by!(email: 'waiter@email.com')
 
     User.create_with(
-      password: '123123123',
+      password: default_pwd,
       name: 'user CASH REGISTER',
-      confirmed_at: Time.zone.now,
       role: Role.find_by(name: 'CASH_REGISTER'),
-      organization: organization
+      organization_id: organization.id
     ).find_or_create_by!(email: 'cash_register@email.com')
 
     User.create_with(
-      password: '123123123',
-      name: 'user kitchen',
-      confirmed_at: Time.zone.now,
+      password: default_pwd,
+      name: 'user customer',
       role: Role.find_by(name: 'CUSTOMER'),
     ).find_or_create_by!(email: 'customer@email.com')
 
-    20.times do
-      BeerStyle.find_or_create_by!(name: Faker::Beer.unique.style)
-    end
-    Faker::Beer.unique.clear
-
-    20.times do
-      WineStyle.find_or_create_by!(name: Faker::Beer.unique.style)
-    end
-    Faker::Beer.unique.clear
+    User.update_all(confirmed_at: Time.zone.now)
 
     100.times do
       Maker.create!(

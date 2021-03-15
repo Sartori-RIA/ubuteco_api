@@ -11,10 +11,10 @@ class Organization < ApplicationRecord
   before_update :format_cnpj
 
   validates :name, :phone, :cnpj, presence: true
-  validates :cnpj, uniqueness: true
+  validates :cnpj, :phone, uniqueness: true
   validates_cnpj_format_of :cnpj
 
-  belongs_to :user
+  belongs_to :user, optional: true
   accepts_nested_attributes_for :user, allow_destroy: true, limit: 1
 
   has_many :users, dependent: :delete_all

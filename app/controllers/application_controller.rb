@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
-    render status: :forbidden
+    render json: {}, status: :forbidden
   end
 
   def render_resource(resource)

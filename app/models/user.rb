@@ -6,13 +6,18 @@ class User < ApplicationRecord
 
   acts_as_paranoid
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :validatable,
-         :confirmable, :lockable, :trackable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :database_authenticatable,
+         :encryptable,
+         :registerable,
+         :recoverable,
+         :confirmable,
+         :validatable,
+         :trackable,
+         :jwt_authenticatable,
+         jwt_revocation_strategy: self
 
   mount_uploader :avatar, AvatarUploader
-  before_validation :set_initial_data
+  before_validation :set_initial_data, on: :create
   validates :name, :email, presence: true
 
   belongs_to :organization, optional: true
@@ -43,8 +48,7 @@ class User < ApplicationRecord
   end
 
   def set_initial_data
-    return if organization_id.blank?
-
+    return if self.organization_id.blank? || self.password.present?
     @generated_password = Devise.friendly_token.first(8)
     self.password = @generated_password
     skip_confirmation!

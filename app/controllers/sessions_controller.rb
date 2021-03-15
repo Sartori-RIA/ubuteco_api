@@ -13,4 +13,8 @@ class SessionsController < Devise::SessionsController
   def respond_to_on_destroy
     head :ok
   end
+
+  def sign_in_params
+    params.permit(:email, :password)
+  end
 end
