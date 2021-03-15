@@ -50,6 +50,20 @@
 + Broadcasts:
     + "kitchens_#{organization_cnpj}"
 
+
+### Default users in db:populate
+
++ Emails
+  + `customer@email.com`
+  + `cash_register@email.com`
+  + `waiter@email.com`
+  + `kitchen@email.com`
+  + `admin@email.com`
+  + `super@email.com`
+
++ passwords:
+  + `123123123`
+  
 ## Contributing
 
 * Fork it
