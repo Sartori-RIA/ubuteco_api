@@ -133,6 +133,8 @@ GEM
     factory_bot_rails (6.1.0)
       factory_bot (~> 6.1.0)
       railties (>= 5.0.0)
+    factory_trace (0.4.1)
+      factory_bot (>= 4.0)
     faker (2.17.0)
       i18n (>= 1.6, < 2)
     ffi (1.15.0)
@@ -341,9 +343,6 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.90.0, < 2.0)
-    rubocop-rspec (2.2.0)
-      rubocop (~> 1.0)
-      rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.0)
       ffi (~> 1.12)
@@ -430,6 +429,7 @@ DEPENDENCIES
   devise-jwt (~> 0.8.1)
   dry-configurable (= 0.9.0)
   factory_bot_rails
+  factory_trace
   faker
   figaro
   fog-aws
@@ -456,7 +456,6 @@ DEPENDENCIES
   rspec-rails (~> 5.0.0)
   rubocop
   rubocop-rails
-  rubocop-rspec
   shoulda-matchers (~> 3.1)
   simplecov (~> 0.17.1)
   simplecov-console

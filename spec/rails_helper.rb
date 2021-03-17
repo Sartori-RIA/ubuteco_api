@@ -19,6 +19,7 @@ require 'support/action_cable'
 require 'support/carrier_wave'
 require 'support/database_cleaner'
 require 'support/factory_bot'
+require 'support/factory_trace'
 require 'support/file_spec_helper'
 require 'support/fuubar'
 require 'support/shoulda'
@@ -35,12 +36,8 @@ end
 
 RSpec.configure do |config|
   config.include Helpers::Headers
-
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   config.use_transactional_fixtures = false
-
   config.infer_spec_type_from_file_location!
-
   config.filter_rails_from_backtrace!
 end

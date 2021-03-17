@@ -6,7 +6,7 @@ Authorization: {{token}}
 {
   "item_id": 2,
   "item_type": "Drink",
-  "quantity": 1
+  "quantity": 5
 }
 
 ###

@@ -3,8 +3,6 @@
 class Order < ApplicationRecord
   acts_as_paranoid
 
-  after_update :update_stock
-
   enum status: { open: 0, closed: 1, payed: 2 }
 
   belongs_to :table, optional: true
@@ -24,13 +22,11 @@ class Order < ApplicationRecord
                     user: %w[name]
                   }
 
-  protected
-
-  def update_stock
-    return unless status == 'payed'
-
-    order_items.each do |item|
-      item.item.update(quantity_stock: item.item.quantity_stock - item.quantity) unless item.item_type == 'Dish'
+  def recalculate_total!
+    total = 0
+    order_items.each do |order_item|
+      total = total + (order_item.item.price_cents * order_item.quantity)
     end
+    self.update(total_cents: total)
   end
 end

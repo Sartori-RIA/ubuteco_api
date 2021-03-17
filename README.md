@@ -9,6 +9,7 @@
 [![Pix](https://img.shields.io/badge/pix-e5c7ec40--4696--43c2--815a--08dab5071260-blue)](https://github.com/Sartori-RIA/ubuteco_api/blob/master/bitcoin-pix.txt)
 ![GitHub](https://img.shields.io/github/license/sartori-ria/ubuteco_api)
 ![GitHub all releases](https://img.shields.io/github/downloads/sartori-ria/ubuteco_api/total)
+![GitHub Repo stars](https://img.shields.io/github/stars/sartori-ria/ubuteco_api?style=social)
 
 ### Requirements
 

@@ -18,7 +18,6 @@ gem 'devise-encryptable'
 gem 'devise-i18n'
 gem 'devise-jwt', '~> 0.8.1'
 gem 'dry-configurable', '0.9.0'
-gem 'faker'
 gem 'figaro'
 gem 'fog-aws'
 gem 'jbuilder', '~> 2.7'
@@ -41,6 +40,8 @@ gem 'validators'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
+  gem 'factory_trace'
+  gem 'faker'
   gem 'fuubar'
   gem 'mutant-rspec', '~> 0.10.20'
   gem 'rspec'
@@ -54,7 +55,7 @@ end
 group :development do
   gem 'mailcatcher'
   gem 'rubocop', require: false
-  gem 'rubocop-rspec'
+  gem 'rspec-rails', '~> 5.0.0'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

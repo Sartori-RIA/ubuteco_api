@@ -29,7 +29,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/drinks/{{drink_id}}
+GET http://{{host}}:{{port}}/api/drinks/1
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}

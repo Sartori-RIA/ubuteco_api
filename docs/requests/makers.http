@@ -28,7 +28,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/makers/{{maker_id}}
+GET http://{{host}}:{{port}}/api/makers/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

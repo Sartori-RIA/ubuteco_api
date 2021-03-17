@@ -14,7 +14,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/orders/174
+GET http://{{host}}:{{port}}/api/orders/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
