@@ -9,6 +9,7 @@ module Abilities
       theme(organization_id: user.organization_id)
       products_permissions(user)
       orders_permissions(user: user, params: params, controller_name: controller_name)
+      can :read, Table, organization_id: user.organization_id
     end
 
     def products_permissions(user)

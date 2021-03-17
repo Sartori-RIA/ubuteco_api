@@ -8,6 +8,7 @@ class OrderItem < ApplicationRecord
 
   after_create :recalculate_total
   after_update :recalculate_total
+  after_destroy :recalculate_total
 
   after_create :set_default_status
   after_update :set_default_status
@@ -33,6 +34,7 @@ class OrderItem < ApplicationRecord
   protected
 
   def set_default_status
+    return if item_type == 'Dish'
     self.status = 3
   end
 
