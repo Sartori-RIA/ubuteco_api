@@ -12,8 +12,4 @@ class Dish < Product
   has_many :dish_ingredients, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :dish_ingredients, allow_destroy: true
-
-  def to_json(*_args)
-    super(include: [dish_ingredients: { include: :food }])
-  end
 end
