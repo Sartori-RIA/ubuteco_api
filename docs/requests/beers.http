@@ -32,7 +32,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/beers/{{beer_id}}
+GET http://{{host}}:{{port}}/api/beers/1
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}

@@ -15,8 +15,4 @@ class Beer < Product
                     maker: %w[name],
                     beer_style: %w[name]
                   }
-
-  def to_json(*_args)
-    super(include: %i[beer_style maker])
-  end
 end

@@ -8,9 +8,7 @@ module Api
       paginate json: @tables.order(name: :asc)
     end
 
-    def show
-      render json: @table
-    end
+    def show; end
 
     def search
       @tables = Table.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @table = Table.new(create_params)
 
       if @table.save
-        render json: @table, status: :created
+        render status: :created
       else
         render json: @table.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @table.update(update_params)
-        render json: @table
+        render status: :ok
       else
         render json: @table.errors, status: :unprocessable_entity
       end

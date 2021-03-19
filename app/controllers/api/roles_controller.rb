@@ -2,19 +2,15 @@ module Api
   class RolesController < ApplicationController
     load_and_authorize_resource
 
-    def index
-      render json: @roles
-    end
+    def index; end
 
-    def show
-      render json: @roles
-    end
+    def show ; end
 
     def create
       @role = Role.new(create_params)
 
       if @role.save
-        render json: @role, status: :created
+        render status: :created
       else
         render json: @role.errors, status: :unprocessable_entity
       end
@@ -22,7 +18,7 @@ module Api
 
     def update
       if @role.update(update_params)
-        render json: @role
+        render status: :ok
       else
         render json: @role.errors, status: :unprocessable_entity
       end

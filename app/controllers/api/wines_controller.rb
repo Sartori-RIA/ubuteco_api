@@ -8,9 +8,7 @@ module Api
       paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
-    def show
-      render json: @wine.to_json
-    end
+    def show; end
 
     def search
       @wines = Wine.search params[:q]
@@ -20,7 +18,7 @@ module Api
     def create
       @wine = Wine.new(create_params)
       if @wine.save
-        render json: @wine.to_json, status: :created
+        render status: :created
       else
         render json: @wine.errors, status: :unprocessable_entity
       end
@@ -28,7 +26,7 @@ module Api
 
     def update
       if @wine.update(update_params)
-        render json: @wine.to_json
+        render status: :ok
       else
         render json: @wine.errors, status: :unprocessable_entity
       end

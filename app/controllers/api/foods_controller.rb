@@ -8,9 +8,7 @@ module Api
       paginate json: @foods.order(name: :asc)
     end
 
-    def show
-      render json: @foods
-    end
+    def show; end
 
     def search
       @foods = Food.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @foods = Food.new(create_params)
 
       if @foods.save
-        render json: @foods, status: :created
+        render status: :created
       else
         render json: @foods.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @food.update(update_params)
-        render json: @food
+        render status: :ok
       else
         render json: @food.errors, status: :unprocessable_entity
       end

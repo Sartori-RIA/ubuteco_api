@@ -23,8 +23,4 @@ class Wine < Product
                   associated_against: {
                     wine_style: %w[name]
                   }
-
-  def to_json(*_args)
-    super(include: %i[wine_style maker])
-  end
 end

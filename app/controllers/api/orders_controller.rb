@@ -8,9 +8,7 @@ module Api
       paginate json: @orders, include: [:table]
     end
 
-    def show
-      render json: @order, include: %i[order_items table]
-    end
+    def show; end
 
     def search
       @orders = Order.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @order = Order.new(create_params)
 
       if @order.save
-        render json: @order, status: :created
+        render status: :created
       else
         render json: @order.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @order.update(update_params)
-        render json: @order
+        render status: :ok
       else
         render json: @order.errors, status: :unprocessable_entity
       end

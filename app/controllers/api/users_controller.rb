@@ -4,14 +4,12 @@ module Api
   class UsersController < ApplicationController
     load_and_authorize_resource
 
-    def show
-      render json: @user, include: [:role, { organization: { include: [:theme] } }]
-    end
+    def show; end
 
     def create
       @user = User.new(create_params)
       if @user.save
-        render json: @user, include: [:role, { organization: { include: [:theme] } }], status: :created
+        render status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -19,7 +17,7 @@ module Api
 
     def update
       if @user.update(update_params)
-        render json: @user, include: [:role, { organization: { include: [:theme] } }]
+        render status: :ok
       else
         render json: @user.errors, status: :unprocessable_entity
       end

@@ -8,9 +8,7 @@ module Api
       paginate json: @drinks.order(name: :asc), include: %i[maker]
     end
 
-    def show
-      render json: @drink, include: %i[maker]
-    end
+    def show; end
 
     def search
       @drinks = Drink.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @drink = Drink.new(create_params)
 
       if @drink.save
-        render json: @drink, status: :created
+        render status: :created
       else
         render json: @drink.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @drink.update(update_params)
-        render json: @drink
+        render status: :ok
       else
         render json: @drink.errors, status: :unprocessable_entity
       end

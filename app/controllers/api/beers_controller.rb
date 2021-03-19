@@ -8,9 +8,7 @@ module Api
       paginate json: @beers.order(name: :asc), include: %i[beer_style maker]
     end
 
-    def show
-      render json: @beer.to_json
-    end
+    def show; end
 
     def search
       @beers = Beer.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @beer = Beer.new(create_params)
 
       if @beer.save
-        render json: @beer.to_json, status: :created
+        render status: :created
       else
         render json: @beer.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @beer.update(update_params)
-        render json: @beer.to_json
+        render status: :ok
       else
         render json: @beer.errors, status: :unprocessable_entity
       end

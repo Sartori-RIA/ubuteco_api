@@ -8,9 +8,7 @@ module Api
       paginate json: @makers.order(name: :asc)
     end
 
-    def show
-      render json: @maker
-    end
+    def show; end
 
     def search
       @makers = Maker.search params[:q]
@@ -21,7 +19,7 @@ module Api
       @maker = Maker.new(create_params)
 
       if @maker.save
-        render json: @maker, status: :created
+        render status: :created
       else
         render json: @maker.errors, status: :unprocessable_entity
       end
@@ -29,7 +27,7 @@ module Api
 
     def update
       if @maker.update(update_params)
-        render json: @maker
+        render status: :ok
       else
         render json: @maker.errors, status: :unprocessable_entity
       end

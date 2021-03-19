@@ -8,9 +8,7 @@ module Api
       paginate json: @organizations.order(name: :asc)
     end
 
-    def show
-      render json: @organization
-    end
+    def show ; end
 
     def search
       @organization = Organization.search params[:q]
@@ -19,7 +17,7 @@ module Api
 
     def update
       if @organization.update(update_params)
-        render json: @organization
+        render status: :ok
       else
         render json: @organization.errors, status: :unprocessable_entity
       end

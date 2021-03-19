@@ -8,9 +8,7 @@ module Api
       paginate json: @dishes.order(name: :asc), include: [dish_ingredients: { include: :food }]
     end
 
-    def show
-      render json: @dish, include: [dish_ingredients: { include: :food }]
-    end
+    def show; end
 
     def search
       @dishes = Dish.search params[:q]
@@ -20,7 +18,7 @@ module Api
     def create
       @dish = Dish.new(create_params)
       if @dish.save
-        render json: @dish, include: [dish_ingredients: { include: :food }], status: :created
+        render status: :created
       else
         render json: @dish.errors, status: :unprocessable_entity
       end
@@ -28,7 +26,7 @@ module Api
 
     def update
       if @dish.update(update_params)
-        render json: @dish, include: [dish_ingredients: { include: :food }]
+        render status: :ok
       else
         render json: @dish.errors, status: :unprocessable_entity
       end

@@ -9,13 +9,11 @@ module Api
         render json: @themes
       end
 
-      def show
-        render json: @theme
-      end
+      def show; end
 
       def update
         if @theme.update(update_params)
-          render json: @theme
+          render status: :ok
         else
           render json: @theme.errors, status: :unprocessable_entity
         end
