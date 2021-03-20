@@ -27,6 +27,6 @@ class Order < ApplicationRecord
     order_items.each do |order_item|
       total = total + (order_item.item.price_cents * order_item.quantity)
     end
-    self.update(total_cents: total)
+    self.update(total_cents: total, total_with_discount_cents: total - discount_cents)
   end
 end
