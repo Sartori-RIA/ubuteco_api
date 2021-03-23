@@ -71,3 +71,7 @@
 * Write your changes
 * Commit
 * Send a pull request
+
+## Supporters
+
+![https://jb.gg/OpenSource](./supporters/jetbrains.svg)
