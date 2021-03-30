@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class TablesController < ApplicationController
+  class V1::TablesController < ApplicationController
     load_and_authorize_resource
 
     def index

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class OrdersController < ApplicationController
+  class V1::OrdersController < ApplicationController
     load_and_authorize_resource
 
     def index

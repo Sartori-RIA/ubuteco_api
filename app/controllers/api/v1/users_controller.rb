@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class UsersController < ApplicationController
+  class V1::UsersController < ApplicationController
     load_and_authorize_resource
 
     def show

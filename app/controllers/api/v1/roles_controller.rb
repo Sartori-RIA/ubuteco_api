@@ -1,5 +1,5 @@
 module Api
-  class RolesController < ApplicationController
+  class V1::RolesController < ApplicationController
     load_and_authorize_resource
 
     def index

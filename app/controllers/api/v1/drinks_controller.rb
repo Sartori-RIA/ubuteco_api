@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class DrinksController < ApplicationController
+  class V1::DrinksController < ApplicationController
     load_and_authorize_resource
 
     def index

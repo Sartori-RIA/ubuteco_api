@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class MakersController < ApplicationController
+  class V1::MakersController < ApplicationController
     load_and_authorize_resource
 
     def index

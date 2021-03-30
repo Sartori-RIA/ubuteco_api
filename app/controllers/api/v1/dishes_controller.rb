@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class DishesController < ApplicationController
+  class V1::DishesController < ApplicationController
     load_and_authorize_resource
 
     def index

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  module Dishes
+  module V1::Dishes
     class IngredientsController < ApplicationController
       load_and_authorize_resource class: DishIngredient
 

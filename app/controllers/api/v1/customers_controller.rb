@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class CustomersController < ApplicationController
+  class V1::CustomersController < ApplicationController
     load_and_authorize_resource class: User
 
     def index

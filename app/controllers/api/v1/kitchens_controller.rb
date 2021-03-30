@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class KitchensController < ApplicationController
+  class V1::KitchensController < ApplicationController
     load_and_authorize_resource class: OrderItem
 
     include KitchensHelper

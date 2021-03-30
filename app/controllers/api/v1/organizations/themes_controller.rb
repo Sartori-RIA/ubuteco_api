@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  module Organizations
+  module V1::Organizations
     class ThemesController < ApplicationController
       load_and_authorize_resource
 
