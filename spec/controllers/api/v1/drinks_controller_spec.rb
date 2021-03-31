@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::DrinksController, type: :request do
+RSpec.describe Api::V1::DrinksController, type: :request do
 
   let!(:organization) { create(:organization) }
   let!(:admin) { organization.user }

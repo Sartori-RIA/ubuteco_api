@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::MakersController, type: :request do
+RSpec.describe Api::V1::MakersController, type: :request do
   let!(:organization) { create(:organization) }
   let!(:admin) { organization.user }
   let!(:makers) { create_list(:maker, 10, organization: organization) }

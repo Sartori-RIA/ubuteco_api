@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::OrdersController, type: :request do
+RSpec.describe Api::V1::OrdersController, type: :request do
   let!(:organization) { create(:organization) }
   let!(:waiter) { create(:user_waiter, organization: organization) }
   let!(:customer) { create(:user_customer) }

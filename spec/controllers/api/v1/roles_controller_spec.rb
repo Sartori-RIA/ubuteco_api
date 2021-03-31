@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::RolesController, type: :request do
+RSpec.describe Api::V1::RolesController, type: :request do
   let!(:super_admin) { create(:user_super_admin) }
   let!(:organization) { create(:organization) }
   let!(:with_read_permission) { organization.user }

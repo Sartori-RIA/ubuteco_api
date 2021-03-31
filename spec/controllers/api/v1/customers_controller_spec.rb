@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::CustomersController, type: :request do
+RSpec.describe Api::V1::CustomersController, type: :request do
 
   let(:organization) { create(:organization) }
   let(:admin) { organization.user }
