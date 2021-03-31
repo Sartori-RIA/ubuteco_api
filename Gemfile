@@ -34,6 +34,7 @@ gem 'rack-cors', '~> 1.1', '>= 1.1.1'
 gem 'rails', '~> 6.1.3'
 gem 'rails-i18n', '~> 6.0'
 gem 'redis', '~> 4.0'
+gem 'rswag'
 gem 'rubocop-rails', '~> 2.9', '>= 2.9.1'
 gem 'validators', '~> 3.4', '>= 3.4.1'
 

@@ -1,0 +1,501 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  api/v1/beer_styles:
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/wine_styles/check/style":
+    get:
+      summary: Check available name
+      tags:
+      - Check available name
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/beers":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/customers":
+    get:
+      summary: All Wine Styles
+      tags:
+      - All Wine Styles
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/dishes/{dish_id}/ingredients":
+    get:
+      summary: All Wine Styles
+      tags:
+      - All Wine Styles
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/dishes":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/drinks":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/foods":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/wine_styles":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/makers":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  api/v1/orders/{order_id}/items:
+    get:
+      summary: All Wine Styles
+      tags:
+      - All Wine Styles
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/orders":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  api/v1/organizations/{organization_id}/themes:
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  api/v1/organizations/{organization_id}/users:
+    get:
+      summary: All Wine Styles
+      tags:
+      - All Wine Styles
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/organizations":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/roles":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/tables":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/tables/check/style":
+    get:
+      summary: Check available name
+      tags:
+      - Check available name
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/users":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Find Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Create Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Update Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Destroy Wine Style
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/wines":
+    get:
+      summary: Show Wine
+      tags:
+      - Find Wine
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Wine
+      tags:
+      - Create Wine
+      responses:
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update a Wine
+      tags:
+      - Update Wine
+      responses:
+        '401':
+          description: Unauthorized
+    delete:
+      summary: Destroy a Wine
+      tags:
+      - Destroy Wine
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/wines/search":
+    get:
+      summary: Search Wines
+      tags:
+      - Search Wines
+      responses:
+        '401':
+          description: Unauthorized
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

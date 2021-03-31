@@ -16,7 +16,7 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
     let(:customer) { create(:user_customer) }
     let(:dish_ingredient) { create(:dish_ingredient, food: food, dish: dish) }
 
-    subject { Abilities::AdminAbility.new(user: admin, params: { order_id: order.id }, controller_name: 'Api::Kitchens') }
+    subject { Abilities::AdminAbility.new(user: admin, params: { order_id: order.id }, controller_name: 'Api::V1::Kitchens') }
 
     context "when is an admin" do
       context 'can' do
@@ -40,12 +40,12 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
         it { is_expected.to be_able_to(:update, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::AdminAbility.new(user: admin, params: { order_id: order.id }, controller_name: "Api::Users") }
+          subject { Abilities::AdminAbility.new(user: admin, params: { order_id: order.id }, controller_name: "Api::V1::Users") }
           it { is_expected.to be_able_to(:manage, user) }
           it { is_expected.to be_able_to(:manage, admin) }
         end
         context 'in customers controller' do
-          subject { Abilities::AdminAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::Customers") }
+          subject { Abilities::AdminAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::V1::Customers") }
           it { is_expected.to be_able_to(:read, customer) }
         end
       end

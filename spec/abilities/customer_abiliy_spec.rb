@@ -7,7 +7,7 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
     let(:user) { create :user_customer }
     let(:order) { create(:order, :with_items, organization: organization, user: user) }
 
-    subject { Abilities::CustomerAbility.new(user: user, params: { order_id: order.id }, controller_name: 'Api::Users') }
+    subject { Abilities::CustomerAbility.new(user: user, params: { order_id: order.id }, controller_name: 'Api::V1::Users') }
 
     context "when is an customer" do
       context 'can' do
@@ -29,7 +29,7 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
         it { is_expected.to be_able_to(:edit, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::CustomerAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::Users") }
+          subject { Abilities::CustomerAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::V1::Users") }
           it { is_expected.to be_able_to(:read, user) }
           it { is_expected.to be_able_to(:update, user) }
         end

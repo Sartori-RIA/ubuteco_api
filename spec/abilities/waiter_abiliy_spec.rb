@@ -14,7 +14,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
     let(:food) { create(:food, organization: organization) }
     let(:maker) { create(:maker, organization: organization) }
 
-    subject { Abilities::WaiterAbility.new(user: user, params: { order_id: order.id }, controller_name: 'Api::Kitchens') }
+    subject { Abilities::WaiterAbility.new(user: user, params: { order_id: order.id }, controller_name: 'Api::V1::Kitchens') }
 
     context "when is an waiter" do
       context 'can' do
@@ -34,7 +34,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
         it { is_expected.to be_able_to(:update, order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::WaiterAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::Users") }
+          subject { Abilities::WaiterAbility.new(user: user, params: { order_id: order.id }, controller_name: "Api::V1::Users") }
           it { is_expected.to be_able_to(:read, user) }
         end
       end

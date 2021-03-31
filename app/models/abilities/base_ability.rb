@@ -23,12 +23,12 @@ module Abilities
     end
 
     def can_manage_self(user:, controller_name:)
-      can :manage, User, id: user.id unless controller_name == 'Api::Customers'
+      can :manage, User, id: user.id unless controller_name == 'Api::V1::Customers'
     end
 
     def can_manage_organization_users(organization_id:, controller_name:)
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::Organizations::Users'
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::Users'
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Organizations::Users'
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Users'
     end
 
     def theme(organization_id:)

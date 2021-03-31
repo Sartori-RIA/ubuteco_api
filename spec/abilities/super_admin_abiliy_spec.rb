@@ -16,7 +16,7 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
 
     subject {
       Abilities::SuperAdminAbility.new(
-        user: user, params: { id: order.id }, controller_name: 'Api::Organizations::Users'
+        user: user, params: { id: order.id }, controller_name: 'Api::V1::Organizations::Users'
       )
     }
 
