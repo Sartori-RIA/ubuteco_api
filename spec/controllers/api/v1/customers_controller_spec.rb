@@ -13,35 +13,35 @@ RSpec.describe Api::CustomersController, type: :request do
   describe '#GET /api/customers' do
     context "with success" do
       it 'should retrieves all customers' do
-        get api_customers_path, headers: auth_header(admin)
+        get api_v1_customers_path, headers: auth_header(admin)
         expect(response).to have_http_status(:ok)
       end
       it 'should retrieves all customers' do
-        get api_customers_path, headers: auth_header(super_admin)
+        get api_v1_customers_path, headers: auth_header(super_admin)
         expect(response).to have_http_status(:ok)
       end
       it 'should retrieves all customers' do
-        get api_customers_path, headers: auth_header(cash_register)
+        get api_v1_customers_path, headers: auth_header(cash_register)
         expect(response).to have_http_status(:ok)
       end
       it 'should retrieves all customers' do
-        get api_customers_path, headers: auth_header(waiter)
+        get api_v1_customers_path, headers: auth_header(waiter)
         expect(response).to have_http_status(:ok)
       end
     end
     context "forbidden access" do
       it 'cannot retrieves all customers to kitchen' do
-        get api_customers_path, headers: auth_header(kitchen)
+        get api_v1_customers_path, headers: auth_header(kitchen)
         expect(response).to have_http_status(:forbidden)
       end
       it 'cannot retrieves all customers to customers' do
-        get api_customers_path, headers: auth_header(customers.sample)
+        get api_v1_customers_path, headers: auth_header(customers.sample)
         expect(response).to have_http_status(:forbidden)
       end
     end
     context "Unauthorized access" do
       it 'cannot retrieves all customers' do
-        get api_customers_path, headers: unauthenticated_header
+        get api_v1_customers_path, headers: unauthenticated_header
         expect(response).to have_http_status(:forbidden)
       end
     end

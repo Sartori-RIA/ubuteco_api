@@ -8,7 +8,7 @@ RSpec.describe Api::Organizations::ThemesController, type: :request do
 
   describe '#GET /api/users/:id/themes' do
     it 'should request user theme' do
-      get api_organization_themes_path(
+      get api_v1_organization_themes_path(
             organization_id: theme.organization_id
           ),
           headers: auth_header(admin)
@@ -18,7 +18,7 @@ RSpec.describe Api::Organizations::ThemesController, type: :request do
 
   describe '#GET /api/users/:id/themes/:id' do
     it 'should request user theme' do
-      get api_organization_theme_path(
+      get api_v1_organization_theme_path(
             organization_id: theme.organization_id,
             id: theme.id
           ),
@@ -29,7 +29,7 @@ RSpec.describe Api::Organizations::ThemesController, type: :request do
 
   describe '#PUT /api/users/:id/themes/:id' do
     it 'should update user theme' do
-      put api_organization_theme_path(
+      put api_v1_organization_theme_path(
             organization_id: theme.organization_id,
             id: theme.id
           ),

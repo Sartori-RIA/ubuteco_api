@@ -14,21 +14,21 @@ RSpec.describe Api::WinesController, type: :request do
 
   describe '#GET /api/wines' do
     it 'should request all wines' do
-      get api_wines_path, headers: auth_header(admin)
+      get api_v1_wines_path, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/wines/:id' do
     it 'should request wine by id' do
-      get api_wine_path(wines.sample.id), headers: auth_header(admin)
+      get api_v1_wine_path(wines.sample.id), headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/wines/search' do
     it 'should search wines' do
-      get search_api_wines_path, params: { q: 'tralala' }, headers: auth_header(admin)
+      get search_api_v1_wines_path, params: { q: 'tralala' }, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
@@ -40,11 +40,11 @@ RSpec.describe Api::WinesController, type: :request do
         wine_style_id: wine_styles.sample.id,
         organization_id: organization.id
       )
-      post api_wines_path, params: attributes.to_json, headers: auth_header(admin)
+      post api_v1_wines_path, params: attributes.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
-      post api_wines_path, headers: auth_header(admin)
+      post api_v1_wines_path, headers: auth_header(admin)
       expect(response).to have_http_status(422)
     end
   end
@@ -53,19 +53,19 @@ RSpec.describe Api::WinesController, type: :request do
     let!(:wine) { wines.sample }
     it 'should update a wine' do
       wine.name = 'editado'
-      put api_wine_path(wine.id), params: wine.to_json, headers: auth_header(admin)
+      put api_v1_wine_path(wine.id), params: wine.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
       wine.name = ''
-      put api_wine_path(wine.id), params: wine.to_json, headers: auth_header(admin)
+      put api_v1_wine_path(wine.id), params: wine.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(422)
     end
   end
 
   describe '#DELETE /api/wines/:id' do
     it 'should delete wine' do
-      delete api_wine_path(wines.sample.id), headers: auth_header(admin)
+      delete api_v1_wine_path(wines.sample.id), headers: auth_header(admin)
       expect(response).to have_http_status(204)
     end
   end

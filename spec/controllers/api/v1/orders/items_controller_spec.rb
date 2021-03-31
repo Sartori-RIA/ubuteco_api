@@ -15,7 +15,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
 
   describe '#GET /api/orders/:order_id/items' do
     it 'should request all order items' do
-      get api_order_items_path(order_id: orders.sample.id), headers: auth_header(waiter)
+      get api_v1_order_items_path(order_id: orders.sample.id), headers: auth_header(waiter)
       expect(response).to have_http_status(200)
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
         item_type: 'Drink',
         quantity: 10
       )
-      post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
+      post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(201)
     end
     it 'should add beer to order' do
@@ -37,7 +37,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
         item_id: beer.id,
         quantity: 10
       )
-      post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
+      post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(201)
     end
     it 'should add wines to order' do
@@ -46,7 +46,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
         item_id: wine.id,
         quantity: 10
       )
-      post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
+      post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(201)
     end
     it 'should add wines to order' do
@@ -55,11 +55,11 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
         item_type: 'Dish',
         quantity: 10
       )
-      post api_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
+      post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
-      post api_order_items_path(order_id: order.id), headers: auth_header(waiter)
+      post api_v1_order_items_path(order_id: order.id), headers: auth_header(waiter)
       expect(response).to have_http_status(422)
     end
   end
@@ -69,12 +69,12 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
     let!(:item) { order.order_items.sample }
     it 'should update a order item' do
       item.quantity = 10
-      put api_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(waiter)
+      put api_v1_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
       item.quantity = -99
-      put api_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(waiter)
+      put api_v1_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(waiter)
       expect(response).to have_http_status(422)
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe Api::Orders::ItemsController, type: :request do
     let!(:order) { orders.sample }
     let!(:item) { order.order_items.sample }
     it 'should remove item from order' do
-      delete api_order_item_path(order_id: order.id, id: item.id), headers: auth_header(waiter)
+      delete api_v1_order_item_path(order_id: order.id, id: item.id), headers: auth_header(waiter)
       expect(response).to have_http_status(200)
     end
   end

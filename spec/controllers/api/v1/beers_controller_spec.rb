@@ -14,21 +14,21 @@ RSpec.describe Api::BeersController, type: :request do
 
   describe '#GET /api/beers' do
     it 'should request all beers' do
-      get api_beers_path, headers: auth_header(admin)
+      get api_v1_beers_path, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/beers/:id' do
     it 'should request beer by id' do
-      get api_beer_path(beers.sample.id), headers: auth_header(admin)
+      get api_v1_beer_path(beers.sample.id), headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
 
   describe '#GET /api/beers/search' do
     it 'should search beers' do
-      get search_api_beers_path, params: { q: 'tralala' }, headers: auth_header(admin)
+      get search_api_v1_beers_path, params: { q: 'tralala' }, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
   end
@@ -40,11 +40,11 @@ RSpec.describe Api::BeersController, type: :request do
         beer_style_id: beer_styles.sample.id,
         organization_id: organization.id
       )
-      post api_beers_path, params: attributes.to_json, headers: auth_header(admin)
+      post api_v1_beers_path, params: attributes.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(201)
     end
     it 'should throw error with invalid params' do
-      post api_beers_path, headers: auth_header(admin)
+      post api_v1_beers_path, headers: auth_header(admin)
       expect(response).to have_http_status(422)
     end
   end
@@ -53,19 +53,19 @@ RSpec.describe Api::BeersController, type: :request do
     let!(:beer) { beers.sample }
     it 'should update a beer' do
       beer.name = 'editado'
-      put api_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
+      put api_v1_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(200)
     end
     it 'should throw error with invalid params' do
       beer.name = ''
-      put api_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
+      put api_v1_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
       expect(response).to have_http_status(422)
     end
   end
 
   describe '#DELETE /api/beers/:id' do
     it 'should delete beer' do
-      delete api_beer_path(beers.sample.id), headers: auth_header(admin)
+      delete api_v1_beer_path(beers.sample.id), headers: auth_header(admin)
       expect(response).to have_http_status(204)
     end
   end

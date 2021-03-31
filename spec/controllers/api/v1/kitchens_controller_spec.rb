@@ -12,14 +12,14 @@ RSpec.describe Api::KitchensController, type: :request do
 
   describe "#GET /api/kitchens" do
     it 'should retrieves all kitchen orders' do
-      get api_kitchens_path, headers: auth_header(kitchen)
+      get api_v1_kitchens_path, headers: auth_header(kitchen)
       expect(response).to have_http_status(200)
     end
   end
   describe "#PUT /api/kitchens/:id" do
     let!(:item) { orders.sample.order_items.sample }
     it 'should update order' do
-      put api_kitchen_path(id: item.id), params: item.to_json, headers: auth_header(kitchen)
+      put api_v1_kitchen_path(id: item.id), params: item.to_json, headers: auth_header(kitchen)
       expect(response).to have_http_status(200)
     end
   end
