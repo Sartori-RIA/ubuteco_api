@@ -3,35 +3,37 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/wine_styles', type: :request do
   path '/api/v1/wine_styles' do
     get 'All Wine Styles' do
-      tags 'All Wine Styles'
-      consumes 'application/json'
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-    end
-    get 'Show Wine Style' do
-      tags 'Find Wine Style'
+      tags 'Wine Styles'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
     post 'Create a Wine Style' do
-      tags 'Create Wine Style'
+      tags 'Wine Styles'
+      consumes 'application/json'
+      response '401', 'Unauthorized' do
+        run_test!
+      end
+    end
+  end
+  path '/api/v1/wine_styles/{id}' do
+    get 'Show Wine Style' do
+      tags 'Wine Styles'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
     put 'Update a Wine Style' do
-      tags 'Update Wine Style'
+      tags 'Wine Styles'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
     delete 'Destroy a Wine Style' do
-      tags 'Destroy Wine Style'
+      tags 'Wine Styles'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
@@ -40,7 +42,7 @@ RSpec.describe 'api/v1/wine_styles', type: :request do
   end
   path '/api/v1/wine_styles/check/style' do
     get 'Check available name' do
-      tags 'Check available name'
+      tags 'Wine Styles'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!

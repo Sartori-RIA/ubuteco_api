@@ -1,9 +1,9 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/customers', type: :request do
-  path '/api/v1/customers' do
-    get 'All Wine Styles' do
-      tags 'All Wine Styles'
+RSpec.describe '/auth/confirmations', type: :request do
+  path '/auth/confirmations' do
+    post 'Confirm your email' do
+      tags 'Auth'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!

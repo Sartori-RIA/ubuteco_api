@@ -1,37 +1,48 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/dishes', type: :request do
+RSpec.describe '/api/v1/dishes', type: :request do
   path '/api/v1/dishes' do
-    get 'All Wine Styles' do
-      tags 'All Wine Styles'
+    get 'All Dishes' do
+      tags 'Dishes'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    get 'Show Wine Style' do
-      tags 'Find Wine Style'
+    post 'Create a Dish' do
+      tags 'Dishes'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    post 'Create a Wine Style' do
-      tags 'Create Wine Style'
+  end
+  path '/api/v1/dishes/search' do
+    get 'Search dish by name' do
+      tags 'Dishes'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    put 'Update a Wine Style' do
-      tags 'Update Wine Style'
+  end
+  path '/api/v1/dishes/{id}' do
+    get 'Show Dish' do
+      tags 'Dishes'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    delete 'Destroy a Wine Style' do
-      tags 'Destroy Wine Style'
+    put 'Update a Dish' do
+      tags 'Dishes'
+      consumes 'application/json'
+      response '401', 'Unauthorized' do
+        run_test!
+      end
+    end
+    delete 'Destroy a Dish' do
+      tags 'Dishes'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!

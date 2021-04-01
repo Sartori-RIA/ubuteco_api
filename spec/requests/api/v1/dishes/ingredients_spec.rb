@@ -2,29 +2,31 @@ require 'swagger_helper'
 
 RSpec.describe '/api/v1/dishes/{dish_id}/ingredients', type: :request do
   path '/api/v1/dishes/{dish_id}/ingredients' do
-    get 'All Wine Styles' do
-      tags 'All Wine Styles'
+    get 'All ingredients in dish' do
+      tags 'Dish ingredients'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    post 'Create a Wine Style' do
-      tags 'Create Wine Style'
+    post 'Add new ingredient to dish' do
+      tags 'Dish ingredients'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    put 'Update a Wine Style' do
-      tags 'Update Wine Style'
+  end
+  path '/api/v1/dishes/{dish_id}/ingredients/{food_id}' do
+    put 'Update ingredient in dish' do
+      tags 'Dish ingredients'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    delete 'Destroy a Wine Style' do
-      tags 'Destroy Wine Style'
+    delete 'Remove ingredient from dish' do
+      tags 'Dish ingredients'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!

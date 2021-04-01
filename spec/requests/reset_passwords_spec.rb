@@ -1,9 +1,9 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/customers', type: :request do
-  path '/api/v1/customers' do
-    get 'All Wine Styles' do
-      tags 'All Wine Styles'
+RSpec.describe '/auth/reset_passwords', type: :request do
+  path '/auth/reset_passwords' do
+    post 'Change your password, when forgot' do
+      tags 'Auth'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!

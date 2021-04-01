@@ -1,37 +1,48 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/makers', type: :request do
+RSpec.describe '/api/v1/makers', type: :request do
   path '/api/v1/makers' do
-    get 'All Wine Styles' do
-      tags 'All Wine Styles'
+    get 'All Makers' do
+      tags 'Makers'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    get 'Show Wine Style' do
-      tags 'Find Wine Style'
+    post 'Create a Maker' do
+      tags 'Makers'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    post 'Create a Wine Style' do
-      tags 'Create Wine Style'
+  end
+  path '/api/v1/makers/search' do
+    get 'Search Maker by name' do
+      tags 'Makers'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    put 'Update a Wine Style' do
-      tags 'Update Wine Style'
+  end
+  path '/api/v1/makers/{id}' do
+    get 'Show Maker' do
+      tags 'Makers'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
       end
     end
-    delete 'Destroy a Wine Style' do
-      tags 'Destroy Wine Style'
+    put 'Update a Maker' do
+      tags 'Makers'
+      consumes 'application/json'
+      response '401', 'Unauthorized' do
+        run_test!
+      end
+    end
+    delete 'Destroy a Maker' do
+      tags 'Makers'
       consumes 'application/json'
       response '401', 'Unauthorized' do
         run_test!
