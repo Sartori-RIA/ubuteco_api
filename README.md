@@ -37,10 +37,14 @@
 10. `bundle exec mutant run --use rspec` -> run all mutant tests
 11. `rails s -b 0.0.0.0` -> start server
 
+### Swagger 
+
++ `http://localhost:3000/api-docs`
+
 ### REST and WebSocket Connection
 
 + `ws://localhost:3000/api/cable` -> websocket
-+ `http://localhost:3000/api` -> api endpoint
++ `http://localhost:3000/api/v1` -> api endpoint
 + `http://localhost:3000/auth` -> api auth endpoint
 
 ### WebSockets Channels
