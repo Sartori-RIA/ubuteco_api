@@ -6,7 +6,7 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://{{host}}:{{port}}/api/beer_styles
+POST http://{{host}}:{{port}}/api/v1/beer_styles
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
@@ -19,7 +19,7 @@ Authorization: {{token}}
 
 ###
 
-GET http://{{host}}:{{port}}/api/beer_styles
+GET http://{{host}}:{{port}}/api/v1/beer_styles
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
@@ -44,7 +44,7 @@ Authorization: {{token}}
 
 ###
 
-DELETE http://{{host}}:{{port}}/api/beer_styles/5555
+DELETE http://{{host}}:{{port}}/api/v1/beer_styles/3
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

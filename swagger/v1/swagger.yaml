@@ -4,56 +4,116 @@ info:
   title: API V1
   version: v1
 paths:
-  api/v1/beer_styles:
+  "/api/v1/beer_styles":
     get:
       summary: All Beer Styles
       tags:
       - Beer Styles
       responses:
-        '401':
-          description: Unauthorized
+        '200':
+          description: Ok
     post:
       summary: Create a Beer Style
       tags:
       - Beer Styles
+      security:
+      - bearerAuth: []
+      parameters: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+              required:
+              - name
   "/api/v1/beer_styles/check/style":
     get:
       summary: Check available name
       tags:
       - Beer Styles
       responses:
-        '401':
-          description: Unauthorized
-  api/v1/beer_styles/{id}:
+        '200':
+          description: Already Exists
+        '204':
+          description: Name available
+  "/api/v1/beer_styles/{id}":
     get:
       summary: Show Beer Style
       tags:
       - Beer Styles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
-        '401':
-          description: Unauthorized
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
     put:
       summary: Update a Beer Style
       tags:
       - Beer Styles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearerAuth: []
       responses:
+        '200':
+          description: Created
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
+        '404':
+          description: Not Found
     delete:
       summary: Destroy a Beer Style
       tags:
       - Beer Styles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/beers":
     get:
       summary: All Beers
       tags:
       - Beers
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -61,6 +121,8 @@ paths:
       summary: Create a Beer
       tags:
       - Beers
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -69,81 +131,184 @@ paths:
       summary: Search beer by name
       tags:
       - Beers
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
   "/api/v1/beers/{id}":
     get:
       summary: Show Beer
       tags:
       - Beers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       summary: Update a Beer
       tags:
       - Beers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Beer
       tags:
       - Beers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/customers":
     get:
       summary: All Customers
       tags:
       - Customers
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
-    post:
-      summary: Forgot password
-      tags:
-      - Auth
-      responses:
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
   "/api/v1/dishes/{dish_id}/ingredients":
     get:
       summary: All ingredients in dish
       tags:
       - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     post:
       summary: Add new ingredient to dish
       tags:
       - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
   "/api/v1/dishes/{dish_id}/ingredients/{food_id}":
     put:
       summary: Update ingredient in dish
       tags:
       - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: food_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Remove ingredient from dish
       tags:
       - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: food_id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/dishes":
     get:
       summary: All Dishes
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -151,44 +316,98 @@ paths:
       summary: Create a Dish
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
   "/api/v1/dishes/search":
     get:
       summary: Search dish by name
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/dishes/{id}":
     get:
       summary: Show Dish
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       summary: Update a Dish
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Dish
       tags:
       - Dishes
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/drinks":
     get:
       summary: All Drinks
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -196,44 +415,98 @@ paths:
       summary: Create a Drink
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
   "/api/v1/drinks/search":
     get:
       summary: Search Drink by name
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/drinks/{id}":
     get:
       summary: Show Drink
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       summary: Update a Drink
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Drink
       tags:
       - Drinks
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/foods":
     get:
       summary: All Foods
       tags:
       - Foods
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -241,39 +514,877 @@ paths:
       summary: Create a Food
       tags:
       - Foods
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
   "/api/v1/foods/search":
     get:
       summary: Search Food by name
       tags:
       - Foods
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/foods/{id}":
     get:
       summary: Show Food
       tags:
       - Foods
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       summary: Update a Food
       tags:
       - Foods
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Food
       tags:
       - Foods
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/kitchens":
+    get:
+      summary: All Dishes to make
+      tags:
+      - Kitchen
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/kitchens/{dish_id}":
+    put:
+      summary: Update dish preparation statuses
+      tags:
+      - Kitchen
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/makers":
+    get:
+      summary: All Makers
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Maker
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/makers/search":
+    get:
+      summary: Search Maker by name
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/makers/{id}":
+    get:
+      summary: Show Maker
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Maker
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a Maker
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/orders/{order_id}/items":
+    get:
+      summary: All Items from order
+      tags:
+      - Order Items
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      summary: Add new item to order
+      tags:
+      - Order Items
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/orders/{order_id}/items/{item_id}":
+    put:
+      summary: Update item in order
+      tags:
+      - Order Items
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      summary: Remove item in order
+      tags:
+      - Order Items
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/orders":
+    get:
+      summary: All Orders
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Order
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/orders/search":
+    get:
+      summary: Search Order by created_at, total_cents, total_with_discount_cents,
+        table name, customer name
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/orders/{id}":
+    get:
+      summary: Show Order
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Order
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a Order
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/organizations/{organization_id}/themes":
+    get:
+      summary: Show organization theme
+      tags:
+      - Organization Theme
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/organizations/{organization_id}/themes/{theme_id}":
+    get:
+      summary: Show organization theme
+      tags:
+      - Organization Theme
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: theme_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update organization theme
+      tags:
+      - Organization Theme
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: theme_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  api/v1/organizations/{organization_id}/users:
+    get:
+      summary: All Organization users
+      tags:
+      - Organization Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/organizations":
+    get:
+      summary: All Organizations
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Organization
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/organizations/search":
+    get:
+      summary: Search Organization by name and cnpj
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/organizations/{id}":
+    get:
+      summary: Show Organization
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Organization
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a Organization
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/roles":
+    get:
+      summary: All Roles
+      tags:
+      - Roles
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Role
+      tags:
+      - Roles
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
+  "/api/v1/roles/{id}":
+    get:
+      summary: Show Role
+      tags:
+      - Roles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Role
+      tags:
+      - Roles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a Role
+      tags:
+      - Roles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/tables":
+    get:
+      summary: All Tables
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a Table
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
+  "/api/v1/tables/search":
+    get:
+      summary: Search Table by name
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/tables/{id}":
+    get:
+      summary: Show Table
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Table
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a Table
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/users":
+    get:
+      summary: All Users
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a User
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
+  "/api/v1/users/search":
+    get:
+      summary: Search User by name or email
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      responses:
+        '401':
+          description: Unauthorized
+  "/api/v1/users/{id}":
+    get:
+      summary: Show User
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+    put:
+      summary: Update a User
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+    delete:
+      summary: Destroy a User
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/wine_styles":
     get:
       summary: All Wine Styles
@@ -282,322 +1393,87 @@ paths:
       responses:
         '401':
           description: Unauthorized
-    put:
-      summary: Update a Wine Style
-      tags:
-      - Update Wine Style
-      responses:
-        '401':
-          description: Unauthorized
     post:
       summary: Create a Wine Style
       tags:
       - Wine Styles
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
-  "/api/v1/makers":
-    get:
-      summary: All Makers
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Maker
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/makers/search":
-    get:
-      summary: Search Maker by name
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/makers/{id}":
-    get:
-      summary: Show Maker
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Maker
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Maker
-      tags:
-      - Makers
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/orders/{order_id}/items":
-    get:
-      summary: All Items from order
-      tags:
-      - Order Items
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Add new item to order
-      tags:
-      - Order Items
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/orders/{order_id}/items/{item_id}":
-    put:
-      summary: Update item in order
-      tags:
-      - Order Items
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Remove item in order
-      tags:
-      - Order Items
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/orders":
-    get:
-      summary: Show Wine Style
-      tags:
-      - Find Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Wine Style
-      tags:
-      - Create Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Wine Style
-      tags:
-      - Update Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Wine Style
-      tags:
-      - Destroy Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/organizations/{organization_id}/themes":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/organizations/{organization_id}/themes/{theme_id}":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update organization theme
-      tags:
-      - Organization Theme
-      responses:
-        '401':
-          description: Unauthorized
-  api/v1/organizations/{organization_id}/users:
-    get:
-      summary: All Organization users
-      tags:
-      - Organization Users
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/organizations":
-    get:
-      summary: Show Wine Style
-      tags:
-      - Find Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Wine Style
-      tags:
-      - Create Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Wine Style
-      tags:
-      - Update Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Wine Style
-      tags:
-      - Destroy Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/roles":
-    get:
-      summary: All Roles
-      tags:
-      - Roles
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Role
-      tags:
-      - Roles
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/roles/{id}":
-    get:
-      summary: Show Role
-      tags:
-      - Roles
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Role
-      tags:
-      - Roles
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Role
-      tags:
-      - Roles
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/tables":
-    get:
-      summary: All Tables
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Table
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/tables/search":
-    get:
-      summary: Search Table by name
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/tables/{id}":
-    get:
-      summary: Show Table
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Table
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Table
-      tags:
-      - Tables
-      responses:
-        '401':
-          description: Unauthorized
-  "/api/v1/users":
-    get:
-      summary: Show Wine Style
-      tags:
-      - Find Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Wine Style
-      tags:
-      - Create Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update a Wine Style
-      tags:
-      - Update Wine Style
-      responses:
-        '401':
-          description: Unauthorized
-    delete:
-      summary: Destroy a Wine Style
-      tags:
-      - Destroy Wine Style
-      responses:
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
   "/api/v1/wine_styles/{id}":
     get:
       summary: Show Wine Style
       tags:
       - Wine Styles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '404':
+          description: Not Found
     put:
       summary: Update a Wine Style
       tags:
       - Wine Styles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Wine Style
       tags:
       - Wine Styles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/api/v1/wine_styles/check/style":
     get:
       summary: Check available name
       tags:
       - Wine Styles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
@@ -606,6 +1482,8 @@ paths:
       summary: All Wines
       tags:
       - Wines
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -616,11 +1494,17 @@ paths:
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
   "/api/v1/wines/search":
     get:
       summary: Search Wine by name
       tags:
       - Wines
+      security:
+      - bearerAuth: []
       responses:
         '401':
           description: Unauthorized
@@ -629,23 +1513,61 @@ paths:
       summary: Show Wine
       tags:
       - Wines
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       summary: Update a Wine
       tags:
       - Wines
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
     delete:
       summary: Destroy a Wine
       tags:
       - Wines
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   "/auth/code":
     post:
       summary: Code received to reset your password
@@ -654,9 +1576,29 @@ paths:
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
   "/auth/confirmations":
     post:
       summary: Confirm your email
+      tags:
+      - Auth
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Invalid request
+  "/api/v1/password":
+    post:
+      summary: Forgot password
       tags:
       - Auth
       responses:
@@ -668,8 +1610,8 @@ paths:
       tags:
       - Auth
       responses:
-        '401':
-          description: Unauthorized
+        '422':
+          description: Invalid request
   "/auth/reset_passwords":
     post:
       summary: Change your password, when forgot
@@ -678,14 +1620,33 @@ paths:
       responses:
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Invalid request
   "/auth/sign_in":
     post:
       summary: Sign In
       tags:
       - Auth
+      parameters: []
       responses:
+        '200':
+          description: OK
         '401':
           description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
   "/auth/sign_out":
     delete:
       summary: Sign out
@@ -695,7 +1656,13 @@ paths:
         '401':
           description: Unauthorized
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: localhost:3000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -5,7 +5,7 @@ RSpec.describe '/auth/sign_up', type: :request do
     post 'Create new account' do
       tags "Auth"
       consumes 'application/json'
-      response '401', 'Unauthorized' do
+      response '422', 'Invalid request' do
         run_test!
       end
     end

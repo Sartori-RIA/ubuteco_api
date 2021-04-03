@@ -5,6 +5,16 @@ RSpec.describe '/auth/sign_in', type: :request do
     post 'Sign In' do
       tags 'Auth'
       consumes 'application/json'
+      parameter in: :body, type: :object, schema: {
+        properties: {
+          email: { type: :string },
+          password: { type: :string },
+        },
+        required: %w[email password]
+      }
+      response '200', 'OK' do
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
