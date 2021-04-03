@@ -43,20 +43,6 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       end
     end
   end
-  path '/api/v1/beer_styles/check/style' do
-    get 'Check available name' do
-      tags 'Beer Styles'
-      consumes 'application/json'
-      response '200', 'Already Exists' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '204', 'Name available' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-    end
-  end
   path '/api/v1/beer_styles/{id}' do
     get 'Show Beer Style' do
       tags 'Beer Styles'
@@ -75,10 +61,18 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
       security [bearerAuth: []]
-      response '200', 'Created' do
+      parameter in: :body, type: :object,
+                schema: {
+                  properties: {
+                    name: { type: :string }
+                  },
+                  required: %w[name]
+                }
+      response '200', 'Ok' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         schema type: :object,
                properties: {
+                 id: { type: :integer },
                  name: { type: :string }
                },
                required: %w[name]
@@ -118,6 +112,27 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       end
       response '404', 'Not Found' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+    end
+  end
+  path '/api/v1/beer_styles/check/style' do
+    get 'Check available name' do
+      tags 'Beer Styles'
+      security [bearerAuth: []]
+      consumes 'application/json'
+      response '200', 'Already Exists' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+      response '204', 'Name available' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        run_test!
+      end
+      response '403', 'Unauthorized' do
         run_test!
       end
     end
