@@ -25,7 +25,7 @@ RSpec.describe '/auth/sign_in', type: :request do
     delete 'Sign out' do
       tags 'Auth'
       consumes 'application/json'
-      response '401', 'Unauthorized' do
+      response '200', 'Unauthorized' do
         run_test!
       end
     end
