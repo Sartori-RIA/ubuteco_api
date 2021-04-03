@@ -1,23 +1,23 @@
-GET http://{{host}}:{{port}}/api/dishes/78/ingredients
+GET http://{{host}}:{{port}}/api/v1/dishes/1/ingredients
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}
 
 ###
 
-POST http://{{host}}:{{port}}/api/dishes/78/ingredients
+POST http://{{host}}:{{port}}/api/v1/dishes/1/ingredients
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}
 
 {
-  "food_id": 42,
+  "food_id": 1,
   "quantity": 3
 }
 
 ###
 
-PUT http://{{host}}:{{port}}/api/dishes/78/ingredients/81
+PUT http://{{host}}:{{port}}/api/v1/dishes/1/ingredients/122
 Content-Type: application/json
 Accept: application/json
 Authorization: {{token}}

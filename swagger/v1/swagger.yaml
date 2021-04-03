@@ -224,6 +224,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -243,6 +245,8 @@ paths:
         schema:
           type: string
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -251,7 +255,21 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/dishes/{dish_id}/ingredients/{food_id}":
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+                quantity:
+                  type: string
+                food_id:
+                  type: integer
+              required:
+              - quantity
+              - food_id
+  "/api/v1/dishes/{dish_id}/ingredients/{id}":
     put:
       summary: Update ingredient in dish
       tags:
@@ -264,12 +282,14 @@ paths:
         required: true
         schema:
           type: string
-      - name: food_id
+      - name: id
         in: path
         required: true
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -278,6 +298,15 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                quantity:
+                  type: string
+              required:
+              - quantity
     delete:
       summary: Remove ingredient from dish
       tags:
@@ -290,7 +319,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: food_id
+      - name: id
         in: path
         required: true
         schema:
