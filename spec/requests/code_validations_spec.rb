@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe '/auth/code', type: :request do
+RSpec.describe CodeValidationsController, type: :request do
   path '/auth/code' do
     post 'Code received to reset your password' do
       tags 'Auth'

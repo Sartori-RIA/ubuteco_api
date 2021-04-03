@@ -1,11 +1,15 @@
 require 'swagger_helper'
 
-RSpec.describe '/api/v1/beers', type: :request do
+RSpec.describe Api::V1::BeersController, type: :request do
   path '/api/v1/beers' do
     get 'All Beers' do
       tags 'Beers'
       security [bearerAuth: []]
       consumes 'application/json'
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -14,21 +18,11 @@ RSpec.describe '/api/v1/beers', type: :request do
       tags 'Beers'
       security [bearerAuth: []]
       consumes 'application/json'
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-    end
-  end
-  path '/api/v1/beers/search' do
-    get 'Search beer by name' do
-      tags 'Beers'
-      security [bearerAuth: []]
-      consumes 'application/json'
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
+      response '201', 'Created' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
         run_test!
       end
     end
@@ -39,6 +33,10 @@ RSpec.describe '/api/v1/beers', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -56,6 +54,10 @@ RSpec.describe '/api/v1/beers', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -77,6 +79,10 @@ RSpec.describe '/api/v1/beers', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '204', 'No Content' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
@@ -86,6 +92,25 @@ RSpec.describe '/api/v1/beers', type: :request do
         run_test!
       end
       response '404', 'Not Found' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+    end
+  end
+  path '/api/v1/beers/search' do
+    get 'Search beer by name' do
+      tags 'Beers'
+      security [bearerAuth: []]
+      consumes 'application/json'
+      parameter name: :q, in: :query, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        run_test!
+      end
+      response '403', 'Forbidden' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end

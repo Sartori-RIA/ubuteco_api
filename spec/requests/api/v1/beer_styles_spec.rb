@@ -121,6 +121,7 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       tags 'Beer Styles'
       security [bearerAuth: []]
       consumes 'application/json'
+      parameter name: :q, in: :query, type: :string
       response '200', 'Already Exists' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!

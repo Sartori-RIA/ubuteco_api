@@ -37,22 +37,6 @@ paths:
                   type: string
               required:
               - name
-  "/api/v1/beer_styles/check/style":
-    get:
-      summary: Check available name
-      tags:
-      - Beer Styles
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Already Exists
-        '204':
-          description: Name available
-        '401':
-          description: Unauthorized
-        '403':
-          description: Unauthorized
   "/api/v1/beer_styles/{id}":
     get:
       summary: Show Beer Style
@@ -122,6 +106,27 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  "/api/v1/beer_styles/check/style":
+    get:
+      summary: Check available name
+      tags:
+      - Beer Styles
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Already Exists
+        '204':
+          description: Name available
+        '401':
+          description: Unauthorized
+        '403':
+          description: Unauthorized
   "/api/v1/beers":
     get:
       summary: All Beers
@@ -130,6 +135,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -139,20 +146,10 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
-  "/api/v1/beers/search":
-    get:
-      summary: Search beer by name
-      tags:
-      - Beers
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
   "/api/v1/beers/{id}":
     get:
       summary: Show Beer
@@ -167,6 +164,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -186,6 +185,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -207,12 +208,33 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
+  "/api/v1/beers/search":
+    get:
+      summary: Search beer by name
+      tags:
+      - Beers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
   "/api/v1/customers":
     get:
       summary: All Customers
@@ -221,6 +243,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -354,6 +378,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -363,6 +389,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -371,20 +399,6 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/dishes/search":
-    get:
-      summary: Search dish by name
-      tags:
-      - Dishes
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/dishes/{id}":
     get:
       summary: Show Dish
@@ -399,6 +413,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -418,6 +434,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -439,6 +457,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/dishes/search":
+    get:
+      summary: Search dish by name
+      tags:
+      - Dishes
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -453,6 +494,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -462,6 +505,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -470,20 +515,6 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/drinks/search":
-    get:
-      summary: Search Drink by name
-      tags:
-      - Drinks
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/drinks/{id}":
     get:
       summary: Show Drink
@@ -498,6 +529,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -517,6 +550,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -538,6 +573,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/drinks/search":
+    get:
+      summary: Search Drink by name
+      tags:
+      - Drinks
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -552,6 +610,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -561,6 +621,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -569,20 +631,6 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/foods/search":
-    get:
-      summary: Search Food by name
-      tags:
-      - Foods
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/foods/{id}":
     get:
       summary: Show Food
@@ -597,6 +645,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -616,6 +666,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -637,6 +689,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/foods/search":
+    get:
+      summary: Search Food by name
+      tags:
+      - Foods
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -651,6 +726,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -671,6 +748,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -687,6 +766,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -696,6 +777,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -704,20 +787,6 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/makers/search":
-    get:
-      summary: Search Maker by name
-      tags:
-      - Makers
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/makers/{id}":
     get:
       summary: Show Maker
@@ -732,6 +801,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -751,6 +822,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -772,6 +845,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/makers/search":
+    get:
+      summary: Search Maker by name
+      tags:
+      - Makers
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -792,6 +888,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -811,6 +909,8 @@ paths:
         schema:
           type: string
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -819,6 +919,21 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                item_id:
+                  type: integer
+                item_type:
+                  type: integer
+                quantity:
+                  type: integer
+              required:
+              - item_id
+              - item_type
+              - quantity
   "/api/v1/orders/{order_id}/items/{item_id}":
     put:
       summary: Update item in order
@@ -838,6 +953,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -862,6 +979,8 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
         '403':
@@ -876,7 +995,11 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
+          description: Unauthorized
+        '403':
           description: Unauthorized
     post:
       summary: Create a Order
@@ -884,7 +1007,10 @@ paths:
       - Orders
       security:
       - bearerAuth: []
+      parameters: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -893,21 +1019,27 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/orders/search":
-    get:
-      summary: Search Order by created_at, total_cents, total_with_discount_cents,
-        table name, customer name
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                organization_id:
+                  type: integer
+                table_id:
+                  type: integer
+                status:
+                  type: integer
+                user_id:
+                  type: integer
+                discount:
+                  type: integer
+                total:
+                  type: integer
+                total_with_discount:
+                  type: integer
+              required:
+              - organization_id
   "/api/v1/orders/{id}":
     get:
       summary: Show Order
@@ -922,6 +1054,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -941,6 +1075,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -949,6 +1085,27 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                organization_id:
+                  type: integer
+                table_id:
+                  type: integer
+                status:
+                  type: integer
+                user_id:
+                  type: integer
+                discount:
+                  type: integer
+                total:
+                  type: integer
+                total_with_discount:
+                  type: integer
+              required:
+              - organization_id
     delete:
       summary: Destroy a Order
       tags:
@@ -962,6 +1119,30 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/orders/search":
+    get:
+      summary: Search Order by created_at, total_cents, total_with_discount_cents,
+        table name, customer name
+      tags:
+      - Orders
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -982,6 +1163,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1007,6 +1190,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1031,6 +1216,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1053,6 +1240,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1067,6 +1256,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -1076,6 +1267,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '204':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -1084,20 +1277,6 @@ paths:
           description: Not Found
         '422':
           description: Invalid request
-  "/api/v1/organizations/search":
-    get:
-      summary: Search Organization by name and cnpj
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/organizations/{id}":
     get:
       summary: Show Organization
@@ -1112,6 +1291,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1131,6 +1312,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1152,6 +1335,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/organizations/search":
+    get:
+      summary: Search Organization by name and cnpj
+      tags:
+      - Organizations
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1166,6 +1372,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -1175,6 +1383,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -1195,6 +1405,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1214,6 +1426,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1235,6 +1449,8 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
         '403':
@@ -1249,6 +1465,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -1258,26 +1476,14 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '422':
           description: Invalid request
-  "/api/v1/tables/search":
-    get:
-      summary: Search Table by name
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/tables/{id}":
     get:
       summary: Show Table
@@ -1292,6 +1498,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1311,6 +1519,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1332,6 +1542,29 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/api/v1/tables/search":
+    get:
+      summary: Search Table by name
+      tags:
+      - Tables
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1346,6 +1579,8 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
@@ -1355,22 +1590,14 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '422':
           description: Invalid request
-  "/api/v1/users/search":
-    get:
-      summary: Search User by name or email
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
   "/api/v1/users/{id}":
     get:
       summary: Show User
@@ -1385,6 +1612,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '404':
@@ -1402,6 +1631,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1423,12 +1654,31 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
+  "/api/v1/users/search":
+    get:
+      summary: Search User by name or email
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '401':
+          description: Unauthorized
   "/api/v1/wine_styles":
     get:
       summary: All Wine Styles
@@ -1560,29 +1810,25 @@ paths:
       security:
       - bearerAuth: []
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
     post:
       summary: Create a Wine
       tags:
       - Wines
+      security:
+      - bearerAuth: []
       responses:
+        '201':
+          description: Created
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '422':
           description: Invalid request
-  "/api/v1/wines/search":
-    get:
-      summary: Search Wine by name
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      responses:
-        '401':
-          description: Unauthorized
   "/api/v1/wines/{id}":
     get:
       summary: Show Wine
@@ -1597,6 +1843,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1616,6 +1864,8 @@ paths:
         schema:
           type: string
       responses:
+        '200':
+          description: Ok
         '401':
           description: Unauthorized
         '403':
@@ -1637,12 +1887,31 @@ paths:
         schema:
           type: string
       responses:
+        '204':
+          description: No Content
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
+  "/api/v1/wines/search":
+    get:
+      summary: Search Wine by name
+      tags:
+      - Wines
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '401':
+          description: Unauthorized
   "/auth/code":
     post:
       summary: Code received to reset your password
@@ -1728,7 +1997,7 @@ paths:
       tags:
       - Auth
       responses:
-        '401':
+        '200':
           description: Unauthorized
 servers:
 - url: http://{defaultHost}

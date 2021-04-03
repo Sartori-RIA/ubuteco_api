@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe '/auth/password', type: :request do
+RSpec.describe PasswordsController, type: :request do
   path '/api/v1/password' do
     post 'Forgot password' do
       tags 'Auth'

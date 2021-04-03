@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe Api::V1::WinesController, type: :request do
+RSpec.describe Api::V1::WineStylesController, type: :request do
   path '/api/v1/wine_styles' do
     get 'All Wine Styles' do
       tags 'Wine Styles'
@@ -134,6 +134,7 @@ RSpec.describe Api::V1::WinesController, type: :request do
         run_test!
       end
       response '403', 'Unauthorized' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
     end

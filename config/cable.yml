@@ -1,9 +1,9 @@
 development:
-  adapter: any_cable
+  adapter: async
 
 test:
   adapter: test
 
 production:
-  adapter: any_cable
+  adapter: redis
   url: <%= ENV['REDIS_URI'] %>

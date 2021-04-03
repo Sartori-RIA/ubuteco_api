@@ -1,11 +1,15 @@
 require 'swagger_helper'
 
-RSpec.describe '/api/v1/roles', type: :request do
+RSpec.describe Api::V1::RolesController, type: :request do
   path '/api/v1/roles' do
     get 'All Roles' do
       tags 'Roles'
       security [bearerAuth: []]
       consumes 'application/json'
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -14,6 +18,10 @@ RSpec.describe '/api/v1/roles', type: :request do
       tags 'Roles'
       security [bearerAuth: []]
       consumes 'application/json'
+      response '201', 'Created' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -33,6 +41,10 @@ RSpec.describe '/api/v1/roles', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -50,6 +62,10 @@ RSpec.describe '/api/v1/roles', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -71,6 +87,10 @@ RSpec.describe '/api/v1/roles', type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string
+      response '204', 'No Content' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end

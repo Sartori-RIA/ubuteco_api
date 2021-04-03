@@ -7,6 +7,10 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       security [bearerAuth: []]
       consumes 'application/json'
       parameter name: :organization_id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -27,6 +31,10 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       consumes 'application/json'
       parameter name: :organization_id, in: :path, type: :string
       parameter name: :theme_id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end
@@ -45,6 +53,10 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       consumes 'application/json'
       parameter name: :organization_id, in: :path, type: :string
       parameter name: :theme_id, in: :path, type: :string
+      response '200', 'Ok' do
+        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        run_test!
+      end
       response '401', 'Unauthorized' do
         run_test!
       end

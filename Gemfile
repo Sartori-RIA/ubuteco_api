@@ -5,7 +5,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-gem "anycable-rails"
 gem 'api-pagination', '~> 4.8', '>= 4.8.2'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bugsnag', '~> 6.19'

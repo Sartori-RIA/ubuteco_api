@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe '/auth/sign_in', type: :request do
+RSpec.describe SessionsController, type: :request do
   path '/auth/sign_in' do
     post 'Sign In' do
       tags 'Auth'

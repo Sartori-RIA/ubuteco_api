@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe '/auth/reset_passwords', type: :request do
+RSpec.describe ResetPasswordsController, type: :request do
   path '/auth/reset_passwords' do
     post 'Change your password, when forgot' do
       tags 'Auth'
