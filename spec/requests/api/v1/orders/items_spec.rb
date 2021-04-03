@@ -32,7 +32,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
                 schema: {
                   properties: {
                     item_id: { type: :integer },
-                    item_type: { type: :integer },
+                    item_type: { type: :string, example: %w[Beer Dish Drink Wine] },
                     quantity: { type: :integer },
                   },
                   required: %w[item_id item_type quantity]

@@ -927,7 +927,12 @@ paths:
                 item_id:
                   type: integer
                 item_type:
-                  type: integer
+                  type: string
+                  example:
+                  - Beer
+                  - Dish
+                  - Drink
+                  - Wine
                 quantity:
                   type: integer
               required:
