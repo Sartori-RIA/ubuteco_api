@@ -12,6 +12,11 @@ RSpec.describe Api::V1::BeersController, type: :request do
                              beer_style: beer_styles.sample,
                              maker: makers.sample) }
 
+  before :each do
+    @beer_styles = create_list(:beer_style, 10)
+    @beers =  create_list(:beer, 10, beer_style: @beer_styles.sample)
+  end
+
   describe '#GET /api/beers' do
     it 'should request all beers' do
       get api_v1_beers_path, headers: auth_header(admin)
