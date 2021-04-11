@@ -37,11 +37,11 @@ module Abilities
     end
 
     def customer_search(controller_name:)
-      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::Customers'
+      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::V1::Customers'
     end
 
     def kitchens_namespace(controller_name:, user:)
-      return unless controller_name == 'Api::Kitchens'
+      return unless controller_name == 'Api::V1::Kitchens'
 
       can :read, OrderItem,
           item_type: 'Dish',
