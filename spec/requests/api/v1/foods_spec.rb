@@ -4,7 +4,6 @@ RSpec.describe Api::V1::FoodsController, type: :request do
   before :all do
     @organization = create(:organization)
     @admin = @organization.user
-    @customer = create(:user_customer)
     @foods = create_list(:food, 10, organization: @organization)
   end
 

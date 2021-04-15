@@ -1,24 +1,20 @@
 require 'swagger_helper'
 
 RSpec.describe Api::V1::KitchensController, type: :request do
+  before :all do
+    @user = create(:user_kitchen)
+  end
+  
   path '/api/v1/kitchens' do
     get 'All Dishes to make' do
       tags 'Kitchen'
-      security [bearerAuth: []]
-      consumes 'application/json'
-      response '200', 'Ok' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+       security [Bearer: {}]
+      response 200, 'Ok' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+      response 404, 'Not Found' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
     end
@@ -26,26 +22,18 @@ RSpec.describe Api::V1::KitchensController, type: :request do
   path '/api/v1/kitchens/{dish_id}' do
     put 'Update dish preparation statuses' do
       tags 'Kitchen'
-      security [bearerAuth: []]
-      consumes 'application/json'
+       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
-      response '200', 'Ok' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+      response 200, 'Ok' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
-      response '401', 'Unauthorized' do
+      response 404, 'Not Found' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '422', 'Invalid request' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+      response 422, 'Invalid request' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
     end
