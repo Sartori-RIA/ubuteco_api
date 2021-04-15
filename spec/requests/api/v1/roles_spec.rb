@@ -12,6 +12,7 @@ RSpec.describe Api::V1::RolesController, type: :request do
       security [Bearer: {}]
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/roles'
         run_test!
       end
     end

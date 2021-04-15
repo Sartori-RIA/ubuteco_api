@@ -23,7 +23,6 @@ RSpec.describe Api::V1::FoodsController, type: :request do
       parameter in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_food' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:body) { attributes_for(:food) }
         schema '$ref' => '#/components/schemas/food'
         run_test!
       end

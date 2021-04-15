@@ -11,6 +11,7 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
     get 'All Beer Styles' do
       tags 'Beer Styles'
       response 200, 'Ok' do
+        schema '$ref' => '#/components/schemas/beer_styles'
         run_test!
       end
     end

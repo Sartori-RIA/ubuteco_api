@@ -87,6 +87,7 @@ RSpec.describe Api::V1::DrinksController, type: :request do
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/drinks'
         run_test!
       end
     end

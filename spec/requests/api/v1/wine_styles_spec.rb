@@ -10,6 +10,7 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
     get 'All Wine Styles' do
       tags 'Wine Styles'
       response 200, 'Ok' do
+        schema '$ref' => '#/components/schemas/wine_styles'
         run_test!
       end
     end

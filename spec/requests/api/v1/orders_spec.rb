@@ -13,6 +13,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       security [Bearer: {}]
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/orders'
         run_test!
       end
     end
@@ -136,6 +137,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/orders'
         run_test!
       end
     end

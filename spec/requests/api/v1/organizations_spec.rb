@@ -12,6 +12,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       security [Bearer: {}]
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/organizations'
         run_test!
       end
     end
@@ -87,10 +88,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/organizations'
         run_test!
       end
     end
