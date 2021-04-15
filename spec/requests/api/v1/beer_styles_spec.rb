@@ -36,6 +36,7 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
@@ -73,12 +74,13 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
                required: %w[name]
         run_test!
       end
-      response 422, 'Invalid request' do
+      response 404, 'Not Found' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         run_test!
       end
-      response 404, 'Not Found' do
+      response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end

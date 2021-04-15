@@ -34,7 +34,8 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
         run_test!
       end
       response 422, 'Invalid request' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
@@ -77,6 +78,7 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end

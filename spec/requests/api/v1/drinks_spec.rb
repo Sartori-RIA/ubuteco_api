@@ -29,6 +29,7 @@ RSpec.describe Api::V1::DrinksController, type: :request do
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
@@ -61,6 +62,7 @@ RSpec.describe Api::V1::DrinksController, type: :request do
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
