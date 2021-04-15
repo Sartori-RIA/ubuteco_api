@@ -608,36 +608,34 @@ paths:
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
     post:
       summary: Create a Food
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
+      parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
         '422':
           description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_food"
   "/api/v1/foods/{id}":
     get:
       summary: Show Food
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -647,10 +645,6 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
     put:
@@ -658,7 +652,7 @@ paths:
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -668,20 +662,21 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
         '422':
           description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/food"
     delete:
       summary: Destroy a Food
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -691,10 +686,6 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '404':
           description: Not Found
   "/api/v1/foods/search":
@@ -703,7 +694,7 @@ paths:
       tags:
       - Foods
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: q
         in: query
@@ -712,12 +703,6 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/kitchens":
     get:
       summary: All Dishes to make
@@ -2011,7 +1996,606 @@ servers:
       default: localhost:3000
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    Bearer:
+      description: JWT key necessary to use API calls
+      name: Authorization
+      in: header
+  schemas:
+    errors_object:
+      type: object
+      properties:
+        errors:
+          "$ref": "#/components/schemas/errors_map"
+    errors_map:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    beers:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/beer"
+    beer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        beer_style_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        beer_style:
+          "$ref": "#/components/schemas/beer_style"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - beer_style_id
+      - image
+    new_beer:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+        maker_id:
+          type: integer
+        beer_style_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - maker_id
+      - beer_style_id
+    beer_styles:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/beer_styles"
+    beer_style:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_beer_style:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    dishes:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/dish"
+    dish:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients:
+          "$ref": "#/components/schemas/dish_ingredients"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - price
+      - image
+    edit_dish:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients_attributes:
+          "$ref": "#/components/schemas/edit_dish_ingredients"
+      required:
+      - name
+      - price
+    new_dish:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients_attributes:
+          "$ref": "#/components/schemas/new_dish_ingredients"
+      required:
+      - name
+      - price
+    new_dish_ingredients:
+      type: object
+      properties:
+        type: array
+        items:
+          "$ref": "#/components/schemas/new_dish_ingredient"
+    edit_dish_ingredients:
+      type: object
+      properties:
+        type: array
+        items:
+          "$ref": "#/components/schemas/edit_dish_ingredient"
+    dish_ingredients:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/dish_ingredient"
+    edit_dish_ingredient:
+      type: object
+      properties:
+        id:
+          type: integer
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - food
+      - food_id
+      - quantity
+    dish_ingredient:
+      type: object
+      properties:
+        id:
+          type: integer
+        food:
+          "$ref": "#/components/schemas/food"
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - id
+      - food
+      - food_id
+      - quantity
+    new_dish_ingredient:
+      type: object
+      properties:
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - food_id
+      - quantity
+    drinks:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/drink"
+    drink:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - maker
+      - image
+    new_drink:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - price_currency
+      - maker_id
+    foods:
+      type: array
+      items:
+        "$ref": "#/components/schemas/food"
+    food:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity_stock:
+          type: integer
+        valid_until:
+          type: string
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - valid_until
+      - price_cents
+      - price_currency
+      - image
+    new_food:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity_stock:
+          type: integer
+        valid_until:
+          type: string
+        price:
+          type: number
+      required:
+      - name
+      - quantity_stock
+      - valid_until
+      - price
+    makers:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/maker"
+    maker:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+      required:
+      - id
+      - name
+      - country
+    new_maker:
+      type: object
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+      required:
+      - name
+      - country
+    orders:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/order"
+    order:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+      - id
+    new_order:
+      type: object
+      properties: {}
+      required: []
+    order_items:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/order_item"
+    order_item:
+      type: object
+      properties:
+        id:
+          type: integer
+        item:
+          oneOf:
+          - "$ref": "#/components/schemas/drink"
+          - "$ref": "#/components/schemas/wine"
+          - "$ref": "#/components/schemas/beer"
+          - "$ref": "#/components/schemas/dish"
+        item_type:
+          type: string
+        quantity:
+          type: integer
+        status:
+          type: string
+      required:
+      - id
+      - item
+      - item_id
+      - item_type
+      - quantity_stock
+      - status
+    new_order_item:
+      type: object
+      properties:
+        item_id:
+          type: integer
+        item_type:
+          type: string
+        quantity:
+          type: integer
+      required:
+      - item_id
+      - item_type
+      - quantity
+    organizations:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/organization"
+    organization:
+      type: object
+      properties:
+        id:
+          type: integer
+        logo:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - logo
+    new_organization:
+      type: object
+      properties: {}
+      required: []
+    roles:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/role"
+    role:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_role:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    tables:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/table"
+    table:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        chairs:
+          type: integer
+      required:
+      - id
+      - name
+      - chairs
+    new_table:
+      type: object
+      properties:
+        name:
+          type: string
+        chairs:
+          type: integer
+      required:
+      - name
+      - chairs
+    themes:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/theme"
+    theme:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+      - id
+    users:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/user"
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+        avatar:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - avatar
+    new_user:
+      type: object
+      properties: {}
+      required: []
+    wines:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/wine"
+    wine:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        wine_style_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        wine_style:
+          "$ref": "#/components/schemas/wine_style"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - maker
+      - wine_style
+      - wine_style_id
+      - image
+    new_wine:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: integer
+        maker_id:
+          type: integer
+        wine_style_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - maker_id
+      - wine_style_id
+    wine_styles:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            "$ref": "#/components/schemas/wine_style"
+    wine_style:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_wine_style:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    s3_image:
+      type: object
+      properties:
+        url:
+          type: string
+        thumb:
+          type: object
+          properties:
+            url:
+              type: string
+          required:
+          - url
+      required:
+      - url
