@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource class: DishIngredient
 
       def index
-        render json: @ingredients
+        @ingredients
       end
 
       def create

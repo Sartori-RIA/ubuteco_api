@@ -28,8 +28,8 @@ module Api
     end
 
     def search
-      @user = User.search params[:q]
-      paginate json: @user.order(name: :asc), include: %i[role organization]
+      @users = User.search params[:q]
+      @users = paginate @users.order(name: :asc), include: %i[role organization]
     end
 
     def email_available?

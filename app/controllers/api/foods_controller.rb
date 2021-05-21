@@ -5,14 +5,14 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @foods.order(name: :asc)
+      @foods = paginate @foods.order(name: :asc)
     end
 
     def show; end
 
     def search
       @foods = Food.search params[:q]
-      paginate json: @foods.order(name: :asc)
+      @foods = paginate @foods.order(name: :asc)
     end
 
     def create

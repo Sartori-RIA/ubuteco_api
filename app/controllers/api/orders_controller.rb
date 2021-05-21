@@ -5,14 +5,14 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @orders, include: [:table]
+      @orders = paginate @orders, include: [:table]
     end
 
     def show; end
 
     def search
       @orders = Order.search params[:q]
-      paginate json: @orders, include: %i[table]
+      @orders = paginate @orders, include: %i[table]
     end
 
     def create

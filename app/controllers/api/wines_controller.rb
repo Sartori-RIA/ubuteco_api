@@ -5,14 +5,14 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
+      @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
     def show; end
 
     def search
       @wines = Wine.search params[:q]
-      paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
+      @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
     def create

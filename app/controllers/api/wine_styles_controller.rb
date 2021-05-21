@@ -5,7 +5,7 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @wine_styles.order(name: :asc)
+      @wine_styles = paginate @wine_styles.order(name: :asc)
     end
 
     def show; end
