@@ -3,6 +3,10 @@ openapi: 3.0.1
 info:
   title: API V1
   version: v1
+consumes:
+- application/json
+produces:
+- application/json
 paths:
   "/api/v1/beer_styles":
     get:
@@ -12,31 +16,35 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_styles"
     post:
       summary: Create a Beer Style
       tags:
       - Beer Styles
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
             schema:
-              properties:
-                name:
-                  type: string
-              required:
-              - name
+              "$ref": "#/components/schemas/new_beer_style"
   "/api/v1/beer_styles/{id}":
     get:
       summary: Show Beer Style
@@ -51,46 +59,46 @@ paths:
       responses:
         '200':
           description: Ok
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
     put:
       summary: Update a Beer Style
       tags:
       - Beer Styles
+      security:
+      - Bearer: {}
       parameters:
       - name: id
         in: path
         required: true
         schema:
           type: string
-      security:
-      - bearerAuth: []
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
         '422':
           description: Invalid request
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
             schema:
-              properties:
-                name:
-                  type: string
-              required:
-              - name
+              "$ref": "#/components/schemas/beer_style"
     delete:
       summary: Destroy a Beer Style
       tags:
       - Beer Styles
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -100,19 +108,13 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/beer_styles/check/style":
     get:
       summary: Check available name
       tags:
       - Beer Styles
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: q
         in: query
@@ -123,40 +125,52 @@ paths:
           description: Already Exists
         '204':
           description: Name available
-        '401':
-          description: Unauthorized
-        '403':
-          description: Unauthorized
   "/api/v1/beers":
     get:
       summary: All Beers
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beers"
     post:
       summary: Create a Beer
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
+      parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_beer"
   "/api/v1/beers/{id}":
     get:
       summary: Show Beer
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -166,18 +180,16 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
     put:
       summary: Update a Beer
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -187,20 +199,27 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/beer"
     delete:
       summary: Destroy a Beer
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -210,19 +229,13 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/beers/search":
     get:
       summary: Search beer by name
       tags:
       - Beers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: q
         in: query
@@ -231,24 +244,20 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beers"
   "/api/v1/customers":
     get:
       summary: All Customers
       tags:
       - Customers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
   "/api/v1/dishes/{dish_id}/ingredients":
     get:
       summary: All ingredients in dish
@@ -265,12 +274,6 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
     post:
       summary: Add new ingredient to dish
       tags:
@@ -286,12 +289,26 @@ paths:
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  food_id:
+                    type: integer
+                  dish_id:
+                    type: integer
+                  quantity:
+                    type: integer
+                required:
+                - id
+                - food_id
+                - food
+                - dish_id
+                - dish
+                - quantity
         '422':
           description: Invalid request
       requestBody:
@@ -329,12 +346,26 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  food_id:
+                    type: integer
+                  dish_id:
+                    type: integer
+                  quantity:
+                    type: integer
+                required:
+                - id
+                - food_id
+                - food
+                - dish_id
+                - dish
+                - quantity
         '422':
           description: Invalid request
       requestBody:
@@ -346,66 +377,52 @@ paths:
                   type: string
               required:
               - quantity
-    delete:
-      summary: Remove ingredient from dish
-      tags:
-      - Dish ingredients
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: dish_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/dishes":
     get:
       summary: All Dishes
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dishes"
     post:
       summary: Create a Dish
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
+      parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_dish"
   "/api/v1/dishes/{id}":
     get:
       summary: Show Dish
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -415,18 +432,16 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
     put:
       summary: Update a Dish
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -436,20 +451,27 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/dish"
     delete:
       summary: Destroy a Dish
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -459,19 +481,13 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/dishes/search":
     get:
       summary: Search dish by name
       tags:
       - Dishes
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: q
         in: query
@@ -480,48 +496,56 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dishes"
   "/api/v1/drinks":
     get:
       summary: All Drinks
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drinks"
     post:
       summary: Create a Drink
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
+      parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_drink"
   "/api/v1/drinks/{id}":
     get:
       summary: Show Drink
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -531,18 +555,16 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
     put:
       summary: Update a Drink
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -552,20 +574,27 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/drink"
     delete:
       summary: Destroy a Drink
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -575,19 +604,13 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/drinks/search":
     get:
       summary: Search Drink by name
       tags:
       - Drinks
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: q
         in: query
@@ -596,12 +619,10 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drinks"
   "/api/v1/foods":
     get:
       summary: All Foods
@@ -612,6 +633,10 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/foods"
     post:
       summary: Create a Food
       tags:
@@ -622,8 +647,16 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
@@ -645,8 +678,10 @@ paths:
       responses:
         '200':
           description: Ok
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
     put:
       summary: Update a Food
       tags:
@@ -662,10 +697,16 @@ paths:
       responses:
         '200':
           description: Ok
-        '404':
-          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
@@ -686,8 +727,6 @@ paths:
       responses:
         '204':
           description: No Content
-        '404':
-          description: Not Found
   "/api/v1/foods/search":
     get:
       summary: Search Food by name
@@ -703,29 +742,27 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/foods"
   "/api/v1/kitchens":
     get:
       summary: All Dishes to make
       tags:
       - Kitchen
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
   "/api/v1/kitchens/{dish_id}":
     put:
       summary: Update dish preparation statuses
       tags:
       - Kitchen
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -735,1260 +772,45 @@ paths:
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
   "/api/v1/makers":
     get:
       summary: All Makers
       tags:
       - Makers
       security:
-      - bearerAuth: []
+      - Bearer: {}
       responses:
         '200':
           description: Ok
-        '401':
-          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/makers"
     post:
       summary: Create a Maker
       tags:
       - Makers
       security:
-      - bearerAuth: []
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-  "/api/v1/makers/{id}":
-    get:
-      summary: Show Maker
-      tags:
-      - Makers
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Maker
-      tags:
-      - Makers
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a Maker
-      tags:
-      - Makers
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/makers/search":
-    get:
-      summary: Search Maker by name
-      tags:
-      - Makers
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/orders/{order_id}/items":
-    get:
-      summary: All Items from order
-      tags:
-      - Order Items
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    post:
-      summary: Add new item to order
-      tags:
-      - Order Items
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                item_id:
-                  type: integer
-                item_type:
-                  type: string
-                  example:
-                  - Beer
-                  - Dish
-                  - Drink
-                  - Wine
-                quantity:
-                  type: integer
-              required:
-              - item_id
-              - item_type
-              - quantity
-  "/api/v1/orders/{order_id}/items/{item_id}":
-    put:
-      summary: Update item in order
-      tags:
-      - Order Items
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: item_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    delete:
-      summary: Remove item in order
-      tags:
-      - Order Items
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: item_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/orders":
-    get:
-      summary: All Orders
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Unauthorized
-    post:
-      summary: Create a Order
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters: []
       responses:
         '201':
           description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/maker"
       requestBody:
         content:
           application/json:
             schema:
-              properties:
-                organization_id:
-                  type: integer
-                table_id:
-                  type: integer
-                status:
-                  type: integer
-                user_id:
-                  type: integer
-                discount:
-                  type: integer
-                total:
-                  type: integer
-                total_with_discount:
-                  type: integer
-              required:
-              - organization_id
-  "/api/v1/orders/{id}":
-    get:
-      summary: Show Order
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Order
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                organization_id:
-                  type: integer
-                table_id:
-                  type: integer
-                status:
-                  type: integer
-                user_id:
-                  type: integer
-                discount:
-                  type: integer
-                total:
-                  type: integer
-                total_with_discount:
-                  type: integer
-              required:
-              - organization_id
-    delete:
-      summary: Destroy a Order
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/orders/search":
-    get:
-      summary: Search Order by created_at, total_cents, total_with_discount_cents,
-        table name, customer name
-      tags:
-      - Orders
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/organizations/{organization_id}/themes":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/organizations/{organization_id}/themes/{theme_id}":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: theme_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update organization theme
-      tags:
-      - Organization Theme
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: theme_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-  api/v1/organizations/{organization_id}/users:
-    get:
-      summary: All Organization users
-      tags:
-      - Organization Users
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/organizations":
-    get:
-      summary: All Organizations
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Organization
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      responses:
-        '204':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-  "/api/v1/organizations/{id}":
-    get:
-      summary: Show Organization
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Organization
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a Organization
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/organizations/search":
-    get:
-      summary: Search Organization by name and cnpj
-      tags:
-      - Organizations
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/roles":
-    get:
-      summary: All Roles
-      tags:
-      - Roles
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Role
-      tags:
-      - Roles
-      security:
-      - bearerAuth: []
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-  "/api/v1/roles/{id}":
-    get:
-      summary: Show Role
-      tags:
-      - Roles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Role
-      tags:
-      - Roles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a Role
-      tags:
-      - Roles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/tables":
-    get:
-      summary: All Tables
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Table
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-  "/api/v1/tables/{id}":
-    get:
-      summary: Show Table
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Table
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a Table
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/tables/search":
-    get:
-      summary: Search Table by name
-      tags:
-      - Tables
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/users":
-    get:
-      summary: All Users
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a User
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-  "/api/v1/users/{id}":
-    get:
-      summary: Show User
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found
-    put:
-      summary: Update a User
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a User
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/users/search":
-    get:
-      summary: Search User by name or email
-      tags:
-      - Users
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-  "/api/v1/wine_styles":
-    get:
-      summary: All Wine Styles
-      tags:
-      - Wine Styles
-      responses:
-        '200':
-          description: Ok
-    post:
-      summary: Create a Wine Style
-      tags:
-      - Wine Styles
-      security:
-      - bearerAuth: []
-      parameters: []
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                name:
-                  type: string
-              required:
-              - name
-  "/api/v1/wine_styles/{id}":
-    get:
-      summary: Show Wine Style
-      tags:
-      - Wine Styles
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Wine Style
-      tags:
-      - Wine Styles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                name:
-                  type: string
-              required:
-              - name
-    delete:
-      summary: Destroy a Wine Style
-      tags:
-      - Wine Styles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/wine_styles/check/style":
-    get:
-      summary: Check available name
-      tags:
-      - Wine Styles
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Already Exists
-        '204':
-          description: Name available
-        '401':
-          description: Unauthorized
-        '403':
-          description: Unauthorized
-  "/api/v1/wines":
-    get:
-      summary: All Wines
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-    post:
-      summary: Create a Wine
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-  "/api/v1/wines/{id}":
-    get:
-      summary: Show Wine
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    put:
-      summary: Update a Wine
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-    delete:
-      summary: Destroy a Wine
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  "/api/v1/wines/search":
-    get:
-      summary: Search Wine by name
-      tags:
-      - Wines
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-        '401':
-          description: Unauthorized
-  "/auth/code":
-    post:
-      summary: Code received to reset your password
-      tags:
-      - Auth
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-  "/auth/confirmations":
-    post:
-      summary: Confirm your email
-      tags:
-      - Auth
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '422':
-          description: Invalid request
-  "/api/v1/password":
-    post:
-      summary: Forgot password
-      tags:
-      - Auth
-      responses:
-        '401':
-          description: Unauthorized
-  "/auth/sign_up":
-    post:
-      summary: Create new account
-      tags:
-      - Auth
-      responses:
-        '422':
-          description: Invalid request
-  "/auth/reset_passwords":
-    post:
-      summary: Change your password, when forgot
-      tags:
-      - Auth
-      responses:
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '422':
-          description: Invalid request
-  "/auth/sign_in":
-    post:
-      summary: Sign In
-      tags:
-      - Auth
-      parameters: []
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Unauthorized
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              required:
-              - email
-              - password
-  "/auth/sign_out":
-    delete:
-      summary: Sign out
-      tags:
-      - Auth
-      responses:
-        '200':
-          description: Unauthorized
+              "$ref": "#/components/schemas/new_maker"
 servers:
 - url: http://{defaultHost}
   variables:
@@ -2013,12 +835,9 @@ components:
         items:
           type: string
     beers:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/beer"
+      type: array
+      items:
+        "$ref": "#/components/schemas/beer"
     beer:
       type: object
       properties:
@@ -2070,12 +889,9 @@ components:
       - maker_id
       - beer_style_id
     beer_styles:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/beer_styles"
+      type: array
+      items:
+        "$ref": "#/components/schemas/beer_styles"
     beer_style:
       type: object
       properties:
@@ -2094,12 +910,9 @@ components:
       required:
       - name
     dishes:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/dish"
+      type: array
+      items:
+        "$ref": "#/components/schemas/dish"
     dish:
       type: object
       properties:
@@ -2143,24 +956,17 @@ components:
       - name
       - price
     new_dish_ingredients:
-      type: object
-      properties:
-        type: array
-        items:
-          "$ref": "#/components/schemas/new_dish_ingredient"
+      type: array
+      items:
+        "$ref": "#/components/schemas/new_dish_ingredient"
     edit_dish_ingredients:
-      type: object
-      properties:
-        type: array
-        items:
-          "$ref": "#/components/schemas/edit_dish_ingredient"
+      type: array
+      items:
+        "$ref": "#/components/schemas/edit_dish_ingredient"
     dish_ingredients:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/dish_ingredient"
+      type: array
+      items:
+        "$ref": "#/components/schemas/dish_ingredient"
     edit_dish_ingredient:
       type: object
       properties:
@@ -2201,12 +1007,9 @@ components:
       - food_id
       - quantity
     drinks:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/drink"
+      type: array
+      items:
+        "$ref": "#/components/schemas/drink"
     drink:
       type: object
       properties:
@@ -2300,12 +1103,9 @@ components:
       - valid_until
       - price
     makers:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/maker"
+      type: array
+      items:
+        "$ref": "#/components/schemas/maker"
     maker:
       type: object
       properties:
@@ -2330,12 +1130,9 @@ components:
       - name
       - country
     orders:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/order"
+      type: array
+      items:
+        "$ref": "#/components/schemas/order"
     order:
       type: object
       properties:
@@ -2348,12 +1145,9 @@ components:
       properties: {}
       required: []
     order_items:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/order_item"
+      type: array
+      items:
+        "$ref": "#/components/schemas/order_item"
     order_item:
       type: object
       properties:
@@ -2392,12 +1186,9 @@ components:
       - item_type
       - quantity
     organizations:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/organization"
+      type: array
+      items:
+        "$ref": "#/components/schemas/organization"
     organization:
       type: object
       properties:
@@ -2413,12 +1204,9 @@ components:
       properties: {}
       required: []
     roles:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/role"
+      type: array
+      items:
+        "$ref": "#/components/schemas/role"
     role:
       type: object
       properties:
@@ -2437,12 +1225,9 @@ components:
       required:
       - name
     tables:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/table"
+      type: array
+      items:
+        "$ref": "#/components/schemas/table"
     table:
       type: object
       properties:
@@ -2467,12 +1252,9 @@ components:
       - name
       - chairs
     themes:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/theme"
+      type: array
+      items:
+        "$ref": "#/components/schemas/theme"
     theme:
       type: object
       properties:
@@ -2481,12 +1263,9 @@ components:
       required:
       - id
     users:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/user"
+      type: array
+      items:
+        "$ref": "#/components/schemas/user"
     user:
       type: object
       properties:
@@ -2502,12 +1281,9 @@ components:
       properties: {}
       required: []
     wines:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/wine"
+      type: array
+      items:
+        "$ref": "#/components/schemas/wine"
     wine:
       type: object
       properties:
@@ -2562,12 +1338,9 @@ components:
       - maker_id
       - wine_style_id
     wine_styles:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            "$ref": "#/components/schemas/wine_style"
+      type: array
+      items:
+        "$ref": "#/components/schemas/wine_style"
     wine_style:
       type: object
       properties:

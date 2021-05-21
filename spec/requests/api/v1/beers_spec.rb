@@ -20,12 +20,16 @@ RSpec.describe Api::V1::BeersController, type: :request do
     post 'Create a Beer' do
       tags 'Beers'
       security [Bearer: {}]
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_beer' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { attributes_for(:beer) }
+        schema '$ref' => '#/components/schemas/beer'
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { {} }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -38,10 +42,8 @@ RSpec.describe Api::V1::BeersController, type: :request do
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @beers.sample.id }
+        schema '$ref' => '#/components/schemas/beer'
         run_test!
       end
     end
@@ -49,16 +51,17 @@ RSpec.describe Api::V1::BeersController, type: :request do
       tags 'Beers'
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/beer' }
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { attributes_for(:beer) }
+        let(:id) { @beers.sample.id }
+        schema '$ref' => '#/components/schemas/beer'
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @beers.sample.id }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -69,10 +72,7 @@ RSpec.describe Api::V1::BeersController, type: :request do
       parameter name: :id, in: :path, type: :string
       response 204, 'No Content' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @beers.sample.id }
         run_test!
       end
     end
@@ -84,6 +84,7 @@ RSpec.describe Api::V1::BeersController, type: :request do
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:q) { 'tralala' }
         schema '$ref' => '#/components/schemas/beers'
         run_test!
       end

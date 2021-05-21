@@ -466,7 +466,7 @@ DEPENDENCIES
   rspec (~> 3.4)
   rspec-json_expectations
   rspec-rails (~> 5.0.0)
-  rswag
+  rswag (~> 2.4)
   rubocop
   rubocop-rails (~> 2.9, >= 2.9.1)
   shoulda-matchers (~> 3.1)

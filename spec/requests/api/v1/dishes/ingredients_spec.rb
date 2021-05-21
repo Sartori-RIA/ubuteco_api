@@ -11,17 +11,6 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
     post 'Add new ingredient to dish' do
       tags 'Dish ingredients'
@@ -47,17 +36,6 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
                  quantity: { type: :integer },
                },
                required: %w[id food_id food dish_id dish quantity]
-        run_test!
-      end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
       response '422', 'Invalid request' do
@@ -92,17 +70,6 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
                required: %w[id food_id food dish_id dish quantity]
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
       response '422', 'Invalid request' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
@@ -114,17 +81,6 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       consumes 'application/json'
       parameter name: :dish_id, in: :path, type: :string
       parameter name: :id, in: :path, type: :string
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
   end
 end

@@ -20,41 +20,16 @@ RSpec.describe Api::V1::OrdersController, type: :request do
     post 'Create a Order' do
       tags 'Orders'
       security [Bearer: {}]
-      parameter in: :body, type: :object,
-                schema: {
-                  properties: {
-                    organization_id: { type: :integer },
-                    table_id: { type: :integer },
-                    status: { type: :integer },
-                    user_id: { type: :integer },
-                    discount: { type: :integer },
-                    total: { type: :integer },
-                    total_with_discount: { type: :integer },
-                  },
-                  required: %w[organization_id]
-                }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_order' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        schema type: :object,
-               properties: {
-                 organization_id: { type: :integer },
-                 table_id: { type: :integer },
-                 status: { type: :integer },
-                 user_id: { type: :integer },
-                 discount: { type: :integer },
-                 total: { type: :integer },
-                 total_with_discount: { type: :integer },
-               },
-               required: %w[organization_id status]
-        run_test!
-      end
-
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { attributes_for(:order) }
+        schema '$ref' => '#/components/schemas/order'
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { {} }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -67,10 +42,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @orders.sample.id }
         run_test!
       end
     end
@@ -106,10 +78,6 @@ RSpec.describe Api::V1::OrdersController, type: :request do
                required: %w[organization_id status]
         run_test!
       end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/errors_object'
@@ -122,10 +90,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :id, in: :path, type: :string
       response 204, 'No Content' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @orders.sample.id }
         run_test!
       end
     end
@@ -137,6 +102,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:q) { 'tralala' }
         schema '$ref' => '#/components/schemas/orders'
         run_test!
       end

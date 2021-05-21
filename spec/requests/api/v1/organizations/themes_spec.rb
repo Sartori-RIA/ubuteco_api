@@ -11,17 +11,6 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
   end
   path '/api/v1/organizations/{organization_id}/themes/{theme_id}' do
@@ -35,17 +24,6 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
     put 'Update organization theme' do
       tags 'Organization Theme'
@@ -54,17 +32,6 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       parameter name: :organization_id, in: :path, type: :string
       parameter name: :theme_id, in: :path, type: :string
       response '200', 'Ok' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end

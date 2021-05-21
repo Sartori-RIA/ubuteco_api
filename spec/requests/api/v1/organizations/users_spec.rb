@@ -11,17 +11,6 @@ RSpec.describe Api::V1::Organizations::UsersController, type: :request do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
   end
 end

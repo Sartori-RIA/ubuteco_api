@@ -6,5 +6,6 @@ FactoryBot.define do
     price { 1.0 }
     quantity_stock { 10 }
     organization
+    valid_until { 2.months.from_now }
   end
 end

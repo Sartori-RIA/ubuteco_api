@@ -11,17 +11,6 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
     post 'Add new item to order' do
       tags 'Order Items'
@@ -50,17 +39,6 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
                  total_with_discount: { type: :integer },
                },
                required: %w[organization_id status]
-        run_test!
-      end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end
       response '422', 'Invalid request' do
@@ -92,17 +70,6 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
         run_test!
         run_test!
       end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
     end
     delete 'Remove item in order' do
       tags 'Order Items'
@@ -111,17 +78,6 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       parameter name: :order_id, in: :path, type: :string
       parameter name: :item_id, in: :path, type: :string
       response '204', 'No Content' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        run_test!
-      end
-      response '404', 'Not Found' do
         let(:Authorization) { "Bearer #{auth_header(user)}" }
         run_test!
       end

@@ -4,16 +4,12 @@ RSpec.describe Api::V1::KitchensController, type: :request do
   before :all do
     @user = create(:user_kitchen)
   end
-  
+
   path '/api/v1/kitchens' do
     get 'All Dishes to make' do
       tags 'Kitchen'
-       security [Bearer: {}]
+      security [Bearer: {}]
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@user)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end
@@ -22,13 +18,9 @@ RSpec.describe Api::V1::KitchensController, type: :request do
   path '/api/v1/kitchens/{dish_id}' do
     put 'Update dish preparation statuses' do
       tags 'Kitchen'
-       security [Bearer: {}]
+      security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@user)['Authorization'] }
-        run_test!
-      end
-      response 404, 'Not Found' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
         run_test!
       end

@@ -21,14 +21,13 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def sign_up_params
-    params.require(:user)
-          .permit(:name, :password, :email, :avatar)
-          .merge(role: params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER'))
+    params.merge(role: params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER'))
+    params.require(:user).permit(:name, :password, :email, :avatar, :role)
   end
 
   def organization_params
-    params.require(:organization_attributes)
-          .permit(:cnpj, :logo, :name, :phone).merge(user_id: @user.id)
+    params.merge(user_id: @user.id)
+    params.require(:organization_attributes).permit(:cnpj, :logo, :name, :phone, :user_id)
   end
 
   def build_organization

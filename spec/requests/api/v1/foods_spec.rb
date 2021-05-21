@@ -20,14 +20,16 @@ RSpec.describe Api::V1::FoodsController, type: :request do
     post 'Create a Food' do
       tags 'Foods'
       security [Bearer: {}]
-      parameter in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_food' }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_food' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { attributes_for(:food) }
         schema '$ref' => '#/components/schemas/food'
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { {} }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -45,30 +47,22 @@ RSpec.describe Api::V1::FoodsController, type: :request do
         schema '$ref' => '#/components/schemas/food'
         run_test!
       end
-      response '404', 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:id) { 999 }
-        run_test!
-      end
     end
     put 'Update a Food' do
       tags 'Foods'
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
-      parameter in: :body, type: :object, schema: { '$ref' => '#/components/schemas/food' }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/food' }
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @foods.sample.id }
+        let(:params) { attributes_for(:food) }
         schema '$ref' => '#/components/schemas/food'
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:id) { -1 }
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { { name: nil } }
         let(:id) { @foods.sample.id }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
@@ -81,11 +75,6 @@ RSpec.describe Api::V1::FoodsController, type: :request do
       response 204, 'No Content' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @foods.sample.id }
-        run_test!
-      end
-      response 404, 'Not Found' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:id) { -1 }
         run_test!
       end
     end
