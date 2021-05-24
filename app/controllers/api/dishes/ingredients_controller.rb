@@ -5,9 +5,7 @@ module Api
     class IngredientsController < ApplicationController
       load_and_authorize_resource class: DishIngredient
 
-      def index
-        @ingredients
-      end
+      def index; end
 
       def create
         attributes = create_params
@@ -28,9 +26,7 @@ module Api
       end
 
       def update
-        if @ingredient.update(update_params)
-          render status: :ok
-        else
+        unless @ingredient.update(update_params)
           render json: @ingredient.errors, status: :unprocessable_entity
         end
       end

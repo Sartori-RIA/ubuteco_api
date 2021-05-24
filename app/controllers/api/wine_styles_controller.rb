@@ -21,9 +21,7 @@ module Api
     end
 
     def update
-      if @wine_style.update(update_params)
-        render status: :ok
-      else
+      unless @wine_style.update(update_params)
         render json: @wine_style.errors, status: :unprocessable_entity
       end
     end

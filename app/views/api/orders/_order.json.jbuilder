@@ -1,7 +1,7 @@
 json.extract! order,
               :id,
               :total,
-              :total_with_discounts,
+              :total_with_discount,
               :discount,
               :table,
               :table_id,

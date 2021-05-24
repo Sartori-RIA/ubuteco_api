@@ -26,9 +26,7 @@ module Api
     end
 
     def update
-      if @maker.update(update_params)
-        render status: :ok
-      else
+      unless @maker.update(update_params)
         render json: @maker.errors, status: :unprocessable_entity
       end
     end

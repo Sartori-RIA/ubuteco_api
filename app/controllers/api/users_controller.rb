@@ -16,9 +16,7 @@ module Api
     end
 
     def update
-      if @user.update(update_params)
-        render status: :ok
-      else
+      unless @user.update(update_params)
         render json: @user.errors, status: :unprocessable_entity
       end
     end

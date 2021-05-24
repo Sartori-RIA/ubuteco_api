@@ -12,7 +12,6 @@ module Api
 
     def create
       @beer_style = BeerStyle.new(create_params)
-
       if @beer_style.save
         render status: :created
       else

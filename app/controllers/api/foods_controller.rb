@@ -26,9 +26,7 @@ module Api
     end
 
     def update
-      if @food.update(update_params)
-        render status: :ok
-      else
+      unless @food.update(update_params)
         render json: @food.errors, status: :unprocessable_entity
       end
     end

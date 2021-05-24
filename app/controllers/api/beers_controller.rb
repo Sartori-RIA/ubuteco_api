@@ -26,9 +26,7 @@ module Api
     end
 
     def update
-      if @beer.update(update_params)
-        render status: :ok
-      else
+      unless @beer.update(update_params)
         render json: @beer.errors, status: :unprocessable_entity
       end
     end

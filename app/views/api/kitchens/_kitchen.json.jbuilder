@@ -1,8 +1,8 @@
 json.extract! kitchen,
               :id,
               :status,
-              :table,
-              :order_item,
-              :dish,
               :created_at,
               :updated_at
+
+json.table kitchen.order.table
+json.order_item kitchen.item

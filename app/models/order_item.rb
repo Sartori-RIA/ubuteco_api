@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class OrderItem < ApplicationRecord
-  include KitchensHelper
-
   after_update { |order_item| order_item.message 'update' }
   after_create { |order_item| order_item.message 'create' }
-
+  after_create :decrement_stock
   after_create :recalculate_total
   after_update :recalculate_total
   after_destroy :recalculate_total
@@ -39,8 +37,9 @@ class OrderItem < ApplicationRecord
   end
 
   def message(action)
+    json = ApplicationController.render(template: 'api/kitchens/_kitchen', locals: { kitchen: self })
     msg = {
-      obj: format_dish_to_make(self),
+      obj: json,
       action: action
     }
     ActionCable.server.broadcast("kitchens_#{order.organization.cnpj}", msg.to_json)
@@ -53,5 +52,10 @@ class OrderItem < ApplicationRecord
   def reset_stock
     return if item_type == 'Dish'
     item.update(quantity_stock: item.quantity_stock + quantity)
+  end
+
+  def decrement_stock
+    return if item_type == 'Dish'
+    item.update(quantity_stock: item.quantity_stock - quantity)
   end
 end

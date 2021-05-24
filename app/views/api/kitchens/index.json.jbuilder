@@ -1,1 +1,1 @@
-json.partial! "api/kitchens/kitchen", kitchen: @kitchen
+json.array! @kitchens, partial: "api/kitchens/kitchen", as: :kitchen

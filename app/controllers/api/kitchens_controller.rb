@@ -4,17 +4,12 @@ module Api
   class KitchensController < ApplicationController
     load_and_authorize_resource class: OrderItem
 
-    include KitchensHelper
-
     def index
-      @kitchens = @kitchens.includes(:item).order(:created_at)
-      render json: @kitchens.map { |it| format_dish_to_make(it) }
+      @kitchens = paginate @kitchens.includes(:item).order(:created_at)
     end
 
     def update
-      if @kitchen.update(update_params)
-        render json: format_dish_to_make(@kitchen)
-      else
+      unless @kitchen.update(update_params)
         render json: @kitchen.errors, status: :unprocessable_entity
       end
     end

@@ -26,9 +26,7 @@ module Api
     end
 
     def update
-      if @drink.update(update_params)
-        render status: :ok
-      else
+      unless @drink.update(update_params)
         render json: @drink.errors, status: :unprocessable_entity
       end
     end

@@ -25,9 +25,7 @@ module Api
     end
 
     def update
-      if @dish.update(update_params)
-        render status: :ok
-      else
+      unless @dish.update(update_params)
         render json: @dish.errors, status: :unprocessable_entity
       end
     end

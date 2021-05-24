@@ -4,7 +4,7 @@ module Api
 
     def index; end
 
-    def show ; end
+    def show; end
 
     def create
       @role = Role.new(create_params)
@@ -17,9 +17,7 @@ module Api
     end
 
     def update
-      if @role.update(update_params)
-        render status: :ok
-      else
+      unless @role.update(update_params)
         render json: @role.errors, status: :unprocessable_entity
       end
     end
