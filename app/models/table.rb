@@ -8,6 +8,5 @@ class Table < ApplicationRecord
 
   include PgSearch::Model
 
-  pg_search_scope :search,
-                  against: %w[name]
+  pg_search_scope :search, against: %w[name]
 end

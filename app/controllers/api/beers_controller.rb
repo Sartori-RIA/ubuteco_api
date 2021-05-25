@@ -5,32 +5,28 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @beers.order(name: :asc), include: %i[beer_style maker]
+      @beers = paginate @beers.order(name: :asc), include: %i[beer_style maker]
     end
 
-    def show
-      render json: @beer.to_json
-    end
+    def show; end
 
     def search
       @beers = Beer.search params[:q]
-      paginate json: @beers.order(name: :asc), include: %i[beer_style maker]
+      @beers = paginate @beers.order(name: :asc), include: %i[beer_style maker]
     end
 
     def create
       @beer = Beer.new(create_params)
 
       if @beer.save
-        render json: @beer.to_json, status: :created
+        render status: :created
       else
         render json: @beer.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @beer.update(update_params)
-        render json: @beer.to_json
-      else
+      unless @beer.update(update_params)
         render json: @beer.errors, status: :unprocessable_entity
       end
     end

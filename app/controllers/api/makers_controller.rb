@@ -5,32 +5,28 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @makers.order(name: :asc)
+      @makers = paginate @makers.order(name: :asc)
     end
 
-    def show
-      render json: @maker
-    end
+    def show; end
 
     def search
       @makers = Maker.search params[:q]
-      paginate json: @makers.order(name: :asc)
+      @makers = paginate @makers.order(name: :asc)
     end
 
     def create
       @maker = Maker.new(create_params)
 
       if @maker.save
-        render json: @maker, status: :created
+        render status: :created
       else
         render json: @maker.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @maker.update(update_params)
-        render json: @maker
-      else
+      unless @maker.update(update_params)
         render json: @maker.errors, status: :unprocessable_entity
       end
     end

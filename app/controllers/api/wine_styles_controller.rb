@@ -5,27 +5,23 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @wine_styles.order(name: :asc)
+      @wine_styles = paginate @wine_styles.order(name: :asc)
     end
 
-    def show
-      render json: @wine_style
-    end
+    def show; end
 
     def create
       @wine_style = WineStyle.new(create_params)
 
       if @wine_style.save
-        render json: @wine_style, status: :created
+        render status: :created
       else
         render json: @wine_style.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @wine_style.update(update_params)
-        render json: @wine_style
-      else
+      unless @wine_style.update(update_params)
         render json: @wine_style.errors, status: :unprocessable_entity
       end
     end

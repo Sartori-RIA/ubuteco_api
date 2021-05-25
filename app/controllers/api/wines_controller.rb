@@ -5,31 +5,27 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
+      @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
-    def show
-      render json: @wine.to_json
-    end
+    def show; end
 
     def search
       @wines = Wine.search params[:q]
-      paginate json: @wines.order(name: :asc), include: %i[wine_style maker]
+      @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
     end
 
     def create
       @wine = Wine.new(create_params)
       if @wine.save
-        render json: @wine.to_json, status: :created
+        render status: :created
       else
         render json: @wine.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @wine.update(update_params)
-        render json: @wine.to_json
-      else
+      unless @wine.update(update_params)
         render json: @wine.errors, status: :unprocessable_entity
       end
     end

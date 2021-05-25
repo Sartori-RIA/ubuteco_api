@@ -12,6 +12,5 @@ class Maker < ApplicationRecord
 
   include PgSearch::Model
 
-  pg_search_scope :search,
-                  against: %w[name country]
+  pg_search_scope :search, against: %w[name country]
 end

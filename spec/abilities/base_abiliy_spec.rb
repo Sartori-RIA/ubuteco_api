@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Abilities::BaseAbility, type: :ability do
   describe "abilities" do
 
-    subject { Abilities::BaseAbility.new }
+    subject { described_class.new }
 
     context "when is an public" do
       context 'can' do
