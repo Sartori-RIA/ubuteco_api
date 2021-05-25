@@ -19,7 +19,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
 
   describe '#GET /api/orders/:id' do
     it 'should request order by id' do
-      get api_v1_order_path(orders.sample.id), headers: auth_header(@waiter)
+      get api_v1_order_path(@orders.sample.id), headers: auth_header(@waiter)
       expect(response).to have_http_status(200)
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
 
   describe '#DELETE /api/orders/:id' do
     it 'should delete order' do
-      delete api_v1_order_path(orders.sample.id), headers: auth_header(@waiter)
+      delete api_v1_order_path(@orders.sample.id), headers: auth_header(@waiter)
       expect(response).to have_http_status(204)
     end
   end

@@ -37,7 +37,7 @@ class OrderItem < ApplicationRecord
   end
 
   def message(action)
-    json = ApplicationController.render(template: 'api/kitchens/_kitchen', locals: { kitchen: self })
+    json = ApplicationController.render(template: 'api/v1/kitchens/_kitchen', locals: { kitchen: self })
     msg = {
       obj: json,
       action: action

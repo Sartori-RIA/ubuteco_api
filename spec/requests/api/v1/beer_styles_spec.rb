@@ -81,10 +81,12 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
       security [Bearer: {}]
       parameter name: :q, in: :query, type: :string
       response 200, 'Already Exists' do
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:q) { @beer_styles.sample.name }
         run_test!
       end
       response 204, 'Name available' do
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:q) { 'tralala' }
         run_test!
       end
