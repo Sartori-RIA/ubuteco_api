@@ -2,6 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Abilities::SuperAdminAbility, type: :ability do
   describe "abilities" do
+    before :all do
+      @organization = create(:organization)
+      @user = @organization.user
+      @order = create(:order, :open, :with_items, organization: @organization)
+      @table = create(:table, organization: @organization)
+      @wine = create(:wine, organization: @organization)
+      @beer = create(:beer, organization: @organization)
+      @dish = create(:dish, organization: @organization)
+      @drink = create(:drink, organization: @organization)
+      @food = create(:food, organization: @organization)
+      @maker = create(:maker, organization: @organization)
+    end
 
     before :all do
       @organization = create(:organization)
@@ -16,11 +28,7 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
       @maker = create(:maker, organization: @organization)
     end
 
-    subject {
-      Abilities::SuperAdminAbility.new(
-        user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users'
-      )
-    }
+    subject { described_class.new(user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users') }
 
     context "when is an super admin" do
       context 'can' do

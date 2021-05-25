@@ -4,23 +4,19 @@ module Api
   class V1::UsersController < ApplicationController
     load_and_authorize_resource
 
-    def show
-      render json: @user, include: [:role, { organization: { include: [:theme] } }]
-    end
+    def show; end
 
     def create
       @user = User.new(create_params)
       if @user.save
-        render json: @user, include: [:role, { organization: { include: [:theme] } }], status: :created
+        render status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @user.update(update_params)
-        render json: @user, include: [:role, { organization: { include: [:theme] } }]
-      else
+      unless @user.update(update_params)
         render json: @user.errors, status: :unprocessable_entity
       end
     end
@@ -30,8 +26,8 @@ module Api
     end
 
     def search
-      @user = User.search params[:q]
-      paginate json: @user.order(name: :asc), include: %i[role organization]
+      @users = User.search params[:q]
+      @users = paginate @users.order(name: :asc), include: %i[role organization]
     end
 
     def email_available?

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Abilities::WaiterAbility, type: :ability do
   describe "abilities" do
-    before :each do
+    before :all do
       @organization = create(:organization)
       @admin = @organization.user
       @user = create(:user_waiter, organization: @organization)
@@ -16,8 +16,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
       @maker = create(:maker, organization: @organization)
     end
 
-
-    subject { Abilities::WaiterAbility.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
+    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
 
     context "when is an waiter" do
       context 'can' do
@@ -37,7 +36,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::WaiterAbility.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
+          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
           it { is_expected.to be_able_to(:read, @user) }
         end
       end

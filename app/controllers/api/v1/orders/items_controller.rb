@@ -5,17 +5,12 @@ module Api
     class ItemsController < ApplicationController
       load_and_authorize_resource class: OrderItem
 
-      def index
-        render json: @items, include: :item
-      end
+      def index; end
 
       def create
         @item = OrderItem.new(create_params)
         if @item.save
-          unless @item.item_type == "Dish"
-            @item.item.update(quantity_stock: @item.item.quantity_stock - @item.quantity)
-          end
-          render json: @item, include: :item, status: :created
+          render status: :created
         else
           render json: @item.errors, status: :unprocessable_entity
         end
@@ -25,7 +20,7 @@ module Api
         diff = @item.quantity - update_params[:quantity]
         if @item.update(update_params)
           @item.update_stock(diff: diff, is_quantity_lower: is_quantity_lower?)
-          render json: @item, include: :item
+          render status: :ok
         else
           render json: @item.errors, status: :unprocessable_entity
         end

@@ -7,10 +7,9 @@ class CodeValidationsController < ApplicationController
     if @user.nil?
       render json: {}, status: :not_found
     else
-      token, payload = Warden::JWTAuth::UserEncoder.new.call(@user, :credential, nil)
+      @token, payload = Warden::JWTAuth::UserEncoder.new.call(@user, :credential, nil)
       whitelist = AllowlistedJwt.new(allowlisted_jwt_params(payload))
       whitelist.save
-      render json: { token: token }
     end
   end
 

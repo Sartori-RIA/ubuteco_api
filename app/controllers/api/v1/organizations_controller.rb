@@ -5,22 +5,18 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @organizations.order(name: :asc)
+      @organizations = paginate @organizations.order(name: :asc)
     end
 
-    def show
-      render json: @organization
-    end
+    def show; end
 
     def search
       @organization = Organization.search params[:q]
-      render json: @organization.order(name: :asc)
+      @organizations = paginate @organization.order(name: :asc)
     end
 
     def update
-      if @organization.update(update_params)
-        render json: @organization
-      else
+      unless @organization.update(update_params)
         render json: @organization.errors, status: :unprocessable_entity
       end
     end

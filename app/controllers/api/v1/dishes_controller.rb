@@ -5,31 +5,27 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @dishes.order(name: :asc), include: [dish_ingredients: { include: :food }]
+      @dishes = paginate @dishes.order(name: :asc), include: [dish_ingredients: { include: :food }]
     end
 
-    def show
-      render json: @dish, include: [dish_ingredients: { include: :food }]
-    end
+    def show; end
 
     def search
       @dishes = Dish.search params[:q]
-      paginate json: @dishes.order(name: :asc)
+      @dishes = paginate @dishes.order(name: :asc)
     end
 
     def create
       @dish = Dish.new(create_params)
       if @dish.save
-        render json: @dish, include: [dish_ingredients: { include: :food }], status: :created
+        render status: :created
       else
         render json: @dish.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @dish.update(update_params)
-        render json: @dish, include: [dish_ingredients: { include: :food }]
-      else
+      unless @dish.update(update_params)
         render json: @dish.errors, status: :unprocessable_entity
       end
     end

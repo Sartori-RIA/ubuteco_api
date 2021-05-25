@@ -9,7 +9,7 @@ RSpec.describe Abilities::KitchenAbility, type: :ability do
       @order = create(:order, :with_dish, organization: @organization)
     end
 
-    subject { Abilities::KitchenAbility.new(user: @user, controller_name: 'Api::V1::Kitchens') }
+    subject { described_class.new(user: @user, controller_name: 'Api::V1::Kitchens') }
 
     context "when is an kitchen" do
       context 'can' do
@@ -17,7 +17,7 @@ RSpec.describe Abilities::KitchenAbility, type: :ability do
         it { is_expected.to be_able_to(:read, @order.order_items.sample) }
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::KitchenAbility.new(user: @user, controller_name: "Api::V1::Users") }
+          subject { described_class.new(user: @user, controller_name: "Api::V1:Users") }
           it { is_expected.to be_able_to(:read, @user) }
           it { is_expected.to be_able_to(:update, @user) }
         end

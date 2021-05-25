@@ -5,32 +5,28 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @foods.order(name: :asc)
+      @foods = paginate @foods.order(name: :asc)
     end
 
-    def show
-      render json: @foods
-    end
+    def show; end
 
     def search
       @foods = Food.search params[:q]
-      paginate json: @foods.order(name: :asc)
+      @foods = paginate @foods.order(name: :asc)
     end
 
     def create
       @foods = Food.new(create_params)
 
       if @foods.save
-        render json: @foods, status: :created
+        render status: :created
       else
         render json: @foods.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @food.update(update_params)
-        render json: @food
-      else
+      unless @food.update(update_params)
         render json: @food.errors, status: :unprocessable_entity
       end
     end

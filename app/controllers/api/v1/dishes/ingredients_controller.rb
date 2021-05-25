@@ -5,22 +5,20 @@ module Api
     class IngredientsController < ApplicationController
       load_and_authorize_resource class: DishIngredient
 
-      def index
-        render json: @ingredients
-      end
+      def index; end
 
       def create
         attributes = create_params
         if DishIngredient.exists?(id: attributes[:id])
           @ingredient = DishIngredient
-                        .update(attributes[:id], {
-                                  quantity: @ingredient.quantity.to_f + attributes[:quantity].to_f
-                                })
+                          .update(attributes[:id], {
+                            quantity: @ingredient.quantity.to_f + attributes[:quantity].to_f
+                          })
           render json: @ingredient
         else
           @ingredient = DishIngredient.new(create_params)
           if @ingredient.save
-            render json: @ingredient, status: :created
+            render status: :created
           else
             render json: @ingredient.errors, status: :unprocessable_entity
           end
@@ -28,9 +26,7 @@ module Api
       end
 
       def update
-        if @ingredient.update(update_params)
-          render json: @ingredient
-        else
+        unless @ingredient.update(update_params)
           render json: @ingredient.errors, status: :unprocessable_entity
         end
       end

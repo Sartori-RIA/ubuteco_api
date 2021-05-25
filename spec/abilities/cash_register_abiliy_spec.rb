@@ -17,7 +17,7 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
       @customer = create(:user_customer)
     end
 
-    subject { Abilities::CashRegisterAbility.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Kitchens") }
+    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Kitchens") }
 
     context "when is an cash register" do
       context 'can' do
@@ -35,12 +35,12 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
         context 'in users controller' do
-          subject { Abilities::CashRegisterAbility.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
+          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
           it { is_expected.to be_able_to(:read, @user) }
           it { is_expected.to be_able_to(:update, @user) }
         end
         context 'in customers controller' do
-          subject { Abilities::CashRegisterAbility.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Customers") }
+          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Customers") }
           it { is_expected.to be_able_to(:read, @customer) }
         end
       end

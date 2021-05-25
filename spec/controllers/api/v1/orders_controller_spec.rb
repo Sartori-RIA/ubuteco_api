@@ -45,7 +45,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
   end
 
   describe '#PUT /api/orders/:id' do
-    let!(:order) { orders.sample }
+    let!(:order) { @orders.sample }
     it 'should update a table' do
       put api_v1_order_path(order.id), params: order.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(200)

@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        paginate json: @users.order(name: :asc), include: [:role]
+        @users = paginate @users.order(name: :asc), include: [:role]
       end
     end
   end

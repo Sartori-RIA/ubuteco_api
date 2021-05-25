@@ -5,32 +5,28 @@ module Api
     load_and_authorize_resource
 
     def index
-      paginate json: @orders, include: [:table]
+      @orders = paginate @orders
     end
 
-    def show
-      render json: @order, include: %i[order_items table]
-    end
+    def show; end
 
     def search
       @orders = Order.search params[:q]
-      paginate json: @orders, include: %i[table]
+      @orders = paginate @orders
     end
 
     def create
       @order = Order.new(create_params)
 
       if @order.save
-        render json: @order, status: :created
+        render status: :created
       else
         render json: @order.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @order.update(update_params)
-        render json: @order
-      else
+      unless @order.update(update_params)
         render json: @order.errors, status: :unprocessable_entity
       end
     end
