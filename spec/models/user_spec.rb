@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'associations' do
-    it { is_expected.to belong_to(:role) }
-    it { is_expected.to belong_to(:organization) }
+    it { is_expected.to belong_to(:role).required }
+    it { is_expected.to belong_to(:organization).optional }
   end
 end
