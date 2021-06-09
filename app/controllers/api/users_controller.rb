@@ -47,7 +47,6 @@ module Api
         :email,
         :password,
         :avatar,
-        :role,
         :role_id,
         :organization_id
       ).merge(organization_id: current_user.organization_id)
@@ -59,7 +58,7 @@ module Api
         :email,
         :password,
         :avatar,
-        :role,
+        :role_id,
       )
     end
   end
