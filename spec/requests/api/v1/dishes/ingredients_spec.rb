@@ -1,45 +1,45 @@
 require 'swagger_helper'
 
 RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
+  before :all do
+    @organization = create(:organization)
+    @user = @organization.user
+    @foods = create_list(:food, 10, organization: @organization)
+    @dish = create(:dish, organization: @organization)
+    @dish_ingredients = create_list(:dish_ingredient, 10, food: @foods.sample, dish: @dish)
+  end
+
   path '/api/v1/dishes/{dish_id}/ingredients' do
     get 'All ingredients in dish' do
       tags 'Dish ingredients'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [Bearer: {}]
       parameter name: :dish_id, in: :path, type: :string
       response '200', 'Ok' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:dish_id) { @dish.id }
+        schema '$ref' => '#/components/schemas/dish_ingredients'
         run_test!
       end
     end
     post 'Add new ingredient to dish' do
       tags 'Dish ingredients'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [Bearer: {}]
       parameter name: :dish_id, in: :path, type: :string
-      parameter in: :body, type: :object,
-                schema: {
-                  properties: {
-                    id: { type: :integer },
-                    quantity: { type: :string },
-                    food_id: { type: :integer }
-                  },
-                  required: %w[quantity food_id]
-                }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_dish_ingredient' }
       response '201', 'Created' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 food_id: { type: :integer },
-                 dish_id: { type: :integer },
-                 quantity: { type: :integer },
-               },
-               required: %w[id food_id food dish_id dish quantity]
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:dish_id) { @dish.id }
+        let(:params) { attributes_for(:dish_ingredient).merge(food_id: @foods.sample.id) }
+        schema '$ref' => '#/components/schemas/dish_ingredient'
         run_test!
       end
       response '422', 'Invalid request' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:dish_id) { @dish.id }
+        let(:params) { {} }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
@@ -47,40 +47,40 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
   path '/api/v1/dishes/{dish_id}/ingredients/{id}' do
     put 'Update ingredient in dish' do
       tags 'Dish ingredients'
-      security [bearerAuth: []]
+      security [Bearer: {}]
       consumes 'application/json'
       parameter name: :dish_id, in: :path, type: :string
       parameter name: :id, in: :path, type: :string
-      parameter in: :body, type: :object,
-                schema: {
-                  properties: {
-                    quantity: { type: :string },
-                  },
-                  required: %w[quantity]
-                }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/edit_dish_ingredient' }
       response '200', 'Ok' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 food_id: { type: :integer },
-                 dish_id: { type: :integer },
-                 quantity: { type: :integer },
-               },
-               required: %w[id food_id food dish_id dish quantity]
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:dish_id) { dish.id }
+        let(:id) { @dish_ingredients.sample.id }
+        let(:params) { attributes_for(:dish_ingredient) }
+        schema '$ref' => '#/components/schemas/theme'
         run_test!
       end
       response '422', 'Invalid request' do
-        let(:Authorization) { "Bearer #{auth_header(user)}" }
+        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:dish_id) { @dish.id }
+        let(:id) { @dish_ingredients.sample.id }
+        let(:params) { { quantity: -1 } }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
     delete 'Remove ingredient from dish' do
       tags 'Dish ingredients'
-      security [bearerAuth: []]
+      security [Bearer: {}]
       consumes 'application/json'
       parameter name: :dish_id, in: :path, type: :string
       parameter name: :id, in: :path, type: :string
+      response '204', 'No Content' do
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:dish_id) { @dish.id }
+        let(:id) { @dish_ingredients.sample.id }
+        run_test!
+      end
     end
   end
 end

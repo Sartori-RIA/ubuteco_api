@@ -316,6 +316,14 @@ RSpec.configure do |config|
           new_order_item: {
             type: :object,
             properties: {
+              item: {
+                oneOf: [
+                  { '$ref' => '#/components/schemas/drink' },
+                  { '$ref' => '#/components/schemas/wine' },
+                  { '$ref' => '#/components/schemas/beer' },
+                  { '$ref' => '#/components/schemas/dish' },
+                ]
+              },
               item_id: {type: :integer},
               item_type: {type: :string},
               quantity: {type: :integer},

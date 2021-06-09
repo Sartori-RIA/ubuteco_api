@@ -6,26 +6,13 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
       @organization = create(:organization)
       @user = @organization.user
       @order = create(:order, :open, :with_items, organization: @organization)
-      @table = create(:table, organization: @organization)
-      @wine = create(:wine, organization: @organization)
-      @beer = create(:beer, organization: @organization)
-      @dish = create(:dish, organization: @organization)
-      @drink = create(:drink, organization: @organization)
-      @food = create(:food, organization: @organization)
-      @maker = create(:maker, organization: @organization)
-    end
-
-    before :all do
-      @organization = create(:organization)
-      @user = @organization.user
-      @order = create(:order, :open, :with_items, organization: @organization)
-      @table = create(:table, organization: @organization)
-      @wine = create(:wine, organization: @organization)
-      @beer = create(:beer, organization: @organization)
-      @dish = create(:dish, organization: @organization)
-      @drink = create(:drink, organization: @organization)
-      @food = create(:food, organization: @organization)
-      @maker = create(:maker, organization: @organization)
+      @table = build(:table, organization: @organization)
+      @wine = build(:wine, organization: @organization)
+      @beer = build(:beer, organization: @organization)
+      @dish = build(:dish, organization: @organization)
+      @drink = build(:drink, organization: @organization)
+      @food = build(:food, organization: @organization)
+      @maker = build(:maker, organization: @organization)
     end
 
     subject { described_class.new(user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users') }

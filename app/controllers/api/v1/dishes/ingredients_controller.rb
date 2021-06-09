@@ -33,11 +33,6 @@ module Api
 
       def destroy
         @ingredient.destroy
-        render json: {
-          message: 'Ingredient deleted from dish',
-          id: params[:id],
-          dish_id: params[:dish_id]
-        }, status: :ok
       end
 
       protected

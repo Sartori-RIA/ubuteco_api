@@ -4,6 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
   before :all do
     @organization = create(:organization)
     @admin = @organization.user
+    @users = create_list(:user, 5, organization: @organization)
   end
   path '/api/v1/users' do
     get 'All Users' do

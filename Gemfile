@@ -55,9 +55,9 @@ end
 group :development do
   gem 'mailcatcher'
   gem 'rubocop', require: false
-  gem 'rspec-rails', '~> 5.0.0'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'brakeman'
 end
 
 group :test do
