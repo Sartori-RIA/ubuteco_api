@@ -45,6 +45,7 @@ group :development, :test do
   gem 'faker', '~> 2.17'
   gem 'fuubar', '~> 2.5', '>= 2.5.1'
   gem 'mutant-rspec', '~> 0.10.20'
+  gem 'reek'
   gem 'rspec', '~> 3.4'
   gem 'rspec-json_expectations'
   gem 'rspec-rails', '~> 5.0.0'
