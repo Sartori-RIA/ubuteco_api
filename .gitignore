@@ -35,4 +35,4 @@ config/application.yml
 .generators
 .idea
 *.iml
-db/schema.rb
+
