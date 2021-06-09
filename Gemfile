@@ -41,6 +41,7 @@ gem 'validators', '~> 3.4', '>= 3.4.1'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'brakeman'
+  gem 'bundler-audit'
   gem 'factory_bot_rails', '~> 6.1'
   gem 'faker', '~> 2.17'
   gem 'fuubar', '~> 2.5', '>= 2.5.1'
