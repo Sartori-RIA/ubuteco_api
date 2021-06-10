@@ -4,7 +4,7 @@ class PasswordsController < Devise::PasswordsController
   before_action :find_user
 
   def create
-    if @user.nil?
+    if @user.blank?
       render json: {}, status: :not_found
     else
       code = @user.generate_code

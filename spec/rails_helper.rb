@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 ENV['RAILS_ENV'] ||= 'test'
-require 'support/simplecov'
 
 require File.expand_path('../config/environment', __dir__)
 
@@ -14,15 +13,7 @@ require 'money-rails/test_helpers'
 require "cancan/matchers"
 require 'carrierwave/test/matchers'
 
-require 'support/helpers/headers'
-require 'support/action_cable'
-require 'support/carrier_wave'
-require 'support/database_cleaner'
-require 'support/factory_bot'
-require 'support/file_spec_helper'
-require 'support/fuubar'
-require 'support/shoulda'
-require 'support/simplecov'
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 require 'spec_helper'
 

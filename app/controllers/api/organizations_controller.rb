@@ -29,7 +29,7 @@ module Api
     def cnpj_available?
       param = CNPJ.new(params[:q])
       organization = Organization.find_by(cnpj: param.formatted)
-      if organization.nil?
+      if organization.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok
@@ -38,7 +38,7 @@ module Api
 
     def phone_available?
       organization = Organization.find_by(phone: params[:q])
-      if organization.nil?
+      if organization.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok

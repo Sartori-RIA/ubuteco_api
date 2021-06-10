@@ -22,7 +22,7 @@ class Order < ApplicationRecord
                     user: %w[name]
                   }
 
-  def recalculate_total!
+  def recalculate_total
     total = 0
     order_items.each do |order_item|
       total = total + (order_item.item.price_cents * order_item.quantity)

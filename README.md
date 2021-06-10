@@ -80,4 +80,4 @@
 
 ## Supporters
 
-![https://jb.gg/OpenSource](./supporters/jetbrains.svg)
+![https://jb.gg/OpenSource](./sponsors/jetbrains.svg)

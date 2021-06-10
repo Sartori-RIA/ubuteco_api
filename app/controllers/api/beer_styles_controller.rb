@@ -33,7 +33,7 @@ module Api
 
     def style_available?
       beer_style = BeerStyle.find_by(name: params[:q])
-      if beer_style.nil?
+      if beer_style.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok

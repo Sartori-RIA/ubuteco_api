@@ -39,8 +39,9 @@ class ApplicationController < ActionController::API
     @current_ability ||= load_permissions(params: params, controller_name: controller_name)
   end
 
+  # :reek:TooManyStatements:
   def load_permissions(params:, controller_name:)
-    return Abilities::BaseAbility.new if current_user.nil?
+    return Abilities::BaseAbility.new if current_user.blank?
 
     case current_user.role.name
     when 'SUPER_ADMIN'

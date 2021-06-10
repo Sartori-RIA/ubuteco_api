@@ -21,12 +21,13 @@ class OrderItem < ApplicationRecord
 
   def update_stock(diff:, is_quantity_lower:)
     return if item_type == 'Dish'
+    quantity = item.quantity_stock
     mew_quantity = if is_quantity_lower
-                     self.item.quantity_stock + diff
+                     quantity + diff
                    else
-                     self.item.quantity_stock - diff
+                     quantity - diff
                    end
-    self.item.update(quantity_stock: mew_quantity)
+    item.update(quantity_stock: mew_quantity)
   end
 
   protected
@@ -46,7 +47,7 @@ class OrderItem < ApplicationRecord
   end
 
   def recalculate_total
-    order.recalculate_total!
+    order.recalculate_total
   end
 
   def reset_stock

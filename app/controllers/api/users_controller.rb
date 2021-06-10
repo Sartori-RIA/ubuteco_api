@@ -32,7 +32,7 @@ module Api
 
     def email_available?
       user = User.find_by(email: params[:q])
-      if user.nil?
+      if user.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok
