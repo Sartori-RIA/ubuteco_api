@@ -13,7 +13,7 @@ module Api
         render json: @theme.errors, status: :unprocessable_entity unless @theme.update(update_params)
       end
 
-      private
+      protected
 
       def update_params
         params.merge(organization_id: current_user.organization_id)

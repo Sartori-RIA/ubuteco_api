@@ -26,7 +26,7 @@ module Api
       @role.destroy
     end
 
-    private
+    protected
 
     def create_params
       params.permit(:name)

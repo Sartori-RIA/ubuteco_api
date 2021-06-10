@@ -40,7 +40,7 @@ module Api
       end
     end
 
-    private
+    protected
 
     def create_params
       update_params

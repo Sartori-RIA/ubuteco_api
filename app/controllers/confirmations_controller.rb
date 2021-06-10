@@ -6,11 +6,8 @@ class ConfirmationsController < Devise::ConfirmationsController
   def show
     self.resource = resource_class.confirm_by_token(params[:confirmation_token])
     yield resource if block_given?
+    return if resource.errors.blank?
 
-    if resource.errors.empty?
-      render json: resource, include: [:role, { organization: { include: [:theme] } }]
-    else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
-    end
+    respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
   end
 end

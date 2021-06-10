@@ -8,11 +8,15 @@ FactoryBot.define do
 
     trait :with_ingredients do
       transient do
-        ingredients_count { 5.0 }
+        ingredients_count { 5 }
       end
 
       after(:create) do |dish, evaluator|
-        create_list(:dish_ingredient, evaluator.ingredients_count, dish: dish,)
+        evaluator.ingredients_count.times do
+          food = create(:food, organization: dish.organization)
+          create(:dish_ingredient, dish: dish, food: food)
+        end
+        dish.reload
       end
     end
   end

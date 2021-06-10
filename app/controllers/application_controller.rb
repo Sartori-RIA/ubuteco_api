@@ -39,6 +39,7 @@ class ApplicationController < ActionController::API
     @current_ability ||= load_permissions(params: params, controller_name: controller_name)
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
   # :reek:TooManyStatements:
   def load_permissions(params:, controller_name:)
     return Abilities::BaseAbility.new if current_user.blank?
@@ -60,4 +61,5 @@ class ApplicationController < ActionController::API
       Abilities::BaseAbility.new
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 end

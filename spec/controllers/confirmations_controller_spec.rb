@@ -8,9 +8,7 @@ RSpec.describe ConfirmationsController, type: :request do
   describe '#GET should confirm user account creation' do
     it 'should confirm user account' do
       token = '123456'
-      user.confirmation_token = token
-      user.confirmed_at = nil
-      user.save
+      user.update(confirmed_at: nil, confirmation_token: token)
       get user_confirmation_path(confirmation_token: token),
           headers: unauthenticated_header
       expect(response).to have_http_status(:ok)
@@ -18,9 +16,7 @@ RSpec.describe ConfirmationsController, type: :request do
 
     it 'should throw error when user already confirm account' do
       token = '123456'
-      user.confirmation_token = token
-      user.confirmed_at = Time.zone.now
-      user.save
+      user.update(confirmed_at: Time.zone.now, confirmation_token: token)
       get user_confirmation_path(confirmation_token: token),
           headers: unauthenticated_header
       expect(response).to have_http_status(:unprocessable_entity)

@@ -7,12 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = User.new sign_up_params
     @user.save
     if @user.errors.empty?
-      if params[:organization_attributes].blank?
-        sign_in @user
-        render json: @user, include: :role
-      else
-        create_with_organization
-      end
+      create_account
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -26,9 +21,10 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def organization_params
-    params.merge(user_id: @user.id)
-    params.require(:organization_attributes).permit(:cnpj, :logo, :name, :phone, :user_id)
+    params.merge(user_id: @user.id).require(:organization_attributes).permit(:cnpj, :logo, :name, :phone, :user_id)
   end
+
+  private
 
   def build_organization
     @organization = Organization.new(organization_params)
@@ -43,6 +39,15 @@ class RegistrationsController < Devise::RegistrationsController
     else
       @user.really_destroy!
       render json: @organization.errors, status: :unprocessable_entity
+    end
+  end
+
+  def create_account
+    if params[:organization_attributes].blank?
+      sign_in @user
+      render json: @user, include: :role
+    else
+      create_with_organization
     end
   end
 end

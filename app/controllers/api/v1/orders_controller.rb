@@ -33,28 +33,17 @@ module Api
       @order.destroy
     end
 
-    private
+    protected
 
     def create_params
-      params.permit(:total,
-                    :total_with_discount,
-                    :status,
-                    :discount,
-                    :user,
-                    :user_id,
-                    :organization,
-                    :organization_id,
-                    :table_id)
+      params.permit(
+        :total, :total_with_discount, :status, :discount, :user, :user_id,
+        :organization, :organization_id, :table_id
+      )
     end
 
     def update_params
-      params.permit(:total,
-                    :total_with_discount,
-                    :status,
-                    :discount,
-                    :user,
-                    :user_id,
-                    :table_id)
+      params.permit(:total, :total_with_discount, :status, :discount, :user, :user_id, :table_id)
     end
   end
 end

@@ -70,4 +70,5 @@ Rails.application.configure do
     address: ENV["MAILER_ADDRESS"],
     port: ENV["MAILER_PORT"]
   }
+  config.action_mailer.default(ENV['MAILER_USER_NAME'])
 end

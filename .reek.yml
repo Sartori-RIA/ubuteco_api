@@ -1,6 +1,8 @@
 detectors:
   IrresponsibleModule:
     enabled: false
+  ControlParameter:
+    enabled: false
 
 directories:
   "app/controllers":
@@ -15,6 +17,12 @@ directories:
     DuplicateMethodCall:
       enabled: false
     TooManyStatements:
+      enabled: false
+
+  "app/models":
+    TooManyStatements:
+      enabled: false
+    InstanceVariableAssumption:
       enabled: false
 
   "app/mailers":

@@ -4,7 +4,7 @@ class SessionsController < Devise::SessionsController
   wrap_parameters :user
   respond_to :json
 
-  private
+  protected
 
   def respond_with(resource, _opts = {})
     @user = resource
