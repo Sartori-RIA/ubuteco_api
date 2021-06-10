@@ -129,5 +129,5 @@ Rails.application.configure do
   # websocket config
   config.web_socket_server_url = "wss://ibuteco.herokuapp.com/api/cable"
   config.action_cable.allowed_request_origins = %w[https://ubuteco.cookiecode.com.br https://ibuteco-ce9c3.web.app/]
-  config.action_mailer.default(from: ENV['MAILER_USER_NAME'])
+  config.action_mailer.default(ENV['MAILER_USER_NAME'])
 end
