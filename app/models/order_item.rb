@@ -3,14 +3,14 @@
 class OrderItem < ApplicationRecord
   after_update { |order_item| order_item.message 'update' }
   after_create { |order_item| order_item.message 'create' }
-  after_create :decrement_stock
+  after_create :decrement_stock, if: :is_dish?
   after_create :recalculate_total
-  after_create :set_default_status
+  after_create :set_default_status, if: :is_dish?
   after_update :recalculate_total
-  after_update :set_default_status
+  after_update :set_default_status, if: :is_dish?
   after_destroy :recalculate_total
 
-  after_destroy :reset_stock
+  after_destroy :reset_stock, if: :is_dish?
 
   belongs_to :order
   belongs_to :item, polymorphic: true
@@ -19,22 +19,20 @@ class OrderItem < ApplicationRecord
   enum status: { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
   def update_stock(diff:, is_quantity_lower:)
-    return if item_type == 'Dish'
+    if is_quantity_lower
+      item.increment(:quantity_stock, diff)
+    else
+      item.decrement(:quantity_stock, diff)
+    end
+  end
 
-    quantity = item.quantity_stock
-    mew_quantity = if is_quantity_lower
-                     quantity + diff
-                   else
-                     quantity - diff
-                   end
-    item.update(quantity_stock: mew_quantity)
+  def is_dish?
+    item_type == 'Dish'
   end
 
   protected
 
   def set_default_status
-    return if item_type == 'Dish'
-
     self.status = 3
   end
 
@@ -52,14 +50,10 @@ class OrderItem < ApplicationRecord
   end
 
   def reset_stock
-    return if item_type == 'Dish'
-
     item.update(quantity_stock: item.quantity_stock + quantity)
   end
 
   def decrement_stock
-    return if item_type == 'Dish'
-
     item.update(quantity_stock: item.quantity_stock - quantity)
   end
 end

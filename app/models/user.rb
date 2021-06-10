@@ -33,6 +33,7 @@ class User < ApplicationRecord
     'no salt'
   end
 
+  # :reek:UnusedParameters:
   def password_salt=(new_salt) end
 
   def send_reset_password_instructions; end
@@ -56,9 +57,6 @@ class User < ApplicationRecord
   end
 
   def send_welcome
-    UserMailer.with(
-      user: self,
-      generated_password: @generated_password
-    ).welcome.deliver_now!
+    UserMailer.with(user: self, generated_password: @generated_password).welcome.deliver_now!
   end
 end

@@ -25,3 +25,5 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: true

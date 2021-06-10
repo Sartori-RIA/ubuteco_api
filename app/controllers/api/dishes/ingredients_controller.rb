@@ -8,20 +8,11 @@ module Api
       def index; end
 
       def create
-        attributes = create_params
-        if DishIngredient.exists?(id: attributes[:id])
-          @ingredient = DishIngredient
-                        .update(attributes[:id], {
-                                  quantity: @ingredient.quantity.to_f + attributes[:quantity].to_f
-                                })
-          render json: @ingredient
+        @ingredient = DishIngredient.new(create_params)
+        if @ingredient.save
+          render status: :created
         else
-          @ingredient = DishIngredient.new(create_params)
-          if @ingredient.save
-            render status: :created
-          else
-            render json: @ingredient.errors, status: :unprocessable_entity
-          end
+          render json: @ingredient.errors, status: :unprocessable_entity
         end
       end
 
@@ -31,11 +22,6 @@ module Api
 
       def destroy
         @ingredient.destroy
-        render json: {
-          message: 'Ingredient deleted from dish',
-          id: params[:id],
-          dish_id: params[:dish_id]
-        }, status: :ok
       end
 
       protected
