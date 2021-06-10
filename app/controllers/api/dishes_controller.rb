@@ -25,9 +25,7 @@ module Api
     end
 
     def update
-      unless @dish.update(update_params)
-        render json: @dish.errors, status: :unprocessable_entity
-      end
+      render json: @dish.errors, status: :unprocessable_entity unless @dish.update(update_params)
     end
 
     def destroy

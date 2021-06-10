@@ -1,1 +1,1 @@
-json.partial! "api/makers/maker", maker: @maker
+json.partial! 'api/makers/maker', maker: @maker

@@ -1,1 +1,1 @@
-json.partial! "api/organizations/organization", organization: @organization
+json.partial! 'api/organizations/organization', organization: @organization

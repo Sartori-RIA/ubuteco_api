@@ -16,9 +16,7 @@ module Api
     end
 
     def update
-      unless @organization.update(update_params)
-        render json: @organization.errors, status: :unprocessable_entity
-      end
+      render json: @organization.errors, status: :unprocessable_entity unless @organization.update(update_params)
     end
 
     def destroy

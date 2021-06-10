@@ -1,1 +1,1 @@
-json.partial! "api/customers/customer", customer: @customer
+json.partial! 'api/customers/customer', customer: @customer

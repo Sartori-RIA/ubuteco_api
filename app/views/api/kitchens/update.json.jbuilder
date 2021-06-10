@@ -1,1 +1,1 @@
-json.partial! "api/kitchens/kitchen", kitchen: @kitchen
+json.partial! 'api/kitchens/kitchen', kitchen: @kitchen

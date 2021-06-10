@@ -1,1 +1,1 @@
-json.partial! "api/tables/table", table: @table
+json.partial! 'api/tables/table', table: @table

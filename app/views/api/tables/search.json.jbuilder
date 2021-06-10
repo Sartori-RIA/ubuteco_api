@@ -1,1 +1,1 @@
-json.array! @tables, partial: "api/tables/table", as: :table
+json.array! @tables, partial: 'api/tables/table', as: :table

@@ -16,9 +16,7 @@ module Api
     end
 
     def update
-      unless @user.update(update_params)
-        render json: @user.errors, status: :unprocessable_entity
-      end
+      render json: @user.errors, status: :unprocessable_entity unless @user.update(update_params)
     end
 
     def destroy
@@ -58,7 +56,7 @@ module Api
         :email,
         :password,
         :avatar,
-        :role_id,
+        :role_id
       )
     end
   end

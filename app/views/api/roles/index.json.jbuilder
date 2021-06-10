@@ -1,1 +1,1 @@
-json.array! @roles, partial: "api/roles/role", as: :role
+json.array! @roles, partial: 'api/roles/role', as: :role

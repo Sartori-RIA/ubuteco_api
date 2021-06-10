@@ -1,1 +1,1 @@
-json.partial! "api/orders/order", order: @order
+json.partial! 'api/orders/order', order: @order

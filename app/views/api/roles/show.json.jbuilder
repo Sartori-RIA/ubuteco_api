@@ -1,1 +1,1 @@
-json.partial! "api/roles/role", role: @role
+json.partial! 'api/roles/role', role: @role

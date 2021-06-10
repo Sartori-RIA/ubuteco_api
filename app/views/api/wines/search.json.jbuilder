@@ -1,1 +1,1 @@
-json.array! @wines, partial: "api/wines/wine", as: :wine
+json.array! @wines, partial: 'api/wines/wine', as: :wine

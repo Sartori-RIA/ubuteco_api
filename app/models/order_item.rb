@@ -5,11 +5,10 @@ class OrderItem < ApplicationRecord
   after_create { |order_item| order_item.message 'create' }
   after_create :decrement_stock
   after_create :recalculate_total
-  after_update :recalculate_total
-  after_destroy :recalculate_total
-
   after_create :set_default_status
+  after_update :recalculate_total
   after_update :set_default_status
+  after_destroy :recalculate_total
 
   after_destroy :reset_stock
 
@@ -21,6 +20,7 @@ class OrderItem < ApplicationRecord
 
   def update_stock(diff:, is_quantity_lower:)
     return if item_type == 'Dish'
+
     quantity = item.quantity_stock
     mew_quantity = if is_quantity_lower
                      quantity + diff
@@ -34,6 +34,7 @@ class OrderItem < ApplicationRecord
 
   def set_default_status
     return if item_type == 'Dish'
+
     self.status = 3
   end
 
@@ -52,11 +53,13 @@ class OrderItem < ApplicationRecord
 
   def reset_stock
     return if item_type == 'Dish'
+
     item.update(quantity_stock: item.quantity_stock + quantity)
   end
 
   def decrement_stock
     return if item_type == 'Dish'
+
     item.update(quantity_stock: item.quantity_stock - quantity)
   end
 end

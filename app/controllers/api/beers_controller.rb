@@ -26,9 +26,7 @@ module Api
     end
 
     def update
-      unless @beer.update(update_params)
-        render json: @beer.errors, status: :unprocessable_entity
-      end
+      render json: @beer.errors, status: :unprocessable_entity unless @beer.update(update_params)
     end
 
     def destroy
