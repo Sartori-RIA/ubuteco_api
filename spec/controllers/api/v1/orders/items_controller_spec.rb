@@ -85,7 +85,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
     let!(:order) { @orders.sample }
     let!(:item) { order.order_items.sample }
     it 'should remove item from order' do
-      delete api_order_item_path(order_id: order.id, id: item.id), headers: auth_header(@waiter)
+      delete api_v1_order_item_path(order_id: order.id, id: item.id), headers: auth_header(@waiter)
       expect(response).to have_http_status(:no_content)
     end
   end

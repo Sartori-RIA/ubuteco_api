@@ -14,7 +14,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
   describe '#GET /api/dishes/:dish_id/ingredients' do
     let!(:dish) { @dishes.sample }
     it 'should request all dish ingredients' do
-      get api_dish_ingredients_path(dish_id: dish.id), headers: auth_header(@admin)
+      get api_v1_dish_ingredients_path(dish_id: dish.id), headers: auth_header(@admin)
       expect(response).to have_http_status(:ok)
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       expect(response).to have_http_status(:created)
     end
     it 'should throw error with invalid params' do
-      post api_dish_ingredients_path(dish_id: dish.id), headers: auth_header(@admin)
+      post api_v1_dish_ingredients_path(dish_id: dish.id), headers: auth_header(@admin)
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
     let!(:dish) { @dishes.sample }
     let!(:ingredient) { dish.dish_ingredients.sample }
     it 'should remove ingredient from dish' do
-      delete api_dish_ingredient_path(dish_id: ingredient.dish_id, id: ingredient.id), headers: auth_header(@admin)
+      delete api_v1_dish_ingredient_path(dish_id: ingredient.dish_id, id: ingredient.id), headers: auth_header(@admin)
       expect(response).to have_http_status(:no_content)
     end
   end

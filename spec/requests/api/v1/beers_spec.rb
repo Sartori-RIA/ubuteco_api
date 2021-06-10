@@ -62,6 +62,7 @@ RSpec.describe Api::V1::BeersController, type: :request do
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @beers.sample.id }
+        let(:params) { { name: nil } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
