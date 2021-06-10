@@ -33,7 +33,7 @@ module Api
       @maker.destroy
     end
 
-    private
+    protected
 
     def create_params
       update_params.merge(organization_id: current_user.organization_id)

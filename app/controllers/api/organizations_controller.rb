@@ -43,7 +43,7 @@ module Api
       end
     end
 
-    private
+    protected
 
     def update_params
       params.permit(:name, :phone, :user_id, :logo)

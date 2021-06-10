@@ -33,20 +33,14 @@ module Api
       @food.destroy
     end
 
-    private
+    protected
 
     def create_params
       update_params.merge(organization_id: current_user.organization_id)
     end
 
     def update_params
-      params.permit(
-        :name,
-        :price,
-        :quantity_stock,
-        :image,
-        :valid_until
-      )
+      params.permit(:name, :price, :quantity_stock, :image, :valid_until)
     end
   end
 end

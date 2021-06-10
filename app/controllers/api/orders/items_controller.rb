@@ -19,7 +19,8 @@ module Api
       def update
         diff = @item.quantity - update_params[:quantity]
         if @item.update(update_params)
-          @item.update_stock(diff: diff, is_quantity_lower: is_quantity_lower?) if @item.is_dish?
+          is_lower = @item.quantity_lower?(new_quantity: update_params[:quantity])
+          @item.update_stock(diff: diff, is_quantity_lower: is_lower) if @item.dish?
           render status: :ok
         else
           render json: @item.errors, status: :unprocessable_entity
@@ -28,14 +29,9 @@ module Api
 
       def destroy
         @item.destroy
-        render json: {
-          message: 'Item deleted from order',
-          id: params[:id],
-          order_id: params[:order_id]
-        }, status: :ok
       end
 
-      private
+      protected
 
       def create_params
         params.permit(:item_type, :item_id, :quantity, :order_id, :id)
@@ -43,10 +39,6 @@ module Api
 
       def update_params
         params.permit(:item_type, :item_id, :quantity)
-      end
-
-      def is_quantity_lower?
-        @item.quantity < update_params[:quantity]
       end
     end
   end
