@@ -7,7 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = User.new sign_up_params
     @user.save
     if @user.errors.empty?
-      if params[:organization_attributes].nil?
+      if params[:organization_attributes].blank?
         sign_in @user
         render json: @user, include: :role
       else

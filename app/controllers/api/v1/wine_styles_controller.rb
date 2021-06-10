@@ -21,9 +21,7 @@ module Api
     end
 
     def update
-      unless @wine_style.update(update_params)
-        render json: @wine_style.errors, status: :unprocessable_entity
-      end
+      render json: @wine_style.errors, status: :unprocessable_entity unless @wine_style.update(update_params)
     end
 
     def destroy
@@ -32,7 +30,7 @@ module Api
 
     def style_available?
       wine_style = WineStyle.find_by(name: params[:q])
-      if wine_style.nil?
+      if wine_style.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok

@@ -48,4 +48,3 @@
   'Pinot Noir',
   'Chardonnay'
 ].each { |wine_style| WineStyle.find_or_create_by!(name: wine_style) }
-

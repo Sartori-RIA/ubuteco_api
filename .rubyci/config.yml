@@ -1,8 +1,7 @@
 version: 1
 
 build_packs:
-  rails:
   postgresql:
-    version: 13
+    version: 12
   image_magick:
     version: 7.0.10-58

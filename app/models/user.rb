@@ -48,7 +48,8 @@ class User < ApplicationRecord
   end
 
   def set_initial_data
-    return if self.organization_id.blank? || self.password.present?
+    return if organization_id.blank? || password.present?
+
     @generated_password = Devise.friendly_token.first(8)
     self.password = @generated_password
     skip_confirmation!

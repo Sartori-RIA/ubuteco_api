@@ -5,7 +5,7 @@ class WineStyle < ApplicationRecord
   include PgSearch::Model
 
   validates :name, presence: true
-  validates_uniqueness_of :name, case_sensitive: false
+  validates :name, uniqueness: { case_sensitive: false }
 
   has_many :wines, dependent: :restrict_with_error
 

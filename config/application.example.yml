@@ -1,0 +1,54 @@
+DATABASE: &database
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+  DB_HOST: db
+  DB_DATABASE:
+
+MAILER: &mailer
+  MAILER_ADDRESS: smtp.gmail.com
+  MAILER_PORT: '587'
+  MAILER_USER_NAME:
+  MAILER_PASSWORD:
+  MAILER_DOMAIN: gmail.com
+
+AWS: &aws
+  AWS_PROVIDER: AWS
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_REGION:
+  AWS_BUCKET:
+  AWS_S3_DIRECTORY:
+
+REDIS: &redis
+  REDIS_HOST:
+  REDIS_USER:
+  REDIS_PORT:
+  REDIS_PASSWORD:
+  REDIS_URI:
+
+development:
+  <<: *database
+  <<: *mailer
+  <<: *aws
+  CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
+
+test:
+  <<: *database
+  <<: *mailer
+  <<: *aws
+  CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00
+
+production:
+  <<: *database
+  <<: *aws
+  <<: *redis
+  MAILER_HOST: restaurant_manager.com.br
+  MAILER_PORT: '80'
+  SENTRY_DSN: ''
+  CONFIRM_URL: ""
+  BUGSNAG_KEY: ""
+  JWT_SECRET: ec19b7522ccd2d7e5e8af76a19f7b92b3db70265a55d1b4cc5c37d611123e0dc765ed12c9d931dbec7a4112e89b5f5be1840249947a6cec895c941d8cd93ce00

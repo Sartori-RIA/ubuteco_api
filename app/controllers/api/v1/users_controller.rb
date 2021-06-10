@@ -16,9 +16,7 @@ module Api
     end
 
     def update
-      unless @user.update(update_params)
-        render json: @user.errors, status: :unprocessable_entity
-      end
+      render json: @user.errors, status: :unprocessable_entity unless @user.update(update_params)
     end
 
     def destroy
@@ -32,7 +30,7 @@ module Api
 
     def email_available?
       user = User.find_by(email: params[:q])
-      if user.nil?
+      if user.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok
@@ -47,7 +45,6 @@ module Api
         :email,
         :password,
         :avatar,
-        :role,
         :role_id,
         :organization_id
       ).merge(organization_id: current_user.organization_id)
@@ -59,7 +56,7 @@ module Api
         :email,
         :password,
         :avatar,
-        :role,
+        :role_id
       )
     end
   end

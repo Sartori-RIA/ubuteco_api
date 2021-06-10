@@ -10,9 +10,9 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'associations' do
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:organization) }
-    it { is_expected.to belong_to(:table) }
+    it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:organization).required }
+    it { is_expected.to belong_to(:table).optional }
     it { is_expected.to have_many(:order_items) }
   end
 end

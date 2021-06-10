@@ -16,9 +16,7 @@ module Api
     end
 
     def update
-      unless @organization.update(update_params)
-        render json: @organization.errors, status: :unprocessable_entity
-      end
+      render json: @organization.errors, status: :unprocessable_entity unless @organization.update(update_params)
     end
 
     def destroy
@@ -29,7 +27,7 @@ module Api
     def cnpj_available?
       param = CNPJ.new(params[:q])
       organization = Organization.find_by(cnpj: param.formatted)
-      if organization.nil?
+      if organization.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok
@@ -38,7 +36,7 @@ module Api
 
     def phone_available?
       organization = Organization.find_by(phone: params[:q])
-      if organization.nil?
+      if organization.blank?
         render json: {}, status: :no_content
       else
         render json: {}, status: :ok

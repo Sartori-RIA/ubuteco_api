@@ -1,0 +1,34 @@
+detectors:
+  IrresponsibleModule:
+    enabled: false
+
+directories:
+  "app/controllers":
+    DuplicateMethodCall:
+      enabled: false
+    InstanceVariableAssumption:
+      enabled: false
+
+  "app/models/abilities":
+    ControlParameter:
+      enabled: false
+    DuplicateMethodCall:
+      enabled: false
+    TooManyStatements:
+      enabled: false
+
+  "app/mailers":
+    InstanceVariableAssumption:
+      enabled: false
+
+  "app/uploaders":
+    UtilityFunction:
+      enabled: false
+
+  "spec":
+    UtilityFunction:
+      enabled: false
+
+exclude_paths:
+  - db/migrate/
+  - db/schema.rb

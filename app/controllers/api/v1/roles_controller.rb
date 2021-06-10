@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class V1::RolesController < ApplicationController
     load_and_authorize_resource
@@ -17,9 +19,7 @@ module Api
     end
 
     def update
-      unless @role.update(update_params)
-        render json: @role.errors, status: :unprocessable_entity
-      end
+      render json: @role.errors, status: :unprocessable_entity unless @role.update(update_params)
     end
 
     def destroy
