@@ -3,14 +3,14 @@
 class OrderItem < ApplicationRecord
   after_update { |order_item| order_item.message 'update' }
   after_create { |order_item| order_item.message 'create' }
-  after_create :decrement_stock, if: :dish?
+  after_create :decrement_stock, unless: :dish?
   after_create :recalculate_total
   after_create :set_default_status, if: :dish?
   after_update :recalculate_total
   after_update :set_default_status, if: :dish?
   after_destroy :recalculate_total
 
-  after_destroy :reset_stock, if: :dish?
+  after_destroy :reset_stock, unless: :dish?
 
   belongs_to :order
   belongs_to :item, polymorphic: true
@@ -54,10 +54,10 @@ class OrderItem < ApplicationRecord
   end
 
   def reset_stock
-    item.update(quantity_stock: item.quantity_stock + quantity)
+    item.increment(:quantity_stock, quantity)
   end
 
   def decrement_stock
-    item.update(quantity_stock: item.quantity_stock - quantity)
+    item.decrement(:quantity_stock, quantity)
   end
 end

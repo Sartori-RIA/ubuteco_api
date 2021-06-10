@@ -27,3 +27,5 @@ Style/Documentation:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: true
+Rails/EnvironmentVariableAccess:
+  Enabled: false

@@ -20,7 +20,7 @@ module Api
         diff = @item.quantity - update_params[:quantity]
         if @item.update(update_params)
           is_lower = @item.quantity_lower?(new_quantity: update_params[:quantity])
-          @item.update_stock(diff: diff, is_quantity_lower: is_lower) if @item.dish?
+          @item.update_stock(diff: diff, is_quantity_lower: is_lower) unless @item.dish?
           render status: :ok
         else
           render json: @item.errors, status: :unprocessable_entity
