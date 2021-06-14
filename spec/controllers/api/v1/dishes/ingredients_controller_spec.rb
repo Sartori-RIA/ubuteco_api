@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       attributes = attributes_for(:dish_ingredient).merge(
         food_id: @foods.sample.id
       )
-      post api_v1_dish_ingredients_path(dish_id: dish.id), params: attributes.to_json, headers: auth_header(admin)
+      post api_v1_dish_ingredients_path(dish_id: dish.id), params: attributes.to_json, headers: auth_header(@admin)
       expect(response).to have_http_status(:created)
     end
     it 'should throw error with invalid params' do

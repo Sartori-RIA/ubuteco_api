@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ConfirmationsController, type: :request do
-  let!(:user) { create(:user_admin) }
+  let!(:user) { create(:user,:admin) }
 
   describe '#GET should confirm user account creation' do
     it 'should confirm user account' do

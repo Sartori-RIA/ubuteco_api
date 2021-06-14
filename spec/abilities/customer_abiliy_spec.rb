@@ -5,7 +5,7 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
 
     before :all do
       @organization = create(:organization)
-      @user = create(:user_customer)
+      @user = create(:user, :customer)
       @order = create(:order, :with_items, organization: @organization, user: @user)
     end
 

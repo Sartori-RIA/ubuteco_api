@@ -23,7 +23,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_order' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:params) { attributes_for(:order) }
+        let(:params) { attributes_for(:order).merge(organization_id: @organization.id) }
         schema '$ref' => '#/components/schemas/order'
         run_test!
       end
@@ -50,36 +50,18 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       tags 'Orders'
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
-      parameter in: :body, type: :object,
-                schema: {
-                  properties: {
-                    organization_id: { type: :integer },
-                    table_id: { type: :integer },
-                    status: { type: :integer },
-                    user_id: { type: :integer },
-                    discount: { type: :integer },
-                    total: { type: :integer },
-                    total_with_discount: { type: :integer },
-                  },
-                  required: %w[organization_id]
-                }
+      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/edit_order' }
       response 200, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        schema type: :object,
-               properties: {
-                 organization_id: { type: :integer },
-                 table_id: { type: :integer },
-                 status: { type: :integer },
-                 user_id: { type: :integer },
-                 discount: { type: :integer },
-                 total: { type: :integer },
-                 total_with_discount: { type: :integer },
-               },
-               required: %w[organization_id status]
+        let(:id) { @orders.sample.id }
+        let(:params) { attributes_for(:order) }
+        schema '$ref' => '#/components/schemas/order'
         run_test!
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:id) { @orders.sample.id }
+        let(:params) { { organization_id: nil } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end

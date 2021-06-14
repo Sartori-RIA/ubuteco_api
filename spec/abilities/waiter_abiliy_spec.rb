@@ -5,7 +5,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
     before :all do
       @organization = create(:organization)
       @admin = @organization.user
-      @user = create(:user_waiter, organization: @organization)
+      @user = create(:user, :waiter, organization: @organization)
       @order = create(:order, :open, :with_items, organization: @organization)
       @table = build(:table, organization: @organization)
       @wine = build(:wine, organization: @organization)

@@ -5,8 +5,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
     @organization = create(:organization)
     @user = @organization.user
     @foods = create_list(:food, 10, organization: @organization)
-    @dish = create(:dish, organization: @organization)
-    @dish_ingredients = create_list(:dish_ingredient, 10, food: @foods.sample, dish: @dish)
+    @dish = create(:dish, :with_ingredients, organization: @organization)
   end
 
   path '/api/v1/dishes/{dish_id}/ingredients' do
@@ -54,16 +53,16 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/edit_dish_ingredient' }
       response '200', 'Ok' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
-        let(:dish_id) { dish.id }
-        let(:id) { @dish_ingredients.sample.id }
+        let(:dish_id) { @dish.id }
+        let(:id) { @dish.dish_ingredients.sample.id }
         let(:params) { attributes_for(:dish_ingredient) }
         schema '$ref' => '#/components/schemas/theme'
         run_test!
       end
       response '422', 'Invalid request' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:'Authorization') { auth_header(@user)['Authorization'] }
         let(:dish_id) { @dish.id }
-        let(:id) { @dish_ingredients.sample.id }
+        let(:id) { @dish.dish_ingredients.sample.id }
         let(:params) { { quantity: -1 } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
@@ -78,7 +77,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       response '204', 'No Content' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
         let(:dish_id) { @dish.id }
-        let(:id) { @dish_ingredients.sample.id }
+        let(:id) { @dish.dish_ingredients.sample.id }
         run_test!
       end
     end

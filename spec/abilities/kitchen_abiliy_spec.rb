@@ -5,7 +5,7 @@ RSpec.describe Abilities::KitchenAbility, type: :ability do
 
     before :all do
       @organization = create(:organization)
-      @user = create(:user_kitchen, organization: @organization)
+      @user = create(:user, :kitchen, organization: @organization)
       @order = create(:order, :with_dish, organization: @organization)
     end
 

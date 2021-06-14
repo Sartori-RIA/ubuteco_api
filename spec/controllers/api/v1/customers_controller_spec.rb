@@ -4,11 +4,11 @@ RSpec.describe Api::V1::CustomersController, type: :request do
 
   let(:organization) { create(:organization) }
   let(:admin) { organization.user }
-  let(:cash_register) { create(:user_cash_register, organization: organization) }
-  let(:waiter) { create(:user_waiter, organization: organization) }
-  let(:kitchen) { create(:user_kitchen, organization: organization) }
-  let(:super_admin) { create(:user_super_admin) }
-  let!(:customers) { create_list(:user_customer, 10) }
+  let(:cash_register) { create(:user, :cash_register, organization: organization) }
+  let(:waiter) { create(:user, :waiter, organization: organization) }
+  let(:kitchen) { create(:user, :kitchen, organization: organization) }
+  let(:super_admin) { create(:user, :super_admin) }
+  let!(:customers) { create_list(:user, 10, :customer) }
 
   describe '#GET /api/customers' do
     context "with success" do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PasswordsController, type: :request do
-  let!(:user) { create(:user_admin) }
+  let!(:user) { create(:user, :admin) }
 
   describe '#PUT /auth/passwords' do
     it 'should email code to reset password' do

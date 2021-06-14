@@ -2,8 +2,7 @@ require 'swagger_helper'
 
 RSpec.describe Api::V1::WineStylesController, type: :request do
   before :all do
-    @organization = create(:organization)
-    @admin = @organization.user
+    @admin = create(:user, :super_admin)
     @wine_styles = create_list(:wine_style, 10)
   end
 
@@ -81,7 +80,7 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
       tags 'Wine Styles'
       parameter name: :q, in: :query, type: :string
       response 200, 'Already Exists' do
-        let(:q) { @beer_styles.sample.name }
+        let(:q) { @wine_styles.sample.name }
         run_test!
       end
       response 204, 'Name available' do

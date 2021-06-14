@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::RolesController, type: :request do
-  let!(:super_admin) { create(:user_super_admin) }
+  let!(:super_admin) { create(:user, :super_admin) }
   let!(:organization) { create(:organization) }
   let!(:with_read_permission) { organization.user }
   let!(:cant_modify) { [
-    create(:user_admin),
-    create(:user_waiter),
-    create(:user_kitchen),
-    create(:user_cash_register),
-    create(:user_customer),
+    create(:user, :admin),
+    create(:user, :waiter),
+    create(:user, :kitchen),
+    create(:user, :cash_register),
+    create(:user, :customer),
   ] }
   let!(:roles) { create_list(:role, 10) }
 

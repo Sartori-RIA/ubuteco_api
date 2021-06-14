@@ -2,7 +2,7 @@ require 'swagger_helper'
 
 RSpec.describe Api::V1::RolesController, type: :request do
   before :all do
-    @admin = create(:user, :user_super_admin)
+    @admin = create(:user, :super_admin)
     @roles = create_list(:role, 10)
   end
 
@@ -61,6 +61,7 @@ RSpec.describe Api::V1::RolesController, type: :request do
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @roles.sample.id }
+        let(:params) { { name: nil } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -72,7 +73,6 @@ RSpec.describe Api::V1::RolesController, type: :request do
       response 204, 'No Content' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @roles.sample.id }
-        schema '$ref' => '#/components/schemas/beer_styles'
         run_test!
       end
     end

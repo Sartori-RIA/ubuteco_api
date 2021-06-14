@@ -27,12 +27,12 @@ RSpec.describe Api::V1::MakersController, type: :request do
         schema '$ref' => '#/components/schemas/maker'
         run_test!
       end
-    end
-    response 422, 'Invalid request' do
-      let(:'Authorization') { auth_header(@admin)['Authorization'] }
-      let(:params) { {} }
-      schema '$ref' => '#/components/schemas/errors_object'
-      run_test!
+      response 422, 'Invalid request' do
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:params) { {} }
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
     end
   end
   path '/api/v1/makers/{id}' do

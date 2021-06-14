@@ -38,7 +38,7 @@ module Api
       end
 
       def update_params
-        params.permit(:item_type, :item_id, :quantity)
+        params.permit(:item_type, :item_id, :quantity, :item)
       end
     end
   end

@@ -21,7 +21,7 @@ RSpec.describe Api::V1::TablesController, type: :request do
       tags 'Tables'
       security [Bearer: {}]
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_table' }
-      response 200, 'Ok' do
+      response 201, 'Ok' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:params) { attributes_for(:table) }
         schema '$ref' => '#/components/schemas/table'

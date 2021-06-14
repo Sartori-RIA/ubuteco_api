@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe Api::V1::Orders::ItemsController, type: :request do
   before :all do
     @organization = create(:organization)
-    @user = create(:user_waiter, organization: @organization)
+    @user = create(:user, :waiter, organization: @organization)
     @orders = create_list(:order, 10, :with_items, :open, organization: @organization)
     @order = @orders.sample
     @products = [
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       response '201', 'Created' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
         let(:order_id) { @order.id }
-        let(:params) { attributes_for(:order_item).merge(item: @products.sample) }
+        let(:params) { attributes_for(:order_item).merge(item_id: @products.sample.id, item_type: @products.sample.model_name) }
         schema '$ref' => '#/components/schemas/order_item'
         run_test!
       end

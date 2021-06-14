@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe Api::V1::OrdersController, type: :request do
   before :all do
     @organization = create(:organization)
-    @waiter = create(:user_waiter, organization: @organization)
-    @customer = create(:user_customer)
+    @waiter = create(:user, :waiter, organization: @organization)
+    @customer = create(:user, :customer)
     @orders = create_list(:order, 10, :with_items, organization: @organization, user: @customer)
   end
 

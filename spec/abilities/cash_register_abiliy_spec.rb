@@ -5,7 +5,7 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
 
     before :all do
       @organization = create(:organization)
-      @user = create(:user_cash_register, organization: @organization)
+      @user = create(:user, :cash_register, organization: @organization)
       @order = create(:order, :with_items, organization: @organization, user: @user)
       @table = build(:table, organization: @organization)
       @wine = build(:wine, organization: @organization)
@@ -14,7 +14,7 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
       @drink = build(:drink, organization: @organization)
       @food = build(:food, organization: @organization)
       @maker = build(:maker, organization: @organization)
-      @customer = build(:user_customer)
+      @customer = build(:user, :customer)
     end
 
     subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Kitchens") }

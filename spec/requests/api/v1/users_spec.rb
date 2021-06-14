@@ -5,24 +5,16 @@ RSpec.describe Api::V1::UsersController, type: :request do
     @organization = create(:organization)
     @admin = @organization.user
     @users = create_list(:user, 5, organization: @organization)
+    @roles = create_list(:role, 5)
   end
   path '/api/v1/users' do
-    get 'All Users' do
-      tags 'Users'
-      security [Bearer: {}]
-      response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        schema '$ref' => '#/components/schemas/users'
-        run_test!
-      end
-    end
     post 'Create a User' do
       tags 'Users'
       security [Bearer: {}]
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_user' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:params) { attributes_for(:user) }
+        let(:params) { attributes_for(:user).merge(role_id: @roles.sample.id) }
         schema '$ref' => '#/components/schemas/user'
         run_test!
       end

@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:name) { |n| "organization_#{n}" }
     cnpj { Faker::Company.unique.brazilian_company_number }
     phone { Faker::PhoneNumber.unique.phone_number }
-    association :user, factory: :user_admin
+    user { association :user, :admin }
     logo { Faker::LoremPixel.image }
 
     after(:create) do |organization, evaluator|

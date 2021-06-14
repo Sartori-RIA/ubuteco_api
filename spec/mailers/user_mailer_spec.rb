@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UserMailer, type: :mailer do
-  let!(:user) { create(:user_customer) }
+  let!(:user) { create(:user, :customer) }
 
   describe 'welcome' do
     let!(:mail) do

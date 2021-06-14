@@ -1,20 +1,19 @@
 require 'swagger_helper'
 
 RSpec.describe ConfirmationsController, type: :request do
+  before :all do
+    @token = '123456'
+    @user = create(:user, confirmed_at: nil, confirmation_token: @token)
+  end
+
   path '/auth/confirmations' do
-    post 'Confirm your email' do
+    get 'Account data after confirm' do
       tags 'Auth'
       consumes 'application/json'
-      response '401', 'Unauthorized' do
-        run_test!
-      end
-      response '403', 'Forbidden' do
-        run_test!
-      end
-      response '404', 'Not Found' do
-        run_test!
-      end
-      response '422', 'Invalid request' do
+      parameter name: :confirmation_token, in: :query, type: :string
+      response '200', 'Ok' do
+        let(:confirmation_token) { @token }
+        schema '$ref' => '#/components/schemas/user'
         run_test!
       end
     end

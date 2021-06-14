@@ -5,6 +5,8 @@ RSpec.describe Api::V1::BeersController, type: :request do
     @organization = create(:organization)
     @admin = @organization.user
     @beers = create_list(:beer, 10, organization: @organization)
+    @makers = create_list(:maker, 5, organization: @organization)
+    @styles = create_list(:beer_style, 5)
   end
 
   path '/api/v1/beers' do
@@ -23,7 +25,7 @@ RSpec.describe Api::V1::BeersController, type: :request do
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_beer' }
       response 201, 'Created' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:params) { attributes_for(:beer) }
+        let(:params) { attributes_for(:beer).merge(maker_id: @makers.sample.id, beer_style_id: @styles.sample.id) }
         schema '$ref' => '#/components/schemas/beer'
         run_test!
       end

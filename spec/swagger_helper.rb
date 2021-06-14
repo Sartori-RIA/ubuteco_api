@@ -112,13 +112,14 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer },
               name: { type: :string },
-              price: { type: :number },
+              price_cents: { type: :number },
+              price_currency: { type: :string },
               dish_ingredients: {
                 '$ref' => '#/components/schemas/dish_ingredients'
               },
               image: { '$ref' => '#/components/schemas/s3_image' }
             },
-            required: %w[id name price image]
+            required: %w[id name price_cents price_currency image]
           },
           edit_dish: {
             type: :object,
@@ -205,7 +206,7 @@ RSpec.configure do |config|
               maker: { '$ref' => '#/components/schemas/maker' },
               image: { '$ref' => '#/components/schemas/s3_image' }
             },
-            required: %w[id name quantity_stock price_cents price_currency maker_id maker image]
+            required: %w[id name quantity_stock price_cents price_currency image]
           },
           new_drink: {
             type: :object,
@@ -307,11 +308,11 @@ RSpec.configure do |config|
                   { '$ref' => '#/components/schemas/dish' },
                 ]
               },
-              item_type: {type: :string},
-              quantity: {type: :integer},
+              item_type: { type: :string },
+              quantity: { type: :integer },
               status: { type: :string }
             },
-            required: %w[id item item_id item_type quantity_stock status]
+            required: %w[id item item_id item_type quantity status]
           },
           new_order_item: {
             type: :object,
@@ -324,11 +325,34 @@ RSpec.configure do |config|
                   { '$ref' => '#/components/schemas/dish' },
                 ]
               },
-              item_id: {type: :integer},
-              item_type: {type: :string},
-              quantity: {type: :integer},
+              item_id: { type: :integer },
+              item_type: { type: :string },
+              quantity: { type: :integer },
             },
             required: %w[item_id item_type quantity]
+          },
+          kitchen_items: {
+            type: :array,
+            items: {
+              '$ref' => '#/components/schemas/kitchen_item'
+            }
+          },
+          kitchen_item: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              table: { '$ref' => '#/components/schemas/table' },
+              order_item: {
+                oneOf: [
+                  { '$ref' => '#/components/schemas/drink' },
+                  { '$ref' => '#/components/schemas/wine' },
+                  { '$ref' => '#/components/schemas/beer' },
+                  { '$ref' => '#/components/schemas/dish' },
+                ]
+              },
+              status: { type: :string },
+            },
+            required: %w[id status]
           },
           organizations: {
             type: :array,

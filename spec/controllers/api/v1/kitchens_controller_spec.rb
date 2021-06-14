@@ -5,7 +5,7 @@ RSpec.describe Api::V1::KitchensController, type: :request do
   before :all do
     @organization = create(:organization)
     @admin = @organization.user
-    @kitchen = create(:user_kitchen, organization: @organization)
+    @kitchen = create(:user, :kitchen, organization: @organization)
     @orders = create_list(:order, 10, :with_dish, organization: @organization)
   end
 

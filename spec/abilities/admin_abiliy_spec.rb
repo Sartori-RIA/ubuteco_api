@@ -14,7 +14,7 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
       @maker = build(:maker, organization: @organization)
       @dish = build(:dish, organization: @organization)
       @user = build(:user, organization: @organization)
-      @customer = build(:user_customer)
+      @customer = build(:user, :customer)
       @dish_ingredient = build(:dish_ingredient, food: @food, dish: @dish)
     end
 

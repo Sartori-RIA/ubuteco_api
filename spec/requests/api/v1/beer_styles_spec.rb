@@ -3,8 +3,7 @@ require 'swagger_helper'
 RSpec.describe Api::V1::BeerStylesController, type: :request do
 
   before :all do
-    @organization = create(:organization)
-    @admin = @organization.user
+    @admin = create(:user, :super_admin)
     @beer_styles = create_list(:beer_style, 10)
   end
 

@@ -6,7 +6,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
 
   before :all do
     @organization = create(:organization)
-    @waiter = create(:user_waiter, organization: @organization)
+    @waiter = create(:user, :waiter, organization: @organization)
     @orders = create_list(:order, 10, :with_items, :open, organization: @organization)
     @maker = create(:maker, organization: @organization)
     @dish = create(:dish, organization: @organization)

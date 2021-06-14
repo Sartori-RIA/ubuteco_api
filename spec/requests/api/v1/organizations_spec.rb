@@ -16,23 +16,6 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
         run_test!
       end
     end
-    post 'Create a Organization' do
-      tags 'Organizations'
-      security [Bearer: {}]
-      consumes 'application/json'
-      parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_organization' }
-      response 204, 'Created' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:params) { attributes_for(:organization) }
-        schema '$ref' => '#/components/schemas/organization'
-        run_test!
-      end
-      response 422, 'Invalid request' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        schema '$ref' => '#/components/schemas/errors_object'
-        run_test!
-      end
-    end
   end
   path '/api/v1/organizations/{id}' do
     get 'Show Organization' do
@@ -61,6 +44,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
+        let(:params) { { name: nil } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end

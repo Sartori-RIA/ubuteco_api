@@ -1,11 +1,22 @@
 require 'swagger_helper'
 
 RSpec.describe PasswordsController, type: :request do
-  path '/api/v1/password' do
-    post 'Forgot password' do
+  before :all do
+    @user = create(:user)
+  end
+  path '/auth/password' do
+    put 'Forgot password' do
       tags 'Auth'
       consumes 'application/json'
-      response '401', 'Unauthorized' do
+      parameter name: :params, in: :body, schema: {
+        type: :object,
+        properties: {
+          email: :string
+        },
+        required: ['email']
+      }
+      response '200', 'Ok' do
+        let(:params) { { email: @user.email } }
         run_test!
       end
     end
