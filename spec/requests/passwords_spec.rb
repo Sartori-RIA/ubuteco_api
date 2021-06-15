@@ -8,8 +8,7 @@ RSpec.describe PasswordsController, type: :request do
     put 'Forgot password' do
       tags 'Auth'
       consumes 'application/json'
-      parameter name: :params, in: :body, schema: {
-        type: :object,
+      parameter name: :params, in: :body, type: :object, schema: {
         properties: {
           email: :string
         },

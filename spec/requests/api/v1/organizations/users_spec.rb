@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe Api::V1::Organizations::UsersController, type: :request do
   let!(:organization) { create(:organization) }
   let!(:user) { organization.user }
-  path 'api/v1/organizations/{organization_id}/users' do
+  path '/api/v1/organizations/{organization_id}/users' do
     get 'All Organization users' do
       tags 'Organization Users'
       security [Bearer: {}]

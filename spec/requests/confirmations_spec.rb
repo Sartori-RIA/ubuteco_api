@@ -2,7 +2,7 @@ require 'swagger_helper'
 
 RSpec.describe ConfirmationsController, type: :request do
   before :all do
-    @token = '123456'
+    @token = generate_code
     @user = create(:user, confirmed_at: nil, confirmation_token: @token)
   end
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do
-  let!(:user) { create(:user, :admin) }
+  let!(:user) { create(:user) }
 
   describe 'when params are correct' do
     it 'signs in with email' do

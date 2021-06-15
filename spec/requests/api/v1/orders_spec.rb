@@ -29,7 +29,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       end
       response 422, 'Invalid request' do
         let(:'Authorization') { auth_header(@admin)['Authorization'] }
-        let(:params) { {} }
+        let(:params) { { organization_id: -9 } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
