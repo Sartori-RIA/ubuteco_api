@@ -83,7 +83,7 @@ RSpec.configure do |config|
           beer_styles: {
             type: :array,
             items: {
-              '$ref' => '#/components/schemas/beer_styles'
+              '$ref' => '#/components/schemas/beer_style'
             }
           },
           beer_style: {
@@ -301,7 +301,7 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer },
               item: {
-                oneOf: [
+                anyOf: [
                   { '$ref' => '#/components/schemas/drink' },
                   { '$ref' => '#/components/schemas/wine' },
                   { '$ref' => '#/components/schemas/beer' },
@@ -318,7 +318,7 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               item: {
-                oneOf: [
+                anyOf: [
                   { '$ref' => '#/components/schemas/drink' },
                   { '$ref' => '#/components/schemas/wine' },
                   { '$ref' => '#/components/schemas/beer' },
@@ -342,14 +342,7 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer },
               table: { '$ref' => '#/components/schemas/table' },
-              order_item: {
-                oneOf: [
-                  { '$ref' => '#/components/schemas/drink' },
-                  { '$ref' => '#/components/schemas/wine' },
-                  { '$ref' => '#/components/schemas/beer' },
-                  { '$ref' => '#/components/schemas/dish' },
-                ]
-              },
+              order_item: { '$ref' => '#/components/schemas/dish' },
               status: { type: :string },
             },
             required: %w[id status]

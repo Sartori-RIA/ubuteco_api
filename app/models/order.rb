@@ -11,7 +11,7 @@ class Order < ApplicationRecord
 
   has_many :order_items, dependent: :destroy
 
-  monetize :total_cents, :total_with_discount_cents, :discount_cents
+  monetize :total_cents, :total_with_discount_cents, :discount_cents, numericality: { greater_than_or_equal_to: 0 }
 
   include PgSearch::Model
 

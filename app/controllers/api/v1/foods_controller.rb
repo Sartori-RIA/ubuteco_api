@@ -16,12 +16,12 @@ module Api
     end
 
     def create
-      @foods = Food.new(create_params)
+      @food = Food.new(create_params)
 
-      if @foods.save
+      if @food.save
         render status: :created
       else
-        render json: @foods.errors, status: :unprocessable_entity
+        render json: @food.errors, status: :unprocessable_entity
       end
     end
 

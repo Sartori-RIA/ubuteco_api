@@ -78,13 +78,16 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
   path '/api/v1/wine_styles/check/style' do
     get 'Check available name' do
       tags 'Wine Styles'
+      security [Bearer: {}]
       parameter name: :q, in: :query, type: :string
       response 200, 'Already Exists' do
         let(:q) { @wine_styles.sample.name }
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
         run_test!
       end
       response 204, 'Name available' do
         let(:q) { 'tralala' }
+        let(:'Authorization') { auth_header(@admin)['Authorization'] }
         run_test!
       end
     end

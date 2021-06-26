@@ -13,6 +13,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       create(:beer, organization: @organization),
       create(:drink, organization: @organization)
     ]
+    @random_product = @products.sample
   end
 
   path '/api/v1/orders/{order_id}/items' do
@@ -37,7 +38,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       response '201', 'Created' do
         let(:'Authorization') { auth_header(@user)['Authorization'] }
         let(:order_id) { @order.id }
-        let(:params) { attributes_for(:order_item).merge(item_id: @products.sample.id, item_type: @products.sample.model_name) }
+        let(:params) { attributes_for(:order_item).merge(item: @random_product, item_id: @random_product.id, item_type: @random_product.model_name) }
         schema '$ref' => '#/components/schemas/order_item'
         run_test!
       end

@@ -32,13 +32,6 @@ RSpec.describe Api::V1::KitchensController, type: :request do
         schema '$ref' => '#/components/schemas/kitchen_item'
         run_test!
       end
-      response 422, 'Invalid request' do
-        let(:'Authorization') { auth_header(@kitchen)['Authorization'] }
-        let(:id) { @orders.sample.order_items.sample.id }
-        let(:params) { { item: nil } }
-        schema '$ref' => '#/components/schemas/errors_object'
-        run_test!
-      end
     end
   end
 end
