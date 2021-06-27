@@ -1,16 +1,20 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe PasswordsController, type: :request do
   before :all do
     @user = create(:user)
   end
+
   path '/auth/password' do
     put 'Forgot password' do
       tags 'Auth'
       consumes 'application/json'
-      parameter name: :params, in: :body, type: :object, schema: {
+      parameter name: :params, in: :body, schema: {
+        type: :object,
         properties: {
-          email: :string
+          email: { type: :string }
         },
         required: ['email']
       }

@@ -53,6 +53,7 @@ group :development, :test do
   gem 'rspec-json_expectations'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop-rspec'
+  gem 'rubycritic'
   source 'https://oss:wKXUfu1alkPFjjIkCqNag7ya5NcXJxcd@gem.mutant.dev' do
     gem 'mutant-license', require: false
   end
@@ -63,7 +64,6 @@ group :development do
   gem 'rubocop', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'brakeman'
 end
 
 group :test do

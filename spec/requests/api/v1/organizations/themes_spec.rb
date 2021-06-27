@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
   let!(:organization) { create(:organization) }
   let!(:user) { organization.user }
+
   path '/api/v1/organizations/{organization_id}/themes' do
     get 'Show organization theme' do
       tags 'Organization Theme'
@@ -10,7 +13,7 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       consumes 'application/json'
       parameter name: :organization_id, in: :path, type: :string
       response '200', 'Ok' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:Authorization) { auth_header(user)['Authorization'] }
         let(:organization_id) { organization.id }
         schema '$ref' => '#/components/schemas/themes'
         run_test!
@@ -25,7 +28,7 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       parameter name: :organization_id, in: :path, type: :string
       parameter name: :theme_id, in: :path, type: :string
       response '200', 'Ok' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:Authorization) { auth_header(user)['Authorization'] }
         let(:organization_id) { organization.id }
         let(:theme_id) { organization.theme.id }
         schema '$ref' => '#/components/schemas/theme'
@@ -40,7 +43,7 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
       parameter name: :theme_id, in: :path, type: :string
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/theme' }
       response '200', 'Ok' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:Authorization) { auth_header(user)['Authorization'] }
         let(:organization_id) { organization.id }
         let(:theme_id) { organization.theme.id }
         let(:params) { attributes_for(:theme) }
@@ -48,7 +51,7 @@ RSpec.describe Api::V1::Organizations::ThemesController, type: :request do
         run_test!
       end
       response '422', 'Invalid request' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:Authorization) { auth_header(user)['Authorization'] }
         let(:organization_id) { organization.id }
         let(:theme_id) { organization.theme.id }
         let(:params) { { color_sidebar: nil } }

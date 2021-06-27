@@ -1,49 +1,51 @@
 # frozen_string_literal: true
 
 module Api
-  class V1::OrdersController < ApplicationController
-    load_and_authorize_resource
+  module V1
+    class OrdersController < ApplicationController
+      load_and_authorize_resource
 
-    def index
-      @orders = paginate @orders
-    end
-
-    def show; end
-
-    def search
-      @orders = Order.search params[:q]
-      @orders = paginate @orders
-    end
-
-    def create
-      @order = Order.new(create_params)
-
-      if @order.save
-        render status: :created
-      else
-        render json: @order.errors, status: :unprocessable_entity
+      def index
+        @orders = paginate @orders
       end
-    end
 
-    def update
-      render json: @order.errors, status: :unprocessable_entity unless @order.update(update_params)
-    end
+      def show; end
 
-    def destroy
-      @order.destroy
-    end
+      def search
+        @orders = Order.search params[:q]
+        @orders = paginate @orders
+      end
 
-    protected
+      def create
+        @order = Order.new(create_params)
 
-    def create_params
-      params.permit(
-        :total, :total_with_discount, :status, :discount, :user, :user_id,
-        :organization, :organization_id, :table_id
-      )
-    end
+        if @order.save
+          render status: :created
+        else
+          render json: @order.errors, status: :unprocessable_entity
+        end
+      end
 
-    def update_params
-      params.permit(:total, :total_with_discount, :status, :discount, :user, :user_id, :table_id)
+      def update
+        render json: @order.errors, status: :unprocessable_entity unless @order.update(update_params)
+      end
+
+      def destroy
+        @order.destroy
+      end
+
+      protected
+
+      def create_params
+        params.permit(
+          :total, :total_with_discount, :status, :discount, :user, :user_id,
+          :organization, :organization_id, :table_id
+        )
+      end
+
+      def update_params
+        params.permit(:total, :total_with_discount, :status, :discount, :user, :user_id, :table_id)
+      end
     end
   end
 end

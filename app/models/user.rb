@@ -33,7 +33,6 @@ class User < ApplicationRecord
     'no salt'
   end
 
-  # :reek:UnusedParameters:
   def password_salt=(new_salt) end
 
   def send_reset_password_instructions; end

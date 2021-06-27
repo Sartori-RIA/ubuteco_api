@@ -1,53 +1,55 @@
 # frozen_string_literal: true
 
 module Api
-  class V1::BeerStylesController < ApplicationController
-    load_and_authorize_resource
+  module V1
+    class BeerStylesController < ApplicationController
+      load_and_authorize_resource
 
-    def index
-      @beer_styles = paginate @beer_styles.order(name: :asc)
-    end
-
-    def show; end
-
-    def create
-      @beer_style = BeerStyle.new(create_params)
-      if @beer_style.save
-        render status: :created
-      else
-        render json: @beer_style.errors, status: :unprocessable_entity
+      def index
+        @beer_styles = paginate @beer_styles.order(name: :asc)
       end
-    end
 
-    def update
-      if @beer_style.update(update_params)
-        render status: :ok
-      else
-        render json: @beer_style.errors, status: :unprocessable_entity
+      def show; end
+
+      def create
+        @beer_style = BeerStyle.new(create_params)
+        if @beer_style.save
+          render status: :created
+        else
+          render json: @beer_style.errors, status: :unprocessable_entity
+        end
       end
-    end
 
-    def destroy
-      @beer_style.destroy
-    end
-
-    def style_available?
-      beer_style = BeerStyle.find_by(name: params[:q])
-      if beer_style.blank?
-        render json: {}, status: :no_content
-      else
-        render json: {}, status: :ok
+      def update
+        if @beer_style.update(update_params)
+          render status: :ok
+        else
+          render json: @beer_style.errors, status: :unprocessable_entity
+        end
       end
-    end
 
-    protected
+      def destroy
+        @beer_style.destroy
+      end
 
-    def create_params
-      update_params
-    end
+      def style_available?
+        beer_style = BeerStyle.find_by(name: params[:q])
+        if beer_style.blank?
+          render json: {}, status: :no_content
+        else
+          render json: {}, status: :ok
+        end
+      end
 
-    def update_params
-      params.permit(:name)
+      protected
+
+      def create_params
+        update_params
+      end
+
+      def update_params
+        params.permit(:name)
+      end
     end
   end
 end

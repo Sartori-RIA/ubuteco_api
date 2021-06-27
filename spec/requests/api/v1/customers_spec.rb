@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe Api::V1::CustomersController, type: :request do
-
   before :all do
     @organization = create(:organization)
     @admin = @organization.user
@@ -12,7 +13,7 @@ RSpec.describe Api::V1::CustomersController, type: :request do
       tags 'Customers'
       security [Bearer: {}]
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         run_test!
       end
     end

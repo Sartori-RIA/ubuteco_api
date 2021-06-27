@@ -6,7 +6,7 @@ RSpec.describe ResetPasswordsController, type: :request do
   let!(:user) { create(:user, :admin) }
 
   describe '#PUT /auth/reset_passwords' do
-    it 'should update password when user forget then' do
+    it 'updates password when user forget then' do
       params = {
         reset_params: { password: '123456789' }
       }
@@ -15,7 +15,8 @@ RSpec.describe ResetPasswordsController, type: :request do
           headers: auth_header(user)
       expect(response).to have_http_status(:ok)
     end
-    it 'should throw error when invalid lenght' do
+
+    it 'throws error when invalid lenght' do
       params = {
         reset_params: { password: '1' }
       }

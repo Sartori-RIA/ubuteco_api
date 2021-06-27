@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module FileSpecHelper
   class << self
-
     def image
       File.open(Dir[path_to('images')].sample)
     end

@@ -1,7 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Abilities::SuperAdminAbility, type: :ability do
-  describe "abilities" do
+  describe 'abilities' do
+    subject do
+      described_class.new(user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users')
+    end
+
     before :all do
       @organization = create(:organization)
       @user = @organization.user
@@ -15,9 +21,7 @@ RSpec.describe Abilities::SuperAdminAbility, type: :ability do
       @maker = build(:maker, organization: @organization)
     end
 
-    subject { described_class.new(user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users') }
-
-    context "when is an super admin" do
+    context 'when is an super admin' do
       context 'can' do
         it { is_expected.to be_able_to(:manage, Beer.new) }
         it { is_expected.to be_able_to(:manage, Role.new) }

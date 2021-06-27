@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe Api::V1::OrdersController, type: :request do
@@ -12,7 +14,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       tags 'Orders'
       security [Bearer: {}]
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/orders'
         run_test!
       end
@@ -22,13 +24,13 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       security [Bearer: {}]
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/new_order' }
       response 201, 'Created' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:params) { attributes_for(:order).merge(organization_id: @organization.id) }
         schema '$ref' => '#/components/schemas/order'
         run_test!
       end
       response 422, 'Invalid request' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:params) { { organization_id: -9 } }
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
@@ -41,7 +43,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @orders.sample.id }
         run_test!
       end
@@ -52,14 +54,14 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       parameter name: :id, in: :path, type: :string
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/edit_order' }
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @orders.sample.id }
         let(:params) { attributes_for(:order) }
         schema '$ref' => '#/components/schemas/order'
         run_test!
       end
       response 422, 'Invalid request' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @orders.sample.id }
         let(:params) { { total: -9 } }
         schema '$ref' => '#/components/schemas/errors_object'
@@ -71,7 +73,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 204, 'No Content' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @orders.sample.id }
         run_test!
       end
@@ -83,7 +85,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       security [Bearer: {}]
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:q) { 'tralala' }
         schema '$ref' => '#/components/schemas/orders'
         run_test!

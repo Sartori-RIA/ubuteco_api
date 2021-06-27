@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Abilities::WaiterAbility, type: :ability do
-  describe "abilities" do
+  describe 'abilities' do
+    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
+
     before :all do
       @organization = create(:organization)
       @admin = @organization.user
@@ -16,9 +20,7 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
       @maker = build(:maker, organization: @organization)
     end
 
-    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
-
-    context "when is an waiter" do
+    context 'when is an waiter' do
       context 'can' do
         it { is_expected.to be_able_to(:read, @table) }
         it { is_expected.to be_able_to(:read, @wine) }
@@ -35,8 +37,12 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
         it { is_expected.to be_able_to(:create, @order.order_items.sample) }
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
+
         context 'in users controller' do
-          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
+          subject do
+            described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Users')
+          end
+
           it { is_expected.to be_able_to(:read, @user) }
         end
       end

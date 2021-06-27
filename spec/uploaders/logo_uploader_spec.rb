@@ -16,20 +16,22 @@ RSpec.describe LogoUploader, type: :uploader do
     uploader.remove!
   end
 
-  describe "#URLS" do
+  describe '#URLS' do
     it 'has default url' do
       expect(uploader.default_url).to eq('https://s3.us-east-2.amazonaws.com/ibuteco.cookiecode.com.br/uploads/default.png')
     end
+
     it 'has base url to ' do
       expect(uploader.asset_host).to eq('http://192.168.0.193')
     end
+
     it 'has base url to production' do
       allow(Rails.env).to receive(:production?).and_return(true)
       expect(uploader.asset_host).to eq('https://ibuteco.herokuapp.com/')
     end
   end
 
-  it "has the correct format" do
+  it 'has the correct format' do
     expect(uploader.extension_whitelist).to eq(%w[jpg jpeg gif png])
   end
 

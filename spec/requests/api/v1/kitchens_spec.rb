@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe Api::V1::KitchensController, type: :request do
@@ -13,7 +15,7 @@ RSpec.describe Api::V1::KitchensController, type: :request do
       tags 'Kitchen'
       security [Bearer: {}]
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@kitchen)['Authorization'] }
+        let(:Authorization) { auth_header(@kitchen)['Authorization'] }
         schema '$ref' => '#/components/schemas/kitchen_items'
         run_test!
       end
@@ -26,7 +28,7 @@ RSpec.describe Api::V1::KitchensController, type: :request do
       parameter name: :id, in: :path, type: :string
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/edit_order_item' }
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@kitchen)['Authorization'] }
+        let(:Authorization) { auth_header(@kitchen)['Authorization'] }
         let(:id) { @orders.sample.order_items.sample.id }
         let(:params) { attributes_for(:order_item) }
         schema '$ref' => '#/components/schemas/kitchen_item'

@@ -7,71 +7,76 @@ RSpec.describe Api::V1::BeersController, type: :request do
   let!(:admin) { organization.user }
   let!(:beer_styles) { create_list(:beer_style, 10) }
   let!(:makers) { create_list(:maker, 10, organization: organization) }
-  let!(:beers) { create_list(:beer, 10,
-                             organization: organization,
-                             beer_style: beer_styles.sample,
-                             maker: makers.sample) }
+  let!(:beers) do
+    create_list(:beer, 10,
+                organization: organization,
+                beer_style: beer_styles.sample,
+                maker: makers.sample)
+  end
 
-  before :each do
+  before do
     @beer_styles = create_list(:beer_style, 10)
-    @beers =  create_list(:beer, 10, beer_style: @beer_styles.sample)
+    @beers = create_list(:beer, 10, beer_style: @beer_styles.sample)
   end
 
   describe '#GET /api/beers' do
-    it 'should request all beers' do
+    it 'requests all beers' do
       get api_v1_beers_path, headers: auth_header(admin)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#GET /api/beers/:id' do
-    it 'should request beer by id' do
+    it 'requests beer by id' do
       get api_v1_beer_path(beers.sample.id), headers: auth_header(admin)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#GET /api/beers/search' do
-    it 'should search beers' do
+    it 'searches beers' do
       get search_api_v1_beers_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#POST /api/beers' do
-    it 'should create a beer' do
+    it 'creates a beer' do
       attributes = attributes_for(:beer).merge(
         maker_id: makers.sample.id,
         beer_style_id: beer_styles.sample.id,
         organization_id: organization.id
       )
       post api_v1_beers_path, params: attributes.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(:created)
     end
-    it 'should throw error with invalid params' do
+
+    it 'throws error with invalid params' do
       post api_v1_beers_path, headers: auth_header(admin)
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
   describe '#PUT /api/beers/:id' do
     let!(:beer) { beers.sample }
-    it 'should update a beer' do
+
+    it 'updates a beer' do
       beer.name = 'editado'
       put api_v1_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
-    it 'should throw error with invalid params' do
+
+    it 'throws error with invalid params' do
       beer.name = ''
       put api_v1_beer_path(beer.id), params: beer.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
   describe '#DELETE /api/beers/:id' do
-    it 'should delete beer' do
+    it 'deletes beer' do
       delete api_v1_beer_path(beers.sample.id), headers: auth_header(admin)
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(:no_content)
     end
   end
 end

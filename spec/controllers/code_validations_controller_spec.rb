@@ -6,7 +6,7 @@ RSpec.describe CodeValidationsController, type: :request do
   let!(:user) { create(:user, :admin) }
 
   describe '#POST /auth/code_validations' do
-    it 'should return user token when send code received in email' do
+    it 'returns user token when send code received in email' do
       token = '123456'
       user.reset_password_token = token
       user.save
@@ -21,7 +21,7 @@ RSpec.describe CodeValidationsController, type: :request do
       expect(response.body).to include('token')
     end
 
-    it 'should throw error 404 when code not exists' do
+    it 'throws error 404 when code not exists' do
       attributes = {
         code: 'bacon'
       }

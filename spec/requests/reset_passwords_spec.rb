@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe ResetPasswordsController, type: :request do
   before :all do
     @user = create(:user, :admin)
   end
+
   path '/auth/reset_passwords' do
     put 'Change your password, when forgot' do
       tags 'Auth'
@@ -22,7 +25,7 @@ RSpec.describe ResetPasswordsController, type: :request do
         required: ['reset_params']
       }
       response '200', 'Ok' do
-        let(:'Authorization') { auth_header(@user)['Authorization'] }
+        let(:Authorization) { auth_header(@user)['Authorization'] }
         let(:params) { { reset_params: { password: '123123123' } } }
         schema '$ref' => '#/components/schemas/user'
         run_test!

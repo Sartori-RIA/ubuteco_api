@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe Api::V1::OrganizationsController, type: :request do
-  before :each do
+  before do
     @organization = create(:organization)
     @admin = @organization.user
   end
@@ -11,7 +13,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       tags 'Organizations'
       security [Bearer: {}]
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/organizations'
         run_test!
       end
@@ -23,7 +25,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
         schema '$ref' => '#/components/schemas/organization'
         run_test!
@@ -35,14 +37,14 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       parameter name: :id, in: :path, type: :string
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/organization' }
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
         let(:params) { attributes_for(:organization) }
         schema '$ref' => '#/components/schemas/organization'
         run_test!
       end
       response 422, 'Invalid request' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
         let(:params) { { name: nil } }
         schema '$ref' => '#/components/schemas/errors_object'
@@ -54,7 +56,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 204, 'No Content' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
         run_test!
       end
@@ -66,7 +68,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       security [Bearer: {}]
       parameter name: :q, in: :query, type: :string
       response 200, 'Ok' do
-        let(:'Authorization') { auth_header(@admin)['Authorization'] }
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:q) { 'tralala' }
         schema '$ref' => '#/components/schemas/organizations'
         run_test!

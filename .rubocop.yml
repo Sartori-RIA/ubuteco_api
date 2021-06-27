@@ -18,10 +18,7 @@ AllCops:
     - 'config/environments/*'
     - 'lib/tasks/populate.rake'
     - 'config/routes.rb'
-    - 'spec/*'
-    - 'spec/*/*'
-    - 'spec/*/*/*'
-    - 'spec/*/*/*/*'
+    - 'spec/**/*.rb'
 
 Style/Documentation:
   Enabled: false
@@ -29,3 +26,12 @@ Style/ClassAndModuleChildren:
   Enabled: true
 Rails/EnvironmentVariableAccess:
   Enabled: false
+Metrics/AbcSize:
+  IgnoredMethods:
+    - load_permissions
+Metrics/CyclomaticComplexity:
+  IgnoredMethods:
+    - load_permissions
+Metrics/MethodLength:
+  IgnoredMethods:
+    - load_permissions

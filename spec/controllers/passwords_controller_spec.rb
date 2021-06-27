@@ -6,7 +6,7 @@ RSpec.describe PasswordsController, type: :request do
   let!(:user) { create(:user, :admin) }
 
   describe '#PUT /auth/passwords' do
-    it 'should email code to reset password' do
+    it 'emails code to reset password' do
       params = {
         email: user.email
       }
@@ -16,7 +16,7 @@ RSpec.describe PasswordsController, type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'should throw error when user not found' do
+    it 'throws error when user not found' do
       params = {
         email: 'bacon@email.com'
       }

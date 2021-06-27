@@ -1,1 +1,3 @@
-json.array! @wine_styles, partial: "api/v1/wine_styles/wine_style", as: :wine_style
+# frozen_string_literal: true
+
+json.array! @wine_styles, partial: 'api/v1/wine_styles/wine_style', as: :wine_style

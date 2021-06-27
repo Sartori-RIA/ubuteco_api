@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Abilities::CashRegisterAbility, type: :ability do
-  describe "abilities" do
+  describe 'abilities' do
+    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
 
     before :all do
       @organization = create(:organization)
@@ -17,9 +20,7 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
       @customer = build(:user, :customer)
     end
 
-    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Kitchens") }
-
-    context "when is an cash register" do
+    context 'when is an cash register' do
       context 'can' do
         it { is_expected.to be_able_to(:read, @dish) }
         it { is_expected.to be_able_to(:read, @beer) }
@@ -34,13 +35,21 @@ RSpec.describe Abilities::CashRegisterAbility, type: :ability do
         it { is_expected.to be_able_to(:create, @order.order_items.sample) }
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
+
         context 'in users controller' do
-          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Users") }
+          subject do
+            described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Users')
+          end
+
           it { is_expected.to be_able_to(:read, @user) }
           it { is_expected.to be_able_to(:update, @user) }
         end
+
         context 'in customers controller' do
-          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::V1::Customers") }
+          subject do
+            described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Customers')
+          end
+
           it { is_expected.to be_able_to(:read, @customer) }
         end
       end

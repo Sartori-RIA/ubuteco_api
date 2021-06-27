@@ -1,1 +1,3 @@
-json.partial! "api/v1/wines/wine", wine: @wine
+# frozen_string_literal: true
+
+json.partial! 'api/v1/wines/wine', wine: @wine

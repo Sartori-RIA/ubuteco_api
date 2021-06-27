@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe SessionsController, type: :request do
@@ -10,7 +12,7 @@ RSpec.describe SessionsController, type: :request do
       parameter name: :params, in: :body, type: :object, schema: {
         properties: {
           email: { type: :string },
-          password: { type: :string },
+          password: { type: :string }
         },
         required: %w[email password]
       }
@@ -31,7 +33,7 @@ RSpec.describe SessionsController, type: :request do
       security [Bearer: {}]
       consumes 'application/json'
       response '200', 'Unauthorized' do
-        let(:'Authorization') { auth_header(user)['Authorization'] }
+        let(:Authorization) { auth_header(user)['Authorization'] }
         run_test!
       end
     end

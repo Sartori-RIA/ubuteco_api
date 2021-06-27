@@ -1,4 +1,6 @@
-require "cpf_cnpj"
+# frozen_string_literal: true
+
+require 'cpf_cnpj'
 
 FactoryBot.define do
   factory :organization do
@@ -8,7 +10,7 @@ FactoryBot.define do
     user { association :user, :admin }
     logo { Faker::LoremPixel.image }
 
-    after(:create) do |organization, evaluator|
+    after(:create) do |organization, _evaluator|
       organization.user.update(organization: organization)
     end
   end

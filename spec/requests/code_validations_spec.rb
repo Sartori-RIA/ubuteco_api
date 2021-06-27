@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe CodeValidationsController, type: :request do
@@ -5,6 +7,7 @@ RSpec.describe CodeValidationsController, type: :request do
     @token = '123456'
     @user = create(:user, reset_password_token: @token)
   end
+
   path '/auth/code' do
     post 'Code received to reset your password' do
       tags 'Auth'

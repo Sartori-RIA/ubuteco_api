@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe RegistrationsController, type: :request do
@@ -5,9 +7,10 @@ RSpec.describe RegistrationsController, type: :request do
     create(:admin)
     create(:customer)
   end
+
   path '/auth/sign_up' do
     post 'Create new account' do
-      tags "Auth"
+      tags 'Auth'
       consumes 'application/json'
       response '201', 'Created' do
         run_test!
