@@ -1,0 +1,1374 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  "/api/v1/beer_styles":
+    get:
+      summary: All Beer Styles
+      tags:
+      - Beer Styles
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_styles"
+    post:
+      summary: Create a Beer Style
+      tags:
+      - Beer Styles
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_beer_style"
+  "/api/v1/beer_styles/{id}":
+    get:
+      summary: Show Beer Style
+      tags:
+      - Beer Styles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
+    put:
+      summary: Update a Beer Style
+      tags:
+      - Beer Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer_style"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/beer_style"
+    delete:
+      summary: Destroy a Beer Style
+      tags:
+      - Beer Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/beer_styles/check/style":
+    get:
+      summary: Check available name
+      tags:
+      - Beer Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Already Exists
+        '204':
+          description: Name available
+  "/api/v1/beers":
+    get:
+      summary: All Beers
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beers"
+    post:
+      summary: Create a Beer
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_beer"
+  "/api/v1/beers/{id}":
+    get:
+      summary: Show Beer
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
+    put:
+      summary: Update a Beer
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/beer"
+    delete:
+      summary: Destroy a Beer
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/beers/search":
+    get:
+      summary: Search beer by name
+      tags:
+      - Beers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beers"
+  "/api/v1/customers":
+    get:
+      summary: All Customers
+      tags:
+      - Customers
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+  "/api/v1/dishes/{dish_id}/ingredients":
+    get:
+      summary: All ingredients in dish
+      tags:
+      - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+    post:
+      summary: Add new ingredient to dish
+      tags:
+      - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  food_id:
+                    type: integer
+                  dish_id:
+                    type: integer
+                  quantity:
+                    type: integer
+                required:
+                - id
+                - food_id
+                - food
+                - dish_id
+                - dish
+                - quantity
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+                quantity:
+                  type: string
+                food_id:
+                  type: integer
+              required:
+              - quantity
+              - food_id
+  "/api/v1/dishes/{dish_id}/ingredients/{id}":
+    put:
+      summary: Update ingredient in dish
+      tags:
+      - Dish ingredients
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  food_id:
+                    type: integer
+                  dish_id:
+                    type: integer
+                  quantity:
+                    type: integer
+                required:
+                - id
+                - food_id
+                - food
+                - dish_id
+                - dish
+                - quantity
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                quantity:
+                  type: string
+              required:
+              - quantity
+  "/api/v1/dishes":
+    get:
+      summary: All Dishes
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dishes"
+    post:
+      summary: Create a Dish
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_dish"
+  "/api/v1/dishes/{id}":
+    get:
+      summary: Show Dish
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
+    put:
+      summary: Update a Dish
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/dish"
+    delete:
+      summary: Destroy a Dish
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/dishes/search":
+    get:
+      summary: Search dish by name
+      tags:
+      - Dishes
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dishes"
+  "/api/v1/drinks":
+    get:
+      summary: All Drinks
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drinks"
+    post:
+      summary: Create a Drink
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_drink"
+  "/api/v1/drinks/{id}":
+    get:
+      summary: Show Drink
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
+    put:
+      summary: Update a Drink
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drink"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/drink"
+    delete:
+      summary: Destroy a Drink
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/drinks/search":
+    get:
+      summary: Search Drink by name
+      tags:
+      - Drinks
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drinks"
+  "/api/v1/foods":
+    get:
+      summary: All Foods
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/foods"
+    post:
+      summary: Create a Food
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_food"
+  "/api/v1/foods/{id}":
+    get:
+      summary: Show Food
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
+    put:
+      summary: Update a Food
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/food"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/food"
+    delete:
+      summary: Destroy a Food
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/foods/search":
+    get:
+      summary: Search Food by name
+      tags:
+      - Foods
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/foods"
+  "/api/v1/kitchens":
+    get:
+      summary: All Dishes to make
+      tags:
+      - Kitchen
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+  "/api/v1/kitchens/{dish_id}":
+    put:
+      summary: Update dish preparation statuses
+      tags:
+      - Kitchen
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+  "/api/v1/makers":
+    get:
+      summary: All Makers
+      tags:
+      - Makers
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/makers"
+    post:
+      summary: Create a Maker
+      tags:
+      - Makers
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/maker"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_maker"
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+components:
+  securitySchemes:
+    Bearer:
+      description: JWT key necessary to use API calls
+      name: Authorization
+      in: header
+  schemas:
+    errors_object:
+      type: object
+      properties:
+        errors:
+          "$ref": "#/components/schemas/errors_map"
+    errors_map:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    beers:
+      type: array
+      items:
+        "$ref": "#/components/schemas/beer"
+    beer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        beer_style_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        beer_style:
+          "$ref": "#/components/schemas/beer_style"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - beer_style_id
+      - image
+    new_beer:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+        maker_id:
+          type: integer
+        beer_style_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - maker_id
+      - beer_style_id
+    beer_styles:
+      type: array
+      items:
+        "$ref": "#/components/schemas/beer_styles"
+    beer_style:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_beer_style:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    dishes:
+      type: array
+      items:
+        "$ref": "#/components/schemas/dish"
+    dish:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients:
+          "$ref": "#/components/schemas/dish_ingredients"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - price
+      - image
+    edit_dish:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients_attributes:
+          "$ref": "#/components/schemas/edit_dish_ingredients"
+      required:
+      - name
+      - price
+    new_dish:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        dish_ingredients_attributes:
+          "$ref": "#/components/schemas/new_dish_ingredients"
+      required:
+      - name
+      - price
+    new_dish_ingredients:
+      type: array
+      items:
+        "$ref": "#/components/schemas/new_dish_ingredient"
+    edit_dish_ingredients:
+      type: array
+      items:
+        "$ref": "#/components/schemas/edit_dish_ingredient"
+    dish_ingredients:
+      type: array
+      items:
+        "$ref": "#/components/schemas/dish_ingredient"
+    edit_dish_ingredient:
+      type: object
+      properties:
+        id:
+          type: integer
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - food
+      - food_id
+      - quantity
+    dish_ingredient:
+      type: object
+      properties:
+        id:
+          type: integer
+        food:
+          "$ref": "#/components/schemas/food"
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - id
+      - food
+      - food_id
+      - quantity
+    new_dish_ingredient:
+      type: object
+      properties:
+        food_id:
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - food_id
+      - quantity
+    drinks:
+      type: array
+      items:
+        "$ref": "#/components/schemas/drink"
+    drink:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - maker
+      - image
+    new_drink:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - price_currency
+      - maker_id
+    foods:
+      type: array
+      items:
+        "$ref": "#/components/schemas/food"
+    food:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity_stock:
+          type: integer
+        valid_until:
+          type: string
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - valid_until
+      - price_cents
+      - price_currency
+      - image
+    new_food:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity_stock:
+          type: integer
+        valid_until:
+          type: string
+        price:
+          type: number
+      required:
+      - name
+      - quantity_stock
+      - valid_until
+      - price
+    makers:
+      type: array
+      items:
+        "$ref": "#/components/schemas/maker"
+    maker:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+      required:
+      - id
+      - name
+      - country
+    new_maker:
+      type: object
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+      required:
+      - name
+      - country
+    orders:
+      type: array
+      items:
+        "$ref": "#/components/schemas/order"
+    order:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+      - id
+    new_order:
+      type: object
+      properties: {}
+      required: []
+    order_items:
+      type: array
+      items:
+        "$ref": "#/components/schemas/order_item"
+    order_item:
+      type: object
+      properties:
+        id:
+          type: integer
+        item:
+          oneOf:
+          - "$ref": "#/components/schemas/drink"
+          - "$ref": "#/components/schemas/wine"
+          - "$ref": "#/components/schemas/beer"
+          - "$ref": "#/components/schemas/dish"
+        item_type:
+          type: string
+        quantity:
+          type: integer
+        status:
+          type: string
+      required:
+      - id
+      - item
+      - item_id
+      - item_type
+      - quantity_stock
+      - status
+    new_order_item:
+      type: object
+      properties:
+        item_id:
+          type: integer
+        item_type:
+          type: string
+        quantity:
+          type: integer
+      required:
+      - item_id
+      - item_type
+      - quantity
+    organizations:
+      type: array
+      items:
+        "$ref": "#/components/schemas/organization"
+    organization:
+      type: object
+      properties:
+        id:
+          type: integer
+        logo:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - logo
+    new_organization:
+      type: object
+      properties: {}
+      required: []
+    roles:
+      type: array
+      items:
+        "$ref": "#/components/schemas/role"
+    role:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_role:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    tables:
+      type: array
+      items:
+        "$ref": "#/components/schemas/table"
+    table:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        chairs:
+          type: integer
+      required:
+      - id
+      - name
+      - chairs
+    new_table:
+      type: object
+      properties:
+        name:
+          type: string
+        chairs:
+          type: integer
+      required:
+      - name
+      - chairs
+    themes:
+      type: array
+      items:
+        "$ref": "#/components/schemas/theme"
+    theme:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+      - id
+    users:
+      type: array
+      items:
+        "$ref": "#/components/schemas/user"
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+        avatar:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - avatar
+    new_user:
+      type: object
+      properties: {}
+      required: []
+    wines:
+      type: array
+      items:
+        "$ref": "#/components/schemas/wine"
+    wine:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: integer
+        price_cents:
+          type: integer
+        price_currency:
+          type: string
+        maker_id:
+          type: integer
+        wine_style_id:
+          type: integer
+        maker:
+          "$ref": "#/components/schemas/maker"
+        wine_style:
+          "$ref": "#/components/schemas/wine_style"
+        image:
+          "$ref": "#/components/schemas/s3_image"
+      required:
+      - id
+      - name
+      - quantity_stock
+      - price_cents
+      - price_currency
+      - maker_id
+      - maker
+      - wine_style
+      - wine_style_id
+      - image
+    new_wine:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: integer
+        maker_id:
+          type: integer
+        wine_style_id:
+          type: integer
+      required:
+      - name
+      - quantity_stock
+      - price
+      - maker_id
+      - wine_style_id
+    wine_styles:
+      type: array
+      items:
+        "$ref": "#/components/schemas/wine_style"
+    wine_style:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    new_wine_style:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    s3_image:
+      type: object
+      properties:
+        url:
+          type: string
+        thumb:
+          type: object
+          properties:
+            url:
+              type: string
+          required:
+          - url
+      required:
+      - url

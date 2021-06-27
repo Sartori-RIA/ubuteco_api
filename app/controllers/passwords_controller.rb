@@ -2,6 +2,7 @@
 
 class PasswordsController < Devise::PasswordsController
   before_action :find_user
+  respond_to :json
 
   def create
     if @user.blank?

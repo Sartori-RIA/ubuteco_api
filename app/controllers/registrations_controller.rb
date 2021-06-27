@@ -17,11 +17,11 @@ class RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     role = params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER')
-    params.require(:user).permit(:name, :password, :email, :avatar).merge(role: role)
+    params.require(:user).permit(:name, :password, :email, :avatar, :role).merge(role: role)
   end
 
   def organization_params
-    params.require(:organization_attributes).permit(:cnpj, :logo, :name, :phone).merge(user_id: @user.id)
+    params.require(:organization_attributes).permit(:cnpj, :logo, :name, :phone, :user_id).merge(user_id: @user.id)
   end
 
   private
@@ -35,7 +35,6 @@ class RegistrationsController < Devise::RegistrationsController
     if build_organization
       @user.update(organization_id: @organization.id)
       sign_in @user
-      render json: @user, include: [:role, { organization: { include: [:theme] } }]
     else
       @user.really_destroy!
       render json: @organization.errors, status: :unprocessable_entity
@@ -45,7 +44,6 @@ class RegistrationsController < Devise::RegistrationsController
   def create_account
     if params[:organization_attributes].blank?
       sign_in @user
-      render json: @user, include: :role
     else
       create_with_organization
     end

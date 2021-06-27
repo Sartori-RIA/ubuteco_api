@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Abilities::WaiterAbility, type: :ability do
-  describe "abilities" do
+  describe 'abilities' do
+    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Kitchens') }
+
     before :all do
       @organization = create(:organization)
       @admin = @organization.user
-      @user = create(:user_waiter, organization: @organization)
+      @user = create(:user, :waiter, organization: @organization)
       @order = create(:order, :open, :with_items, organization: @organization)
-      @table = create(:table, organization: @organization)
-      @wine = create(:wine, organization: @organization)
-      @beer = create(:beer, organization: @organization)
-      @dish = create(:dish, organization: @organization)
-      @drink = create(:drink, organization: @organization)
-      @food = create(:food, organization: @organization)
-      @maker = create(:maker, organization: @organization)
+      @table = build(:table, organization: @organization)
+      @wine = build(:wine, organization: @organization)
+      @beer = build(:beer, organization: @organization)
+      @dish = build(:dish, organization: @organization)
+      @drink = build(:drink, organization: @organization)
+      @food = build(:food, organization: @organization)
+      @maker = build(:maker, organization: @organization)
     end
 
-    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::Kitchens') }
-
-    context "when is an waiter" do
+    context 'when is an waiter' do
       context 'can' do
         it { is_expected.to be_able_to(:read, @table) }
         it { is_expected.to be_able_to(:read, @wine) }
@@ -35,8 +37,12 @@ RSpec.describe Abilities::WaiterAbility, type: :ability do
         it { is_expected.to be_able_to(:create, @order.order_items.sample) }
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
         it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
+
         context 'in users controller' do
-          subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: "Api::Users") }
+          subject do
+            described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Users')
+          end
+
           it { is_expected.to be_able_to(:read, @user) }
         end
       end

@@ -7,25 +7,25 @@ FactoryBot.define do
     avatar { Faker::LoremPixel.image }
     password { 'password' }
     role
-    factory :user_with_organization do
+    trait :with_organization do
       association :organization, factory: :organization
     end
-    factory :user_admin do
+    trait :admin do
       association :role, factory: :admin
     end
-    factory :user_super_admin do
+    trait :super_admin do
       association :role, factory: :super_admin
     end
-    factory :user_kitchen do
+    trait :kitchen do
       association :role, factory: :kitchen
     end
-    factory :user_waiter do
+    trait :waiter do
       association :role, factory: :waiter
     end
-    factory :user_cash_register do
+    trait :cash_register do
       association :role, factory: :cash_register
     end
-    factory :user_customer do
+    trait :customer do
       association :role, factory: :customer
     end
   end

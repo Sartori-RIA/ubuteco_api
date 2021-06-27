@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UserMailer, type: :mailer do
-  let!(:user) { create(:user_customer) }
+  let!(:user) { create(:user, :customer) }
 
   describe 'welcome' do
     let!(:mail) do
@@ -19,7 +19,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq([ENV["MAILER_USER_NAME"]])
+      expect(mail.from).to eq([ENV['MAILER_USER_NAME']])
     end
 
     it 'assigns @name' do
@@ -48,7 +48,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq([ENV["MAILER_USER_NAME"]])
+      expect(mail.from).to eq([ENV['MAILER_USER_NAME']])
     end
 
     it 'assigns @name' do

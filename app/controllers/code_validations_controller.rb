@@ -2,8 +2,8 @@
 
 class CodeValidationsController < ApplicationController
   before_action :load_user
+  respond_to :json
 
-  # :reek:FeatureEnvy:
   def create
     if @user.blank?
       render json: {}, status: :not_found

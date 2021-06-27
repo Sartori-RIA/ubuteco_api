@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   config.after(:all) do
     path = Rails.root.join('spec', 'support', 'uploads')

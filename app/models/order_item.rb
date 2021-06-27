@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
 class OrderItem < ApplicationRecord
-  after_update { |order_item| order_item.message 'update' }
-  after_create { |order_item| order_item.message 'create' }
-  after_create :decrement_stock, unless: :dish?
   after_create :recalculate_total
   after_create :set_default_status, if: :dish?
+  after_create :decrement_stock, unless: :dish?
+  after_create { |order_item| order_item.message 'create' }
+
   after_update :recalculate_total
   after_update :set_default_status, if: :dish?
-  after_destroy :recalculate_total
+  after_update { |order_item| order_item.message 'update' }
 
+  after_destroy :recalculate_total
   after_destroy :reset_stock, unless: :dish?
+
+  validates :quantity, presence: true, numericality: { greater_than: 0 }
 
   belongs_to :order
   belongs_to :item, polymorphic: true
-  validates :quantity, presence: true, numericality: { greater_than: 0 }
 
   enum status: { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
@@ -41,7 +43,7 @@ class OrderItem < ApplicationRecord
   end
 
   def message(action)
-    json = ApplicationController.render(template: 'api/kitchens/_kitchen', locals: { kitchen: self })
+    json = ApplicationController.render(template: 'api/v1/kitchens/_kitchen', locals: { kitchen: self })
     msg = {
       obj: json,
       action: action

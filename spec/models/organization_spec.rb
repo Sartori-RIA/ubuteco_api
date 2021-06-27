@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
-  describe "associations" do
+  describe 'associations' do
     it { is_expected.to have_many(:beers) }
     it { is_expected.to have_many(:makers) }
     it { is_expected.to have_many(:drinks) }

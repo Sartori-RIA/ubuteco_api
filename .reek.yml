@@ -1,9 +1,22 @@
 detectors:
+  UncommunicativeModuleName:
+    accept:
+      - Api
+      - V1
   IrresponsibleModule:
     enabled: false
   ControlParameter:
     enabled: false
-
+  TooManyStatements:
+    exclude:
+      - "ApplicationController#load_permissions"
+  FeatureEnvy:
+    exclude:
+      - "CodeValidationsController#create"
+      - "CodeValidationsController#allowlisted_jwt_params"
+  UnusedParameters:
+    exclude:
+      - "User#password_salt"
 directories:
   "app/controllers":
     DuplicateMethodCall:

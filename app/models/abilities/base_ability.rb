@@ -23,12 +23,12 @@ module Abilities
     end
 
     def can_manage_self(user:, controller_name:)
-      can :manage, User, id: user.id unless controller_name == 'Api::Customers'
+      can :manage, User, id: user.id unless controller_name == 'Api::V1::Customers'
     end
 
     def can_manage_organization_users(organization_id:, controller_name:)
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::Organizations::Users'
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::Users'
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Organizations::Users'
+      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Users'
     end
 
     def theme(organization_id:)
@@ -37,11 +37,11 @@ module Abilities
     end
 
     def customer_search(controller_name:)
-      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::Customers'
+      can %i[read search], User, role: { name: 'CUSTOMER' } if controller_name == 'Api::V1::Customers'
     end
 
     def kitchens_namespace(controller_name:, user:)
-      return unless controller_name == 'Api::Kitchens'
+      return unless controller_name == 'Api::V1::Kitchens'
 
       can :read, OrderItem,
           item_type: 'Dish',

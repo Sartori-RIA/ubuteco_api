@@ -2,6 +2,7 @@
 
 class ResetPasswordsController < ApplicationController
   authorize_resource class: User
+  respond_to :json
 
   def update
     if current_user.update(reset_params)
