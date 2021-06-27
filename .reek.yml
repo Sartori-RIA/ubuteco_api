@@ -13,6 +13,7 @@ detectors:
   FeatureEnvy:
     exclude:
       - "CodeValidationsController#create"
+      - "CodeValidationsController#allowlisted_jwt_params"
   UnusedParameters:
     exclude:
       - "User#password_salt"
