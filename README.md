@@ -4,6 +4,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/maintainability)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/test_coverage)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/test_coverage)
 [![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop-hq/rubocop-rails)
+![ruby_critic_g](https://ruby.ci/badges/388e32bd-c453-49c3-9b24-be7299f2f11d/ruby_critic_g)
+![ruby_critic](https://ruby.ci/badges/388e32bd-c453-49c3-9b24-be7299f2f11d/ruby_critic)
 ![rspec](https://ruby.ci/badges/388e32bd-c453-49c3-9b24-be7299f2f11d/rspec)
 ![rubocop](https://ruby.ci/badges/388e32bd-c453-49c3-9b24-be7299f2f11d/rubocop)
 ![brakeman](https://ruby.ci/badges/388e32bd-c453-49c3-9b24-be7299f2f11d/brakeman)
