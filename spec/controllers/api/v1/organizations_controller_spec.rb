@@ -27,19 +27,6 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     end
   end
 
-  describe '#GET /api/organizations/check/cnpj' do
-    it 'returns :ok status to cnpj in use' do
-      get check_cnpj_api_v1_organizations_path, params: { q: organization.cnpj }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-
-    it 'returns :no_content status to cnpj available' do
-      get check_cnpj_api_v1_organizations_path, params: { q: Faker::Company.unique.brazilian_company_number },
-                                                headers: auth_header(admin)
-      expect(response).to have_http_status(:no_content)
-    end
-  end
-
   describe '#GET /api/organizations/check/phone' do
     it 'returns :ok status to phone in use' do
       get check_phone_api_v1_organizations_path, params: { q: organization.phone }, headers: auth_header(admin)

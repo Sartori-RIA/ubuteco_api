@@ -226,7 +226,7 @@ Devise.setup do |config|
   # stretches to 10, and copy REST_AUTH_SITE_KEY to pepper).
   #
   # Require the `devise-encryptable` gem when using anything other than bcrypt
-  config.encryptor = :argon2
+  # config.encryptor = :argon2
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for

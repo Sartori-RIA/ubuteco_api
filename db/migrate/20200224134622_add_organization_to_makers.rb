@@ -1,5 +1,5 @@
-class AddOrganizationToMakers < ActiveRecord::Migration[6.0]
+class AddOrganizationToMakers < ActiveRecord::Migration[7.1]
   def change
-    add_reference :makers, :organization, foreign_key: true, on_delete: :cascade
+    add_reference :makers, :organization, foreign_key: true
   end
 end

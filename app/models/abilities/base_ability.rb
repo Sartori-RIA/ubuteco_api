@@ -10,7 +10,6 @@ module Abilities
       can :read, BeerStyle
       can :read, WineStyle
       can :email_available?, User
-      can :cnpj_available?, Organization
       can :phone_available?, Organization
     end
 

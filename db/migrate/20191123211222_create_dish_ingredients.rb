@@ -1,4 +1,4 @@
-class CreateDishIngredients < ActiveRecord::Migration[6.0]
+class CreateDishIngredients < ActiveRecord::Migration[7.1]
   def change
     create_table :dish_ingredients do |t|
       t.references :food, foreign_key: true

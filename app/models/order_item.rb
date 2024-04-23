@@ -48,7 +48,7 @@ class OrderItem < ApplicationRecord
       obj: json,
       action: action
     }
-    ActionCable.server.broadcast("kitchens_#{order.organization.cnpj}", msg.to_json)
+    ActionCable.server.broadcast("kitchens_#{order.organization.id}", msg.to_json)
   end
 
   def recalculate_total

@@ -62,7 +62,7 @@
     + KitchenChannel
     
 + Broadcasts:
-    + "kitchens_#{organization_cnpj}"
+    + "kitchens_#{organization_id}"
 
 
 ### Default users in db:populate

@@ -25,16 +25,6 @@ module Api
         @organization.destroy
       end
 
-      def cnpj_available?
-        param = CNPJ.new(params[:q])
-        organization = Organization.find_by(cnpj: param.formatted)
-        if organization.blank?
-          render json: {}, status: :no_content
-        else
-          render json: {}, status: :ok
-        end
-      end
-
       def phone_available?
         organization = Organization.find_by(phone: params[:q])
         if organization.blank?

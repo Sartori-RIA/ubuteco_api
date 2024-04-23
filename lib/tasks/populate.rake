@@ -22,11 +22,11 @@ namespace :db do
       role: Role.find_by(name: 'SUPER_ADMIN'),
     ).find_or_create_by!(email: 'super@email.com')
 
-    super_org = Organization.create_with(
+    super_org = Organization.create(
       name: Faker::Company.name,
       phone: Faker::PhoneNumber.phone_number,
       user: super_admin
-    ).find_or_create_by!(cnpj: Faker::Company.unique.brazilian_company_number(formatted: true))
+    )
 
     super_admin.update(organization: super_org)
 
@@ -36,11 +36,11 @@ namespace :db do
       role: Role.find_by(name: 'ADMIN'),
     ).find_or_create_by!(email: 'admin@email.com')
 
-    organization = Organization.create_with(
+    organization = Organization.create(
       name: Faker::Company.name,
       phone: Faker::PhoneNumber.phone_number,
       user: admin
-    ).find_or_create_by!(cnpj: Faker::Company.unique.brazilian_company_number(formatted: true))
+    )
 
     admin.update(organization_id: organization.id)
 

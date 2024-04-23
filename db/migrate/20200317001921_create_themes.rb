@@ -1,4 +1,4 @@
-class CreateThemes < ActiveRecord::Migration[6.0]
+class CreateThemes < ActiveRecord::Migration[7.1]
   def change
     create_table :themes do |t|
       t.string :name
