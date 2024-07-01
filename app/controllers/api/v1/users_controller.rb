@@ -26,7 +26,7 @@ module Api
 
       def search
         @users = User.search params[:q]
-        @users = paginate @users.order(name: :asc), include: %i[role organization]
+        pagy_render @users.order(name: :asc), %i[role organization]
       end
 
       def email_available?

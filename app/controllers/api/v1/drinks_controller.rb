@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @drinks = paginate @drinks.order(name: :asc), include: %i[maker]
+        pagy_render @drinks.order(name: :asc), %i[maker]
       end
 
       def show; end
 
       def search
         @drinks = Drink.search params[:q]
-        @drinks = paginate @drinks.order(name: :asc), include: %i[maker]
+        pagy_render @drinks.order(name: :asc), %i[maker]
       end
 
       def create

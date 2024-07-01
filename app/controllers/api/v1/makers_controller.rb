@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @makers = paginate @makers.order(name: :asc)
+        pagy_render @makers.order(name: :asc)
       end
 
       def show; end
 
       def search
         @makers = Maker.search params[:q]
-        @makers = paginate @makers.order(name: :asc)
+        pagy_render @makers.order(name: :asc)
       end
 
       def create

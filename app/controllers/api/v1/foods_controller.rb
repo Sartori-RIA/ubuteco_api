@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @foods = paginate @foods.order(name: :asc)
+        pagy_render @foods.order(name: :asc)
       end
 
       def show; end
 
       def search
         @foods = Food.search params[:q]
-        @foods = paginate @foods.order(name: :asc)
+        pagy_render @foods.order(name: :asc)
       end
 
       def create

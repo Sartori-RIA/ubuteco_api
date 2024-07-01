@@ -144,11 +144,11 @@ namespace :db do
       )
     end
     100.times do
-      DishIngredient.create!(
+      DishIngredient.where(
         dish: organization.dishes.sample,
         food: organization.foods.sample,
         quantity: Faker::Number.between(from: 1, to: 2)
-      )
+      ).first_or_create
     end
   end
 end

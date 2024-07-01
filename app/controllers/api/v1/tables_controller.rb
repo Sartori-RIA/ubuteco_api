@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @tables = paginate @tables.order(name: :asc)
+        render json: @tables.order(name: :asc), status: :ok
       end
 
       def show; end
 
       def search
         @tables = Table.search params[:q]
-        @tables = paginate @tables.order(name: :asc)
+        render json: @tables.order(name: :asc), status: :ok
       end
 
       def create

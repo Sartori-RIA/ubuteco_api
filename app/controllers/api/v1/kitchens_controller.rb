@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource class: OrderItem
 
       def index
-        @kitchens = paginate @kitchens.includes(:item).order(:created_at)
+        pagy_render @kitchens.includes(:item).order(:created_at)
       end
 
       def update

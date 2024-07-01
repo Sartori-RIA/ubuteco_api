@@ -7,7 +7,7 @@ RSpec.describe CodeValidationsController, type: :request do
 
   describe '#POST /auth/code_validations' do
     it 'returns user token when send code received in email' do
-      token = '123456'
+      token = SecureRandom.uuid
       user.reset_password_token = token
       user.save
 

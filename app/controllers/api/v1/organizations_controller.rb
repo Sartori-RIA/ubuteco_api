@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @organizations = paginate @organizations.order(name: :asc)
+        pagy_render @organizations.order(name: :asc)
       end
 
       def show; end
 
       def search
         @organization = Organization.search params[:q]
-        @organizations = paginate @organization.order(name: :asc)
+        pagy_render @organization.order(name: :asc)
       end
 
       def update

@@ -15,3 +15,8 @@ Accept: application/json
     "phone": "+55 111111113"
   }
 }
+
+###
+
+GET http://localhost:3000/api/v1/beers
+Accept: application/json
