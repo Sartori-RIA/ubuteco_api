@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
+        pagy_render @wines.order(name: :asc), %i[wine_style maker]
       end
 
       def show; end
 
       def search
         @wines = Wine.search params[:q]
-        @wines = paginate @wines.order(name: :asc), include: %i[wine_style maker]
+        pagy_render @wines.order(name: :asc), %i[wine_style maker]
       end
 
       def create

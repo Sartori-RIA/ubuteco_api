@@ -26,17 +26,17 @@ services:
       - 1080:1080
       - 1025:1025
 
-  api:
-    image: cookiecode/base-ruby-on-rails
-    container_name: ubuteco_api
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/var/www
-      - .bundle:/usr/local/bundle
-      - .coverage:/var/www/.coverage
-    stdin_open: true
-    tty: true
-    links:
-      - db
+#  api:
+#    image: cookiecode/base-ruby-on-rails
+#    container_name: ubuteco_api
+#    ports:
+#      - 3000:3000
+#    volumes:
+#      - .:/var/www
+#      - .bundle:/usr/local/bundle
+#      - .coverage:/var/www/.coverage
+#    stdin_open: true
+#    tty: true
+#    links:
+#      - db
 

@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @dishes = paginate @dishes.order(name: :asc), include: [dish_ingredients: { include: :food }]
+        pagy_render @dishes.order(name: :asc), [dish_ingredients: { include: :food }]
       end
 
       def show; end
 
       def search
         @dishes = Dish.search params[:q]
-        @dishes = paginate @dishes.order(name: :asc)
+        pagy_render @dishes.order(name: :asc)
       end
 
       def create

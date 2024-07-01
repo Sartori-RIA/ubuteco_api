@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource class: User
 
       def index
-        @customers = paginate @customers.order(name: :asc), include: [:role]
+        pagy_render @customers.order(name: :asc), [:role]
       end
     end
   end

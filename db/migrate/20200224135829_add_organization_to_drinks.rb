@@ -1,5 +1,5 @@
-class AddOrganizationToDrinks < ActiveRecord::Migration[6.0]
+class AddOrganizationToDrinks < ActiveRecord::Migration[7.1]
   def change
-    add_reference :drinks, :organization, foreign_key: true, on_delete: :cascade
+    add_reference :drinks, :organization, foreign_key: true
   end
 end

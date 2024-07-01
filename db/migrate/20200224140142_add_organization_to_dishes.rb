@@ -1,5 +1,5 @@
-class AddOrganizationToDishes < ActiveRecord::Migration[6.0]
+class AddOrganizationToDishes < ActiveRecord::Migration[7.1]
   def change
-    add_reference :dishes, :organization, foreign_key: true, on_delete: :cascade
+    add_reference :dishes, :organization, foreign_key: true
   end
 end

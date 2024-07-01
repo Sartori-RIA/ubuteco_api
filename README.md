@@ -30,8 +30,8 @@
   
 + Without Docker
   + Postgres
-  + Rails 6.x
-  + Ruby 3.0.0
+  + Rails 7.1.x
+  + Ruby 3.2.2
 
 ### Quick Start
 
@@ -42,8 +42,9 @@
 5. `rails db:migrate` -> create tables and database updates
 6. `rails db:seed` -> populate database with real data
 7. `rails db:populate` -> populate database with fake data
-8. `rspec` -> run all tests11
-10. `bundle exec mutant run --use rspec` -> run all mutant tests
+8. `rspec` -> run all tests
+9. `bundle exec rails parallel:setup` -> setup the db for parallel specs
+10. `bundle exec rails parallel:spec` -> run all specs in parallel
 11. `rails s -b 0.0.0.0` -> start server
 
 ### Swagger 
@@ -62,7 +63,7 @@
     + KitchenChannel
     
 + Broadcasts:
-    + "kitchens_#{organization_cnpj}"
+    + "kitchens_#{organization_id}"
 
 
 ### Default users in db:populate

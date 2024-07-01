@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe KitchenChannel, type: :channel do
   let(:organization) { create(:organization) }
   let(:admin) { organization.user }
-  let(:channel_name) { "kitchens_#{organization.cnpj}" }
+  let(:channel_name) { "kitchens_#{organization.id}" }
 
   describe '#CHANNEL' do
     before do

@@ -3,7 +3,6 @@
 json.extract! organization,
               :id,
               :name,
-              :cnpj,
               :phone,
               :logo,
               :user_id,

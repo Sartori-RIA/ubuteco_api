@@ -4,9 +4,11 @@ Rails:
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-factory_bot
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.2.2
   NewCops: enable
   Exclude:
     - 'bin/*'
@@ -27,11 +29,11 @@ Style/ClassAndModuleChildren:
 Rails/EnvironmentVariableAccess:
   Enabled: false
 Metrics/AbcSize:
-  IgnoredMethods:
+  AllowedMethods:
     - load_permissions
 Metrics/CyclomaticComplexity:
-  IgnoredMethods:
+  AllowedMethods:
     - load_permissions
 Metrics/MethodLength:
-  IgnoredMethods:
+  AllowedMethods:
     - load_permissions

@@ -72,7 +72,6 @@ Rails.application.routes.draw do
       resources :organizations, except: :create do
         collection do
           get 'search' => 'organizations#search'
-          get 'check/cnpj' => 'organizations#cnpj_available?'
           get 'check/phone' => 'organizations#phone_available?'
         end
         scope module: :organizations do

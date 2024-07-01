@@ -7,11 +7,11 @@ module Abilities
       can %i[update read], Theme, organization_id: user.organization_id
       can :manage, Organization, id: user.organization_id
       can :read, Role
-      can_manage_organization_users(organization_id: user.organization_id, controller_name: controller_name)
-      can_manage_self(user: user, controller_name: controller_name)
-      customer_search(controller_name: controller_name)
+      can_manage_organization_users(organization_id: user.organization_id, controller_name:)
+      can_manage_self(user:, controller_name:)
+      customer_search(controller_name:)
       products_permissions(user)
-      orders_permissions(user: user, params: params, controller_name: controller_name)
+      orders_permissions(user:, params:, controller_name:)
     end
 
     def products_permissions(user)
@@ -28,8 +28,8 @@ module Abilities
     end
 
     def orders_permissions(user:, params:, controller_name:)
-      organization_order user: user, params: params
-      kitchens_namespace controller_name: controller_name, user: user
+      organization_order(user:, params:)
+      kitchens_namespace controller_name:, user:
     end
   end
 end

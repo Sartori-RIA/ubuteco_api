@@ -63,7 +63,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     end
   end
   path '/api/v1/organizations/search' do
-    get 'Search Organization by name and cnpj' do
+    get 'Search Organization by name' do
       tags 'Organizations'
       security [Bearer: {}]
       parameter name: :q, in: :query, type: :string

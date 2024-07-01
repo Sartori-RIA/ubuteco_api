@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @orders = paginate @orders
+        pagy_render @orders
       end
 
       def show; end
 
       def search
         @orders = Order.search params[:q]
-        @orders = paginate @orders
+        pagy_render @orders
       end
 
       def create

@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @organizations = paginate @organizations.order(name: :asc)
+        pagy_render @organizations.order(name: :asc)
       end
 
       def show; end
 
       def search
         @organization = Organization.search params[:q]
-        @organizations = paginate @organization.order(name: :asc)
+        pagy_render @organization.order(name: :asc)
       end
 
       def update
@@ -23,16 +23,6 @@ module Api
       def destroy
         @organization.user.destroy
         @organization.destroy
-      end
-
-      def cnpj_available?
-        param = CNPJ.new(params[:q])
-        organization = Organization.find_by(cnpj: param.formatted)
-        if organization.blank?
-          render json: {}, status: :no_content
-        else
-          render json: {}, status: :ok
-        end
       end
 
       def phone_available?

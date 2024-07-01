@@ -9,7 +9,6 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
     @orders = create_list(:order, 10, :with_items, :open, organization: @organization)
     @order = @orders.sample
     @products = [
-      create(:maker, organization: @organization),
       create(:dish, organization: @organization),
       create(:wine, organization: @organization),
       create(:beer, organization: @organization),

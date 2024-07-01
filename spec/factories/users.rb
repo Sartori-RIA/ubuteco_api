@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :user do
     sequence(:name) { |n| "user_#{n}" }
     sequence(:email) { |n| "admin#{n}@email.com" }
-    avatar { Faker::LoremPixel.image }
+    avatar { Faker::LoremFlickr.image }
     password { 'password' }
     role
     trait :with_organization do

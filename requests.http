@@ -1,0 +1,22 @@
+
+
+POST http://localhost:3000/auth/sign_up/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "user": {
+    "name": "user_a",
+    "email": "user_a2@email.com",
+    "password": "abc123@!"
+  },
+  "organization_attributes": {
+    "name": "my organization",
+    "phone": "+55 111111113"
+  }
+}
+
+###
+
+GET http://localhost:3000/api/v1/beers
+Accept: application/json

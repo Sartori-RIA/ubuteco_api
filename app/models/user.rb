@@ -7,13 +7,13 @@ class User < ApplicationRecord
   acts_as_paranoid
 
   devise :database_authenticatable,
-         :encryptable,
          :registerable,
          :recoverable,
          :confirmable,
          :validatable,
          :trackable,
          :jwt_authenticatable,
+         :argon2,
          jwt_revocation_strategy: self
 
   mount_uploader :avatar, AvatarUploader

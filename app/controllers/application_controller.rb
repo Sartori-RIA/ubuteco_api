@@ -2,9 +2,10 @@
 
 class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
+  include Pagy::Backend
 
   rescue_from CanCan::AccessDenied do |exception|
-    Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
+    Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
     render json: {}, status: :forbidden
   end
 
@@ -29,6 +30,12 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
+  def pagy_render(collection, include = [], vars = {})
+    pagy, records = pagy(collection, vars)
+    pagy_headers_merge(pagy)
+    render json: records, include:
+  end
+
   private
 
   # See the wiki for details:
@@ -36,7 +43,7 @@ class ApplicationController < ActionController::API
   def current_ability
     controller_name_segments = params[:controller].split('/')
     controller_name = controller_name_segments.join('/').camelize
-    @current_ability ||= load_permissions(params: params, controller_name: controller_name)
+    @current_ability ||= load_permissions(params:, controller_name:)
   end
 
   def load_permissions(params:, controller_name:)
@@ -44,17 +51,17 @@ class ApplicationController < ActionController::API
 
     case current_user.role.name
     when 'SUPER_ADMIN'
-      Abilities::SuperAdminAbility.new user: current_user, params: params, controller_name: controller_name
+      Abilities::SuperAdminAbility.new user: current_user, params:, controller_name:
     when 'ADMIN'
-      Abilities::AdminAbility.new user: current_user, params: params, controller_name: controller_name
+      Abilities::AdminAbility.new user: current_user, params:, controller_name:
     when 'KITCHEN'
-      Abilities::KitchenAbility.new user: current_user, controller_name: controller_name
+      Abilities::KitchenAbility.new user: current_user, controller_name:
     when 'WAITER'
-      Abilities::WaiterAbility.new user: current_user, params: params, controller_name: controller_name
+      Abilities::WaiterAbility.new user: current_user, params:, controller_name:
     when 'CASH_REGISTER'
-      Abilities::CashRegisterAbility.new user: current_user, params: params, controller_name: controller_name
+      Abilities::CashRegisterAbility.new user: current_user, params:, controller_name:
     when 'CUSTOMER'
-      Abilities::CustomerAbility.new user: current_user, params: params, controller_name: controller_name
+      Abilities::CustomerAbility.new user: current_user, params:, controller_name:
     else
       Abilities::BaseAbility.new
     end
