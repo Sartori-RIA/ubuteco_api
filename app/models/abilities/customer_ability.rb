@@ -4,9 +4,9 @@ module Abilities
   class CustomerAbility < Abilities::BaseAbility
     def initialize(user:, params:, controller_name:)
       super()
-      can_manage_self(user: user, controller_name: controller_name)
+      can_manage_self(user:, controller_name:)
       products_permissions
-      order_permissions(user: user, params: params)
+      order_permissions(user:, params:)
     end
 
     def products_permissions

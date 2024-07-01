@@ -7,7 +7,7 @@ module Api
         load_and_authorize_resource
 
         def index
-          pagy_render @users.order(name: :asc),  [:role]
+          pagy_render @users.order(name: :asc), [:role]
         end
       end
     end

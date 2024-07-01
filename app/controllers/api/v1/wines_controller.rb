@@ -13,7 +13,7 @@ module Api
 
       def search
         @wines = Wine.search params[:q]
-        pagy_render @wines.order(name: :asc),  %i[wine_style maker]
+        pagy_render @wines.order(name: :asc), %i[wine_style maker]
       end
 
       def create

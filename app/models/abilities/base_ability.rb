@@ -31,7 +31,7 @@ module Abilities
     end
 
     def theme(organization_id:)
-      can :read, Theme, organization_id: organization_id
+      can(:read, Theme, organization_id:)
       can :read, Organization, id: organization_id
     end
 
@@ -44,7 +44,7 @@ module Abilities
 
       can :read, OrderItem,
           item_type: 'Dish',
-          created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day,
+          created_at: Time.zone.now.all_day,
           order: { organization_id: user.organization_id }
       can :update, OrderItem,
           order: {

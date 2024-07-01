@@ -10,7 +10,7 @@ class PasswordsController < Devise::PasswordsController
     else
       code = @user.generate_code
       @user.update(reset_password_token: code, reset_password_sent_at: Time.now.utc)
-      UserMailer.with(user: @user, code: code).password_reset_code.deliver_now!
+      UserMailer.with(user: @user, code:).password_reset_code.deliver_now!
       render json: {}, status: :ok
     end
   end

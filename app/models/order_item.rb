@@ -46,7 +46,7 @@ class OrderItem < ApplicationRecord
     json = ApplicationController.render(template: 'api/v1/kitchens/_kitchen', locals: { kitchen: self })
     msg = {
       obj: json,
-      action: action
+      action:
     }
     ActionCable.server.broadcast("kitchens_#{order.organization.id}", msg.to_json)
   end

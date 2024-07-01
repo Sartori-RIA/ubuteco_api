@@ -5,11 +5,9 @@ class Wine < Product
             :quantity_stock,
             :description,
             :vintage_wine,
-            :maker,
             :visual,
             :ripening,
             :grapes,
-            :wine_style,
             presence: true
 
   belongs_to :maker

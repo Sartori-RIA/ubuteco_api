@@ -23,7 +23,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     role = params[:organization_attributes].present? ? Role.find_by!(name: 'ADMIN') : Role.find_by!(name: 'CUSTOMER')
-    params.require(:user).permit(:name, :password, :email, :avatar, :role).merge(role: role)
+    params.require(:user).permit(:name, :password, :email, :avatar, :role).merge(role:)
   end
 
   def organization_params
