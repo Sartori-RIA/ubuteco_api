@@ -18,6 +18,8 @@ module Back
     config.i18n.available_locales = %w[pt-BR en]
     config.i18n.default_locale = :en
 
+    config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
+
     config.navigational_formats = []
     config.middleware.use Rack::Attack
   end
