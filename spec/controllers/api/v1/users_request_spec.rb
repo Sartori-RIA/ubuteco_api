@@ -14,13 +14,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
     end
   end
 
-  describe '#GET /api/users/search' do
-    it 'searches drinks' do
-      get search_api_v1_users_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#GET /api/users/check/email' do
     it 'returns :ok status to style in use' do
       get check_email_api_v1_users_path, params: { q: admin.email }, headers: unauthenticated_header

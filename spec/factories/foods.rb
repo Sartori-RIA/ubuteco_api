@@ -7,5 +7,11 @@ FactoryBot.define do
     quantity_stock { 10 }
     organization
     valid_until { 2.months.from_now }
+
+    trait :reindex do
+      after(:create) do |product, _evaluator|
+        product.reindex(refresh: true)
+      end
+    end
   end
 end

@@ -6,15 +6,11 @@ module Api
       load_and_authorize_resource
 
       def index
+        @tables = Table.search params[:q] if params[:q].present?
         render json: @tables.order(name: :asc), status: :ok
       end
 
       def show; end
-
-      def search
-        @tables = Table.search params[:q]
-        render json: @tables.order(name: :asc), status: :ok
-      end
 
       def create
         @table = Table.new(create_params)

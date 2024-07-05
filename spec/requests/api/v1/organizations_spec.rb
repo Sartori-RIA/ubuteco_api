@@ -62,17 +62,4 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       end
     end
   end
-  path '/api/v1/organizations/search' do
-    get 'Search Organization by name' do
-      tags 'Organizations'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { 'tralala' }
-        schema '$ref' => '#/components/schemas/organizations'
-        run_test!
-      end
-    end
-  end
 end

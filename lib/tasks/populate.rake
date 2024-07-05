@@ -150,5 +150,17 @@ namespace :db do
         quantity: Faker::Number.between(from: 1, to: 2)
       ).first_or_create
     end
+
+    [
+      Order,
+      User,
+      Organization,
+      Dish,
+      Food,
+      Beer,
+      Drink,
+      Wine,
+      Maker,
+    ].each(&:reindex)
   end
 end

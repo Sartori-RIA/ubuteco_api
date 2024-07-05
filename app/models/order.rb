@@ -3,6 +3,10 @@
 class Order < ApplicationRecord
   acts_as_paranoid
 
+  searchkick callbacks: :async
+
+  after_commit :enqueue_reindex_job
+
   enum status: { open: 0, closed: 1, payed: 2 }
 
   belongs_to :table, optional: true
@@ -13,20 +17,17 @@ class Order < ApplicationRecord
 
   monetize :total_cents, :total_with_discount_cents, :discount_cents, numericality: { greater_than_or_equal_to: 0 }
 
-  include PgSearch::Model
-
-  pg_search_scope :search,
-                  against: %w[created_at total_cents total_with_discount_cents],
-                  associated_against: {
-                    table: %w[name],
-                    user: %w[name]
-                  }
-
   def recalculate_total
     total = 0
     order_items.each do |order_item|
       total += (order_item.item.price_cents * order_item.quantity)
     end
     update(total_cents: total, total_with_discount_cents: total - discount_cents)
+  end
+
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
   end
 end

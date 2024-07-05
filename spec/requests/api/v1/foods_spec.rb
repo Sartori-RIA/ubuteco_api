@@ -81,18 +81,4 @@ RSpec.describe Api::V1::FoodsController, type: :request do
       end
     end
   end
-
-  path '/api/v1/foods/search' do
-    get 'Search Food by name' do
-      tags 'Foods'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { @foods.sample.name }
-        schema '$ref' => '#/components/schemas/foods'
-        run_test!
-      end
-    end
-  end
 end

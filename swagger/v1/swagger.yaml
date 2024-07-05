@@ -132,6 +132,13 @@ paths:
       - Beers
       security:
       - Bearer: {}
+      parameters:
+      - name: q
+        schema:
+          type: string
+      - name: page
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
@@ -229,25 +236,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/beers/search":
-    get:
-      summary: Search beer by name
-      tags:
-      - Beers
-      security:
-      - Bearer: {}
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/beers"
   "/api/v1/customers":
     get:
       summary: All Customers
@@ -264,7 +252,7 @@ paths:
       tags:
       - Dish ingredients
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: dish_id
         in: path
@@ -274,12 +262,16 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dish_ingredients"
     post:
       summary: Add new ingredient to dish
       tags:
       - Dish ingredients
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: dish_id
         in: path
@@ -292,46 +284,25 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  food_id:
-                    type: integer
-                  dish_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                required:
-                - id
-                - food_id
-                - food
-                - dish_id
-                - dish
-                - quantity
+                "$ref": "#/components/schemas/dish_ingredient"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
             schema:
-              properties:
-                id:
-                  type: integer
-                quantity:
-                  type: string
-                food_id:
-                  type: integer
-              required:
-              - quantity
-              - food_id
+              "$ref": "#/components/schemas/new_dish_ingredient"
   "/api/v1/dishes/{dish_id}/ingredients/{id}":
     put:
       summary: Update ingredient in dish
       tags:
       - Dish ingredients
       security:
-      - bearerAuth: []
+      - Bearer: {}
       parameters:
       - name: dish_id
         in: path
@@ -349,34 +320,38 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  food_id:
-                    type: integer
-                  dish_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                required:
-                - id
-                - food_id
-                - food
-                - dish_id
-                - dish
-                - quantity
+                "$ref": "#/components/schemas/theme"
         '422':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
             schema:
-              properties:
-                quantity:
-                  type: string
-              required:
-              - quantity
+              "$ref": "#/components/schemas/edit_dish_ingredient"
+    delete:
+      summary: Remove ingredient from dish
+      tags:
+      - Dish ingredients
+      security:
+      - Bearer: {}
+      parameters:
+      - name: dish_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
   "/api/v1/dishes":
     get:
       summary: All Dishes
@@ -481,25 +456,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/dishes/search":
-    get:
-      summary: Search dish by name
-      tags:
-      - Dishes
-      security:
-      - Bearer: {}
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/dishes"
   "/api/v1/drinks":
     get:
       summary: All Drinks
@@ -604,25 +560,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/drinks/search":
-    get:
-      summary: Search Drink by name
-      tags:
-      - Drinks
-      security:
-      - Bearer: {}
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/drinks"
   "/api/v1/foods":
     get:
       summary: All Foods
@@ -727,25 +664,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/foods/search":
-    get:
-      summary: Search Food by name
-      tags:
-      - Foods
-      security:
-      - Bearer: {}
-      parameters:
-      - name: q
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/foods"
   "/api/v1/kitchens":
     get:
       summary: All Dishes to make
@@ -756,7 +674,11 @@ paths:
       responses:
         '200':
           description: Ok
-  "/api/v1/kitchens/{dish_id}":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/kitchen_items"
+  "/api/v1/kitchens/{id}":
     put:
       summary: Update dish preparation statuses
       tags:
@@ -772,12 +694,15 @@ paths:
       responses:
         '200':
           description: Ok
-        '422':
-          description: Invalid request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/kitchen_item"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/edit_order_item"
   "/api/v1/makers":
     get:
       summary: All Makers
@@ -806,11 +731,1120 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/maker"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
       requestBody:
         content:
           application/json:
             schema:
               "$ref": "#/components/schemas/new_maker"
+  "/api/v1/makers/{id}":
+    get:
+      summary: Show Maker
+      tags:
+      - Makers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/maker"
+    put:
+      summary: Update a Maker
+      tags:
+      - Makers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/maker"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/maker"
+    delete:
+      summary: Destroy a Maker
+      tags:
+      - Makers
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/orders/{order_id}/items":
+    get:
+      summary: All Items from order
+      tags:
+      - Order Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/order_items"
+    post:
+      summary: Add new item to order
+      tags:
+      - Order Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/order_item"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_order_item"
+  "/api/v1/orders/{order_id}/items/{item_id}":
+    put:
+      summary: Update item in order
+      tags:
+      - Order Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/order_item"
+        '422':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/order_item"
+    delete:
+      summary: Remove item in order
+      tags:
+      - Order Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/orders":
+    get:
+      summary: All Orders
+      tags:
+      - Orders
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/orders"
+    post:
+      summary: Create a Order
+      tags:
+      - Orders
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/order"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_order"
+  "/api/v1/orders/{id}":
+    get:
+      summary: Show Order
+      tags:
+      - Orders
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+    put:
+      summary: Update a Order
+      tags:
+      - Orders
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/order"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/edit_order"
+    delete:
+      summary: Destroy a Order
+      tags:
+      - Orders
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/organizations/{organization_id}/themes":
+    get:
+      summary: Show organization theme
+      tags:
+      - Organization Theme
+      security:
+      - Bearer: {}
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/themes"
+  "/api/v1/organizations/{organization_id}/themes/{theme_id}":
+    get:
+      summary: Show organization theme
+      tags:
+      - Organization Theme
+      security:
+      - Bearer: {}
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: theme_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/theme"
+    put:
+      summary: Update organization theme
+      tags:
+      - Organization Theme
+      security:
+      - Bearer: {}
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: theme_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/theme"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/theme"
+  "/api/v1/organizations/{organization_id}/users":
+    get:
+      summary: All Organization users
+      tags:
+      - Organization Users
+      security:
+      - Bearer: {}
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+  "/api/v1/organizations":
+    get:
+      summary: All Organizations
+      tags:
+      - Organizations
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/organizations"
+  "/api/v1/organizations/{id}":
+    get:
+      summary: Show Organization
+      tags:
+      - Organizations
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/organization"
+    put:
+      summary: Update a Organization
+      tags:
+      - Organizations
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/organization"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/organization"
+    delete:
+      summary: Destroy a Organization
+      tags:
+      - Organizations
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/roles":
+    get:
+      summary: All Roles
+      tags:
+      - Roles
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/roles"
+    post:
+      summary: Create a Role
+      tags:
+      - Roles
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/role"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_role"
+  "/api/v1/roles/{id}":
+    get:
+      summary: Show Role
+      tags:
+      - Roles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/role"
+    put:
+      summary: Update a Role
+      tags:
+      - Roles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/role"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/role"
+    delete:
+      summary: Destroy a Role
+      tags:
+      - Roles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/tables":
+    get:
+      summary: All Tables
+      tags:
+      - Tables
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/tables"
+    post:
+      summary: Create a Table
+      tags:
+      - Tables
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/table"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_table"
+  "/api/v1/tables/{id}":
+    get:
+      summary: Show Table
+      tags:
+      - Tables
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/table"
+    put:
+      summary: Update a Table
+      tags:
+      - Tables
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/table"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/table"
+    delete:
+      summary: Destroy a Table
+      tags:
+      - Tables
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/users":
+    post:
+      summary: Create a User
+      tags:
+      - Users
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_user"
+  "/api/v1/users/{id}":
+    get:
+      summary: Show User
+      tags:
+      - Users
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+    put:
+      summary: Update a User
+      tags:
+      - Users
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user"
+    delete:
+      summary: Destroy a User
+      tags:
+      - Users
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/wine_styles":
+    get:
+      summary: All Wine Styles
+      tags:
+      - Wine Styles
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine_styles"
+    post:
+      summary: Create a Wine Style
+      tags:
+      - Wine Styles
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine_style"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_wine_style"
+  "/api/v1/wine_styles/{id}":
+    get:
+      summary: Show Wine Style
+      tags:
+      - Wine Styles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine_style"
+    put:
+      summary: Update a Wine Style
+      tags:
+      - Wine Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine_style"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/wine_style"
+    delete:
+      summary: Destroy a Wine Style
+      tags:
+      - Wine Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/api/v1/wine_styles/check/style":
+    get:
+      summary: Check available name
+      tags:
+      - Wine Styles
+      security:
+      - Bearer: {}
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Already Exists
+        '204':
+          description: Name available
+  "/api/v1/wines":
+    get:
+      summary: All Wines
+      tags:
+      - Wines
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wines"
+    post:
+      summary: Create a Wine
+      tags:
+      - Wines
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/new_wine"
+  "/api/v1/wines/{id}":
+    get:
+      summary: Show Wine
+      tags:
+      - Wines
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine"
+    put:
+      summary: Update a Wine
+      tags:
+      - Wines
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/wine"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_object"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/wine"
+    delete:
+      summary: Destroy a Wine
+      tags:
+      - Wines
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  "/auth/code":
+    post:
+      summary: Code received to reset your password
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code: string
+              required:
+              - code
+  "/auth/confirmations":
+    get:
+      summary: Account data after confirm
+      tags:
+      - Auth
+      parameters:
+      - name: confirmation_token
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+  "/auth/password":
+    post:
+      summary: Forgot password
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+  "/auth/sign_up":
+    post:
+      summary: Create new account
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: Account Created
+        '422':
+          description: Unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  "$ref": "#/components/schemas/new_user"
+                organization_attributes:
+                  "$ref": "#/components/schemas/new_organization"
+              required:
+              - user
+  "/auth/reset_passwords":
+    put:
+      summary: Change your password, when forgot
+      tags:
+      - Auth
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reset_params:
+                  type: object
+                  properties:
+                    password: string
+              required:
+              - reset_params
+  "/auth/sign_in":
+    post:
+      summary: Sign In
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+  "/auth/sign_out":
+    delete:
+      summary: Sign out
+      tags:
+      - Auth
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Unauthorized
 servers:
 - url: http://{defaultHost}
   variables:
@@ -891,7 +1925,7 @@ components:
     beer_styles:
       type: array
       items:
-        "$ref": "#/components/schemas/beer_styles"
+        "$ref": "#/components/schemas/beer_style"
     beer_style:
       type: object
       properties:
@@ -920,8 +1954,10 @@ components:
           type: integer
         name:
           type: string
-        price:
+        price_cents:
           type: number
+        price_currency:
+          type: string
         dish_ingredients:
           "$ref": "#/components/schemas/dish_ingredients"
         image:
@@ -929,7 +1965,8 @@ components:
       required:
       - id
       - name
-      - price
+      - price_cents
+      - price_currency
       - image
     edit_dish:
       type: object
@@ -1035,8 +2072,6 @@ components:
       - quantity_stock
       - price_cents
       - price_currency
-      - maker_id
-      - maker
       - image
     new_drink:
       type: object
@@ -1154,7 +2189,7 @@ components:
         id:
           type: integer
         item:
-          oneOf:
+          anyOf:
           - "$ref": "#/components/schemas/drink"
           - "$ref": "#/components/schemas/wine"
           - "$ref": "#/components/schemas/beer"
@@ -1170,11 +2205,17 @@ components:
       - item
       - item_id
       - item_type
-      - quantity_stock
+      - quantity
       - status
     new_order_item:
       type: object
       properties:
+        item:
+          anyOf:
+          - "$ref": "#/components/schemas/drink"
+          - "$ref": "#/components/schemas/wine"
+          - "$ref": "#/components/schemas/beer"
+          - "$ref": "#/components/schemas/dish"
         item_id:
           type: integer
         item_type:
@@ -1185,6 +2226,24 @@ components:
       - item_id
       - item_type
       - quantity
+    kitchen_items:
+      type: array
+      items:
+        "$ref": "#/components/schemas/kitchen_item"
+    kitchen_item:
+      type: object
+      properties:
+        id:
+          type: integer
+        table:
+          "$ref": "#/components/schemas/table"
+        order_item:
+          "$ref": "#/components/schemas/dish"
+        status:
+          type: string
+      required:
+      - id
+      - status
     organizations:
       type: array
       items:

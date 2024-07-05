@@ -21,6 +21,13 @@ module Back
     config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
 
     config.navigational_formats = []
+
     config.middleware.use Rack::Attack
+
+    config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.active_job.queue_adapter = :sidekiq
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

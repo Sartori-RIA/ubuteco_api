@@ -21,13 +21,6 @@ RSpec.describe Api::V1::TablesController, type: :request do
     end
   end
 
-  describe '#GET /api/tables/search' do
-    it 'searches tables' do
-      get search_api_v1_tables_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/tables' do
     it 'creates a table' do
       attributes = attributes_for(:table).merge(organization_id: organization.id)

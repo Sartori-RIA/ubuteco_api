@@ -3,6 +3,10 @@
 class Organization < ApplicationRecord
   acts_as_paranoid
 
+  searchkick callbacks: :async
+
+  after_commit :enqueue_reindex_job
+
   mount_uploader :logo, LogoUploader
 
   after_create :set_default_theme
@@ -22,11 +26,11 @@ class Organization < ApplicationRecord
   has_many :tables, dependent: :delete_all
   has_one :theme, dependent: :delete
 
-  include PgSearch::Model
-
-  pg_search_scope :search, against: %w[name]
-
   private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 
   def set_default_theme
     Theme.create(name: 'default',

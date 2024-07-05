@@ -26,4 +26,18 @@ RSpec.configure do |config|
   config.order = :random
 
   Kernel.srand config.seed
+
+  config.before(:suite) do
+    # reindex models
+    [Beer, Dish, Drink, Food, Maker, Order, Organization, User, Wine, OrderItem].each(&:reindex)
+
+    # and disable callbacks
+    Searchkick.disable_callbacks
+  end
+
+  config.around(:each, search: true) do |example|
+    Searchkick.callbacks(nil) do
+      example.run
+    end
+  end
 end

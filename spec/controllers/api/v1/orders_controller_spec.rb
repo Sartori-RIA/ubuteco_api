@@ -24,13 +24,6 @@ RSpec.describe Api::V1::OrdersController, type: :request do
     end
   end
 
-  describe '#GET /api/orders/search' do
-    it 'searches orders' do
-      get search_api_v1_orders_path, params: { q: 'tralala' }, headers: auth_header(@waiter)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/orders' do
     it 'creates a order' do
       attributes = attributes_for(:order).merge(organization_id: @organization.id)

@@ -22,13 +22,6 @@ RSpec.describe Api::V1::DrinksController, type: :request do
     end
   end
 
-  describe '#GET /api/drinks/search' do
-    it 'searches drinks' do
-      get search_api_v1_drinks_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/drinks' do
     it 'creates a drink' do
       attributes = attributes_for(:drink).merge(organization_id: organization.id)

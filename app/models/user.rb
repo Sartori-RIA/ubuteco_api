@@ -2,7 +2,11 @@
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
-  include PgSearch::Model
+  searchkick callbacks: :async
+
+  after_create :send_welcome
+
+  after_commit :enqueue_reindex_job
 
   acts_as_paranoid
 
@@ -25,10 +29,6 @@ class User < ApplicationRecord
 
   belongs_to :role
 
-  after_create :send_welcome
-
-  pg_search_scope :search, against: %w[name email]
-
   def password_salt
     'no salt'
   end
@@ -45,6 +45,12 @@ class User < ApplicationRecord
       end
       break code unless User.find_by(reset_password_token: code)
     end
+  end
+
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
   end
 
   def set_initial_data
