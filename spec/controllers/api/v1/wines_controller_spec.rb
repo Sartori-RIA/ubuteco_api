@@ -27,13 +27,6 @@ RSpec.describe Api::V1::WinesController, type: :request do
     end
   end
 
-  describe '#GET /api/wines/search' do
-    it 'searches wines' do
-      get search_api_v1_wines_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/wines' do
     it 'creates a wine' do
       attributes = attributes_for(:wine).merge(

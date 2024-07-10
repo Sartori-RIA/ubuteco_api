@@ -15,5 +15,11 @@ FactoryBot.define do
     organization
     maker
     wine_style
+
+    trait :reindex do
+      after(:create) do |product, _evaluator|
+        product.reindex(refresh: true)
+      end
+    end
   end
 end

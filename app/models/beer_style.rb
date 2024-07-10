@@ -2,11 +2,18 @@
 
 class BeerStyle < ApplicationRecord
   acts_as_paranoid
-  include PgSearch::Model
+
+  searchkick callbacks: :async
+
+  after_commit :enqueue_reindex_job
 
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }
   has_many :beers, dependent: :restrict_with_error
 
-  pg_search_scope :search, against: %w[name]
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 end

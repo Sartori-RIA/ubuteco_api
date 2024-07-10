@@ -80,17 +80,4 @@ RSpec.describe Api::V1::MakersController, type: :request do
       end
     end
   end
-  path '/api/v1/makers/search' do
-    get 'Search Maker by name' do
-      tags 'Makers'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { 'tralala' }
-        schema '$ref' => '#/components/schemas/makers'
-        run_test!
-      end
-    end
-  end
 end

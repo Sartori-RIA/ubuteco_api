@@ -10,5 +10,11 @@ FactoryBot.define do
     beer_style
     maker
     organization
+
+    trait :reindex do
+      after(:create) do |product, _evaluator|
+        product.reindex(refresh: true)
+      end
+    end
   end
 end

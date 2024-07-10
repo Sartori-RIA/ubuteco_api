@@ -6,21 +6,17 @@ module Api
       load_and_authorize_resource
 
       def index
+        @drinks = Drink.search params[:q] if params[:q].present?
         pagy_render @drinks.order(name: :asc), %i[maker]
       end
 
       def show; end
 
-      def search
-        @drinks = Drink.search params[:q]
-        pagy_render @drinks.order(name: :asc), %i[maker]
-      end
-
       def create
         @drink = Drink.new(create_params)
 
         if @drink.save
-          render status: :created
+          render json: @drink, status: :created
         else
           render json: @drink.errors, status: :unprocessable_entity
         end

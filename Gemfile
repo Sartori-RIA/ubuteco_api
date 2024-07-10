@@ -22,6 +22,7 @@ gem 'listen', '~> 3.9'
 gem 'loofah', '~> 2.22'
 gem 'mini_magick', '~> 4.12'
 gem 'money-rails', '~> 1.15'
+gem "opensearch-ruby"
 gem 'pagy', '~> 8.4'
 gem 'paranoia', '~> 2.6', '>= 2.6.3'
 gem 'pg'
@@ -34,6 +35,8 @@ gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
 gem 'rails-i18n', '~> 7.0', '>= 7.0.9'
 gem 'redis', '~> 5.2'
 gem 'rswag', '~> 2.13'
+gem "searchkick"
+gem 'sidekiq'
 gem 'validators', '~> 3.4', '>= 3.4.2'
 
 group :development, :test do

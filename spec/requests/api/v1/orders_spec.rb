@@ -79,17 +79,4 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       end
     end
   end
-  path '/api/v1/orders/search' do
-    get 'Search Order by created_at, total_cents, total_with_discount_cents, table name, customer name' do
-      tags 'Orders'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { 'tralala' }
-        schema '$ref' => '#/components/schemas/orders'
-        run_test!
-      end
-    end
-  end
 end

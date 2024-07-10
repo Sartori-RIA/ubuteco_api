@@ -6,23 +6,21 @@ module Api
       load_and_authorize_resource
 
       def index
+        @orders = Order.search params[:q] if params[:q].present?
         pagy_render @orders
       end
 
       def show; end
 
-      def search
-        @orders = Order.search params[:q]
-        pagy_render @orders
-      end
-
       def create
-        @order = Order.new(create_params)
+        Order.transaction do
+          @order = Order.new(create_params)
 
-        if @order.save
-          render status: :created
-        else
-          render json: @order.errors, status: :unprocessable_entity
+          if @order.save
+            render json: @order, status: :created
+          else
+            render json: @order.errors, status: :unprocessable_entity
+          end
         end
       end
 

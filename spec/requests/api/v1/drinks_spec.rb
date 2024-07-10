@@ -80,17 +80,4 @@ RSpec.describe Api::V1::DrinksController, type: :request do
       end
     end
   end
-  path '/api/v1/drinks/search' do
-    get 'Search Drink by name' do
-      tags 'Drinks'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { 'tralala' }
-        schema '$ref' => '#/components/schemas/drinks'
-        run_test!
-      end
-    end
-  end
 end

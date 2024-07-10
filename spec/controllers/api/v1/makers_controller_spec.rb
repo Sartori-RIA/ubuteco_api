@@ -21,13 +21,6 @@ RSpec.describe Api::V1::MakersController, type: :request do
     end
   end
 
-  describe '#GET /api/makers/search' do
-    it 'searches makers' do
-      get search_api_v1_makers_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/makers' do
     it 'creates a maker' do
       attributes = attributes_for(:maker).merge(organization_id: organization.id)

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Wine < Product
+  searchkick callbacks: :async
+
+  after_commit :enqueue_reindex_job
+
   validates :abv,
             :quantity_stock,
             :description,
@@ -14,11 +18,10 @@ class Wine < Product
   belongs_to :wine_style
   belongs_to :organization
 
-  include PgSearch::Model
 
-  pg_search_scope :search,
-                  against: %w[name],
-                  associated_against: {
-                    wine_style: %w[name]
-                  }
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 end

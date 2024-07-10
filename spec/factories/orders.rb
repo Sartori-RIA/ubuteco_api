@@ -39,5 +39,11 @@ FactoryBot.define do
         create_list(:order_item, evaluator.items_count, :with_dish, order: order)
       end
     end
+
+    trait :reindex do
+      after(:create) do |product, _evaluator|
+        product.reindex(refresh: true)
+      end
+    end
   end
 end

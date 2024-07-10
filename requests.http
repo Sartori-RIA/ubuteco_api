@@ -1,22 +1,24 @@
 
 
-POST http://localhost:3000/auth/sign_up/
+POST http://localhost:3000/auth/sign_in/
 Content-Type: application/json
 Accept: application/json
 
 {
   "user": {
-    "name": "user_a",
-    "email": "user_a2@email.com",
-    "password": "abc123@!"
-  },
-  "organization_attributes": {
-    "name": "my organization",
-    "phone": "+55 111111113"
+    "name": "admin",
+    "email": "super@email.com",
+    "password": "123123123"
   }
 }
 
 ###
 
-GET http://localhost:3000/api/v1/beers
+GET http://localhost:3000/api/v1/beers?q=Alpha
 Accept: application/json
+
+
+###
+
+DELETE http://localhost:3000/api/v1/beers/200
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNzIwMDkyMjA5LCJleHAiOjE3MjAxNzg2MDksImp0aSI6ImRlNDY2ZDFhLWYxYzctNDQ5Mi04YjBmLTIyMzJkNjllNDJmMiJ9.vzdmipQWfO631cLdIoJ6mxix8hU8nr-ytoC88gxiLCw

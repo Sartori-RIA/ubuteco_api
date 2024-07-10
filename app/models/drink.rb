@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
 class Drink < Product
+  searchkick callbacks: :async
+
   validates :quantity_stock, presence: true
 
   belongs_to :maker, optional: true
   belongs_to :organization
-
-  include PgSearch::Model
-
-  pg_search_scope :search,
-                  against: %w[name],
-                  associated_against: {
-                    maker: %w[name]
-                  }
 end

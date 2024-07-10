@@ -33,13 +33,6 @@ RSpec.describe Api::V1::BeersController, type: :request do
     end
   end
 
-  describe '#GET /api/beers/search' do
-    it 'searches beers' do
-      get search_api_v1_beers_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/beers' do
     it 'creates a beer' do
       attributes = attributes_for(:beer).merge(

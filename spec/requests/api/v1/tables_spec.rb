@@ -80,17 +80,4 @@ RSpec.describe Api::V1::TablesController, type: :request do
       end
     end
   end
-  path '/api/v1/tables/search' do
-    get 'Search Table by name' do
-      tags 'Tables'
-      security [Bearer: {}]
-      parameter name: :q, in: :query, type: :string
-      response 200, 'Ok' do
-        let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:q) { 'tralala' }
-        schema '$ref' => '#/components/schemas/tables'
-        run_test!
-      end
-    end
-  end
 end
