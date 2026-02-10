@@ -31,8 +31,8 @@ module Abilities
       can :create, Order
       can :read, Order
       can %i[update destroy], Order, status: :open
-      can :read, OrderItem, order_id: params[:id]
-      can %i[create update destroy], OrderItem, order: { id: params[:id], status: :open }
+      can :manage, OrderItem #, order_id: params[:id]
+      # can %i[create update destroy], OrderItem, order: { id: params[:id], status: :open }
     end
   end
 end

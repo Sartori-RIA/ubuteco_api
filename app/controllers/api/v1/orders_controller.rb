@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        pagy_render @orders
+        pagy_render @orders, [:table, :user]
       end
 
       def show; end
