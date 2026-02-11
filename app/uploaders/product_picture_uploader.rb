@@ -16,14 +16,14 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
   end
 
   def default_url(*_args)
-    'https://s3.us-east-2.amazonaws.com/ibuteco.cookiecode.com.br/uploads/default.png'
+    'http://lorempixel.com.br/500/400/?1'
   end
 
   def asset_host
     if Rails.env.production?
       'https://ibuteco.herokuapp.com/'
     else
-      'http://192.168.0.193'
+      'http://localhost:3000'
     end
   end
 end
