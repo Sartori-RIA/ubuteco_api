@@ -7,7 +7,7 @@ module Api
 
       def index
         @orders = Order.search params[:q] if params[:q].present?
-        pagy_render @orders
+        pagy_render @orders, [:table, :user]
       end
 
       def show; end
