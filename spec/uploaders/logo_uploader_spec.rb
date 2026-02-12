@@ -18,11 +18,11 @@ RSpec.describe LogoUploader, type: :uploader do
 
   describe '#URLS' do
     it 'has default url' do
-      expect(uploader.default_url).to eq('https://s3.us-east-2.amazonaws.com/ibuteco.cookiecode.com.br/uploads/default.png')
+      expect(uploader.default_url).to eq('http://lorempixel.com.br/500/400/?1')
     end
 
     it 'has base url to ' do
-      expect(uploader.asset_host).to eq('http://192.168.0.193')
+      expect(uploader.asset_host).to eq('http://localhost:3000')
     end
 
     it 'has base url to production' do

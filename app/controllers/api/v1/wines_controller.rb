@@ -15,7 +15,7 @@ module Api
       def create
         @wine = Wine.new(create_params)
         if @wine.save
-          render json: @wine, status: :created
+          render :create, status: :created
         else
           render json: @wine.errors, status: :unprocessable_entity
         end

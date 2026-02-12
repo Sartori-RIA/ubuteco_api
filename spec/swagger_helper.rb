@@ -199,11 +199,14 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer },
               name: { type: :string },
-              quantity: { type: :integer },
+              description: { type: :string, nullable: true },
+              flavor: { type: :string, nullable: true },
+              abv: { type: :string, nullable: true },
+              quantity_stock: { type: :integer },
               price_cents: { type: :integer },
               price_currency: { type: :string },
-              maker_id: { type: :integer },
-              maker: { '$ref' => '#/components/schemas/maker' },
+              maker_id: { type: :integer, nullable: true },
+              maker: { '$ref' => '#/components/schemas/maker', nullable: true },
               image: { '$ref' => '#/components/schemas/s3_image' }
             },
             required: %w[id name quantity_stock price_cents price_currency image]
@@ -455,6 +458,10 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer },
               name: { type: :string },
+              description: { type: :string, nullable: true },
+              ripening: { type: :string, nullable: true },
+              grapes: { type: :string, nullable: true },
+              abv: { type: :string, nullable: true },
               quantity: { type: :integer },
               price_cents: { type: :integer },
               price_currency: { type: :string },

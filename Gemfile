@@ -6,9 +6,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'bugsnag', '~> 6.26', '>= 6.26.4'
 gem 'cancancan', '~> 3.5'
-gem 'carrierwave', '~> 3.0', '>= 3.0.7'
+gem 'carrierwave', '~> 3.0', '>= 3.0.7' # remember to change to active_storage
 gem 'carrierwave-i18n', '~> 3.0'
 gem 'devise', '~> 4.9', '>= 4.9.4'
 gem 'devise-argon2', '~> 2.0', '>= 2.0.1'
@@ -26,7 +25,6 @@ gem "opensearch-ruby"
 gem 'pagy', '~> 8.4'
 gem 'paranoia', '~> 2.6', '>= 2.6.3'
 gem 'pg'
-gem 'pg_search', '~> 2.3', '>= 2.3.6'
 gem 'puma', '~> 6.4', '>= 6.4.2'
 gem 'rack', '~> 3.0', '>= 3.0.10'
 gem 'rack-attack', '~> 6.7'
@@ -37,7 +35,6 @@ gem 'redis', '~> 5.2'
 gem 'rswag', '~> 2.13'
 gem "searchkick"
 gem 'sidekiq'
-gem 'validators', '~> 3.4', '>= 3.4.2'
 
 group :development, :test do
   gem 'brakeman'
@@ -46,7 +43,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
   gem 'faker', '~> 3.3', '>= 3.3.1'
   gem 'fuubar', '~> 2.5', '>= 2.5.1'
-  gem 'parallel_tests'
+  gem 'parallel_tests' # this is working?
   gem 'reek'
   gem 'rspec', '~> 3.13'
   gem 'rspec-json_expectations'

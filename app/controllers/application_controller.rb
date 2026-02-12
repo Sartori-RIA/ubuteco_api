@@ -46,8 +46,11 @@ class ApplicationController < ActionController::API
     @current_ability ||= load_permissions(params:, controller_name:)
   end
 
-  def current_user
-    User.find_by(email: "super@email.com")
+  # # TODO: only for dev during react development
+  if Rails.env.development?
+    def current_user
+      User.find_by(email: "super@email.com")
+    end
   end
 
   def load_permissions(params:, controller_name:)
@@ -55,7 +58,6 @@ class ApplicationController < ActionController::API
       user = User.find_by(email: "super@email.com")
       return Abilities::SuperAdminAbility.new user: user, params:, controller_name:
     end
-
 
     return Abilities::BaseAbility.new if current_user.blank?
 
