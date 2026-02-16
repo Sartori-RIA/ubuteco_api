@@ -41,15 +41,15 @@ Rails.application.routes.draw do
           get 'check/style' => 'beer_styles#style_available?'
         end
       end
-      resources :kitchens, only: %i[index update]
+      resources :kitchens, except: [:create, :destroy]
       resources :dishes do
         scope module: :dishes do
-          resources :ingredients, except: :show
+          resources :ingredients
         end
       end
       resources :orders do
         scope module: :orders do
-          resources :items, except: :show
+          resources :items
         end
       end
       resources :organizations, except: :create do

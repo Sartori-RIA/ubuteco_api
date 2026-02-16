@@ -1,3 +1,9 @@
 # frozen_string_literal: true
 
-json.array! @users, partial: 'api/v1/users/user', as: :user
+json.data do
+  json.array! @records do |user|
+    json.partial! 'user', user: user
+  end
+end
+
+json.partial! '/api/shared/meta'

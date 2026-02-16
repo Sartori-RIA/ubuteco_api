@@ -8,17 +8,23 @@ module Api
 
         def index; end
 
+        def show; end
+
         def create
           @ingredient = DishIngredient.new(create_params)
           if @ingredient.save
-            render status: :created
+            render :show, status: :created
           else
-            render json: @ingredient.errors, status: :unprocessable_content
+            render json: @ingredient.errors.full_messages, status: :unprocessable_content
           end
         end
 
         def update
-          render json: @ingredient.errors, status: :unprocessable_content unless @ingredient.update(update_params)
+          if @ingredient.update(update_params)
+            render :show, status: :ok
+          else
+            render json: @ingredient.errors.full_messages, status: :unprocessable_content
+          end
         end
 
         def destroy
@@ -29,7 +35,6 @@ module Api
 
         def create_params
           params.permit(
-            :id,
             :quantity,
             :food_id,
             :dish_id
@@ -38,7 +43,6 @@ module Api
 
         def update_params
           params.permit(
-            :id,
             :quantity,
             :food_id
           )

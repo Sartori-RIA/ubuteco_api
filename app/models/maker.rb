@@ -7,6 +7,8 @@ class Maker < ApplicationRecord
 
   searchkick callbacks: :async
 
+  has_one_attached :image
+
   validates :name, :country, presence: true
 
   has_many :drinks, dependent: :destroy

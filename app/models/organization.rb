@@ -9,7 +9,7 @@ class Organization < ApplicationRecord
 
   after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
-  # has_one_attached :logo
+  has_one_attached :logo
 
   after_create :set_default_theme
   validates :name, :phone, presence: true

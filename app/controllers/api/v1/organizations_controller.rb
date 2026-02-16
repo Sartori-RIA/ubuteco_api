@@ -13,7 +13,11 @@ module Api
       def show; end
 
       def update
-        render json: @organization.errors, status: :unprocessable_content unless @organization.update(update_params)
+        if @organization.update(update_params)
+          render :show
+        else
+          render json: @organization.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -24,7 +28,7 @@ module Api
       def phone_available?
         organization = Organization.find_by(phone: params[:q])
         if organization.blank?
-          render json: {}, status: :no_content
+          head :no_content
         else
           render json: {}, status: :ok
         end

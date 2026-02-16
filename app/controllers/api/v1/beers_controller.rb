@@ -3,11 +3,11 @@
 module Api
   module V1
     class BeersController < ApplicationController
-      load_and_authorize_resource
+      load_resource
 
       def index
         @beers = Beer.pagy_search params[:q] if params[:q].present?
-        pagy_render @beers.order(name: :asc), %i[beer_style maker]
+        pagy_render @beers.includes(:maker, :beer_style).order(name: :asc)
       end
 
       def show; end
@@ -16,14 +16,18 @@ module Api
         @beer = Beer.new(create_params)
 
         if @beer.save
-          render :create, status: :created
+          render :show, status: :created
         else
           render json: @beer.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @beer.errors.full_messages, status: :unprocessable_content unless @beer.update(update_params)
+        if @beer.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @beer.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -39,8 +43,7 @@ module Api
       def update_params
         params.permit(
           :name, :description, :image, :maker_id, :maker, :beer_style_id, :beer_style, :price, :ibu,
-          :quantity_stock, :abv, :user_id, :id, :price_cents, :price_currency, :deleted_at, :created_at,
-          :updated_at, :valid_until
+          :quantity_stock, :abv, :price_cents, :price_currency, :valid_until
         )
       end
     end

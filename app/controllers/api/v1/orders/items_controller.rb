@@ -8,12 +8,14 @@ module Api
 
         def index; end
 
+        def show; end
+
         def create
           @item = OrderItem.new(create_params)
           if @item.save
-            render status: :created
+            render :show, status: :created
           else
-            render json: @item.errors, status: :unprocessable_content
+            render json: @item.errors.full_messages, status: :unprocessable_content
           end
         end
 
@@ -22,9 +24,9 @@ module Api
           if @item.update(update_params)
             is_lower = @item.quantity_lower?(new_quantity: update_params[:quantity])
             @item.update_stock(diff:, is_quantity_lower: is_lower) unless @item.dish?
-            render status: :ok
+            render :show, status: :ok
           else
-            render json: @item.errors, status: :unprocessable_content
+            render json: @item.errors.full_messages, status: :unprocessable_content
           end
         end
 
@@ -35,7 +37,7 @@ module Api
         protected
 
         def create_params
-          params.permit(:item_type, :item_id, :quantity, :order_id, :id)
+          params.permit(:item_type, :item_id, :quantity, :order_id)
         end
 
         def update_params

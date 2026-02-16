@@ -16,14 +16,18 @@ module Api
         @table = Table.new(create_params)
 
         if @table.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @table.errors, status: :unprocessable_content
+          render json: @table.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @table.errors, status: :unprocessable_content unless @table.update(update_params)
+        if @table.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @table.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

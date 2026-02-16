@@ -22,7 +22,7 @@ class User < ApplicationRecord
          :argon2,
          jwt_revocation_strategy: self
 
-  # has_one_attached :avatar
+  has_one_attached :avatar
   before_validation :set_initial_data, on: :create
   validates :name, :email, presence: true
 

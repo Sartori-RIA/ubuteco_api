@@ -7,7 +7,7 @@ module Api
 
       def index
         @dishes = Dish.pagy_search params[:q] if params[:q].present?
-        pagy_render @dishes.order(name: :asc), [dish_ingredients: { include: :food }]
+        pagy_render @dishes.includes(dish_ingredients: { include: :food }).order(name: :asc)
       end
 
       def show; end
@@ -15,14 +15,18 @@ module Api
       def create
         @dish = Dish.new(create_params)
         if @dish.save
-          render json: @dish, status: :created
+          render :show, json: @dish, status: :created
         else
-          render json: @dish.errors, status: :unprocessable_content
+          render json: @dish.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @dish.errors, status: :unprocessable_content unless @dish.update(update_params)
+        if @dish.update(update_params)
+          render :show
+        else
+          render json: @dish.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

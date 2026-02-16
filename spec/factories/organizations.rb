@@ -8,16 +8,8 @@ FactoryBot.define do
 
     association :user, factory: [:user, :admin]
 
-    logo { Faker::LoremFlickr.image }
-
     after(:create) do |organization, _evaluator|
       organization.user.update(organization: organization)
-    end
-
-    trait :reindex do
-      after(:create) do |product, _evaluator|
-        product.reindex(refresh: true)
-      end
     end
   end
 end

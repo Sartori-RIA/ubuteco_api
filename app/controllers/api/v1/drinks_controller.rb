@@ -7,7 +7,7 @@ module Api
 
       def index
         @drinks = Drink.pagy_search params[:q] if params[:q].present?
-        pagy_render @drinks.order(name: :asc), %i[maker]
+        pagy_render @drinks.includes(:maker).order(name: :asc)
       end
 
       def show; end
@@ -16,14 +16,18 @@ module Api
         @drink = Drink.new(create_params)
 
         if @drink.save
-          render json: @drink, status: :created
+          render :show, status: :created
         else
-          render json: @drink.errors, status: :unprocessable_content
+          render json: @drink.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @drink.errors, status: :unprocessable_content unless @drink.update(update_params)
+        if @drink.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @drink.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

@@ -15,14 +15,18 @@ module Api
       def create
         @user = User.new(create_params)
         if @user.save
-          render status: :created
+          render :show, status: :created
         else
           render json: @user.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @user.errors, status: :unprocessable_content unless @user.update(update_params)
+        if  @user.update(update_params)
+          render :show
+        else
+          render json: @user.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -32,7 +36,7 @@ module Api
       def email_available?
         user = User.find_by(email: params[:q])
         if user.blank?
-          render json: {}, status: :no_content
+          head :no_content
         else
           render json: {}, status: :ok
         end

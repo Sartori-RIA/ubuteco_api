@@ -16,14 +16,18 @@ module Api
         @food = Food.new(create_params)
 
         if @food.save
-          render json: @food, status: :created
+          render :show, status: :created
         else
-          render json: @food.errors, status: :unprocessable_content
+          render json: @food.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @food.errors, status: :unprocessable_content unless @food.update(update_params)
+        if @food.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @food.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

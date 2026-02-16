@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
   include Pagy::Method
 
+  respond_to :json
+
+  before_action :force_json_format
+
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
     render json: {}, status: :forbidden
@@ -30,18 +34,24 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
-  def pagy_render(collection, include = [], **vars)
-    if defined?(Searchkick::Results) && collection.is_a?(Searchkick::Results)
-      @pagy, @records = pagy(:searchkick, collection, **vars)
-    else
-      @pagy, @records = pagy(collection, **vars)
-    end
+  def pagy_render(collection, **vars)
+    @pagy, @records =
+      if collection.is_a?(Searchkick::Results)
+        pagy(:searchkick, collection, **vars)
+      else
+        pagy(collection, **vars)
+      end
 
     response.headers.merge!(@pagy.headers_hash)
-    render json: @records, include: include
+
+    render
   end
 
   private
+
+  def force_json_format
+    request.format = :json
+  end
 
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities

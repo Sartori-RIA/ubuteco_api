@@ -7,7 +7,7 @@ module Api
 
       def index
         @wines = Wine.pagy_search params[:q] if params[:q].present?
-        pagy_render @wines.order(name: :asc), %i[wine_style maker]
+        pagy_render @wines.includes(:wine_style, :maker).order(name: :asc)
       end
 
       def show; end
@@ -15,14 +15,18 @@ module Api
       def create
         @wine = Wine.new(create_params)
         if @wine.save
-          render :create, status: :created
+          render :show, status: :created
         else
-          render json: @wine.errors, status: :unprocessable_content
+          render json: @wine.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @wine.errors, status: :unprocessable_content unless @wine.update(update_params)
+        if @wine.update(update_params)
+          render :show
+        else
+          render json: @wine.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -37,7 +41,7 @@ module Api
 
       def update_params
         params.permit(:name, :quantity_stock, :image, :abv, :price, :description, :maker, :maker_id,
-                      :vintage_wine, :visual, :user_id, :id, :ripening, :grapes, :wine_style, :wine_style_id)
+                      :vintage_wine, :visual, :user_id, :ripening, :grapes, :wine_style, :wine_style_id)
       end
     end
   end

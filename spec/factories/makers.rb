@@ -5,11 +5,5 @@ FactoryBot.define do
     name { Faker::Company.name }
     country { Faker::Address.country }
     organization
-
-    trait :reindex do
-      after(:create) do |product, _evaluator|
-        product.reindex(refresh: true)
-      end
-    end
   end
 end

@@ -16,14 +16,18 @@ module Api
         @maker = Maker.new(create_params)
 
         if @maker.save
-          render json: @maker, status: :created
+          render :show, status: :created
         else
-          render json: @maker.errors, status: :unprocessable_content
+          render json: @maker.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @maker.errors, status: :unprocessable_content unless @maker.update(update_params)
+        if @maker.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @maker.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

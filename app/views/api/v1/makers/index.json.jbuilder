@@ -1,3 +1,9 @@
 # frozen_string_literal: true
 
-json.array! @makers, partial: 'api/v1/makers/maker', as: :maker
+json.data do
+  json.array! @records do |maker|
+    json.partial! 'maker', maker: maker
+  end
+end
+
+json.partial! '/api/shared/meta'

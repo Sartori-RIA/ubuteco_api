@@ -7,7 +7,7 @@ module Api
 
       def index
         @orders = Order.pagy_search params[:q] if params[:q].present?
-        pagy_render @orders, [:table, :user]
+        pagy_render @orders.includes(:table, :user)
       end
 
       def show; end
@@ -17,15 +17,19 @@ module Api
           @order = Order.new(create_params)
 
           if @order.save
-            render json: @order, status: :created
+            render :show, status: :created
           else
-            render json: @order.errors, status: :unprocessable_content
+            render json: @order.errors.full_messages, status: :unprocessable_content
           end
         end
       end
 
       def update
-        render json: @order.errors, status: :unprocessable_content unless @order.update(update_params)
+        if @order.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @order.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

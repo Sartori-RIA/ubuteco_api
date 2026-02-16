@@ -15,14 +15,18 @@ module Api
         @wine_style = WineStyle.new(create_params)
 
         if @wine_style.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @wine_style.errors, status: :unprocessable_content
+          render json: @wine_style.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @wine_style.errors, status: :unprocessable_content unless @wine_style.update(update_params)
+        if @wine_style.update(update_params)
+          render :show
+        else
+          render json: @wine_style.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -32,7 +36,7 @@ module Api
       def style_available?
         wine_style = WineStyle.find_by(name: params[:q])
         if wine_style.blank?
-          render json: {}, status: :no_content
+          head :no_content
         else
           render json: {}, status: :ok
         end

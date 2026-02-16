@@ -13,7 +13,7 @@ class Product < ApplicationRecord
 
   validates :name, :price, presence: true
 
-  # has_one_attached :image
+  has_one_attached :image
 
   monetize :price_cents
 

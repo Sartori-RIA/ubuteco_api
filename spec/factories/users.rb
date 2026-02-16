@@ -30,11 +30,5 @@ FactoryBot.define do
     trait :customer do
       association :role, factory: :customer
     end
-
-    trait :reindex do
-      after(:create) do |product, _evaluator|
-        product.reindex(refresh: true)
-      end
-    end
   end
 end
