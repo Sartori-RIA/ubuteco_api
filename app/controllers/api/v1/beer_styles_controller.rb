@@ -16,7 +16,7 @@ module Api
         if @beer_style.save
           render status: :created
         else
-          render json: @beer_style.errors, status: :unprocessable_entity
+          render json: @beer_style.errors, status: :unprocessable_content
         end
       end
 
@@ -24,7 +24,7 @@ module Api
         if @beer_style.update(update_params)
           render status: :ok
         else
-          render json: @beer_style.errors, status: :unprocessable_entity
+          render json: @beer_style.errors, status: :unprocessable_content
         end
       end
 

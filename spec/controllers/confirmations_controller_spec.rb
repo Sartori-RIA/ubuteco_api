@@ -19,7 +19,7 @@ RSpec.describe ConfirmationsController, type: :request do
       user.update(confirmed_at: Time.zone.now, confirmation_token: token)
       get user_confirmation_path(confirmation_token: token),
           headers: unauthenticated_header
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

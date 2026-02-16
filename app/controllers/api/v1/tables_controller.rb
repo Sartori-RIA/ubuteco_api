@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @tables = Table.search params[:q] if params[:q].present?
+        @tables = Table.pagy_search params[:q] if params[:q].present?
         render json: @tables.order(name: :asc), status: :ok
       end
 
@@ -18,12 +18,12 @@ module Api
         if @table.save
           render status: :created
         else
-          render json: @table.errors, status: :unprocessable_entity
+          render json: @table.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @table.errors, status: :unprocessable_entity unless @table.update(update_params)
+        render json: @table.errors, status: :unprocessable_content unless @table.update(update_params)
       end
 
       def destroy

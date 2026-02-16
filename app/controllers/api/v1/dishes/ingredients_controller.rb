@@ -13,12 +13,12 @@ module Api
           if @ingredient.save
             render status: :created
           else
-            render json: @ingredient.errors, status: :unprocessable_entity
+            render json: @ingredient.errors, status: :unprocessable_content
           end
         end
 
         def update
-          render json: @ingredient.errors, status: :unprocessable_entity unless @ingredient.update(update_params)
+          render json: @ingredient.errors, status: :unprocessable_content unless @ingredient.update(update_params)
         end
 
         def destroy

@@ -5,7 +5,7 @@ class BeerStyle < ApplicationRecord
 
   searchkick callbacks: :async
 
-  after_commit :enqueue_reindex_job
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }

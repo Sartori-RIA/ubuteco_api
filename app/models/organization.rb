@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  extend Pagy::Search
+
   acts_as_paranoid
 
   searchkick callbacks: :async
 
-  after_commit :enqueue_reindex_job
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
-  mount_uploader :logo, LogoUploader
+  # has_one_attached :logo
 
   after_create :set_default_theme
   validates :name, :phone, presence: true

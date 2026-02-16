@@ -44,7 +44,7 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_wine_styles_path, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'trows forbidden status' do
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::WineStylesController, type: :request do
     it 'throws error with invalid params' do
       wine_style.name = ''
       put api_v1_wine_style_path(wine_style.id), params: wine_style.to_json, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'trows forbidden status' do

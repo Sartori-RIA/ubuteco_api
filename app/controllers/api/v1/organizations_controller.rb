@@ -6,14 +6,14 @@ module Api
       load_and_authorize_resource
 
       def index
-        @organization = Organization.search params[:q] if params[:q].present?
+        @organization = Organization.pagy_search params[:q] if params[:q].present?
         pagy_render @organizations.order(name: :asc)
       end
 
       def show; end
 
       def update
-        render json: @organization.errors, status: :unprocessable_entity unless @organization.update(update_params)
+        render json: @organization.errors, status: :unprocessable_content unless @organization.update(update_params)
       end
 
       def destroy

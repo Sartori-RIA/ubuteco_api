@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @beers = Beer.search params[:q] if params[:q].present?
+        @beers = Beer.pagy_search params[:q] if params[:q].present?
         pagy_render @beers.order(name: :asc), %i[beer_style maker]
       end
 
@@ -16,14 +16,14 @@ module Api
         @beer = Beer.new(create_params)
 
         if @beer.save
-          render json: @beer, status: :created
+          render :create, status: :created
         else
-          render json: @beer.errors, status: :unprocessable_entity
+          render json: @beer.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @beer.errors, status: :unprocessable_entity unless @beer.update(update_params)
+        render json: @beer.errors.full_messages, status: :unprocessable_content unless @beer.update(update_params)
       end
 
       def destroy

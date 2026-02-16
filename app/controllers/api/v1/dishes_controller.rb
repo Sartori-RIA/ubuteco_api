@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @dishes = Dish.search params[:q] if params[:q].present?
+        @dishes = Dish.pagy_search params[:q] if params[:q].present?
         pagy_render @dishes.order(name: :asc), [dish_ingredients: { include: :food }]
       end
 
@@ -17,12 +17,12 @@ module Api
         if @dish.save
           render json: @dish, status: :created
         else
-          render json: @dish.errors, status: :unprocessable_entity
+          render json: @dish.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @dish.errors, status: :unprocessable_entity unless @dish.update(update_params)
+        render json: @dish.errors, status: :unprocessable_content unless @dish.update(update_params)
       end
 
       def destroy

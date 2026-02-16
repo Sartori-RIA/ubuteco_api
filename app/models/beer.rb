@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Beer < Product
-  searchkick callbacks: :async
-
   validates :ibu, :quantity_stock, :abv, presence: true
 
   belongs_to :maker
@@ -13,7 +11,7 @@ class Beer < Product
     {
       name: name,
       maker: maker.name,
-      style: beer_style.name,
+      style: beer_style.name
     }
   end
 end

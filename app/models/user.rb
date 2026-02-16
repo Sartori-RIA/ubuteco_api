@@ -2,11 +2,13 @@
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
+  extend Pagy::Search
+
   searchkick callbacks: :async
 
   after_create :send_welcome
 
-  after_commit :enqueue_reindex_job
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   acts_as_paranoid
 
@@ -20,7 +22,7 @@ class User < ApplicationRecord
          :argon2,
          jwt_revocation_strategy: self
 
-  mount_uploader :avatar, AvatarUploader
+  # has_one_attached :avatar
   before_validation :set_initial_data, on: :create
   validates :name, :email, presence: true
 
@@ -62,6 +64,8 @@ class User < ApplicationRecord
   end
 
   def send_welcome
+    return if Rails.env.development?
+
     UserMailer.with(user: self, generated_password: @generated_password).welcome.deliver_now!
   end
 end

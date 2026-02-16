@@ -28,7 +28,7 @@ RSpec.describe SessionsController, type: :request do
   describe '#DELETE JWR' do
     it 'returns 200, no content' do
       delete destroy_user_session_path, headers: auth_header(user)
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:no_content)
     end
   end
 end

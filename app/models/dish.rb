@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Dish < Product
-  searchkick callbacks: :async
-
   belongs_to :organization
 
   has_many :dish_ingredients, dependent: :delete_all

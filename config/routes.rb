@@ -5,8 +5,8 @@ require 'sidekiq/web'
 require 'jwt_authentication'
 
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
+  # mount Rswag::Ui::Engine => '/api-docs'
+  # mount Rswag::Api::Engine => '/api-docs'
 
   Sidekiq::Web.use JwtAuthentication
   mount Sidekiq::Web => '/sidekiq'
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         end
       end
       resources :customers, only: :index
-      resources :users, except: :index do
+      resources :users do
         collection do
           get 'check/email' => 'users#email_available?'
         end

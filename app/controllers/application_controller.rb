@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
-  include Pagy::Backend
+  include Pagy::Method
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
@@ -30,10 +30,15 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
-  def pagy_render(collection, include = [], vars = {})
-    pagy, records = pagy(collection, vars)
-    pagy_headers_merge(pagy)
-    render json: records, include:
+  def pagy_render(collection, include = [], **vars)
+    if defined?(Searchkick::Results) && collection.is_a?(Searchkick::Results)
+      @pagy, @records = pagy(:searchkick, collection, **vars)
+    else
+      @pagy, @records = pagy(collection, **vars)
+    end
+
+    response.headers.merge!(@pagy.headers_hash)
+    render json: @records, include: include
   end
 
   private

@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
+  extend Pagy::Search
+
   acts_as_paranoid
 
   searchkick callbacks: :async
 
-  after_commit :enqueue_reindex_job
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
-  enum status: { open: 0, closed: 1, payed: 2 }
+  enum :status, { open: 0, closed: 1, payed: 2 }
 
   belongs_to :table, optional: true
   belongs_to :organization

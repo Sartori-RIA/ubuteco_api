@@ -6,7 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new sign_up_params
     @user.save
-    return render json: { user: @user.errors }, status: :unprocessable_entity if @user.errors.present?
+    return render json: { user: @user.errors }, status: :unprocessable_content if @user.errors.present?
 
     if params[:organization_attributes].blank?
       sign_in @user, store: false
@@ -15,7 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
       sign_in @user, store: false
     else
       @user.really_destroy!
-      render json: { organization_attributes: @organization.errors }, status: :unprocessable_entity
+      render json: { organization_attributes: @organization.errors }, status: :unprocessable_content
     end
   end
 

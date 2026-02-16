@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @wines = Wine.search params[:q] if params[:q].present?
+        @wines = Wine.pagy_search params[:q] if params[:q].present?
         pagy_render @wines.order(name: :asc), %i[wine_style maker]
       end
 
@@ -17,12 +17,12 @@ module Api
         if @wine.save
           render :create, status: :created
         else
-          render json: @wine.errors, status: :unprocessable_entity
+          render json: @wine.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @wine.errors, status: :unprocessable_entity unless @wine.update(update_params)
+        render json: @wine.errors, status: :unprocessable_content unless @wine.update(update_params)
       end
 
       def destroy

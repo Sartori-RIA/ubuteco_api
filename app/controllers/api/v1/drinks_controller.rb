@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @drinks = Drink.search params[:q] if params[:q].present?
+        @drinks = Drink.pagy_search params[:q] if params[:q].present?
         pagy_render @drinks.order(name: :asc), %i[maker]
       end
 
@@ -18,12 +18,12 @@ module Api
         if @drink.save
           render json: @drink, status: :created
         else
-          render json: @drink.errors, status: :unprocessable_entity
+          render json: @drink.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @drink.errors, status: :unprocessable_entity unless @drink.update(update_params)
+        render json: @drink.errors, status: :unprocessable_content unless @drink.update(update_params)
       end
 
       def destroy

@@ -11,7 +11,7 @@ module Api
         def show; end
 
         def update
-          render json: @theme.errors, status: :unprocessable_entity unless @theme.update(update_params)
+          render json: @theme.errors, status: :unprocessable_content unless @theme.update(update_params)
         end
 
         protected

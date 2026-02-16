@@ -10,8 +10,8 @@ class SessionsController < Devise::SessionsController
     @user = resource
   end
 
-  def respond_to_on_destroy
-    head :ok
+  def respond_to_on_destroy(_resource)
+    head :no_content
   end
 
   def sign_in_params

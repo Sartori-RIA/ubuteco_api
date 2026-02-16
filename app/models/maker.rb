@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Maker < ApplicationRecord
+  extend Pagy::Search
+
   acts_as_paranoid
 
   searchkick callbacks: :async

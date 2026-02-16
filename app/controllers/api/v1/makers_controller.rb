@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        @makers = Maker.search params[:q] if params[:q].present?
+        @makers = Maker.pagy_search params[:q] if params[:q].present?
         pagy_render @makers.order(name: :asc)
       end
 
@@ -18,12 +18,12 @@ module Api
         if @maker.save
           render json: @maker, status: :created
         else
-          render json: @maker.errors, status: :unprocessable_entity
+          render json: @maker.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @maker.errors, status: :unprocessable_entity unless @maker.update(update_params)
+        render json: @maker.errors, status: :unprocessable_content unless @maker.update(update_params)
       end
 
       def destroy

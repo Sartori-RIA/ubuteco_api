@@ -13,7 +13,7 @@ module Api
           if @item.save
             render status: :created
           else
-            render json: @item.errors, status: :unprocessable_entity
+            render json: @item.errors, status: :unprocessable_content
           end
         end
 
@@ -24,7 +24,7 @@ module Api
             @item.update_stock(diff:, is_quantity_lower: is_lower) unless @item.dish?
             render status: :ok
           else
-            render json: @item.errors, status: :unprocessable_entity
+            render json: @item.errors, status: :unprocessable_content
           end
         end
 

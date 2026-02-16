@@ -66,7 +66,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_order_items_path(order_id: order.id), headers: auth_header(@waiter)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
     it 'throws error with invalid params' do
       item.quantity = -99
       put api_v1_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(@waiter)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

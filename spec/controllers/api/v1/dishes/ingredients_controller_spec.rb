@@ -32,7 +32,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_dish_ingredients_path(dish_id: dish.id), headers: auth_header(@admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
       ),
           params: ingredient.to_json,
           headers: auth_header(@admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

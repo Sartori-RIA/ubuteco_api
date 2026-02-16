@@ -43,7 +43,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     it 'throws error with invalid params' do
       organization.name = ''
       put api_v1_organization_path(organization.id), params: organization.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

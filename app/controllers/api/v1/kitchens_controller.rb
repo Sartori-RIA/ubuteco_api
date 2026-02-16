@@ -10,7 +10,7 @@ module Api
       end
 
       def update
-        render json: @kitchen.errors, status: :unprocessable_entity unless @kitchen.update(update_params)
+        render json: @kitchen.errors, status: :unprocessable_content unless @kitchen.update(update_params)
       end
 
       protected

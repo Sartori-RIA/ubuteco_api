@@ -15,12 +15,12 @@ module Api
         if @role.save
           render status: :created
         else
-          render json: @role.errors, status: :unprocessable_entity
+          render json: @role.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @role.errors, status: :unprocessable_entity unless @role.update(update_params)
+        render json: @role.errors, status: :unprocessable_content unless @role.update(update_params)
       end
 
       def destroy

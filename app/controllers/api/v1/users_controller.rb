@@ -5,6 +5,11 @@ module Api
     class UsersController < ApplicationController
       load_and_authorize_resource
 
+      def index
+        @users = User.pagy_search params[:q] if params[:q].present?
+        pagy_render @users.order(name: :asc)
+      end
+
       def show; end
 
       def create
@@ -12,21 +17,16 @@ module Api
         if @user.save
           render status: :created
         else
-          render json: @user.errors, status: :unprocessable_entity
+          render json: @user.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @user.errors, status: :unprocessable_entity unless @user.update(update_params)
+        render json: @user.errors, status: :unprocessable_content unless @user.update(update_params)
       end
 
       def destroy
         @user.destroy
-      end
-
-      def search
-        @users = User.search params[:q]
-        pagy_render @users.order(name: :asc), %i[role organization]
       end
 
       def email_available?

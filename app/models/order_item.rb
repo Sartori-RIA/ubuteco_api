@@ -15,14 +15,14 @@ class OrderItem < ApplicationRecord
   after_destroy :recalculate_total
   after_destroy :reset_stock, unless: :dish?
 
-  after_commit :enqueue_reindex_job
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
   belongs_to :order
   belongs_to :item, polymorphic: true
 
-  enum status: { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
+  enum :status, { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
   def update_stock(diff:, is_quantity_lower:)
     if is_quantity_lower

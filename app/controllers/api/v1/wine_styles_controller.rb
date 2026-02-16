@@ -17,12 +17,12 @@ module Api
         if @wine_style.save
           render status: :created
         else
-          render json: @wine_style.errors, status: :unprocessable_entity
+          render json: @wine_style.errors, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @wine_style.errors, status: :unprocessable_entity unless @wine_style.update(update_params)
+        render json: @wine_style.errors, status: :unprocessable_content unless @wine_style.update(update_params)
       end
 
       def destroy
