@@ -5,8 +5,8 @@ FactoryBot.define do
   factory :organization do
     sequence(:name) { |n| "organization_#{n}" }
     phone { Faker::PhoneNumber.unique.phone_number }
-    user { association :user, :admin }
-    logo { Faker::LoremFlickr.image }
+
+    association :user, factory: [:user, :admin]
 
     after(:create) do |organization, _evaluator|
       organization.user.update(organization: organization)

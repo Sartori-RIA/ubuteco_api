@@ -5,29 +5,26 @@ module Api
     class TablesController < ApplicationController
       load_and_authorize_resource
 
-      def index
-        render json: @tables.order(name: :asc), status: :ok
-      end
+      def index; end
 
       def show; end
-
-      def search
-        @tables = Table.search params[:q]
-        render json: @tables.order(name: :asc), status: :ok
-      end
 
       def create
         @table = Table.new(create_params)
 
         if @table.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @table.errors, status: :unprocessable_entity
+          render json: @table.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @table.errors, status: :unprocessable_entity unless @table.update(update_params)
+        if @table.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @table.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

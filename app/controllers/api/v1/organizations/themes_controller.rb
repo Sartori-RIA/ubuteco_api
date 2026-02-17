@@ -11,15 +11,18 @@ module Api
         def show; end
 
         def update
-          render json: @theme.errors, status: :unprocessable_entity unless @theme.update(update_params)
+          if @theme.update(update_params)
+            render :show, status: :ok
+          else
+            render json: @theme.errors.full_messages, status: :unprocessable_content
+          end
         end
 
         protected
 
         def update_params
           params.merge(organization_id: current_user.organization_id)
-          params.permit(:id,
-                        :color_header,
+          params.permit(:color_header,
                         :color_sidebar,
                         :color_footer,
                         :organization_id,

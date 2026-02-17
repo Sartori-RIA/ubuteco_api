@@ -6,28 +6,28 @@ module Api
       load_and_authorize_resource
 
       def index
-        pagy_render @foods.order(name: :asc)
+        search = Food.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end
-
-      def search
-        @foods = Food.search params[:q]
-        pagy_render @foods.order(name: :asc)
-      end
 
       def create
         @food = Food.new(create_params)
 
         if @food.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @food.errors, status: :unprocessable_entity
+          render json: @food.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @food.errors, status: :unprocessable_entity unless @food.update(update_params)
+        if @food.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @food.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy

@@ -5,26 +5,24 @@ module Api
     class BeerStylesController < ApplicationController
       load_and_authorize_resource
 
-      def index
-        render json: @beer_styles.order(name: :asc), status: :ok
-      end
+      def index; end
 
       def show; end
 
       def create
         @beer_style = BeerStyle.new(create_params)
         if @beer_style.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @beer_style.errors, status: :unprocessable_entity
+          render json: @beer_style.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
         if @beer_style.update(update_params)
-          render status: :ok
+          render :show, status: :ok
         else
-          render json: @beer_style.errors, status: :unprocessable_entity
+          render json: @beer_style.errors.full_messages, status: :unprocessable_content
         end
       end
 
@@ -35,7 +33,7 @@ module Api
       def style_available?
         beer_style = BeerStyle.find_by(name: params[:q])
         if beer_style.blank?
-          render json: {}, status: :no_content
+          head :no_content
         else
           render json: {}, status: :ok
         end

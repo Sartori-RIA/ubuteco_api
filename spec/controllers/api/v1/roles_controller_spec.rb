@@ -50,7 +50,7 @@ RSpec.describe Api::V1::RolesController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_roles_path, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'with invalid permission, should return forbidden status' do
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::RolesController, type: :request do
     it 'throws error with invalid params' do
       role.name = ''
       put api_v1_role_path(role.id), params: role.to_json, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'with invalid permission, should return forbidden status' do

@@ -44,7 +44,7 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_beer_styles_path, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'throws error with invalid params' do
@@ -71,7 +71,7 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
     it 'throws error with invalid params' do
       beer_style.name = ''
       put api_v1_beer_style_path(beer_style.id), params: beer_style.to_json, headers: auth_header(super_admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

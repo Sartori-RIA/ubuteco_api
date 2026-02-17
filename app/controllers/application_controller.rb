@@ -2,7 +2,11 @@
 
 class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
-  include Pagy::Backend
+  include Pagy::Method
+
+  respond_to :json
+
+  before_action :force_json_format
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
@@ -30,13 +34,11 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
-  def pagy_render(collection, include = [], vars = {})
-    pagy, records = pagy(collection, vars)
-    pagy_headers_merge(pagy)
-    render json: records, include:
-  end
-
   private
+
+  def force_json_format
+    request.format = :json
+  end
 
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
@@ -46,7 +48,19 @@ class ApplicationController < ActionController::API
     @current_ability ||= load_permissions(params:, controller_name:)
   end
 
+  # # TODO: only for dev during react development
+  if Rails.env.development?
+    def current_user
+      User.find_by(email: "super@email.com")
+    end
+  end
+
   def load_permissions(params:, controller_name:)
+    if Rails.env.development?
+      user = User.find_by(email: "super@email.com")
+      return Abilities::SuperAdminAbility.new user: user, params:, controller_name:
+    end
+
     return Abilities::BaseAbility.new if current_user.blank?
 
     case current_user.role.name

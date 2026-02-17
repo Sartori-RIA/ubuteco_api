@@ -8,6 +8,6 @@ class ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
     return if resource.errors.blank?
 
-    respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
+    respond_with_navigational(resource.errors, status: :unprocessable_content) { render :new }
   end
 end

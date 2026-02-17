@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
+
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
+
+  if Rails.env.development?
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
+
   devise_for :users,
              path: 'auth',
              defaults: { format: :json },
@@ -22,56 +29,29 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :tables do
-        collection do
-          get 'search' => 'tables#search'
-        end
-      end
-      resources :foods do
-        collection do
-          get 'search' => 'foods#search'
-        end
-      end
-      resources :beers do
-        collection do
-          get 'search' => 'beers#search'
-        end
-      end
-      resources :drinks do
-        collection do
-          get 'search' => 'drinks#search'
-        end
-      end
-      resources :makers do
-        collection do
-          get 'search' => 'makers#search'
-        end
-      end
+      resources :tables
+      resources :foods
+      resources :beers
+      resources :drinks
+      resources :makers
       resources :beer_styles do
         collection do
           get 'check/style' => 'beer_styles#style_available?'
         end
       end
-      resources :kitchens, only: %i[index update]
+      resources :kitchens, except: [:create, :destroy]
       resources :dishes do
-        collection do
-          get 'search' => 'dishes#search'
-        end
         scope module: :dishes do
-          resources :ingredients, except: :show
+          resources :ingredients
         end
       end
       resources :orders do
-        collection do
-          get 'search' => 'orders#search'
-        end
         scope module: :orders do
-          resources :items, except: :show
+          resources :items
         end
       end
       resources :organizations, except: :create do
         collection do
-          get 'search' => 'organizations#search'
           get 'check/phone' => 'organizations#phone_available?'
         end
         scope module: :organizations do
@@ -80,9 +60,8 @@ Rails.application.routes.draw do
         end
       end
       resources :customers, only: :index
-      resources :users, except: :index do
+      resources :users do
         collection do
-          get 'search' => 'users#search'
           get 'check/email' => 'users#email_available?'
         end
       end
@@ -91,11 +70,7 @@ Rails.application.routes.draw do
           get 'check/style' => 'wine_styles#style_available?'
         end
       end
-      resources :wines do
-        collection do
-          get 'search' => 'wines#search'
-        end
-      end
+      resources :wines
       resources :roles
     end
     mount ActionCable.server => '/cable'

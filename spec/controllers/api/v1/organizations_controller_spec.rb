@@ -20,13 +20,6 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     end
   end
 
-  describe '#GET /api/organizations/search' do
-    it 'searches organizations' do
-      get search_api_v1_organizations_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#GET /api/organizations/check/phone' do
     it 'returns :ok status to phone in use' do
       get check_phone_api_v1_organizations_path, params: { q: organization.phone }, headers: auth_header(admin)
@@ -50,7 +43,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     it 'throws error with invalid params' do
       organization.name = ''
       put api_v1_organization_path(organization.id), params: organization.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

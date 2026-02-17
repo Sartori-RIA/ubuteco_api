@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class Maker < ApplicationRecord
+  extend Pagy::Search
+
   acts_as_paranoid
+
+  searchkick callbacks: :async
+
+  has_one_attached :image
 
   validates :name, :country, presence: true
 
@@ -10,7 +16,15 @@ class Maker < ApplicationRecord
 
   belongs_to :organization
 
-  include PgSearch::Model
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
-  pg_search_scope :search, against: %w[name country]
+  def search_data
+    { name: name }
+  end
+
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 end

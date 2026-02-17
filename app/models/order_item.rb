@@ -18,7 +18,7 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :item, polymorphic: true
 
-  enum status: { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
+  enum :status, { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
   def update_stock(diff:, is_quantity_lower:)
     if is_quantity_lower
@@ -36,8 +36,6 @@ class OrderItem < ApplicationRecord
     quantity < new_quantity
   end
 
-  protected
-
   def set_default_status
     self.status = 3
   end
@@ -50,6 +48,8 @@ class OrderItem < ApplicationRecord
     }
     ActionCable.server.broadcast("kitchens_#{order.organization.id}", msg.to_json)
   end
+
+  private
 
   def recalculate_total
     order.recalculate_total

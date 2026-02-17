@@ -24,13 +24,6 @@ RSpec.describe Api::V1::OrdersController, type: :request do
     end
   end
 
-  describe '#GET /api/orders/search' do
-    it 'searches orders' do
-      get search_api_v1_orders_path, params: { q: 'tralala' }, headers: auth_header(@waiter)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/orders' do
     it 'creates a order' do
       attributes = attributes_for(:order).merge(organization_id: @organization.id)
@@ -41,7 +34,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
     it 'throws error with invalid params' do
       attributes = attributes_for(:order)
       post api_v1_orders_path, params: attributes.to_json, headers: auth_header(@waiter)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

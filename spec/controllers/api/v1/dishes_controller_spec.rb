@@ -21,13 +21,6 @@ RSpec.describe Api::V1::DishesController, type: :request do
     end
   end
 
-  describe '#GET /api/dishes/search' do
-    it 'searches drishes' do
-      get search_api_v1_dishes_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/dishes' do
     it 'creates a dish' do
       attributes = attributes_for(:dish).merge(organization_id: organization.id)
@@ -37,7 +30,7 @@ RSpec.describe Api::V1::DishesController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_dishes_path, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -52,7 +45,7 @@ RSpec.describe Api::V1::DishesController, type: :request do
     it 'throws error with invalid params' do
       dish.name = ''
       put api_v1_dish_path(dish.id), params: dish.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

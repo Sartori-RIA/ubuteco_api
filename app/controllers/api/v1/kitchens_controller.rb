@@ -9,14 +9,20 @@ module Api
         @kitchens = @kitchens.includes(:item).order(:created_at)
       end
 
+      def show; end
+
       def update
-        render json: @kitchen.errors, status: :unprocessable_entity unless @kitchen.update(update_params)
+        if @kitchen.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @kitchen.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected
 
       def update_params
-        params.permit(:id, :status)
+        params.permit(:status)
       end
     end
   end

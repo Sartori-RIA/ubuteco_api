@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  extend Pagy::Search
+
   acts_as_paranoid
 
-  mount_uploader :logo, LogoUploader
+  searchkick callbacks: :async
+
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
+
+  has_one_attached :logo
 
   after_create :set_default_theme
   validates :name, :phone, presence: true
@@ -22,11 +28,18 @@ class Organization < ApplicationRecord
   has_many :tables, dependent: :delete_all
   has_one :theme, dependent: :delete
 
-  include PgSearch::Model
-
-  pg_search_scope :search, against: %w[name]
+  def search_data
+    {
+      name: name,
+      phone: phone
+    }
+  end
 
   private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 
   def set_default_theme
     Theme.create(name: 'default',

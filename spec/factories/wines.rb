@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :wine do
     sequence(:name) { |n| "wine_#{n}" }
     quantity_stock { 20 }
-    image { Faker::LoremFlickr.image }
     abv { 30 }
     price { 10 }
     description { Faker::Lorem.paragraph }

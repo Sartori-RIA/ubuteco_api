@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Dish < Product
-  include PgSearch::Model
+  extend Pagy::Search
 
-  pg_search_scope :search,
-                  against: %w[name]
+  searchkick callbacks: :async
 
   belongs_to :organization
 
@@ -12,4 +11,18 @@ class Dish < Product
   has_many :foods, through: :dish_ingredients
 
   accepts_nested_attributes_for :dish_ingredients, allow_destroy: true
+
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
+
+  def search_data
+    {
+      name: name
+    }
+  end
+
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 end

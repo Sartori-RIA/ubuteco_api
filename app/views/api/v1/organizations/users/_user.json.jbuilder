@@ -10,6 +10,10 @@ json.extract! user,
               :created_at,
               :updated_at
 
-json.organization do
-  json.partial! 'api/v1/organizations/organization', organization: user.organization
+if user.avatar.attached?
+  json.avatar do
+    json.url url_for(user.avatar)
+    json.filename user.avatar.filename.to_s
+    json.content_type user.avatar.content_type
+  end
 end

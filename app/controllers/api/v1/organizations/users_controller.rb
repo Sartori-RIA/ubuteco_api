@@ -7,7 +7,8 @@ module Api
         load_and_authorize_resource
 
         def index
-          pagy_render @users.order(name: :asc), [:role]
+          search = Beer.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+          @pagy, @records = pagy(:searchkick, search)
         end
       end
     end

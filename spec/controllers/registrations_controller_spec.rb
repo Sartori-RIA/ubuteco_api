@@ -18,20 +18,20 @@ RSpec.describe RegistrationsController, type: :request do
     context 'with error' do
       it 'without params bad_request' do
         post user_registration_path, params: { user: { name: 'asd' } }.to_json, headers: unauthenticated_header
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'with email already taken' do
         user = create(:user)
         attributes = { user: { email: user.email } }
         post user_registration_path, params: attributes.to_json, headers: unauthenticated_header
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'with valid params' do
         data = { user: attributes_for(:user).merge(password: '1') }
         post user_registration_path, params: data.to_json, headers: unauthenticated_header
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe RegistrationsController, type: :request do
 
     it 'without params bad_request' do
       post user_registration_path, params: { user: { name: 'asd' } }.to_json, headers: unauthenticated_header
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

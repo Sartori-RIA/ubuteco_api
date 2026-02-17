@@ -1,3 +1,9 @@
 # frozen_string_literal: true
 
-json.array! @wines, partial: 'api/v1/wines/wine', as: :wine
+json.data do
+  json.array! @records do |wine|
+    json.partial! 'wine', wine: wine
+  end
+end
+
+json.partial! '/api/shared/meta'

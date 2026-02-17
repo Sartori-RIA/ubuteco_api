@@ -21,13 +21,6 @@ RSpec.describe Api::V1::MakersController, type: :request do
     end
   end
 
-  describe '#GET /api/makers/search' do
-    it 'searches makers' do
-      get search_api_v1_makers_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/makers' do
     it 'creates a maker' do
       attributes = attributes_for(:maker).merge(organization_id: organization.id)
@@ -37,7 +30,7 @@ RSpec.describe Api::V1::MakersController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_makers_path, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -53,7 +46,7 @@ RSpec.describe Api::V1::MakersController, type: :request do
     it 'throws error with invalid params' do
       maker.name = ''
       put api_v1_maker_path(maker.id), params: maker.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

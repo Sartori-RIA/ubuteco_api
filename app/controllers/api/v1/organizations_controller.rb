@@ -6,18 +6,18 @@ module Api
       load_and_authorize_resource
 
       def index
-        pagy_render @organizations.order(name: :asc)
+        search = Organization.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end
 
-      def search
-        @organization = Organization.search params[:q]
-        pagy_render @organization.order(name: :asc)
-      end
-
       def update
-        render json: @organization.errors, status: :unprocessable_entity unless @organization.update(update_params)
+        if @organization.update(update_params)
+          render :show
+        else
+          render json: @organization.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -28,7 +28,7 @@ module Api
       def phone_available?
         organization = Organization.find_by(phone: params[:q])
         if organization.blank?
-          render json: {}, status: :no_content
+          head :no_content
         else
           render json: {}, status: :ok
         end

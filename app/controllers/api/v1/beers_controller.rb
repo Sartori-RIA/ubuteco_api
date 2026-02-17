@@ -3,31 +3,31 @@
 module Api
   module V1
     class BeersController < ApplicationController
-      load_and_authorize_resource
+      load_resource
 
       def index
-        pagy_render @beers.order(name: :asc), %i[beer_style maker]
+        search = Beer.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end
-
-      def search
-        @beers = Beer.search params[:q]
-        pagy_render @beers.order(name: :asc), %i[beer_style maker]
-      end
 
       def create
         @beer = Beer.new(create_params)
 
         if @beer.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @beer.errors, status: :unprocessable_entity
+          render json: @beer.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @beer.errors, status: :unprocessable_entity unless @beer.update(update_params)
+        if @beer.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @beer.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -43,8 +43,7 @@ module Api
       def update_params
         params.permit(
           :name, :description, :image, :maker_id, :maker, :beer_style_id, :beer_style, :price, :ibu,
-          :quantity_stock, :abv, :user_id, :id, :price_cents, :price_currency, :deleted_at, :created_at,
-          :updated_at, :valid_until
+          :quantity_stock, :abv, :price_cents, :price_currency, :valid_until
         )
       end
     end

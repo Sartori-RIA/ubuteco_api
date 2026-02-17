@@ -1,16 +1,27 @@
 # frozen_string_literal: true
 
 class Drink < Product
+  extend Pagy::Search
+
+  searchkick callbacks: :async
+
   validates :quantity_stock, presence: true
 
   belongs_to :maker, optional: true
   belongs_to :organization
 
-  include PgSearch::Model
+  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
-  pg_search_scope :search,
-                  against: %w[name],
-                  associated_against: {
-                    maker: %w[name]
-                  }
+  def search_data
+    {
+      name: name,
+      maker: maker.name
+    }
+  end
+
+  private
+
+  def enqueue_reindex_job
+    ReindexJob.perform_async(self.class.name)
+  end
 end

@@ -9,7 +9,7 @@ class Product < ApplicationRecord
 
   validates :name, :price, presence: true
 
-  mount_uploader :image, ProductPictureUploader
+  has_one_attached :image
 
   monetize :price_cents
 end

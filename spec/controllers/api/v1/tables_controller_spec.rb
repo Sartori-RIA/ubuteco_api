@@ -21,13 +21,6 @@ RSpec.describe Api::V1::TablesController, type: :request do
     end
   end
 
-  describe '#GET /api/tables/search' do
-    it 'searches tables' do
-      get search_api_v1_tables_path, params: { q: 'tralala' }, headers: auth_header(admin)
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe '#POST /api/tables' do
     it 'creates a table' do
       attributes = attributes_for(:table).merge(organization_id: organization.id)
@@ -37,7 +30,7 @@ RSpec.describe Api::V1::TablesController, type: :request do
 
     it 'throws error with invalid params' do
       post api_v1_tables_path, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -53,7 +46,7 @@ RSpec.describe Api::V1::TablesController, type: :request do
     it 'throws error with invalid params' do
       table.name = ''
       put api_v1_table_path(table.id), params: table.to_json, headers: auth_header(admin)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

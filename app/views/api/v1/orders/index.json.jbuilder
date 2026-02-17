@@ -1,3 +1,9 @@
 # frozen_string_literal: true
 
-json.array! @orders, partial: 'api/v1/orders/order', as: :order
+json.data do
+  json.array! @records do |order|
+    json.partial! 'order', order: order
+  end
+end
+
+json.partial! '/api/shared/meta'

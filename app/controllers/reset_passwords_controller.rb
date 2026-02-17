@@ -8,7 +8,7 @@ class ResetPasswordsController < ApplicationController
     if current_user.update(reset_params)
       @user = current_user
     else
-      render json: current_user.errors, status: :unprocessable_entity
+      render json: current_user.errors, status: :unprocessable_content
     end
   end
 

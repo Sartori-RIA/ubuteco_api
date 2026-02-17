@@ -6,27 +6,27 @@ module Api
       load_and_authorize_resource
 
       def index
-        pagy_render @wines.order(name: :asc), %i[wine_style maker]
+        search = Wine.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end
 
-      def search
-        @wines = Wine.search params[:q]
-        pagy_render @wines.order(name: :asc), %i[wine_style maker]
-      end
-
       def create
         @wine = Wine.new(create_params)
         if @wine.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @wine.errors, status: :unprocessable_entity
+          render json: @wine.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @wine.errors, status: :unprocessable_entity unless @wine.update(update_params)
+        if @wine.update(update_params)
+          render :show
+        else
+          render json: @wine.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -41,7 +41,7 @@ module Api
 
       def update_params
         params.permit(:name, :quantity_stock, :image, :abv, :price, :description, :maker, :maker_id,
-                      :vintage_wine, :visual, :user_id, :id, :ripening, :grapes, :wine_style, :wine_style_id)
+                      :vintage_wine, :visual, :user_id, :ripening, :grapes, :wine_style, :wine_style_id)
       end
     end
   end

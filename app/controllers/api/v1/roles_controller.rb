@@ -13,14 +13,18 @@ module Api
         @role = Role.new(create_params)
 
         if @role.save
-          render status: :created
+          render :show, status: :created
         else
-          render json: @role.errors, status: :unprocessable_entity
+          render json: @role.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        render json: @role.errors, status: :unprocessable_entity unless @role.update(update_params)
+        if @role.update(update_params)
+          render :show, status: :ok
+        else
+          render json: @role.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def destroy
@@ -34,7 +38,7 @@ module Api
       end
 
       def update_params
-        params.permit(:id, :name)
+        params.permit( :name)
       end
     end
   end
