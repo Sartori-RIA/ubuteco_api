@@ -6,8 +6,8 @@ module Api
       load_resource
 
       def index
-        @beers = Beer.pagy_search params[:q] if params[:q].present?
-        pagy_render @beers.includes(:maker, :beer_style).order(name: :asc)
+        search = Beer.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end

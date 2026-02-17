@@ -34,19 +34,6 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
-  def pagy_render(collection, **vars)
-    @pagy, @records =
-      if collection.is_a?(Searchkick::Results)
-        pagy(:searchkick, collection, **vars)
-      else
-        pagy(collection, **vars)
-      end
-
-    response.headers.merge!(@pagy.headers_hash)
-
-    render
-  end
-
   private
 
   def force_json_format
