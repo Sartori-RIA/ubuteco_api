@@ -2,14 +2,12 @@
 
 
 require 'sidekiq/web'
-require 'jwt_authentication'
 
 Rails.application.routes.draw do
-  # mount Rswag::Ui::Engine => '/api-docs'
-  # mount Rswag::Api::Engine => '/api-docs'
 
-  Sidekiq::Web.use JwtAuthentication
-  mount Sidekiq::Web => '/sidekiq'
+  if Rails.env.development?
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
 
   devise_for :users,

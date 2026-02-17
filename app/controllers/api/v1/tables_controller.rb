@@ -5,10 +5,7 @@ module Api
     class TablesController < ApplicationController
       load_and_authorize_resource
 
-      def index
-        search = Table.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
-        @pagy, @records = pagy(:searchkick, search)
-      end
+      def index; end
 
       def show; end
 
