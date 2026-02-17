@@ -6,8 +6,8 @@ module Api
       load_and_authorize_resource
 
       def index
-        @tables = Table.pagy_search params[:q] if params[:q].present?
-        render json: @tables.order(name: :asc), status: :ok
+        search = Table.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end

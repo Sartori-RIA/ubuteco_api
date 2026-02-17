@@ -27,6 +27,15 @@ class Order < ApplicationRecord
     update(total_cents: total, total_with_discount_cents: total - discount_cents)
   end
 
+  def search_data
+    {
+      table: table.name,
+      user: user.name,
+      total_cents: total_cents,
+      status: status
+    }
+  end
+
   private
 
   def enqueue_reindex_job

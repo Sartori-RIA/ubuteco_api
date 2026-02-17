@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class OrderItem < ApplicationRecord
-  searchkick callbacks: :async
-
   after_create :recalculate_total
   after_create :set_default_status, if: :dish?
   after_create :decrement_stock, unless: :dish?
@@ -14,8 +12,6 @@ class OrderItem < ApplicationRecord
 
   after_destroy :recalculate_total
   after_destroy :reset_stock, unless: :dish?
-
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
@@ -54,10 +50,6 @@ class OrderItem < ApplicationRecord
   end
 
   private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
-  end
 
   def recalculate_total
     order.recalculate_total

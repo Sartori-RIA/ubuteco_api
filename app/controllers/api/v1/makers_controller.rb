@@ -6,8 +6,8 @@ module Api
       load_and_authorize_resource
 
       def index
-        @makers = Maker.pagy_search params[:q] if params[:q].present?
-        pagy_render @makers.order(name: :asc)
+        search = Maker.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end

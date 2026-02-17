@@ -26,7 +26,7 @@ services:
 
 
   opensearch-node1:
-    image: opensearchproject/opensearch:latest
+    image: opensearchproject/opensearch:2.11.1
     container_name: opensearch-node1
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -52,7 +52,7 @@ services:
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-node2:
-    image: opensearchproject/opensearch:latest
+    image: opensearchproject/opensearch:2.11.1
     container_name: opensearch-node2
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -75,7 +75,7 @@ services:
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:latest
+    image: opensearchproject/opensearch-dashboards:2.11.1
     container_name: opensearch-dashboards
     ports:
       - 5601:5601 # Map host port 5601 to container port 5601

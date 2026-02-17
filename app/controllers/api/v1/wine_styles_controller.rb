@@ -6,7 +6,8 @@ module Api
       load_and_authorize_resource
 
       def index
-        render json: @wine_styles.order(name: :asc), status: :ok
+        search = WineStyle.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end

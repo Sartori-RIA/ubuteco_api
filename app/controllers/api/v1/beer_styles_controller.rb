@@ -6,7 +6,8 @@ module Api
       load_and_authorize_resource
 
       def index
-        @beer_styles = @beer_styles.order(name: :asc)
+        search = BeerStyle.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end

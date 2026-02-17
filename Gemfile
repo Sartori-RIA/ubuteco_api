@@ -17,7 +17,7 @@ gem 'listen', '~> 3.10'
 gem 'loofah', '~> 2.25'
 gem 'mini_magick', '~> 5.3', '>= 5.3.1'
 gem 'money-rails', '~> 3.0'
-gem 'opensearch-ruby', '~> 3.4'
+gem "opensearch-ruby", "~> 2.1.0"
 gem 'pagy', '~> 43.2', '>= 43.2.9'
 gem 'paranoia', '~> 3.1'
 gem 'pg', '~> 1.6', '>= 1.6.3'
@@ -28,8 +28,9 @@ gem 'rack-cors', '~> 3.0'
 gem 'rails', '~> 8.1', '>= 8.1.2'
 gem 'rails-i18n', '~> 8.1'
 gem 'redis', '~> 5.4', '>= 5.4.1'
-gem 'searchkick', '~> 6.0', '>= 6.0.3'
+gem "searchkick", "6.0.3"
 gem 'sidekiq', '~> 8.1'
+
 
 group :development, :test do
   gem 'brakeman'

@@ -28,6 +28,13 @@ class Organization < ApplicationRecord
   has_many :tables, dependent: :delete_all
   has_one :theme, dependent: :delete
 
+  def search_data
+    {
+      name: name,
+      phone: phone
+    }
+  end
+
   private
 
   def enqueue_reindex_job

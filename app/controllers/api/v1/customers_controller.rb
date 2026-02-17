@@ -6,7 +6,8 @@ module Api
       load_and_authorize_resource class: User
 
       def index
-        pagy_render @customers.includes(:role).order(name: :asc)
+        search = User.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
     end
   end

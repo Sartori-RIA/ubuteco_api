@@ -6,8 +6,8 @@ module Api
       load_and_authorize_resource
 
       def index
-        @wines = Wine.pagy_search params[:q] if params[:q].present?
-        pagy_render @wines.includes(:wine_style, :maker).order(name: :asc)
+        search = Wine.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        @pagy, @records = pagy(:searchkick, search)
       end
 
       def show; end
