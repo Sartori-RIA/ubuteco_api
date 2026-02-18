@@ -26,12 +26,7 @@ module Api
       end
 
       def phone_available?
-        organization = Organization.find_by(phone: params[:q])
-        if organization.blank?
-          head :no_content
-        else
-          render json: {}, status: :ok
-        end
+        Organization.exists?(phone: params[:q]) ? head(:ok) : head(:no_content)
       end
 
       protected

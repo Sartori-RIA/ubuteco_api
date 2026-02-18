@@ -5,7 +5,9 @@ module Api
     class MakersController < ApplicationController
       load_and_authorize_resource
 
-      def index; end
+      def index
+        @makers = Maker.search(params[:q]) if params[:q].present?
+      end
 
       def show; end
 

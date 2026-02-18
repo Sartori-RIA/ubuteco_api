@@ -34,12 +34,7 @@ module Api
       end
 
       def email_available?
-        user = User.find_by(email: params[:q])
-        if user.blank?
-          head :no_content
-        else
-          render json: {}, status: :ok
-        end
+        User.exists?(email: params[:q]) ? head(:ok) : head(:no_content)
       end
 
       protected

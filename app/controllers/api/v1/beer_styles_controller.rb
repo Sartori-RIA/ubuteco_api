@@ -5,7 +5,9 @@ module Api
     class BeerStylesController < ApplicationController
       load_and_authorize_resource
 
-      def index; end
+      def index
+        @beer_styles = BeerStyle.search(params[:q]) if params[:q].present?
+      end
 
       def show; end
 
@@ -31,12 +33,7 @@ module Api
       end
 
       def style_available?
-        beer_style = BeerStyle.find_by(name: params[:q])
-        if beer_style.blank?
-          head :no_content
-        else
-          render json: {}, status: :ok
-        end
+        BeerStyle.exists?(name: params[:q]) ? head(:ok) : head(:no_content)
       end
 
       protected

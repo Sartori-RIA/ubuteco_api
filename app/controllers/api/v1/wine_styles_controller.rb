@@ -7,7 +7,9 @@ module Api
 
       def index; end
 
-      def show; end
+      def show
+        @wine_styles = WineStyle.search(params[:q]) if params[:q].present?
+      end
 
       def create
         @wine_style = WineStyle.new(create_params)
@@ -32,12 +34,7 @@ module Api
       end
 
       def style_available?
-        wine_style = WineStyle.find_by(name: params[:q])
-        if wine_style.blank?
-          head :no_content
-        else
-          render json: {}, status: :ok
-        end
+        WineStyle.exists?(name: params[:q]) ? head(:ok) : head(:no_content)
       end
 
       private
