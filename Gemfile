@@ -30,7 +30,7 @@ gem 'rails-i18n', '~> 8.1'
 gem 'redis', '~> 5.4', '>= 5.4.1'
 gem "searchkick", "6.0.3"
 gem 'sidekiq', '~> 8.1'
-
+gem 'rswag', '~> 2.13'
 
 group :development, :test do
   gem 'brakeman'

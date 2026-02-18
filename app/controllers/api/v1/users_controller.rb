@@ -17,12 +17,12 @@ module Api
         if @user.save
           render :show, status: :created
         else
-          render json: @user.errors, status: :unprocessable_content
+          render json: @user.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
-        if  @user.update(update_params)
+        if @user.update(update_params)
           render :show
         else
           render json: @user.errors.full_messages, status: :unprocessable_content
