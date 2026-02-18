@@ -14,18 +14,9 @@ json.extract! wine,
               :grapes,
               :organization_id,
               :organization,
+              :image_url,
               :created_at,
               :updated_at
-
-if wine.image.attached?
-  json.image do
-    json.url url_for(wine.image)
-    json.filename wine.image.filename.to_s
-    json.content_type wine.image.content_type
-  end
-end
-
-
 
 if wine.wine_style.present?
   json.wine_style_id wine.wine_style_id

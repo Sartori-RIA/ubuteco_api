@@ -6,7 +6,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        search = Wine.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
+        search = Wine.pagy_search(params[:q].presence || "*", page: params[:page])
         @pagy, @records = pagy(:searchkick, search)
       end
 

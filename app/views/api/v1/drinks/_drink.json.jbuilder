@@ -9,16 +9,9 @@ json.extract! drink,
               :description,
               :flavor,
               :abv,
+              :image_url,
               :created_at,
               :updated_at
-
-if drink.image.attached?
-  json.image do
-    json.url url_for(drink.image)
-    json.filename drink.image.filename.to_s
-    json.content_type drink.image.content_type
-  end
-end
 
 if drink.maker.present?
   json.maker_id drink.maker_id
