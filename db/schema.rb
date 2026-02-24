@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_16_183148) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_24_154611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -111,7 +111,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_183148) do
     t.datetime "deleted_at"
     t.text "description"
     t.string "flavor"
-    t.bigint "maker_id"
     t.string "name"
     t.bigint "organization_id"
     t.integer "price_cents", default: 0, null: false
@@ -119,7 +118,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_183148) do
     t.integer "quantity_stock"
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_drinks_on_deleted_at"
-    t.index ["maker_id"], name: "index_drinks_on_maker_id"
     t.index ["organization_id"], name: "index_drinks_on_organization_id"
   end
 
@@ -294,7 +292,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_183148) do
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "foods"
   add_foreign_key "dishes", "organizations"
-  add_foreign_key "drinks", "makers"
   add_foreign_key "drinks", "organizations"
   add_foreign_key "foods", "organizations"
   add_foreign_key "makers", "organizations"
