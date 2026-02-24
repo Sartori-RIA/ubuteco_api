@@ -31,7 +31,11 @@ module Api
       end
 
       def destroy
-        @beer.destroy
+        if @beer.destroy
+          head :no_content
+        else
+          render json: @beer.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected

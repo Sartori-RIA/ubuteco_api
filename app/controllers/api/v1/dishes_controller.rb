@@ -30,7 +30,11 @@ module Api
       end
 
       def destroy
-        @dish.destroy
+        if @dish.destroy
+          head :no_content
+        else
+          render json: @dish.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected

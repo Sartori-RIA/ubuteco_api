@@ -21,8 +21,11 @@ module Api
       end
 
       def destroy
-        @organization.user.destroy
-        @organization.destroy
+        if @organization.destroy
+          head :no_content
+        else
+          render json: @organization.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def phone_available?

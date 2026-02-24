@@ -33,7 +33,11 @@ module Api
       end
 
       def destroy
-        @order.destroy
+        if @order.destroy
+          head :no_content
+        else
+          render json: @order.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected

@@ -28,7 +28,11 @@ module Api
       end
 
       def destroy
-        @role.destroy
+        if @role.destroy
+          head :no_content
+        else
+          render json: @role.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected

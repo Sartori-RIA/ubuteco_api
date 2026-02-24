@@ -30,7 +30,11 @@ module Api
       end
 
       def destroy
-        @maker.destroy
+        if @maker.destroy
+          head :no_content
+        else
+          render json: @maker.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected

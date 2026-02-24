@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   post 'auth/code' => 'code_validations#create'
   put 'auth/reset_passwords' => 'reset_passwords#update'
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :tables
       resources :foods

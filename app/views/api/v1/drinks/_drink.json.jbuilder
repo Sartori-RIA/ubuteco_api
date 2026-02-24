@@ -12,10 +12,3 @@ json.extract! drink,
               :image_url,
               :created_at,
               :updated_at
-
-if drink.maker.present?
-  json.maker_id drink.maker_id
-  json.maker do
-    json.partial! 'api/v1/makers/maker', maker: drink.maker
-  end
-end

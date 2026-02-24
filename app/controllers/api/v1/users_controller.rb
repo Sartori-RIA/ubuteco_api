@@ -30,7 +30,11 @@ module Api
       end
 
       def destroy
-        @user.destroy
+        if @user.destroy
+          head :no_content
+        else
+          render json: @user.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def email_available?

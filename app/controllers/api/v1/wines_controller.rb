@@ -30,7 +30,11 @@ module Api
       end
 
       def destroy
-        @wine.destroy
+        if @wine.destroy
+          head :no_content
+        else
+          render json: @wine.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       private

@@ -4,41 +4,12 @@ class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
   include Pagy::Method
 
-  respond_to :json
-
-  before_action :force_json_format
-
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
-    render json: {}, status: :forbidden
-  end
-
-  def render_resource(resource)
-    if resource.errors.empty?
-      render json: resource
-    else
-      validation_error(resource)
-    end
-  end
-
-  def validation_error(resource)
-    render json: {
-      errors: [
-        {
-          status: '400',
-          title: 'Bad Request',
-          detail: resource.errors,
-          code: '100'
-        }
-      ]
-    }, status: :bad_request
+    head :forbidden
   end
 
   private
-
-  def force_json_format
-    request.format = :json
-  end
 
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities

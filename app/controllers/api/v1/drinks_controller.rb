@@ -31,7 +31,11 @@ module Api
       end
 
       def destroy
-        @drink.destroy
+        if @drink.destroy
+          head :no_content
+        else
+          render json: @drink.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       protected
@@ -41,7 +45,7 @@ module Api
       end
 
       def update_params
-        params.permit(:name, :description, :image, :maker_id, :maker, :price, :quantity_stock, :flavor)
+        params.permit(:name, :description, :image, :maker, :price, :quantity_stock, :flavor)
       end
     end
   end

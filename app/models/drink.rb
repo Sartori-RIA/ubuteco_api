@@ -7,15 +7,13 @@ class Drink < Product
 
   validates :quantity_stock, presence: true
 
-  belongs_to :maker, optional: true
   belongs_to :organization
 
   after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   def search_data
     {
-      name: name,
-      maker: maker.name
+      name: name
     }
   end
 

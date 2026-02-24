@@ -29,7 +29,11 @@ module Api
       end
 
       def destroy
-        @beer_style.destroy
+        if @beer_style.destroy
+          head :no_content
+        else
+          render json: @beer_style.errors.full_messages, status: :unprocessable_content
+        end
       end
 
       def style_available?
