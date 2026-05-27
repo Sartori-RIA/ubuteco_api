@@ -17,7 +17,7 @@ module Abilities
     def products_permissions(user)
       can :manage, Beer, organization_id: user.organization_id
       can :manage, Dish, organization_id: user.organization_id
-      can :manage, DishIngredient
+      can :manage, DishIngredient, dish: { organization_id: user.organization_id }
       can :manage, Drink, organization_id: user.organization_id
       can :manage, Food, organization_id: user.organization_id
       can :manage, Maker, organization_id: user.organization_id

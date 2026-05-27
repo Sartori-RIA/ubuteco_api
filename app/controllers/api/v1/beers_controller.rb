@@ -3,11 +3,11 @@
 module Api
   module V1
     class BeersController < ApplicationController
-      load_resource
+      load_and_authorize_resource except: :index
 
       def index
-        search = Beer.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
-        @pagy, @records = pagy(:searchkick, search)
+        authorize! :read, Beer
+        @pagy, @records = pagy_search_authorized(Beer)
       end
 
       def show; end

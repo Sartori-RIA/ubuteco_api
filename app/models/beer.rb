@@ -17,7 +17,8 @@ class Beer < Product
     {
       name: name,
       maker: maker.name,
-      style: beer_style.name
+      style: beer_style.name,
+      organization_id: organization_id
     }
   end
 

@@ -3,10 +3,11 @@
 module Api
   module V1
     class MakersController < ApplicationController
-      load_and_authorize_resource
+      load_and_authorize_resource except: :index
 
       def index
-        @makers = Maker.search(params[:q]) if params[:q].present?
+        authorize! :read, Maker
+        @pagy, @records = pagy_search_authorized(Maker)
       end
 
       def show; end

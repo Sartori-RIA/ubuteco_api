@@ -29,10 +29,12 @@ class Order < ApplicationRecord
 
   def search_data
     {
-      table: table.name,
-      user: user.name,
+      table: table&.name,
+      user: user&.name,
       total_cents: total_cents,
-      status: status
+      status: status,
+      organization_id: organization_id,
+      user_id: user_id
     }
   end
 

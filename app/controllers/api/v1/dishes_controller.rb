@@ -3,11 +3,11 @@
 module Api
   module V1
     class DishesController < ApplicationController
-      load_and_authorize_resource
+      load_and_authorize_resource except: :index
 
       def index
-        search = Dish.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
-        @pagy, @records = pagy(:searchkick, search)
+        authorize! :read, Dish
+        @pagy, @records = pagy_search_authorized(Dish)
       end
 
       def show; end

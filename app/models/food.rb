@@ -13,7 +13,10 @@ class Food < Product
   after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   def search_data
-    { name: name }
+    {
+      name: name,
+      organization_id: organization_id
+    }
   end
 
   private

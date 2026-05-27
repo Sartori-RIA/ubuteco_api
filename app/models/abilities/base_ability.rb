@@ -26,8 +26,16 @@ module Abilities
     end
 
     def can_manage_organization_users(organization_id:, controller_name:)
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Organizations::Users'
-      can :manage, User, organization_id: organization_id if controller_name == 'Api::V1::Users'
+      case controller_name
+      when 'Api::V1::Organizations::Users'
+        can :manage, User, organization_id: organization_id if organization_id.present?
+      when 'Api::V1::Users'
+        if organization_id.present?
+          can :manage, User, organization_id: organization_id
+        else
+          can :manage, User
+        end
+      end
     end
 
     def theme(organization_id:)

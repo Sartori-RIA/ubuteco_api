@@ -120,7 +120,6 @@ namespace :db do
     100.times do
       Drink.create!(
         organization: organization,
-        maker: organization.makers.sample,
         abv: Faker::Number.between(from: 1, to: 99),
         name: Faker::Beer.name,
         price: Faker::Number.between(from: 1, to: 99),

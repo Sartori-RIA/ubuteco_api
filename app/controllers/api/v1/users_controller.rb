@@ -3,11 +3,11 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      load_and_authorize_resource
+      load_and_authorize_resource except: :index
 
       def index
-        search = User.pagy_search(params[:q].presence || "*", page: params[:page], per_page: 20)
-        @pagy, @records = pagy(:searchkick, search)
+        authorize! :read, User
+        @pagy, @records = pagy_search_authorized(User)
       end
 
       def show; end

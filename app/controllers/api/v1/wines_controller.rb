@@ -3,11 +3,11 @@
 module Api
   module V1
     class WinesController < ApplicationController
-      load_and_authorize_resource
+      load_and_authorize_resource except: :index
 
       def index
-        search = Wine.pagy_search(params[:q].presence || "*", page: params[:page])
-        @pagy, @records = pagy(:searchkick, search)
+        authorize! :read, Wine
+        @pagy, @records = pagy_search_authorized(Wine)
       end
 
       def show; end

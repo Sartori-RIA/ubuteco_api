@@ -13,7 +13,8 @@ class Drink < Product
 
   def search_data
     {
-      name: name
+      name: name,
+      organization_id: organization_id
     }
   end
 

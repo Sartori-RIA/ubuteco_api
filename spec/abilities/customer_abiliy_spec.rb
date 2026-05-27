@@ -4,24 +4,33 @@ require 'rails_helper'
 
 RSpec.describe Abilities::CustomerAbility, type: :ability do
   describe 'abilities' do
-    subject { described_class.new(user: @user, params: { order_id: @order.id }, controller_name: 'Api::V1::Users') }
+    subject do
+      described_class.new(
+        user: @user,
+        params: { order_id: @order.id, organization_id: @organization.id },
+        controller_name: 'Api::V1::Users'
+      )
+    end
 
     before :all do
       @organization = create(:organization)
       @user = create(:user, :customer)
       @order = create(:order, :with_items, organization: @organization, user: @user)
+      @beer = build(:beer, organization: @organization)
+      @other_beer = build(:beer, organization: create(:organization))
     end
 
     context 'when is an customer' do
       context 'can' do
         it { is_expected.to be_able_to(:manage, @user) }
-        it { is_expected.to be_able_to(:read, Beer.new) }
-        it { is_expected.to be_able_to(:read, Dish.new) }
-        it { is_expected.to be_able_to(:read, Drink.new) }
-        it { is_expected.to be_able_to(:read, Food.new) }
-        it { is_expected.to be_able_to(:read, Maker.new) }
-        it { is_expected.to be_able_to(:read, Table.new) }
-        it { is_expected.to be_able_to(:read, Wine.new) }
+        it { is_expected.to be_able_to(:read, @beer) }
+        it { is_expected.not_to be_able_to(:read, @other_beer) }
+        it { is_expected.to be_able_to(:read, build(:dish, organization: @organization)) }
+        it { is_expected.to be_able_to(:read, build(:drink, organization: @organization)) }
+        it { is_expected.to be_able_to(:read, build(:food, organization: @organization)) }
+        it { is_expected.to be_able_to(:read, build(:maker, organization: @organization)) }
+        it { is_expected.to be_able_to(:read, build(:table, organization: @organization)) }
+        it { is_expected.to be_able_to(:read, build(:wine, organization: @organization)) }
         it { is_expected.to be_able_to(:create, @order) }
         it { is_expected.to be_able_to(:read, @order) }
         it { is_expected.to be_able_to(:update, @order) }

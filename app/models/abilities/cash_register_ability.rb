@@ -18,6 +18,7 @@ module Abilities
       can :read, Wine, organization_id: user.organization_id
       can :read, Drink, organization_id: user.organization_id
       can :read, Food, organization_id: user.organization_id
+      can :read, Maker, organization_id: user.organization_id
     end
 
     def orders_permissions(user:, params:, controller_name:)

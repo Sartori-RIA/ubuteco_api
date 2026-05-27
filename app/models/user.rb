@@ -49,6 +49,15 @@ class User < ApplicationRecord
     end
   end
 
+  def search_data
+    {
+      name: name,
+      email: email,
+      organization_id: organization_id,
+      role_name: role&.name
+    }
+  end
+
   def avatar_url
     if avatar.attached?
       Rails.application.routes.url_helpers.url_for(

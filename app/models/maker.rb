@@ -19,7 +19,11 @@ class Maker < ApplicationRecord
   after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   def search_data
-    { name: name }
+    {
+      name: name,
+      country: country,
+      organization_id: organization_id
+    }
   end
 
   def logo_url

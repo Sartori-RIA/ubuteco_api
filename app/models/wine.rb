@@ -25,7 +25,8 @@ class Wine < Product
       name: name,
       maker: maker.name,
       style: wine_style.name,
-      grapes: grapes
+      grapes: grapes,
+      organization_id: organization_id
     }
   end
 
