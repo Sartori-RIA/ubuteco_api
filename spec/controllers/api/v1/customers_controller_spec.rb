@@ -12,6 +12,8 @@ RSpec.describe Api::V1::CustomersController, type: :request do
   let!(:customers) { create_list(:user, 10, :customer) }
 
   describe '#GET /api/customers' do
+    before { reindex_searchkick!(User) }
+
     context 'with success' do
       it 'retrieveses all customers' do
         get api_v1_customers_path, headers: auth_header(admin)
@@ -49,7 +51,7 @@ RSpec.describe Api::V1::CustomersController, type: :request do
     context 'Unauthorized access' do
       it 'cannot retrieves all customers' do
         get api_v1_customers_path, headers: unauthenticated_header
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

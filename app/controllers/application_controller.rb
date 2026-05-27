@@ -2,8 +2,11 @@
 
 class ApplicationController < ActionController::API
   include CanCan::ControllerAdditions
+  include Devise::Controllers::Helpers
   include Pagy::Method
   include SearchkickAuthorizable
+
+  before_action :authenticate_user!
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
@@ -20,19 +23,7 @@ class ApplicationController < ActionController::API
     @current_ability ||= load_permissions(params:, controller_name:)
   end
 
-  # # TODO: only for dev during react development
-  if Rails.env.development?
-    def current_user
-      User.find_by(email: "super@email.com")
-    end
-  end
-
   def load_permissions(params:, controller_name:)
-    if Rails.env.development?
-      user = User.find_by(email: "super@email.com")
-      return Abilities::SuperAdminAbility.new user: user, params:, controller_name:
-    end
-
     return Abilities::BaseAbility.new if current_user.blank?
 
     case current_user.role.name

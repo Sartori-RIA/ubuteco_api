@@ -17,7 +17,7 @@ module Abilities
       can :create, Order
       can :read, Order, organization_id: user.organization_id
       can %i[update destroy], Order, organization_id: user.organization_id, status: :open
-      can :read, OrderItem, order: { id: params[:order_id], organization_id: user.organization_id }
+      can :read, OrderItem, order: { organization_id: user.organization_id }
       can %i[create update destroy], OrderItem, order: { organization_id: user.organization_id, status: :open }
     end
 
@@ -30,11 +30,7 @@ module Abilities
       when 'Api::V1::Organizations::Users'
         can :manage, User, organization_id: organization_id if organization_id.present?
       when 'Api::V1::Users'
-        if organization_id.present?
-          can :manage, User, organization_id: organization_id
-        else
-          can :manage, User
-        end
+        can :manage, User, organization_id: organization_id if organization_id.present?
       end
     end
 

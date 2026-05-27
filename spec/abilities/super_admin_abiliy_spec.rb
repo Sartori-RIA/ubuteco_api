@@ -3,49 +3,63 @@
 require 'rails_helper'
 
 RSpec.describe Abilities::SuperAdminAbility, type: :ability do
-  describe 'abilities' do
-    subject do
-      described_class.new(user: @user, params: { id: @order.id }, controller_name: 'Api::V1::Organizations::Users')
+  let(:organization) { create(:organization) }
+  let(:other_organization) { create(:organization) }
+  let(:super_admin) { create(:user, :super_admin) }
+  let(:beer) { build(:beer, organization: organization) }
+  let(:order) { build(:order, organization: organization) }
+  let(:order_item) { build(:order_item, order: order) }
+
+  subject do
+    described_class.new(user: super_admin, params: {}, controller_name: 'Api::V1::Beers')
+  end
+
+  describe 'platform governance' do
+    it { is_expected.to be_able_to(:manage, Organization.new) }
+    it { is_expected.to be_able_to(:manage, Role.new) }
+    it { is_expected.to be_able_to(:manage, BeerStyle.new) }
+    it { is_expected.to be_able_to(:manage, WineStyle.new) }
+  end
+
+  describe 'operational data' do
+    it { is_expected.to be_able_to(:read, beer) }
+    it { is_expected.not_to be_able_to(:create, beer) }
+    it { is_expected.not_to be_able_to(:update, beer) }
+    it { is_expected.not_to be_able_to(:destroy, beer) }
+
+    it { is_expected.to be_able_to(:read, order) }
+    it { is_expected.not_to be_able_to(:update, order) }
+    it { is_expected.not_to be_able_to(:destroy, order) }
+
+    it { is_expected.to be_able_to(:read, order_item) }
+    it { is_expected.not_to be_able_to(:update, order_item) }
+    it { is_expected.not_to be_able_to(:destroy, order_item) }
+  end
+
+  describe 'organization users (support context only)' do
+    it 'does not manage users globally' do
+      org_user = build(:user, organization: organization)
+      ability = described_class.new(
+        user: super_admin,
+        params: {},
+        controller_name: 'Api::V1::Users'
+      )
+
+      expect(ability).to be_able_to(:read, org_user)
+      expect(ability).not_to be_able_to(:manage, org_user)
     end
 
-    before :all do
-      @organization = create(:organization)
-      @user = @organization.user
-      @order = create(:order, :open, :with_items, organization: @organization)
-      @table = build(:table, organization: @organization)
-      @wine = build(:wine, organization: @organization)
-      @beer = build(:beer, organization: @organization)
-      @dish = build(:dish, organization: @organization)
-      @drink = build(:drink, organization: @organization)
-      @food = build(:food, organization: @organization)
-      @maker = build(:maker, organization: @organization)
-    end
+    it 'manages users only on nested organization route' do
+      org_user = build(:user, organization: organization)
+      other_user = build(:user, organization: other_organization)
+      ability = described_class.new(
+        user: super_admin,
+        params: { organization_id: organization.id },
+        controller_name: 'Api::V1::Organizations::Users'
+      )
 
-    context 'when is an super admin' do
-      context 'can' do
-        it { is_expected.to be_able_to(:manage, Beer.new) }
-        it { is_expected.to be_able_to(:manage, Role.new) }
-        it { is_expected.to be_able_to(:read, @organization.theme) }
-        it { is_expected.to be_able_to(:update, @organization.theme) }
-        it { is_expected.to be_able_to(:manage, User.new) }
-        it { is_expected.to be_able_to(:manage, Wine.new) }
-        it { is_expected.to be_able_to(:manage, WineStyle.new) }
-        it { is_expected.to be_able_to(:manage, BeerStyle.new) }
-        it { is_expected.to be_able_to(:manage, Dish.new) }
-        it { is_expected.to be_able_to(:manage, DishIngredient.new) }
-        it { is_expected.to be_able_to(:manage, Drink.new) }
-        it { is_expected.to be_able_to(:manage, Food.new) }
-        it { is_expected.to be_able_to(:manage, Maker.new) }
-        it { is_expected.to be_able_to(:manage, Table.new) }
-        it { is_expected.to be_able_to(:create, @order) }
-        it { is_expected.to be_able_to(:read, @order) }
-        it { is_expected.to be_able_to(:update, @order) }
-        it { is_expected.to be_able_to(:destroy, @order) }
-        it { is_expected.to be_able_to(:read, @order.order_items.sample) }
-        it { is_expected.to be_able_to(:create, @order.order_items.sample) }
-        it { is_expected.to be_able_to(:update, @order.order_items.sample) }
-        it { is_expected.to be_able_to(:destroy, @order.order_items.sample) }
-      end
+      expect(ability).to be_able_to(:manage, org_user)
+      expect(ability).not_to be_able_to(:manage, other_user)
     end
   end
 end

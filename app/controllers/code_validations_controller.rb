@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CodeValidationsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   before_action :load_user
   respond_to :json
 
