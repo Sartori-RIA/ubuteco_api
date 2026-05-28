@@ -45,7 +45,7 @@ module Api
       end
 
       def update_params
-        params.permit(:name, :description, :image, :maker, :price, :quantity_stock, :flavor)
+        params.permit(:name, :description, :image, :price, :quantity_stock, :flavor)
       end
     end
   end

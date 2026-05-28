@@ -30,7 +30,11 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :tables
-      resources :foods
+      resources :foods do
+        collection do
+          get :options
+        end
+      end
       resources :beers
       resources :drinks
       resources :makers

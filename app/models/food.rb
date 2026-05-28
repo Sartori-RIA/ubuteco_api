@@ -22,6 +22,6 @@ class Food < Product
   private
 
   def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
+    reindex
   end
 end

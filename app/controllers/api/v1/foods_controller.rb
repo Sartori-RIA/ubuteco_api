@@ -10,6 +10,11 @@ module Api
         @pagy, @records = pagy_search_authorized(Food)
       end
 
+      def options
+        authorize! :read, Food
+        @foods = Food.accessible_by(current_ability, :read).order(:name)
+      end
+
       def show; end
 
       def create

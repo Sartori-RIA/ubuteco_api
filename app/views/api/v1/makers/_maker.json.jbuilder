@@ -5,5 +5,6 @@ json.extract! maker,
               :name,
               :country,
               :logo_url,
+              :logo_thumbnail_url,
               :created_at,
               :updated_at

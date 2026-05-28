@@ -45,7 +45,7 @@ module Api
       end
 
       def update_params
-        params.permit(:name, :country)
+        params.permit(:name, :country, :logo)
       end
     end
   end

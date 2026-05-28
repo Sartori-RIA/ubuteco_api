@@ -9,5 +9,6 @@ json.extract! food,
               :quantity_stock,
               :valid_until,
               :image_url,
+              :thumbnail_url,
               :created_at,
               :updated_at

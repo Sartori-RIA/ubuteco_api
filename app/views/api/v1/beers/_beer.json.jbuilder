@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.extract!(beer, :id, :name, :price_cents, :price_currency, :quantity_stock,
-              :description, :abv, :ibu, :valid_until, :image_url, :created_at, :updated_at)
+              :description, :abv, :ibu, :valid_until, :image_url, :thumbnail_url, :created_at, :updated_at)
 
 if beer.beer_style.present?
   json.beer_style_id beer.beer_style_id

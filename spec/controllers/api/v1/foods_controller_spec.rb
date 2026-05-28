@@ -14,6 +14,16 @@ RSpec.describe Api::V1::FoodsController, type: :request do
     end
   end
 
+  describe '#GET /api/foods/options' do
+    it 'returns all foods for selects' do
+      get options_api_v1_foods_path, headers: auth_header(admin)
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+      expect(body['data'].size).to eq(foods.size)
+      expect(body['data'].first).to include('id', 'name')
+    end
+  end
+
   describe '#GET /api/foods/:id' do
     it 'requests food by id' do
       get api_v1_food_path(foods.sample.id), headers: auth_header(admin)

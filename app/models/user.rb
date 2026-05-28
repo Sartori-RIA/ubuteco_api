@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include AttachmentUrlHelper
   include Devise::JWT::RevocationStrategies::Allowlist
   extend Pagy::Search
 
@@ -59,16 +60,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    if avatar.attached?
-      Rails.application.routes.url_helpers.url_for(
-        avatar.variant(resize_to_limit: [100, 100]).processed
-      )
-    else
-      "#{Rails.application.routes.default_url_options[:protocol] || 'http'}://" \
-        "#{Rails.application.routes.default_url_options[:host]}" \
-        "#{Rails.application.routes.default_url_options[:port] ? ":#{Rails.application.routes.default_url_options[:port]}" : ""}" \
-        "#{ActionController::Base.helpers.asset_path('images/default.png')}"
-    end
+    url_for_attachment(avatar, resize_to_limit: AttachmentUrlHelper::AVATAR_SIZE)
   end
 
   private

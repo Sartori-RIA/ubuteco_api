@@ -6,6 +6,7 @@ json.extract! dish,
               :price_cents,
               :price_currency,
               :image_url,
+              :thumbnail_url,
               :created_at,
               :updated_at
 

@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.14', '>= 2.14.1'
 gem 'listen', '~> 3.10'
 gem 'loofah', '~> 2.25'
 gem 'mini_magick', '~> 5.3', '>= 5.3.1'
+gem 'image_processing', '~> 1.13'
 gem 'money-rails', '~> 3.0'
 gem "opensearch-ruby", "~> 2.1.0"
 gem 'pagy', '~> 43.2', '>= 43.2.9'

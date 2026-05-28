@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Maker < ApplicationRecord
+  include AttachmentUrlHelper
+
   extend Pagy::Search
 
   acts_as_paranoid
@@ -27,16 +29,11 @@ class Maker < ApplicationRecord
   end
 
   def logo_url
-    if logo.attached?
-      Rails.application.routes.url_helpers.url_for(
-        logo.variant(resize_to_limit: [100, 100]).processed
-      )
-    else
-      "#{Rails.application.routes.default_url_options[:protocol] || 'http'}://" \
-        "#{Rails.application.routes.default_url_options[:host]}" \
-        "#{Rails.application.routes.default_url_options[:port] ? ":#{Rails.application.routes.default_url_options[:port]}" : ""}" \
-        "#{ActionController::Base.helpers.asset_path('images/default.png')}"
-    end
+    url_for_attachment(logo, resize_to_limit: AttachmentUrlHelper::DISPLAY_SIZE)
+  end
+
+  def logo_thumbnail_url
+    url_for_attachment(logo, resize_to_limit: AttachmentUrlHelper::THUMBNAIL_SIZE)
   end
 
   private

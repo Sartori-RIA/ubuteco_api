@@ -44,7 +44,7 @@ module Api
       end
 
       def update_params
-        params.permit(:name, :price, :image, dish_ingredients_attributes: %i[quantity food food_id id])
+        params.permit(:name, :price, :image, dish_ingredients_attributes: %i[quantity food food_id id _destroy])
       end
     end
   end

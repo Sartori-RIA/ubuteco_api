@@ -15,6 +15,7 @@ json.extract! wine,
               :organization_id,
               :organization,
               :image_url,
+              :thumbnail_url,
               :created_at,
               :updated_at
 

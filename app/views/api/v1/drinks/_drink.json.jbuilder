@@ -10,5 +10,6 @@ json.extract! drink,
               :flavor,
               :abv,
               :image_url,
+              :thumbnail_url,
               :created_at,
               :updated_at

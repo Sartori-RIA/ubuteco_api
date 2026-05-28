@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Product < ApplicationRecord
+  include AttachmentUrlHelper
+
   self.abstract_class = true
 
   acts_as_paranoid
@@ -14,15 +16,10 @@ class Product < ApplicationRecord
   monetize :price_cents
 
   def image_url
-    if image.attached?
-      Rails.application.routes.url_helpers.url_for(
-        image.variant(resize_to_limit: [100, 100]).processed
-      )
-    else
-      "#{Rails.application.routes.default_url_options[:protocol] || 'http'}://" \
-        "#{Rails.application.routes.default_url_options[:host]}" \
-        "#{Rails.application.routes.default_url_options[:port] ? ":#{Rails.application.routes.default_url_options[:port]}" : ""}" \
-        "#{ActionController::Base.helpers.asset_path('images/default.png')}"
-    end
+    url_for_attachment(image, resize_to_limit: AttachmentUrlHelper::DISPLAY_SIZE)
+  end
+
+  def thumbnail_url
+    url_for_attachment(image, resize_to_limit: AttachmentUrlHelper::THUMBNAIL_SIZE)
   end
 end
