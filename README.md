@@ -8,9 +8,108 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/sartori-ria/ubuteco_api/total)
 ![GitHub Repo stars](https://img.shields.io/github/stars/sartori-ria/ubuteco_api?style=social)
 
+### System architecture
+
+High-level view of how the main pieces connect in **local development** (Next.js + Rails on the host, infrastructure in Docker Compose).
+
+![uButeco system architecture](docs/system-architecture.png)
+
+#### Components
+
+| Component | Role | Default URL / port |
+|-----------|------|-------------------|
+| **ubuteco-react** (Next.js) | Staff UI (orders, kitchen, catalog, settings) | `http://localhost:3001` |
+| **Rails API** (Puma) | REST API, JWT auth, business logic, Active Storage | `http://localhost:3000` |
+| **PostgreSQL** | Primary database (orders, menu, orgs, users) | `localhost:5432` |
+| **Redis** | Sidekiq queue; AnyCable pub/sub | `localhost:6379` |
+| **Sidekiq** | Background jobs (Searchkick indexing, etc.) | (no HTTP; uses Redis) |
+| **OpenSearch** | Full-text search index (via Searchkick) | `http://localhost:9200` |
+| **OpenSearch Dashboards** | Search cluster UI (dev/debug) | `http://localhost:5601` |
+| **anycable-go** | WebSocket server (real-time) | WS `ws://localhost:8080/api/cable`, broadcast `:8090` |
+| **Mailcatcher** | Catches outbound email in dev | UI `http://localhost:1080`, SMTP `:1025` |
+
+Legacy **[ubuteco_spa](https://github.com/Sartori-RIA/ubuteco_spa)** (Angular) talks to the same Rails API; new work uses **ubuteco-react**.
+
+#### Connection map (who talks to whom)
+
+| From | To | Protocol | Purpose |
+|------|-----|----------|---------|
+| Next.js | Rails | HTTPS + JWT | CRUD: orders, items, menu, orgs, users, kitchen REST |
+| Next.js | Rails | HTTPS | Images (`/uploads`, Active Storage) |
+| Next.js | anycable-go | WebSocket + `?token=` | Live kitchen queue (`KitchenChannel`) |
+| anycable-go | Rails | gRPC `:50051` | Connect, subscribe, channel RPC |
+| Rails | anycable-go | HTTP `POST /_broadcast` | Push real-time messages to clients |
+| Rails | PostgreSQL | SQL | Persistence |
+| Rails | Redis | Redis | Enqueue Sidekiq jobs |
+| Sidekiq | Redis | Redis | Dequeue jobs |
+| Sidekiq | OpenSearch | HTTP | Index/update search documents (Searchkick `callbacks: :async`) |
+| Rails | OpenSearch | HTTP | Search queries (controllers using Searchkick) |
+| Rails | Mailcatcher | SMTP | Dev emails |
+| OpenSearch Dashboards | OpenSearch | HTTP | Cluster inspection |
+| anycable-go | Redis | Redis | Pub/sub between AnyCable nodes |
+
+#### Diagram (Mermaid)
+
+```mermaid
+flowchart TB
+  subgraph clients["Clients"]
+    NEXT["Next.js\nubuteco-react :3001"]
+    SPA["Angular SPA\nlegacy"]
+  end
+
+  subgraph app["Application (host)"]
+    RAILS["Rails API\nPuma :3000"]
+    SIDEKIQ["Sidekiq workers"]
+    GRPC["AnyCable gRPC\n:50051 embedded"]
+  end
+
+  subgraph realtime["Real-time"]
+    AC["anycable-go\nWS :8080 · broadcast :8090"]
+  end
+
+  subgraph docker["Docker Compose"]
+    PG[(PostgreSQL :5432)]
+    REDIS[(Redis :6379)]
+    OS1[(OpenSearch :9200)]
+    OSD["OpenSearch Dashboards :5601"]
+    MAIL["Mailcatcher :1080"]
+  end
+
+  NEXT -->|"REST /api/v1 + JWT"| RAILS
+  NEXT -->|"images"| RAILS
+  NEXT -->|"WebSocket /api/cable"| AC
+  SPA -.->|"REST (legacy)"| RAILS
+
+  AC -->|"gRPC RPC"| GRPC
+  GRPC --- RAILS
+  RAILS -->|"HTTP /_broadcast"| AC
+  AC -->|"push"| NEXT
+
+  RAILS --> PG
+  RAILS --> REDIS
+  SIDEKIQ --> REDIS
+  RAILS --> SIDEKIQ
+  SIDEKIQ -->|"Searchkick index"| OS1
+  RAILS -->|"Searchkick query"| OS1
+  RAILS -->|"SMTP dev"| MAIL
+  OSD --> OS1
+  AC --> REDIS
+```
+
+#### Search (OpenSearch + Searchkick)
+
+Indexed models include **User**, **Order**, **Organization**, **Beer**, **Wine**, **Drink**, **Food**, **Dish**, **Maker** (`searchkick callbacks: :async`). Writes go to PostgreSQL first; Sidekiq updates OpenSearch. API search endpoints read from OpenSearch with CanCanCan-scoped filters (`SearchkickAuthorizable`).
+
+Start the search stack:
+
+```bash
+docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
+```
+
 ### Requirements
 
-+ [Frontend](https://github.com/Sartori-RIA/ubuteco_spa)
++ [Frontend (Next.js)](../ubuteco-react) — primary UI
++ [Frontend (Angular, legacy)](https://github.com/Sartori-RIA/ubuteco_spa)
 + [Swagger Docs](https://sartori-ria.github.io/ubuteco_api/)
 
 + With Docker
@@ -40,48 +139,31 @@
 
 + `http://localhost:3000/api-docs`
 
-### REST and WebSocket Connection
+### Endpoints (quick reference)
 
-+ `ws://localhost:8080/api/cable` -> websocket (AnyCable)
-+ `http://localhost:3000/api/v1` -> api endpoint
-+ `http://localhost:3000/auth` -> api auth endpoint
+| URL | Description |
+|-----|-------------|
+| `http://localhost:3000/api/v1` | REST API |
+| `http://localhost:3000/auth` | Devise JWT auth |
+| `http://localhost:3000/api-docs` | Swagger UI |
+| `ws://localhost:8080/api/cable` | WebSocket (AnyCable) |
+| `http://localhost:8090/_broadcast` | Rails → AnyCable broadcasts (internal) |
+| `http://localhost:9200` | OpenSearch |
+| `http://localhost:5601` | OpenSearch Dashboards |
 
-### Kitchen live updates (AnyCable)
+### Real-time (AnyCable)
 
-Real-time kitchen queue uses **[AnyCable](https://anycable.io)** (Action Cable channels + `anycable-go` WebSocket server).
-
-| Service | URL |
-|---------|-----|
-| REST / auth | `http://localhost:3000` |
-| WebSocket (kitchen) | `ws://localhost:8080/api/cable` |
-| Broadcast (Rails → AnyCable) | `http://localhost:8090/_broadcast` |
-| gRPC RPC (embedded in Puma) | `localhost:50051` |
+Kitchen and other Action Cable channels use **[AnyCable](https://anycable.io)** (`anycable-go` + embedded gRPC in Puma). See [System architecture](#system-architecture) above.
 
 **Local setup**
 
-1. Redis: `docker-compose up -d cache`
-2. AnyCable WebSocket — either:
-   - **Docker:** `docker-compose up -d anycable-ws` (RPC via embedded gRPC in Rails on the host)
-   - **Binary:** `bin/anycable-go --config-path=anycable.toml`
-   - **Procfile:** `overmind start -f Procfile.dev` (runs Rails + anycable-go)
-3. Rails: `bin/rails s` (starts embedded AnyCable gRPC when `embedded: true` in `config/anycable.yml`)
-4. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
+1. `docker-compose up -d cache anycable-ws`
+2. `bin/rails s` (embedded gRPC on `:50051`)
+3. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
 
-When adding a dish, Rails should log:
+**Channels:** `KitchenChannel` → stream `kitchens_{organization_id}`.
 
-`[KitchenCable] stream=kitchens_<org_id> adapter=any_cable anycable=true pubsub_broadcast=ok ...`
-
-Browser console: `[KitchenCable] subscription connected` then `[KitchenCable] received`.
-
-**Production:** run `anycable-go` (or AnyCable+) alongside the app; set `ANYCABLE_SECRET`, `ANYCABLE_WEBSOCKET_URL`, `ANYCABLE_HTTP_BROADCAST_URL`, and `ANYCABLE_RPC_HOST`. See [AnyCable deployment docs](https://docs.anycable.io/deployment).
-
-### WebSockets Channels
-
-+ Channels:
-    + KitchenChannel
-    
-+ Broadcasts:
-    + "kitchens_#{organization_id}"
+**Production:** [AnyCable deployment](https://docs.anycable.io/deployment) — set `ANYCABLE_SECRET`, `ANYCABLE_WEBSOCKET_URL`, `ANYCABLE_HTTP_BROADCAST_URL`, `ANYCABLE_RPC_HOST`.
 
 
 ### Default users in db:populate
