@@ -1,0 +1,27 @@
+# AnyCable Rails integration (RPC + broadcasts from Puma/Sidekiq).
+# The WebSocket server is anycable-go — see anycable.toml and docker-compose.
+#
+# Secrets: override via ANYCABLE_SECRET / credentials in production.
+default: &default
+  access_logs_disabled: false
+  log_grpc: false
+  broadcast_adapter: http
+  http_broadcast_url: http://localhost:8090/_broadcast
+  secret: "anycable-local-secret"
+  # Next.js connects here (not to Puma :3000).
+  websocket_url: "ws://localhost:8080/api/cable"
+
+development:
+  <<: *default
+  # gRPC inside `bin/rails s` — no separate `bundle exec anycable` process needed locally.
+  embedded: true
+
+test:
+  <<: *default
+  embedded: false
+
+production:
+  <<: *default
+  websocket_url: ~
+  secret: ~
+  http_broadcast_url: ~

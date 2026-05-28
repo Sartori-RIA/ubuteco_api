@@ -4,11 +4,12 @@ class OrderItem < ApplicationRecord
   class InsufficientStock < StandardError; end
 
   around_create :reserve_stock_unless_dish
+  before_validation :set_default_status_for_dish, on: :create, if: :dish?
   after_create :recalculate_total
-  after_create :set_default_status_for_dish, if: :dish?
-  after_create { |order_item| order_item.message 'create' }
+  after_create_commit :broadcast_kitchen_create, if: :dish?
 
   after_update :recalculate_total
+  after_update_commit :broadcast_kitchen_status, if: :dish?
 
   around_destroy :release_stock_unless_dish
   after_destroy :recalculate_total
@@ -23,6 +24,16 @@ class OrderItem < ApplicationRecord
 
   enum :status, { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
+  KITCHEN_ACTIVE_STATUSES = %w[awaiting cooking ready].freeze
+
+  scope :kitchen_queue_for, lambda { |organization_id|
+    joins(:order)
+      .where(item_type: 'Dish')
+      .where(orders: { organization_id: organization_id, status: Order.statuses[:open] })
+  }
+
+  scope :kitchen_active, -> { where(status: KITCHEN_ACTIVE_STATUSES) }
+
   def dish?
     item_type == 'Dish'
   end
@@ -36,23 +47,60 @@ class OrderItem < ApplicationRecord
     adjust_stock!(-delta)
   end
 
+  def broadcast_kitchen_create
+    unless kitchen_broadcastable?
+      log_kitchen_broadcast_skipped('create')
+      return
+    end
+
+    message('create')
+  end
+
   def message(action)
-    json = ApplicationController.render(template: 'api/v1/kitchens/_kitchen', locals: { kitchen: self })
+    record = OrderItem.includes(:item, order: :table).find(id)
+    payload = ApplicationController.render(
+      template: 'api/v1/kitchens/_kitchen',
+      locals: { kitchen: record }
+    )
     msg = {
-      obj: json,
+      obj: JSON.parse(payload),
       action:
     }
-    ActionCable.server.broadcast("kitchens_#{order.organization.id}", msg.to_json)
+    Rails.logger.info(
+      "[KitchenCable] broadcast #{action} order_item=#{record.id} org=#{record.order.organization_id}"
+    )
+    KitchenCableBroadcaster.deliver(organization_id: record.order.organization_id, message: msg)
+  end
+
+  def broadcast_kitchen_status
+    unless kitchen_broadcastable?
+      log_kitchen_broadcast_skipped('update')
+      return
+    end
+
+    message('update') if saved_change_to_status?
   end
 
   private
+
+  def kitchen_broadcastable?
+    order.open? && order.organization.reload.open?
+  end
+
+  def log_kitchen_broadcast_skipped(action)
+    org = order.organization
+    Rails.logger.info(
+      "[KitchenCable] skipped broadcast #{action} order_item=#{id} " \
+      "order_open=#{order.open?} org_open=#{org.open?} org_id=#{org.id}"
+    )
+  end
 
   def recalculate_total
     order.recalculate_total
   end
 
   def set_default_status_for_dish
-    update_column(:status, self.class.statuses[:awaiting])
+    self.status ||= :awaiting
   end
 
   def reserve_stock_unless_dish

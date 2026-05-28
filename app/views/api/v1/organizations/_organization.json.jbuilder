@@ -5,6 +5,7 @@ json.extract! organization,
               :name,
               :phone,
               :user_id,
+              :operational_status,
               :logo_url,
               :created_at,
               :updated_at

@@ -2,11 +2,21 @@
 
 json.extract! kitchen,
               :id,
-              :status,
               :order_id,
               :quantity,
               :item_type,
               :created_at,
               :updated_at
-json.table kitchen.order.table if kitchen.order&.table.present?
-json.order_item kitchen.item if kitchen.item.present?
+
+json.status kitchen.status
+if kitchen.order&.table.present?
+  json.table do
+    json.extract! kitchen.order.table, :id, :name
+  end
+end
+
+if kitchen.item.present?
+  json.order_item do
+    json.extract! kitchen.item, :id, :name
+  end
+end

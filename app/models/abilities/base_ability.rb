@@ -48,13 +48,18 @@ module Abilities
 
       can :read, OrderItem,
           item_type: 'Dish',
-          created_at: Time.zone.now.all_day,
-          order: { organization_id: user.organization_id }
+          order: { organization_id: user.organization_id, status: :open }
       can :update, OrderItem,
           order: {
             organization_id: user.organization_id,
             status: :open
           }
+    end
+
+    def organization_operational_control(user:, controller_name:)
+      return unless controller_name == 'Api::V1::Organizations'
+
+      can %i[read update], Organization, id: user.organization_id
     end
   end
 end

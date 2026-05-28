@@ -10,11 +10,11 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
 
-  adminer:
-    image: adminer
-    container_name: ubuteco_adminer
-    ports:
-      - 8080:8080
+#  adminer:
+#    image: adminer
+#    container_name: ubuteco_adminer
+#    ports:
+#      - 8080:8080
 
   mailcatcher:
     image: schickling/mailcatcher
@@ -95,6 +95,29 @@ services:
     #command: redis-server --save 20 1 --loglevel warning
     volumes:
       - cache:/data
+
+  # AnyCable WebSocket server (kitchen live updates). Rails RPC runs on the host via embedded gRPC.
+  anycable-ws:
+    image: anycable/anycable-go:1.6
+    container_name: ubuteco_anycable_ws
+    ports:
+      - '8080:8080'
+      - '8090:8090'
+    environment:
+      ANYCABLE_HOST: "0.0.0.0"
+      ANYCABLE_PORT: 8080
+      ANYCABLE_PATH: "/api/cable"
+      ANYCABLE_HTTP_BROADCAST_PORT: 8090
+      ANYCABLE_BROADCAST_ADAPTER: http
+      ANYCABLE_RPC_HOST: "host.docker.internal:50051"
+      ANYCABLE_SECRET: "anycable-local-secret"
+      ANYCABLE_REDIS_URL: "redis://cache:6379/0"
+      ANYCABLE_ALLOWED_ORIGINS: "*"
+      ANYCABLE_DEBUG: "true"
+    depends_on:
+      - cache
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   opensearch-data1:

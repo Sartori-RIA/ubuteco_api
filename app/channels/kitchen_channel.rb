@@ -2,7 +2,10 @@
 
 class KitchenChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "kitchens_#{current_user.organization.id}"
+    org_id = current_user.organization_id
+    reject unless org_id
+
+    stream_from "kitchens_#{org_id}"
   end
 
   def unsubscribed; end

@@ -5,11 +5,14 @@ class Organization < ApplicationRecord
 
   extend Pagy::Search
 
+  enum :operational_status, { open: 0, closed: 1 }
+
   acts_as_paranoid
 
   searchkick callbacks: :async
 
   after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
+  after_update :close_open_orders_when_kitchen_closes, if: :close_open_orders_on_kitchen_close?
 
   has_one_attached :logo
 
@@ -45,6 +48,17 @@ class Organization < ApplicationRecord
 
   def enqueue_reindex_job
     ReindexJob.perform_async(self.class.name)
+  end
+
+  def close_open_orders_on_kitchen_close?
+    saved_change_to_operational_status? && closed?
+  end
+
+  def close_open_orders_when_kitchen_closes
+    closed_count = orders.open.update_all(status: Order.statuses[:closed], updated_at: Time.current)
+    Rails.logger.info(
+      "[Kitchen] organization=#{id} operational_status=closed auto_closed_orders=#{closed_count}"
+    )
   end
 
   def set_default_theme

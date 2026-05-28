@@ -1,0 +1,4 @@
+# Local AnyCable stack (use with overmind/foreman/hivemind: `overmind start -f Procfile.dev`)
+# Requires Redis: docker-compose up -d cache
+web: bin/rails server -b 0.0.0.0 -p 3000
+ws: bin/anycable-go --config-path=anycable.toml

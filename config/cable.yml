@@ -1,9 +1,10 @@
+# Action Cable adapter. With AnyCable, WebSockets are served by anycable-go (not Puma).
+# See config/anycable.yml and README.md.
 development:
-  adapter: async
+  adapter: any_cable
 
 test:
   adapter: test
 
 production:
-  adapter: redis
-  url: <%= ENV['REDIS_URI'] %>
+  adapter: any_cable

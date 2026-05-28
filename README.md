@@ -42,9 +42,38 @@
 
 ### REST and WebSocket Connection
 
-+ `ws://localhost:3000/api/cable` -> websocket
++ `ws://localhost:8080/api/cable` -> websocket (AnyCable)
 + `http://localhost:3000/api/v1` -> api endpoint
 + `http://localhost:3000/auth` -> api auth endpoint
+
+### Kitchen live updates (AnyCable)
+
+Real-time kitchen queue uses **[AnyCable](https://anycable.io)** (Action Cable channels + `anycable-go` WebSocket server).
+
+| Service | URL |
+|---------|-----|
+| REST / auth | `http://localhost:3000` |
+| WebSocket (kitchen) | `ws://localhost:8080/api/cable` |
+| Broadcast (Rails → AnyCable) | `http://localhost:8090/_broadcast` |
+| gRPC RPC (embedded in Puma) | `localhost:50051` |
+
+**Local setup**
+
+1. Redis: `docker-compose up -d cache`
+2. AnyCable WebSocket — either:
+   - **Docker:** `docker-compose up -d anycable-ws` (RPC via embedded gRPC in Rails on the host)
+   - **Binary:** `bin/anycable-go --config-path=anycable.toml`
+   - **Procfile:** `overmind start -f Procfile.dev` (runs Rails + anycable-go)
+3. Rails: `bin/rails s` (starts embedded AnyCable gRPC when `embedded: true` in `config/anycable.yml`)
+4. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
+
+When adding a dish, Rails should log:
+
+`[KitchenCable] stream=kitchens_<org_id> adapter=any_cable anycable=true pubsub_broadcast=ok ...`
+
+Browser console: `[KitchenCable] subscription connected` then `[KitchenCable] received`.
+
+**Production:** run `anycable-go` (or AnyCable+) alongside the app; set `ANYCABLE_SECRET`, `ANYCABLE_WEBSOCKET_URL`, `ANYCABLE_HTTP_BROADCAST_URL`, and `ANYCABLE_RPC_HOST`. See [AnyCable deployment docs](https://docs.anycable.io/deployment).
 
 ### WebSockets Channels
 

@@ -3,15 +3,29 @@
 module Api
   module V1
     class KitchensController < ApplicationController
-      load_and_authorize_resource class: OrderItem
+      load_and_authorize_resource class: OrderItem, except: :index
 
       def index
-        @kitchens = @kitchens.includes(:item).order(:created_at)
+        authorize! :read, OrderItem
+
+        if current_user.organization.closed?
+          @kitchens = OrderItem.none
+          return render :index
+        end
+
+        scope = OrderItem.kitchen_queue_for(current_user.organization_id)
+        scope = scope.kitchen_active if params[:active].present?
+
+        @kitchens = scope.includes(:item, order: :table).order(:created_at)
       end
 
       def show; end
 
       def update
+        if current_user.organization.closed?
+          return render json: ['Kitchen is closed'], status: :forbidden
+        end
+
         if @kitchen.update(update_params)
           render :show, status: :ok
         else

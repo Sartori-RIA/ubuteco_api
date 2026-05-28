@@ -77,6 +77,6 @@ Rails.application.routes.draw do
       resources :wines
       resources :roles
     end
-    mount ActionCable.server => '/cable'
+    # WebSockets are served by AnyCable (anycable-go on :8080/api/cable), not Puma.
   end
 end

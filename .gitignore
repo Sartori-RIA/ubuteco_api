@@ -36,4 +36,5 @@ config/application.yml
 .idea
 *.iml
 
+bin/dist
 .env

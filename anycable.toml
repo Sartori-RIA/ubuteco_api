@@ -1,0 +1,24 @@
+# AnyCable-Go WebSocket server (run via bin/anycable-go or docker service anycable-ws).
+# Docs: https://docs.anycable.io/anycable-go/configuration
+
+secret = "anycable-local-secret"
+
+host = "0.0.0.0"
+port = 8080
+path = "/api/cable"
+
+# Dev: allow any Origin (Next.js may run on :3001, etc.). Wildcards like localhost:* are NOT supported.
+# In production set explicit origins via ANYCABLE_ALLOWED_ORIGINS.
+allowed_origins = "*"
+
+broadcast_adapters = ["http"]
+http_broadcast_port = 8090
+
+[rpc]
+host = "127.0.0.1:50051"
+
+[redis]
+url = "redis://127.0.0.1:6379/0"
+
+[logging]
+debug = true

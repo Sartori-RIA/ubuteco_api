@@ -17,5 +17,6 @@ RSpec.describe KitchenChannel, type: :channel do
       expect(subscription).to be_confirmed
       expect(subscription).to have_stream_from(channel_name)
     end
+
   end
 end

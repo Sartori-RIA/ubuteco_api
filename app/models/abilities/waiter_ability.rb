@@ -7,6 +7,7 @@ module Abilities
       can_manage_self(user:, controller_name:)
       customer_search(controller_name:)
       theme(organization_id: user.organization_id)
+      organization_operational_control(user:, controller_name:)
       products_permissions(user)
       orders_permissions(user:, params:, controller_name:)
     end
