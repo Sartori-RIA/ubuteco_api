@@ -9,9 +9,9 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
     @orders = create_list(:order, 10, :with_items, :open, organization: @organization)
     @maker = create(:maker, organization: @organization)
     @dish = create(:dish, organization: @organization)
-    @wine = create(:wine, organization: @organization, maker: @maker)
-    @beer = create(:beer, organization: @organization, maker: @maker)
-    @drink = create(:drink, organization: @organization, maker: @maker)
+    @wine = create(:wine, organization: @organization, maker: @maker, quantity_stock: 100)
+    @beer = create(:beer, organization: @organization, maker: @maker, quantity_stock: 100)
+    @drink = create(:drink, organization: @organization, quantity_stock: 100)
   end
 
   describe '#GET /api/orders/:order_id/items' do
@@ -28,7 +28,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_id: @drink.id,
         item_type: 'Drink',
-        quantity: 10
+        quantity: 2
       )
       post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:created)
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_type: 'Beer',
         item_id: @beer.id,
-        quantity: 10
+        quantity: 2
       )
       post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:created)
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_type: 'Wine',
         item_id: @wine.id,
-        quantity: 10
+        quantity: 2
       )
       post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:created)
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
       attributes = attributes_for(:order_item).merge(
         item_id: @dish.id,
         item_type: 'Dish',
-        quantity: 10
+        quantity: 2
       )
       post api_v1_order_items_path(order_id: order.id), params: attributes.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:created)
@@ -75,8 +75,8 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
     let!(:item) { order.order_items.sample }
 
     it 'updates a order item' do
-      item.quantity = 10
-      put api_v1_order_item_path(order_id: order.id, id: item.id), params: item.to_json, headers: auth_header(@waiter)
+      item.quantity = 2
+      put api_v1_order_item_path(order_id: order.id, id: item.id), params: {quantity: 2}.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:ok)
     end
 

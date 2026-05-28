@@ -23,10 +23,13 @@ FactoryBot.define do
       end
 
       after(:create) do |order, evaluator|
-        create_list(:order_item, evaluator.items_count, :with_dish, order: order)
-        create_list(:order_item, evaluator.items_count, :with_drink, order: order)
-        create_list(:order_item, evaluator.items_count, :with_beer, order: order)
-        create_list(:order_item, evaluator.items_count, :with_wine, order: order)
+        org = order.organization
+        evaluator.items_count.times do
+          create(:order_item, order: order, item: create(:dish, organization: org))
+          create(:order_item, order: order, item: create(:drink, organization: org))
+          create(:order_item, order: order, item: create(:beer, organization: org, maker: create(:maker, organization: org)))
+          create(:order_item, order: order, item: create(:wine, organization: org, maker: create(:maker, organization: org)))
+        end
       end
     end
 
@@ -36,7 +39,13 @@ FactoryBot.define do
       end
 
       after(:create) do |order, evaluator|
-        create_list(:order_item, evaluator.items_count, :with_dish, order: order)
+        org = order.organization
+        create_list(
+          :order_item,
+          evaluator.items_count,
+          order: order,
+          item: create(:dish, organization: org)
+        )
       end
     end
   end

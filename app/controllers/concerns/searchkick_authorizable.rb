@@ -5,13 +5,14 @@ module SearchkickAuthorizable
 
   private
 
-  def pagy_search_authorized(model, action: :read, **options)
+  def pagy_search_authorized(model, action: :read, extra_where: {}, **options)
     per_page = options.delete(:per_page) || 20
+    where = searchkick_where_for(model, action:).merge(extra_where)
     search = model.pagy_search(
       params[:q].presence || "*",
       page: params[:page],
       per_page: per_page,
-      where: searchkick_where_for(model, action:),
+      where:,
       **options
     )
     pagy(:searchkick, search)

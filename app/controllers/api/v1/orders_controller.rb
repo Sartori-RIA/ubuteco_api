@@ -7,25 +7,28 @@ module Api
 
       def index
         authorize! :read, Order
-        @pagy, @records = pagy_search_authorized(Order)
+        extra_where = {}
+        if params[:status].present? && Order.statuses.key?(params[:status])
+          extra_where[:status] = params[:status]
+        end
+        @pagy, @records = pagy_search_authorized(Order, extra_where:)
       end
 
       def show; end
 
       def create
-        Order.transaction do
-          @order = Order.new(create_params)
+        @order = Order.new(create_params)
 
-          if @order.save
-            render :show, status: :created
-          else
-            render json: @order.errors.full_messages, status: :unprocessable_content
-          end
+        if @order.save
+          render :show, status: :created
+        else
+          render json: @order.errors.full_messages, status: :unprocessable_content
         end
       end
 
       def update
         if @order.update(update_params)
+          @order.recalculate_total if @order.saved_change_to_discount_cents?
           render :show, status: :ok
         else
           render json: @order.errors.full_messages, status: :unprocessable_content
@@ -43,14 +46,13 @@ module Api
       protected
 
       def create_params
-        params.permit(
-          :total, :total_with_discount, :status, :discount, :user, :user_id,
-          :organization, :organization_id, :table_id
-        )
+        base = params.permit(:status, :discount, :table_id, :organization_id)
+        org_id = base.delete(:organization_id) || current_user.organization_id
+        base.merge(organization_id: org_id, user_id: current_user.id)
       end
 
       def update_params
-        params.permit(:total, :total_with_discount, :status, :discount, :user, :user_id, :table_id)
+        params.permit(:status, :discount, :table_id, :user_id)
       end
     end
   end
