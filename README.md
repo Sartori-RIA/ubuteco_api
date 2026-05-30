@@ -14,11 +14,13 @@ High-level view of how the main pieces connect in **local development** (Next.js
 
 ![uButeco system architecture](docs/system-architecture.png)
 
+**Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md) — multi-tenant through CI/CD, order lifecycle, inventory, users API, and more.
+
 #### Components
 
 | Component | Role | Default URL / port |
 |-----------|------|-------------------|
-| **ubuteco-react** (Next.js) | Staff UI (orders, kitchen, catalog, settings) | `http://localhost:3001` |
+| **ubuteco-react** (Next.js) | Staff UI (orders, kitchen, catalog, settings) — **only active frontend** | `http://localhost:3001` |
 | **Rails API** (Puma) | REST API, JWT auth, business logic, Active Storage | `http://localhost:3000` |
 | **PostgreSQL** | Primary database (orders, menu, orgs, users) | `localhost:5432` |
 | **Redis** | Sidekiq queue; AnyCable pub/sub | `localhost:6379` |
@@ -28,7 +30,7 @@ High-level view of how the main pieces connect in **local development** (Next.js
 | **anycable-go** | WebSocket server (real-time) | WS `ws://localhost:8080/api/cable`, broadcast `:8090` |
 | **Mailcatcher** | Catches outbound email in dev | UI `http://localhost:1080`, SMTP `:1025` |
 
-Legacy **[ubuteco_spa](https://github.com/Sartori-RIA/ubuteco_spa)** (Angular) talks to the same Rails API; new work uses **ubuteco-react**.
+**Frontend:** all new work goes to **[ubuteco-react](../ubuteco-react)**. The old Angular app ([ubuteco_spa](https://github.com/Sartori-RIA/ubuteco_spa)) is **abandoned** — no migration or feature parity effort; it would need a full rewrite and is out of scope.
 
 #### Connection map (who talks to whom)
 
@@ -54,7 +56,6 @@ Legacy **[ubuteco_spa](https://github.com/Sartori-RIA/ubuteco_spa)** (Angular) t
 flowchart TB
   subgraph clients["Clients"]
     NEXT["Next.js\nubuteco-react :3001"]
-    SPA["Angular SPA\nlegacy"]
   end
 
   subgraph app["Application (host)"]
@@ -78,7 +79,6 @@ flowchart TB
   NEXT -->|"REST /api/v1 + JWT"| RAILS
   NEXT -->|"images"| RAILS
   NEXT -->|"WebSocket /api/cable"| AC
-  SPA -.->|"REST (legacy)"| RAILS
 
   AC -->|"gRPC RPC"| GRPC
   GRPC --- RAILS
@@ -108,8 +108,7 @@ docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 
 ### Requirements
 
-+ [Frontend (Next.js)](../ubuteco-react) — primary UI
-+ [Frontend (Angular, legacy)](https://github.com/Sartori-RIA/ubuteco_spa)
++ [Frontend (Next.js)](../ubuteco-react) — **sole active UI** (Angular `ubuteco_spa` abandoned, not maintained)
 + [Swagger Docs](https://sartori-ria.github.io/ubuteco_api/)
 
 + With Docker
