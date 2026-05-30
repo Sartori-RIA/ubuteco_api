@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Beer < Product
+  include OrganizationScoped
+  include OrganizationReindexable
+
   extend Pagy::Search
 
   searchkick callbacks: :async
@@ -11,8 +14,6 @@ class Beer < Product
   belongs_to :beer_style
   belongs_to :organization
 
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
-
   def search_data
     {
       name: name,
@@ -20,11 +21,5 @@ class Beer < Product
       style: beer_style.name,
       organization_id: organization_id
     }
-  end
-
-  private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
   end
 end

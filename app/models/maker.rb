@@ -2,6 +2,8 @@
 
 class Maker < ApplicationRecord
   include AttachmentUrlHelper
+  include OrganizationScoped
+  include OrganizationReindexable
 
   extend Pagy::Search
 
@@ -18,8 +20,6 @@ class Maker < ApplicationRecord
 
   belongs_to :organization
 
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
-
   def search_data
     {
       name: name,
@@ -34,11 +34,5 @@ class Maker < ApplicationRecord
 
   def logo_thumbnail_url
     url_for_attachment(logo, resize_to_limit: AttachmentUrlHelper::THUMBNAIL_SIZE)
-  end
-
-  private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
   end
 end

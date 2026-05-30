@@ -8,12 +8,17 @@ module Api
       def index
         authorize! :read, OrderItem
 
-        if current_user.organization.closed?
+        organization = Current.organization
+        unless organization
+          return head :forbidden
+        end
+
+        if organization.closed?
           @kitchens = OrderItem.none
           return render :index
         end
 
-        scope = OrderItem.kitchen_queue_for(current_user.organization_id)
+        scope = OrderItem.kitchen_queue_for(organization.id)
         scope = scope.kitchen_active if params[:active].present?
 
         @kitchens = scope.includes(:item, order: :table).order(:created_at)
@@ -22,7 +27,12 @@ module Api
       def show; end
 
       def update
-        if current_user.organization.closed?
+        organization = Current.organization
+        unless organization
+          return head :forbidden
+        end
+
+        if organization.closed?
           return render json: ['Kitchen is closed'], status: :forbidden
         end
 
