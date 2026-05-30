@@ -21,12 +21,8 @@ module Api
         protected
 
         def update_params
-          params.merge(organization_id: current_user.organization_id)
-          params.permit(:color_header,
-                        :color_sidebar,
-                        :color_footer,
-                        :organization_id,
-                        :rtl)
+          params.permit(:color_header, :color_sidebar, :color_footer, :rtl)
+                .merge(organization_id: current_user.organization_id)
         end
       end
     end
