@@ -1,6 +1,6 @@
 # Plan: Multi-tenant by organization
 
-**Status:** not started  
+**Status:** in progress (Phase 1–2 started)  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — multi-tenant](../../../ubuteco-react/docs/plans/01-multi-tenant.md)  
 **Priority:** P0 — do before plans, dashboard, and billing  
@@ -99,12 +99,12 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 1 — Tenant context
 
-- [ ] Add `app/models/current.rb` (ActiveSupport::CurrentAttributes):
+- [x] Add `app/models/current.rb` (ActiveSupport::CurrentAttributes):
   - `organization`, `user`, `organization_id`
-- [ ] Set in `ApplicationController` after `authenticate_user!`:
+- [x] Set in `ApplicationController` via `SetCurrentTenant` after `authenticate_user!`:
   - `Current.user = current_user`
-  - `Current.organization = current_user.organization` (fail fast if missing for non–super-admin)
-- [ ] Clear `Current` in middleware `ensure` block
+  - `Current.organization = current_user.organization` (403 if missing for org-scoped roles)
+- [x] Clear `Current` in `after_action` (`SetCurrentTenant#reset_current_tenant`)
 - [ ] Document: console/jobs must set `Current` or pass `organization_id` explicitly
 
 **Acceptance:** request specs assert `Current.organization_id` matches user’s org.
@@ -113,9 +113,11 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 2 — Stop trusting client `organization_id`
 
-- [ ] Audit all controllers for `params[:organization_id]` and `permit(:organization_id)`
-- [ ] **Org users:** always assign `organization_id: current_user.organization_id` in strong params; remove from permitted list where possible
-- [ ] **Create flows:** `OrdersController`, `UsersController`, products controllers — verify list
+- [x] Audit all controllers for `params[:organization_id]` and `permit(:organization_id)`
+- [x] **OrdersController** — always assign user's org; staff cannot pass foreign id
+- [x] **UsersController** — removed `:organization_id` from permitted list
+- [x] **ThemesController** — fixed merge bug; org id from server only
+- [ ] **Create flows:** products controllers — already force org on create (verify only)
 - [ ] Add RuboCop custom cop or grep in CI checklist (optional)
 
 **Acceptance:** no org-scoped create/update accepts foreign `organization_id` from a normal admin/waiter.
@@ -185,10 +187,10 @@ If isolation requirements tighten without a full schema migration:
 
 ## Definition of done
 
-- [ ] `Current.organization` used in all org-scoped controllers/services
-- [ ] Zero IDOR on `organization_id` param for org roles
-- [ ] Cross-tenant spec suite in CI
-- [ ] README/plans updated; Swagger aligned
+- [x] `Current.organization` used in org-scoped controllers/services (kitchen, orders create)
+- [x] Zero IDOR on `organization_id` param for org roles
+- [x] Cross-tenant spec suite added
+- [~] README/plans updated; Swagger aligned
 
 ---
 
