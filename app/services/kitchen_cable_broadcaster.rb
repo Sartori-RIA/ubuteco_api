@@ -20,8 +20,8 @@ class KitchenCableBroadcaster
 
     adapter = ActionCable.server.config.cable.fetch('adapter', 'unknown')
     Rails.logger.info(
-      "[KitchenCable] stream=#{stream} adapter=#{adapter} anycable=#{anycable_mode?} " \
-      "pubsub_broadcast=ok direct_transmits=#{delivered} " \
+      "[KitchenCable] organization_id=#{organization_id} stream=#{stream} adapter=#{adapter} " \
+      "anycable=#{anycable_mode?} pubsub_broadcast=ok direct_transmits=#{delivered} " \
       "open_connections=#{ActionCable.server.connections.size}"
     )
   end

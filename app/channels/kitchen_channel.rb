@@ -5,6 +5,7 @@ class KitchenChannel < ApplicationCable::Channel
     org_id = current_user.organization_id
     reject unless org_id
 
+    Rails.logger.info("[KitchenChannel] subscribe user=#{current_user.id} organization_id=#{org_id}")
     stream_from "kitchens_#{org_id}"
   end
 
