@@ -76,6 +76,14 @@ Rails.application.routes.draw do
       end
       resources :wines
       resources :roles
+
+      namespace :platform do
+        resources :organizations, except: :create do
+          scope module: :organizations do
+            resources :users, only: :index
+          end
+        end
+      end
     end
     # WebSockets are served by AnyCable (anycable-go on :8080/api/cable), not Puma.
   end
