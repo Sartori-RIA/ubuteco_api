@@ -35,7 +35,10 @@ module Api
         protected
 
         def update_params
-          params.permit(:name, :phone, :user_id, :logo, :operational_status)
+          params.permit(
+            :name, :phone, :user_id, :logo, :operational_status,
+            :locale, :default_currency, :timezone
+          )
         end
       end
     end

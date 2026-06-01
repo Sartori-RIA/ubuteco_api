@@ -3,6 +3,42 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
+  describe 'locale settings' do
+    subject(:organization) { build(:organization) }
+
+    it 'defaults locale, currency, and timezone' do
+      org = create(:organization)
+      expect(org.locale).to eq('pt-BR')
+      expect(org.default_currency).to eq('BRL')
+      expect(org.timezone).to eq('America/Sao_Paulo')
+    end
+
+    it 'accepts supported locale, currency, and timezone' do
+      organization.locale = 'en'
+      organization.default_currency = 'USD'
+      organization.timezone = 'America/New_York'
+      expect(organization).to be_valid
+    end
+
+    it 'rejects unknown locale' do
+      organization.locale = 'fr'
+      expect(organization).not_to be_valid
+      expect(organization.errors[:locale]).to be_present
+    end
+
+    it 'rejects unknown currency' do
+      organization.default_currency = 'ZZZ'
+      expect(organization).not_to be_valid
+      expect(organization.errors[:default_currency]).to be_present
+    end
+
+    it 'rejects unknown timezone' do
+      organization.timezone = 'Not/A_Timezone'
+      expect(organization).not_to be_valid
+      expect(organization.errors[:timezone]).to be_present
+    end
+  end
+
   describe 'kitchen operational status' do
     it 'closes all open orders when kitchen is closed' do
       organization = create(:organization, operational_status: :open)

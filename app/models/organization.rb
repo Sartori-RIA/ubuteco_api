@@ -18,6 +18,9 @@ class Organization < ApplicationRecord
 
   validates :name, :phone, presence: true
   validates :phone, uniqueness: true
+  validates :locale, inclusion: { in: ->(_) { I18n.available_locales.map(&:to_s) } }
+  validates :timezone, inclusion: { in: ->(_) { ActiveSupport::TimeZone.all.map(&:name) } }
+  validate :default_currency_must_be_known
 
   belongs_to :user, optional: true
   accepts_nested_attributes_for :user, allow_destroy: true, limit: 1
@@ -43,6 +46,14 @@ class Organization < ApplicationRecord
   end
 
   private
+
+  def default_currency_must_be_known
+    return if default_currency.blank?
+
+    Money::Currency.find(default_currency)
+  rescue Money::CurrencyUnknown
+    errors.add(:default_currency, :invalid)
+  end
 
   def close_open_orders_on_kitchen_close?
     saved_change_to_operational_status? && closed?

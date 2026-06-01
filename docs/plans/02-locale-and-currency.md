@@ -1,6 +1,6 @@
 # Plan: Organization locale & currency
 
-**Status:** not started  
+**Status:** in progress  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — locale & currency](../../../ubuteco-react/docs/plans/02-locale-and-currency.md)  
 **Priority:** P1  
@@ -18,8 +18,8 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 ## Current state
 
 - `money-rails`: per-model `price_currency` default `"BRL"` on beers, dishes, orders, etc.
-- Rails i18n: `pt-BR`, `en` locales exist; not tied to organization.
-- No `locale`, `default_currency`, or `timezone` on `organizations` table.
+- Rails i18n: `pt-BR`, `en` locales configured in `config/initializers/i18n.rb`; not yet switched per request.
+- Migration `20260601120000_add_locale_settings_to_organizations` adds `locale`, `default_currency`, `timezone` (**pending** — run `bin/rails db:migrate` when DB is available).
 
 ---
 
@@ -36,14 +36,14 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 1 — Schema & model
 
-- [ ] Migration `organizations`:
+- [x] Migration `organizations`:
   ```ruby
   t.string :locale, default: "pt-BR", null: false
   t.string :default_currency, default: "BRL", null: false  # ISO 4217
   t.string :timezone, default: "America/Sao_Paulo", null: false
   ```
-- [ ] Validations: `locale` in `I18n.available_locales`; currency in `Money::Currency` table; timezone in `ActiveSupport::TimeZone`
-- [ ] Expose in organization JSON partial (read + update for admin)
+- [x] Validations: `locale` in `I18n.available_locales`; currency in `Money::Currency` table; timezone in `ActiveSupport::TimeZone`
+- [x] Expose in organization JSON partial (read + update for admin)
 
 **Acceptance:** admin can PATCH org settings; invalid locale/currency rejected.
 
@@ -84,9 +84,9 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 5 — API & authorization
 
-- [ ] `OrganizationsController#update`: permit `locale`, `default_currency`, `timezone` for ADMIN only
-- [ ] Operational staff read org via `fetchCurrentUser` / show organization
-- [ ] Swagger update
+- [x] `OrganizationsController#update`: permit `locale`, `default_currency`, `timezone` for ADMIN only
+- [x] Operational staff read org via `fetchCurrentUser` / show organization
+- [~] Swagger update
 
 **Acceptance:** waiter cannot change locale; admin can.
 
@@ -101,8 +101,9 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 7 — Tests
 
-- [ ] Model validations
-- [ ] Request: update settings, create order in non-default currency org (factory trait)
+- [x] Model validations
+- [x] Request: update settings (controller spec)
+- [ ] Request: create order in non-default currency org (factory trait)
 - [ ] I18n: one error message per locale
 
 ---
