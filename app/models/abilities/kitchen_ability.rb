@@ -5,7 +5,6 @@ module Abilities
     def initialize(user:, controller_name:)
       super()
       can_manage_self(user:, controller_name:)
-      theme(organization_id: user.organization_id)
       organization_operational_control(user:, controller_name:)
       kitchens_namespace(controller_name:, user:)
     end

@@ -24,8 +24,6 @@ RSpec.describe Abilities::AdminAbility, type: :ability do
 
     context 'when is an admin' do
       context 'can' do
-        it { is_expected.to be_able_to(:read, @organization.theme) }
-        it { is_expected.to be_able_to(:update, @organization.theme) }
         it { is_expected.to be_able_to(:manage, @organization) }
         it { is_expected.to be_able_to(:manage, @beer) }
         it { is_expected.to be_able_to(:manage, @dish_ingredient) }

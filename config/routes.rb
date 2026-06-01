@@ -59,7 +59,6 @@ Rails.application.routes.draw do
           get 'check/phone' => 'organizations#phone_available?'
         end
         scope module: :organizations do
-          resources :themes, except: :destroy
           resources :users, only: :index
         end
       end
