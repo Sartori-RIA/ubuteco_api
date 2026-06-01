@@ -3,20 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe KitchenChannel, type: :channel do
-  let(:organization) { create(:organization) }
-  let(:admin) { organization.user }
-  let(:channel_name) { "kitchens_#{organization.id}" }
+  let(:organization_a) { create(:organization) }
+  let(:organization_b) { create(:organization) }
+  let(:kitchen_a) { create(:user, :kitchen, organization: organization_a) }
 
-  describe '#CHANNEL' do
-    before do
-      stub_connection current_user: admin
-    end
+  describe '#subscribed' do
+    it 'subscribes to the user organization stream only' do
+      stub_connection current_user: kitchen_a
 
-    it 'subscribes to a stream when kitchen room id is provided' do
-      subscribe current_user: admin
+      subscribe
+
       expect(subscription).to be_confirmed
-      expect(subscription).to have_stream_from(channel_name)
+      expect(subscription).to have_stream_from("kitchens_#{organization_a.id}")
+      expect(subscription).not_to have_stream_from("kitchens_#{organization_b.id}")
     end
 
+    it 'rejects users without an organization' do
+      user = create(:user, :kitchen, organization: nil)
+      stub_connection current_user: user
+
+      subscribe
+
+      expect(subscription).to be_rejected
+    end
   end
 end
+

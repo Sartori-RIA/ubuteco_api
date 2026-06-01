@@ -2,6 +2,7 @@
 
 class Organization < ApplicationRecord
   include AttachmentUrlHelper
+  include OrganizationReindexable
 
   extend Pagy::Search
 
@@ -11,7 +12,6 @@ class Organization < ApplicationRecord
 
   searchkick callbacks: :async
 
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
   after_update :close_open_orders_when_kitchen_closes, if: :close_open_orders_on_kitchen_close?
 
   has_one_attached :logo
@@ -43,10 +43,6 @@ class Organization < ApplicationRecord
   end
 
   private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
-  end
 
   def close_open_orders_on_kitchen_close?
     saved_change_to_operational_status? && closed?

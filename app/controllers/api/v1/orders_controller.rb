@@ -46,9 +46,15 @@ module Api
       protected
 
       def create_params
-        base = params.permit(:status, :discount, :table_id, :organization_id)
-        org_id = base.delete(:organization_id) || current_user.organization_id
-        base.merge(organization_id: org_id, user_id: current_user.id)
+        base = params.permit(:status, :discount, :table_id)
+        base.merge(organization_id: order_organization_id, user_id: current_user.id)
+      end
+
+      def order_organization_id
+        return current_user.organization_id if current_user.organization_id.present?
+        return params[:organization_id] if current_user.role.name == 'CUSTOMER'
+
+        Current.organization_id
       end
 
       def update_params

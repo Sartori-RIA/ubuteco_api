@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
   include Devise::Controllers::Helpers
   include Pagy::Method
   include SearchkickAuthorizable
+  include SetCurrentTenant
 
   before_action :authenticate_user!
 

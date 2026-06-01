@@ -1,6 +1,6 @@
 # Plan: Multi-tenant by organization
 
-**Status:** not started  
+**Status:** in progress (Phase 1–2 started)  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — multi-tenant](../../../ubuteco-react/docs/plans/01-multi-tenant.md)  
 **Priority:** P0 — do before plans, dashboard, and billing  
@@ -99,12 +99,12 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 1 — Tenant context
 
-- [ ] Add `app/models/current.rb` (ActiveSupport::CurrentAttributes):
+- [x] Add `app/models/current.rb` (ActiveSupport::CurrentAttributes):
   - `organization`, `user`, `organization_id`
-- [ ] Set in `ApplicationController` after `authenticate_user!`:
+- [x] Set in `ApplicationController` via `SetCurrentTenant` after `authenticate_user!`:
   - `Current.user = current_user`
-  - `Current.organization = current_user.organization` (fail fast if missing for non–super-admin)
-- [ ] Clear `Current` in middleware `ensure` block
+  - `Current.organization = current_user.organization` (403 if missing for org-scoped roles)
+- [x] Clear `Current` in `after_action` (`SetCurrentTenant#reset_current_tenant`)
 - [ ] Document: console/jobs must set `Current` or pass `organization_id` explicitly
 
 **Acceptance:** request specs assert `Current.organization_id` matches user’s org.
@@ -113,9 +113,11 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 2 — Stop trusting client `organization_id`
 
-- [ ] Audit all controllers for `params[:organization_id]` and `permit(:organization_id)`
-- [ ] **Org users:** always assign `organization_id: current_user.organization_id` in strong params; remove from permitted list where possible
-- [ ] **Create flows:** `OrdersController`, `UsersController`, products controllers — verify list
+- [x] Audit all controllers for `params[:organization_id]` and `permit(:organization_id)`
+- [x] **OrdersController** — always assign user's org; staff cannot pass foreign id
+- [x] **UsersController** — removed `:organization_id` from permitted list
+- [x] **ThemesController** — fixed merge bug; org id from server only
+- [ ] **Create flows:** products controllers — already force org on create (verify only)
 - [ ] Add RuboCop custom cop or grep in CI checklist (optional)
 
 **Acceptance:** no org-scoped create/update accepts foreign `organization_id` from a normal admin/waiter.
@@ -124,13 +126,10 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 3 — Query scoping
 
-- [ ] Add concern `OrganizationScoped` (optional module, **no** global `default_scope`):
-  ```ruby
-  scope :for_organization, ->(org_id) { where(organization_id: org_id) }
-  ```
-- [ ] Apply in controllers/services: `Model.for_organization(Current.organization_id)`
-- [ ] Searchkick: ensure every indexed model includes `organization_id` in `search_data`
-- [ ] Reindex job: scope by organization when triggered from org context
+- [x] Add concern `OrganizationScoped` (no global `default_scope`)
+- [x] Org-owned models include `OrganizationScoped` + `OrganizationReindexable`
+- [x] `KitchensController` uses `Current.organization`
+- [x] `ReindexJob` scoped by `organization_id`
 
 **Acceptance:** index/search never returns records from another org.
 
@@ -138,11 +137,9 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 4 — Super admin separation
 
-- [ ] Define policy: super admin uses **platform** routes only for cross-org ops, e.g.:
-  - `GET /api/v1/platform/organizations`
-  - `GET /api/v1/platform/organizations/:id`
-- [ ] Restrict `SuperAdminAbility` to platform controllers + global resources (beer_styles, wine_styles, roles)
-- [ ] Org-scoped controllers always use org user’s tenant, never param org id for super admin on same routes
+- [x] Platform routes: `/api/v1/platform/organizations` (+ nested users index)
+- [x] `SuperAdminAbility` split: platform vs catalog-read on org routes
+- [x] No cross-org read on orders/users via org-scoped routes
 
 **Acceptance:** super admin cannot hit `/api/v1/orders` for org B while “thinking” they’re in org A without explicit platform API.
 
@@ -150,9 +147,9 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 5 — Real-time & jobs
 
-- [ ] `KitchenChannel`: already uses `organization_id` — add test that user from org A cannot subscribe to org B stream (RPC reject)
-- [ ] Sidekiq jobs: pass `organization_id` in job args; set `Current` in job middleware if needed
-- [ ] `KitchenCableBroadcaster`: log `organization_id`; no change to stream naming
+- [x] `KitchenChannel` spec: org stream only; reject without org
+- [x] `ReindexJob` sets/clears `Current` per job
+- [x] `KitchenCableBroadcaster` logs `organization_id`
 
 **Acceptance:** cable + jobs documented for tenant propagation.
 
@@ -160,14 +157,10 @@ If isolation requirements tighten without a full schema migration:
 
 ## Phase 6 — Database & tests
 
-- [ ] Add composite indexes where filtered together:
-  - `orders (organization_id, status)`
-  - `orders (organization_id, created_at)`
-  - `order_items` via join patterns (document in migration comments)
-- [ ] **Cross-tenant spec pack** (`spec/security/cross_tenant/`):
-  - User org A + record org B → `403` on show/update/destroy
-  - Per resource type: Order, Dish, User, Kitchen queue
-- [ ] Update Swagger where `organization_id` is removed from request bodies
+- [x] Composite indexes on `orders (organization_id, status/created_at)`
+- [x] Cross-tenant spec pack: orders, dishes, users, kitchen queue
+- [x] Platform organizations request specs
+- [x] Swagger `new_order` has no `organization_id` (already empty)
 
 **Acceptance:** CI runs cross-tenant examples; all green.
 
@@ -185,10 +178,10 @@ If isolation requirements tighten without a full schema migration:
 
 ## Definition of done
 
-- [ ] `Current.organization` used in all org-scoped controllers/services
-- [ ] Zero IDOR on `organization_id` param for org roles
-- [ ] Cross-tenant spec suite in CI
-- [ ] README/plans updated; Swagger aligned
+- [x] `Current.organization` used in org-scoped controllers/services (kitchen, orders create)
+- [x] Zero IDOR on `organization_id` param for org roles
+- [x] Cross-tenant spec suite added
+- [~] README/plans updated; Swagger aligned
 
 ---
 

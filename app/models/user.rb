@@ -3,13 +3,13 @@
 class User < ApplicationRecord
   include AttachmentUrlHelper
   include Devise::JWT::RevocationStrategies::Allowlist
+  include OrganizationScoped
+  include OrganizationReindexable
   extend Pagy::Search
 
   searchkick callbacks: :async
 
   after_create :send_welcome
-
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   acts_as_paranoid
 
@@ -31,6 +31,12 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :organization, allow_destroy: true
 
   belongs_to :role
+
+  ORG_SCOPED_ROLES = %w[ADMIN KITCHEN WAITER CASH_REGISTER].freeze
+
+  def requires_organization?
+    ORG_SCOPED_ROLES.include?(role.name)
+  end
 
   def password_salt
     'no salt'
@@ -64,10 +70,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
-  end
 
   def set_initial_data
     return if organization_id.blank? || password.present?

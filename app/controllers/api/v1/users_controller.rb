@@ -45,7 +45,7 @@ module Api
 
       def create_params
         params.permit(
-          :name, :email, :password, :avatar, :role_id, :organization_id
+          :name, :email, :password, :avatar, :role_id
         ).merge(organization_id: current_user.organization_id)
       end
 

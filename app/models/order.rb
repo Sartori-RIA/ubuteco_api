@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
+  include OrganizationScoped
+  include OrganizationReindexable
+
   extend Pagy::Search
 
   acts_as_paranoid
 
   searchkick callbacks: :async
-
-  after_commit :enqueue_reindex_job, unless: -> { Rails.env.test? }
 
   enum :status, { open: 0, closed: 1, payed: 2 }
 
@@ -36,11 +37,5 @@ class Order < ApplicationRecord
       organization_id: organization_id,
       user_id: user_id
     }
-  end
-
-  private
-
-  def enqueue_reindex_job
-    ReindexJob.perform_async(self.class.name)
   end
 end
