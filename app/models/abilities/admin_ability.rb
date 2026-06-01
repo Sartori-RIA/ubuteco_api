@@ -4,7 +4,6 @@ module Abilities
   class AdminAbility < Abilities::BaseAbility
     def initialize(user:, params:, controller_name:)
       super()
-      can %i[update read], Theme, organization_id: user.organization_id
       can :manage, Organization, id: user.organization_id
       can :read, Role
       can_manage_organization_users(organization_id: user.organization_id, controller_name:)

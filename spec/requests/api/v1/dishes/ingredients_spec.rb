@@ -60,7 +60,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
         let(:dish_id) { @dish.id }
         let(:id) { @dish.dish_ingredients.sample.id }
         let(:params) { attributes_for(:dish_ingredient) }
-        schema '$ref' => '#/components/schemas/theme'
+        schema '$ref' => '#/components/schemas/dish_ingredient'
         run_test!
       end
       response '422', 'Invalid request' do
