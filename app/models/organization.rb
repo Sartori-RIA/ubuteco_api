@@ -16,7 +16,6 @@ class Organization < ApplicationRecord
 
   has_one_attached :logo
 
-  after_create :set_default_theme
   validates :name, :phone, presence: true
   validates :phone, uniqueness: true
 
@@ -31,7 +30,6 @@ class Organization < ApplicationRecord
   has_many :orders, dependent: :delete_all
   has_many :dishes, dependent: :delete_all
   has_many :tables, dependent: :delete_all
-  has_one :theme, dependent: :delete
 
   def search_data
     {
@@ -55,13 +53,5 @@ class Organization < ApplicationRecord
     Rails.logger.info(
       "[Kitchen] organization=#{id} operational_status=closed auto_closed_orders=#{closed_count}"
     )
-  end
-
-  def set_default_theme
-    Theme.create(name: 'default',
-                 color_footer: 'slate',
-                 color_header: 'white',
-                 color_sidebar: 'slate',
-                 organization: self)
   end
 end

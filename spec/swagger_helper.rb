@@ -470,19 +470,6 @@ RSpec.configure do |config|
             },
             required: %w[name chairs]
           },
-          themes: {
-            type: :array,
-            items: {
-              '$ref' => '#/components/schemas/theme'
-            }
-          },
-          theme: {
-            type: :object,
-            properties: {
-              id: { type: :integer },
-            },
-            required: %w[id]
-          },
           users: {
             type: :object,
             required: %w[meta data],

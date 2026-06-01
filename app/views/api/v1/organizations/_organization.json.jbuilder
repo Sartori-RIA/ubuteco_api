@@ -9,9 +9,3 @@ json.extract! organization,
               :logo_url,
               :created_at,
               :updated_at
-
-if organization.theme.present?
-  json.theme do
-    json.partial! partial: 'api/v1/organizations/themes/theme', theme: organization.theme, as: :theme
-  end
-end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -208,17 +208,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_120000) do
     t.index ["organization_id"], name: "index_tables_on_organization_id"
   end
 
-  create_table "themes", force: :cascade do |t|
-    t.string "color_footer"
-    t.string "color_header"
-    t.string "color_sidebar"
-    t.datetime "created_at", null: false
-    t.string "name"
-    t.bigint "organization_id"
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_themes_on_organization_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
@@ -302,7 +291,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_120000) do
   add_foreign_key "orders", "users"
   add_foreign_key "organizations", "users"
   add_foreign_key "tables", "organizations"
-  add_foreign_key "themes", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "users", "roles"
   add_foreign_key "wines", "makers"
