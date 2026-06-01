@@ -16,6 +16,8 @@ High-level view of how the main pieces connect in **local development** (Next.js
 
 **Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md) — multi-tenant through CI/CD, order lifecycle, inventory, users API, and more.
 
+**AI assistants:** [AGENTS.md](AGENTS.md) · [docs/context/](docs/context/) · [docs/dev-setup.md](docs/dev-setup.md)
+
 #### Components
 
 | Component | Role | Default URL / port |
