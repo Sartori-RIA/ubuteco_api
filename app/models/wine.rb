@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Wine < Product
-  include OrganizationScoped
-  include OrganizationReindexable
-
   extend Pagy::Search
 
   searchkick callbacks: :async

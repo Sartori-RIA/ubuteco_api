@@ -20,6 +20,8 @@ class Order < ApplicationRecord
 
   monetize :total_cents, :total_with_discount_cents, :discount_cents, numericality: { greater_than_or_equal_to: 0 }
 
+  before_validation :assign_organization_currencies, on: :create
+
   def recalculate_total
     total = 0
     order_items.each do |order_item|
@@ -37,5 +39,16 @@ class Order < ApplicationRecord
       organization_id: organization_id,
       user_id: user_id
     }
+  end
+
+  private
+
+  def assign_organization_currencies
+    currency = organization&.default_currency
+    return if currency.blank?
+
+    self.total_currency = currency
+    self.discount_currency = currency
+    self.total_with_discount_currency = currency
   end
 end

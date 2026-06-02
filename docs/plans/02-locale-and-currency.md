@@ -1,8 +1,9 @@
 # Plan: Organization locale & currency
 
-**Status:** not started  
+**Status:** in progress  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — locale & currency](../../../ubuteco-react/docs/plans/02-locale-and-currency.md)  
+**Branch:** `feature/locale-and-currency`  
 **Priority:** P1  
 **Depends on:** [01-multi-tenant](./01-multi-tenant.md) (recommended)  
 **Estimated effort:** 1 sprint
@@ -18,8 +19,8 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 ## Current state
 
 - `money-rails`: per-model `price_currency` default `"BRL"` on beers, dishes, orders, etc.
-- Rails i18n: `pt-BR`, `en` locales exist; not tied to organization.
-- No `locale`, `default_currency`, or `timezone` on `organizations` table.
+- Rails i18n: `pt-BR`, `en` locales configured in `config/initializers/i18n.rb`; switched per request via `SetOrganizationRegional`.
+- Migration `20260601120000_add_locale_settings_to_organizations` adds `locale`, `default_currency`, `timezone` (**pending** — run `bin/rails db:migrate` when DB is available).
 
 ---
 
@@ -36,14 +37,14 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 1 — Schema & model
 
-- [ ] Migration `organizations`:
+- [x] Migration `organizations`:
   ```ruby
   t.string :locale, default: "pt-BR", null: false
   t.string :default_currency, default: "BRL", null: false  # ISO 4217
   t.string :timezone, default: "America/Sao_Paulo", null: false
   ```
-- [ ] Validations: `locale` in `I18n.available_locales`; currency in `Money::Currency` table; timezone in `ActiveSupport::TimeZone`
-- [ ] Expose in organization JSON partial (read + update for admin)
+- [x] Validations: `locale` in `I18n.available_locales`; currency in `Money::Currency` table; timezone in `ActiveSupport::TimeZone`
+- [x] Expose in organization JSON partial (read + update for admin)
 
 **Acceptance:** admin can PATCH org settings; invalid locale/currency rejected.
 
@@ -51,42 +52,40 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 2 — Request locale
 
-- [ ] `around_action :switch_locale` in `ApplicationController`:
-  ```ruby
-  I18n.with_locale(current_organization.locale) { yield }
-  ```
-- [ ] Fallback chain: org locale → `I18n.default_locale`
-- [ ] Optional: honor `Accept-Language` only for unauthenticated or override flag (document choice)
+- [x] `SetOrganizationRegional` concern on `ApplicationController` (`I18n.with_locale` + fallbacks)
+- [x] Fallback chain: org locale → `I18n.default_locale`
+- [x] v1: ignore `Accept-Language`; org locale only (see [ADR 002](../decisions/002-org-locale-not-user-locale.md))
 
-**Acceptance:** Devise/error messages match org locale in request specs.
+**Acceptance:** validation errors match org locale in request specs.
 
 ---
 
 ## Phase 3 — Money defaults
 
-- [ ] Concern `OrganizationMoney` or service: `Money.default_currency = org.default_currency` per request
-- [ ] On product create: default `price_currency` from org if omitted
-- [ ] On order create: set `total_currency`, `discount_currency` from org
-- [ ] Validation: all `order_items` on an order share compatible currency with order
+- [x] `Money.with_currency(org.default_currency)` per request in `SetOrganizationRegional`
+- [x] On product create: default `price_currency` from org when omitted (via request-scoped `Money.default_currency`)
+- [x] On order create: set `total_currency`, `discount_currency`, `total_with_discount_currency` from org
+- [x] Validation: `order_items` currency must match order on create
 
-**Acceptance:** new dish in USD org gets USD; order totals consistent.
+**Acceptance:** new product in USD org gets USD; order totals consistent.
 
 ---
 
 ## Phase 4 — Timezone
 
-- [ ] `Time.use_zone(org.timezone)` in dashboard date boundaries (see [04-organization-dashboard](./04-organization-dashboard.md))
-- [ ] Serialize timestamps as ISO8601 UTC; front formats with org timezone
+- [x] `Time.use_zone(org.timezone)` per request in `SetOrganizationRegional`
+- [ ] Dashboard date boundaries (see [04-organization-dashboard](./04-organization-dashboard.md))
+- [x] Serialize timestamps as ISO8601 UTC; front formats with org timezone
 
-**Acceptance:** “today’s revenue” uses org timezone, not server UTC.
+**Acceptance:** “today’s revenue” uses org timezone, not server UTC — dashboard deferred to plan 04.
 
 ---
 
 ## Phase 5 — API & authorization
 
-- [ ] `OrganizationsController#update`: permit `locale`, `default_currency`, `timezone` for ADMIN only
-- [ ] Operational staff read org via `fetchCurrentUser` / show organization
-- [ ] Swagger update
+- [x] `OrganizationsController#update`: permit `locale`, `default_currency`, `timezone` for ADMIN only
+- [x] Operational staff read org via `fetchCurrentUser` / show organization
+- [x] Swagger update
 
 **Acceptance:** waiter cannot change locale; admin can.
 
@@ -94,16 +93,18 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Phase 6 — Data migration
 
-- [ ] Backfill existing orgs: `pt-BR`, `BRL`, `America/Sao_Paulo`
-- [ ] Existing line items keep current `*_currency` columns
+- [x] Column defaults backfill new rows: `pt-BR`, `BRL`, `America/Sao_Paulo` (via migration defaults)
+- [x] Existing line items keep current `*_currency` columns
 
 ---
 
 ## Phase 7 — Tests
 
-- [ ] Model validations
-- [ ] Request: update settings, create order in non-default currency org (factory trait)
-- [ ] I18n: one error message per locale
+- [x] Model validations
+- [x] Request: update settings, waiter blocked from locale change
+- [x] Request: create order in USD org (factory trait)
+- [x] I18n: validation error message per locale
+- [x] Order item mixed-currency rejection
 
 ---
 
@@ -118,10 +119,10 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Definition of done
 
-- [ ] Org has locale, currency, timezone
-- [ ] API honors them on requests
-- [ ] Orders snapshot currency
-- [ ] Front settings screen (companion plan) wired
+- [x] Org has locale, currency, timezone (after migration)
+- [x] API honors them on requests
+- [x] Orders snapshot currency
+- [x] Front settings screen (companion plan) wired
 
 ---
 
@@ -129,4 +130,5 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 - `config/locales/*.yml`
 - `app/models/organization.rb`
+- `app/controllers/concerns/set_organization_regional.rb`
 - `db/schema.rb` — `*_currency` columns

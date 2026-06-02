@@ -416,7 +416,10 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer },
-              logo_url: { type: :string }
+              logo_url: { type: :string },
+              locale: { type: :string },
+              default_currency: { type: :string },
+              timezone: { type: :string }
             },
             required: %w[id]
           },

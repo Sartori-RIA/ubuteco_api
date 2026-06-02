@@ -16,6 +16,7 @@ class OrderItem < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
   validate :item_matches_order_organization
+  validate :item_currency_matches_order, on: :create
   validate :order_must_be_open, on: :create
   validate :sufficient_stock_available, on: :create, unless: :dish?
 
@@ -156,6 +157,18 @@ class OrderItem < ApplicationRecord
     return if item.organization_id == order.organization_id
 
     errors.add(:item, 'must belong to the same organization as the order')
+  end
+
+  def item_currency_matches_order
+    return if order.blank? || item.blank?
+    return unless item.respond_to?(:price_currency)
+
+    order_currency = order.total_currency
+    return if order_currency.blank?
+
+    return if item.price_currency.to_s.upcase == order_currency.to_s.upcase
+
+    errors.add(:item, 'currency does not match order')
   end
 
   def order_must_be_open

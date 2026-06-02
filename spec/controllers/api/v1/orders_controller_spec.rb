@@ -31,6 +31,19 @@ RSpec.describe Api::V1::OrdersController, type: :request do
       expect(response).to have_http_status(:created)
     end
 
+    it 'snapshots organization default currency on create' do
+      usd_org = create(:organization, :usd)
+      waiter = create(:user, :waiter, organization: usd_org)
+      attributes = attributes_for(:order).merge(organization_id: usd_org.id)
+
+      post api_v1_orders_path, params: attributes.to_json, headers: auth_header(waiter)
+
+      expect(response).to have_http_status(:created)
+      order = Order.last
+      expect(order.total_currency).to eq('USD')
+      expect(order.discount_currency).to eq('USD')
+    end
+
     it 'throws error with invalid params' do
       attributes = attributes_for(:order)
       post api_v1_orders_path, params: attributes.to_json, headers: auth_header(@waiter)

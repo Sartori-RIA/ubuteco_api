@@ -36,7 +36,10 @@ module Api
 
       def update_params
         if can?(:manage, @organization)
-          params.permit(:name, :phone, :user_id, :logo, :operational_status)
+          params.permit(
+            :name, :phone, :user_id, :logo, :operational_status,
+            :locale, :default_currency, :timezone
+          )
         else
           params.permit(:operational_status)
         end

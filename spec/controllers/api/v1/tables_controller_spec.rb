@@ -12,6 +12,11 @@ RSpec.describe Api::V1::TablesController, type: :request do
       get api_v1_tables_path, headers: auth_header(admin)
       expect(response).to have_http_status(:ok)
     end
+
+    it 'returns unauthorized without authentication' do
+      get api_v1_tables_path, headers: unauthenticated_header
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe '#GET /api/tables/:id' do

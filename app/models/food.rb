@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Food < Product
-  include OrganizationScoped
-  include OrganizationReindexable
-
   extend Pagy::Search
 
   searchkick callbacks: :async
