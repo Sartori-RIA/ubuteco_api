@@ -1,10 +1,9 @@
 # Plan: Multi-tenant by organization
 
-**Status:** in progress (Phase 1–2 started)  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — multi-tenant](../../../ubuteco-react/docs/plans/01-multi-tenant.md)  
-**Priority:** P0 — do before plans, dashboard, and billing  
-**Estimated effort:** 1–2 sprints
+**Branch:** `feature/multi-tenant` (merged — PR #29)
 
 ---
 
@@ -116,8 +115,8 @@ If isolation requirements tighten without a full schema migration:
 - [x] Audit all controllers for `params[:organization_id]` and `permit(:organization_id)`
 - [x] **OrdersController** — always assign user's org; staff cannot pass foreign id
 - [x] **UsersController** — removed `:organization_id` from permitted list
-- [x] **ThemesController** — fixed merge bug; org id from server only
-- [ ] **Create flows:** products controllers — already force org on create (verify only)
+- [x] **ThemesController** — fixed merge bug; org id from server only _(controller removed with org themes — PR #30)_
+- [x] **Create flows:** products controllers — force org on create (verified)
 - [ ] Add RuboCop custom cop or grep in CI checklist (optional)
 
 **Acceptance:** no org-scoped create/update accepts foreign `organization_id` from a normal admin/waiter.
@@ -181,7 +180,14 @@ If isolation requirements tighten without a full schema migration:
 - [x] `Current.organization` used in org-scoped controllers/services (kitchen, orders create)
 - [x] Zero IDOR on `organization_id` param for org roles
 - [x] Cross-tenant spec suite added
-- [~] README/plans updated; Swagger aligned
+- [x] README/plans updated; Swagger aligned
+
+---
+
+## Follow-up (not blocking)
+
+- [ ] Document: console/jobs must set `Current` or pass `organization_id` explicitly
+- [ ] Optional RuboCop / CI grep for `permit(:organization_id)`
 
 ---
 

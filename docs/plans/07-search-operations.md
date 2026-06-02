@@ -1,10 +1,8 @@
 # Plan: OpenSearch / Searchkick operations
 
-**Status:** not started  
+**Status:** in progress  
 **Project:** ubuteco_api  
-**Priority:** P2  
-**Depends on:** [01-multi-tenant](./01-multi-tenant.md)  
-**Estimated effort:** 0.5–1 sprint
+**Branch:** partial work on `master` / `feature/locale-and-currency`
 
 ---
 
@@ -17,8 +15,9 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 ## Current state
 
 - Searchkick on User, Order, Organization, Beer, Wine, Drink, Food, Dish, Maker (`callbacks: :async`).
-- `ReindexJob` calls `model.reindex` for **entire model class** (all tenants).
-- Sidekiq queues: `default`, `mailers` only.
+- `ReindexJob` accepts `organization_id` and calls `reindex_for_organization` when present (`OrganizationScoped`).
+- `OrganizationReindexable` enqueues org-scoped reindex on commit; `ImmediateSearchkickIndexing` on `Product` subclasses reindexes on create (sync, for fresh search).
+- Sidekiq queues: `default`, `mailers` only — **no dedicated `searchkick` queue yet**.
 - OpenSearch: 2-node cluster in docker-compose; Rails uses `localhost:9200`.
 - Search reads via `SearchkickAuthorizable` + CanCanCan.
 
@@ -34,19 +33,18 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 
 ## Phase 2 — Scoped reindex job
 
-- [ ] Replace or extend `ReindexJob`:
-  - `perform(model_name, record_id = nil, organization_id = nil)`
-  - Single record: `Model.find(id).reindex`
-  - Org scope: `Model.where(organization_id:).find_each(&:reindex)`
-  - Full class: admin-only rake task, not default callback path
-- [ ] Model callbacks enqueue `{ model, id }` not class name only
+- [x] `ReindexJob` accepts `organization_id` and scopes via `reindex_for_organization`
+- [x] `OrganizationReindexable` enqueues with org id (not full-class blind reindex by default path)
+- [x] `ImmediateSearchkickIndexing` on create for catalog products (sync `reindex(refresh: true)`)
+- [ ] Enqueue single-record reindex `{ model, id }` on update (today still org-wide batch on commit)
+- [ ] Full-class reindex: admin-only rake task only
 
 ---
 
 ## Phase 3 — Tenant in index
 
-- [ ] Audit every `search_data` includes `organization_id`
-- [ ] Verify `pagy_search_authorized` always merges org filter
+- [x] Audit every `search_data` includes `organization_id` (catalog products)
+- [x] Verify `pagy_search_authorized` always merges org filter
 - [ ] Cross-tenant search spec (user A query never returns org B hit)
 
 ---

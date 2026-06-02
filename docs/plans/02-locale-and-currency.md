@@ -1,12 +1,9 @@
 # Plan: Organization locale & currency
 
-**Status:** in progress  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — locale & currency](../../../ubuteco-react/docs/plans/02-locale-and-currency.md)  
-**Branch:** `feature/locale-and-currency`  
-**Priority:** P1  
-**Depends on:** [01-multi-tenant](./01-multi-tenant.md) (recommended)  
-**Estimated effort:** 1 sprint
+**Branch:** `feature/locale-and-currency` (merged — PR #32)
 
 ---
 
@@ -18,9 +15,9 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 ## Current state
 
-- `money-rails`: per-model `price_currency` default `"BRL"` on beers, dishes, orders, etc.
-- Rails i18n: `pt-BR`, `en` locales configured in `config/initializers/i18n.rb`; switched per request via `SetOrganizationRegional`.
-- Migration `20260601120000_add_locale_settings_to_organizations` adds `locale`, `default_currency`, `timezone` (**pending** — run `bin/rails db:migrate` when DB is available).
+- `money-rails`: per-model `price_currency`; org default applied per request via `SetOrganizationRegional`.
+- Rails i18n: `pt-BR`, `en` in `config/initializers/i18n.rb`; switched per request via `SetOrganizationRegional`.
+- Migration `20260601120000_add_locale_settings_to_organizations` applied — `locale`, `default_currency`, `timezone` on `organizations`.
 
 ---
 
@@ -123,6 +120,12 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 - [x] API honors them on requests
 - [x] Orders snapshot currency
 - [x] Front settings screen (companion plan) wired
+
+---
+
+## Follow-up (not blocking)
+
+- [ ] Dashboard date boundaries using org timezone — see [04-organization-dashboard](./04-organization-dashboard.md)
 
 ---
 

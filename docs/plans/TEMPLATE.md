@@ -6,6 +6,7 @@ Copy this file when adding a new plan. Name: `NN-short-slug.md` (same number in 
 # Plan: <Title>
 
 **Status:** not started  
+**GitHub:** _(optional — e.g. Sartori-RIA/ubuteco_api#NN)_  
 **Project:** ubuteco_api | ubuteco-react  
 **Companion:** [link to other repo plan if any]  
 **Branch:** `feature/<slug>`  
