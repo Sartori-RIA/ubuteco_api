@@ -2,6 +2,8 @@
 
 Structured plans for uButeco API (`ubuteco_api`). Each document is self-contained: goals, current state, phases, acceptance criteria, and links to the React companion when the front is involved.
 
+**AI assistants:** read [AGENTS.md](../../AGENTS.md) first, then [docs/context/](../context/) for stable architecture. New plans: copy [TEMPLATE.md](./TEMPLATE.md).
+
 **Active frontend:** [ubuteco-react](../../../ubuteco-react) only. Angular `ubuteco_spa` is abandoned — no SPA migration or parity plans.
 
 **Multi-tenant decision (approved):** shared PostgreSQL schema + `organization_id` + `Current` — not schema-per-tenant. See [01-multi-tenant.md](./01-multi-tenant.md#architecture-decision-approved).
@@ -25,4 +27,12 @@ Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plan
 
 **Status legend:** `[ ]` not started · `[~]` in progress · `[x]` done
 
-When starting a plan, update its header `Status:` and check boxes as you go.
+When starting a plan, update its header `Status:` and check boxes as you go. Use branch `feature/<plan-slug>` (one plan per branch).
+
+## Also see
+
+| Doc | Purpose |
+|-----|---------|
+| [context/](../context/) | Architecture, roles, API conventions |
+| [decisions/](../decisions/) | ADRs (permanent decisions) |
+| [dev-setup.md](../dev-setup.md) | Ports, docker, migrations |
