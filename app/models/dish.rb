@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Dish < Product
-  include OrganizationScoped
-  include OrganizationReindexable
-  include ImmediateSearchkickIndexing
-
   extend Pagy::Search
 
   searchkick callbacks: :async

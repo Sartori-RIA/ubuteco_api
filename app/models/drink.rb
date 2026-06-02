@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Drink < Product
-  include OrganizationScoped
-  include OrganizationReindexable
-  include ImmediateSearchkickIndexing
-
   extend Pagy::Search
 
   searchkick callbacks: :async
