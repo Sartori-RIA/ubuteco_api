@@ -6,6 +6,7 @@ class ApplicationController < ActionController::API
   include Pagy::Method
   include SearchkickAuthorizable
   include SetCurrentTenant
+  include SetOrganizationRegional
 
   before_action :authenticate_user!
 

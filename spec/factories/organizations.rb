@@ -11,5 +11,11 @@ FactoryBot.define do
     after(:create) do |organization, _evaluator|
       organization.user.update(organization: organization)
     end
+
+    trait :usd do
+      locale { 'en' }
+      default_currency { 'USD' }
+      timezone { 'America/New_York' }
+    end
   end
 end

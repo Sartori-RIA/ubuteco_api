@@ -56,6 +56,31 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       expect(organization.timezone).to eq('America/New_York')
     end
 
+    it 'does not allow waiter to change locale settings' do
+      waiter = create(:user, :waiter, organization: organization)
+
+      patch api_v1_organization_path(organization.id),
+            params: { locale: 'en', default_currency: 'USD' }.to_json,
+            headers: auth_header(waiter)
+
+      expect(response).to have_http_status(:ok)
+      organization.reload
+      expect(organization.locale).to eq('pt-BR')
+      expect(organization.default_currency).to eq('BRL')
+    end
+
+    it 'returns validation errors using organization locale' do
+      organization.update!(locale: 'en')
+      admin.reload
+
+      patch api_v1_organization_path(organization.id),
+            params: { name: '' }.to_json,
+            headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.parsed_body.join(' ')).to match(/blank/i)
+    end
+
     it 'throws error with invalid params' do
       organization.name = ''
       put api_v1_organization_path(organization.id), params: organization.to_json, headers: auth_header(admin)

@@ -19,7 +19,7 @@ class Organization < ApplicationRecord
   validates :name, :phone, presence: true
   validates :phone, uniqueness: true
   validates :locale, inclusion: { in: ->(_) { I18n.available_locales.map(&:to_s) } }
-  validates :timezone, inclusion: { in: ->(_) { ActiveSupport::TimeZone.all.map(&:name) } }
+  validate :timezone_must_be_known
   validate :default_currency_must_be_known
 
   belongs_to :user, optional: true
@@ -49,10 +49,16 @@ class Organization < ApplicationRecord
 
   def default_currency_must_be_known
     return if default_currency.blank?
+    return if Money::Currency.find(default_currency)
 
-    Money::Currency.find(default_currency)
-  rescue Money::CurrencyUnknown
     errors.add(:default_currency, :invalid)
+  end
+
+  def timezone_must_be_known
+    return if timezone.blank?
+    return if Time.find_zone(timezone).present?
+
+    errors.add(:timezone, :inclusion)
   end
 
   def close_open_orders_on_kitchen_close?
