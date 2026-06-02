@@ -22,9 +22,9 @@ Instructions for AI assistants working in this repository.
 
 ## Branching
 
-- **One plan = one branch:** `feature/<plan-slug>` (e.g. `feature/locale-and-currency`).
-- Do not mix unrelated plans on the same branch.
-- Docs-only changes: `docs/<topic>` (e.g. `docs/ai-context`).
+- **Implementation** (code): one plan = one branch — `feature/<plan-slug>` (e.g. `feature/locale-and-currency`). Do not mix unrelated plans on the same branch.
+- **Plan docs** (`docs/plans/`, status checkboxes, new plan files): commit **directly on `master`** — no feature branch or PR required.
+- **Other docs-only** (context, ADRs, dev-setup): also fine on `master`, or `docs/<topic>` if you prefer a short-lived branch.
 
 ## Do not (unless explicitly asked)
 

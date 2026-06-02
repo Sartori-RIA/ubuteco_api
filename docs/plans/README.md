@@ -4,6 +4,8 @@ Structured plans for uButeco API (`ubuteco_api`). Each document is self-containe
 
 **AI assistants:** read [AGENTS.md](../../AGENTS.md) first, then [docs/context/](../context/) for stable architecture. New plans: copy [TEMPLATE.md](./TEMPLATE.md).
 
+**Workflow:** updating plans or status checkboxes → commit on **`master`** (no PR). Code for a plan → `feature/<slug>` branch.
+
 **Active frontend:** [ubuteco-react](../../../ubuteco-react) only. Angular `ubuteco_spa` is abandoned — no SPA migration or parity plans.
 
 **Multi-tenant decision (approved):** shared PostgreSQL schema + `organization_id` + `Current` — not schema-per-tenant. See [01-multi-tenant.md](./01-multi-tenant.md#architecture-decision-approved).
