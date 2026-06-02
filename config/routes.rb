@@ -76,6 +76,9 @@ Rails.application.routes.draw do
       resources :wines
       resources :roles
 
+      get 'dashboard/summary', to: 'dashboard#summary'
+      get 'dashboard/series', to: 'dashboard#series'
+
       namespace :platform do
         resources :organizations, except: :create do
           scope module: :organizations do

@@ -9,6 +9,7 @@ module Abilities
       organization_operational_control(user:, controller_name:)
       products_permissions(user)
       orders_permissions(user:, params:, controller_name:)
+      dashboard_permissions(controller_name:)
       can :read, Table, organization_id: user.organization_id
     end
 

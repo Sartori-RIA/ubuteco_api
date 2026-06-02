@@ -56,5 +56,11 @@ module Abilities
 
       can %i[read update], Organization, id: user.organization_id
     end
+
+    def dashboard_permissions(controller_name:)
+      return unless controller_name == 'Api::V1::Dashboard'
+
+      can :read, :dashboard
+    end
   end
 end
