@@ -15,6 +15,8 @@ module SetCurrentTenant
   end
 
   def set_current_tenant
+    return if current_user.blank?
+
     Current.user = current_user
     Current.organization = current_user.organization
 

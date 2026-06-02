@@ -3,6 +3,7 @@
 class Dish < Product
   include OrganizationScoped
   include OrganizationReindexable
+  include ImmediateSearchkickIndexing
 
   extend Pagy::Search
 
