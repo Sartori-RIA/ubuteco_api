@@ -236,6 +236,100 @@ paths:
       responses:
         '204':
           description: No Content
+  "/api/v1/dashboard/kitchen":
+    get:
+      summary: Dashboard kitchen metrics
+      tags:
+      - Dashboard
+      security:
+      - Bearer: {}
+      parameters:
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dashboard_kitchen"
+  "/api/v1/dashboard/series":
+    get:
+      summary: Dashboard time series
+      tags:
+      - Dashboard
+      security:
+      - Bearer: {}
+      parameters:
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: grain
+        in: query
+        schema:
+          type: string
+          enum:
+          - day
+      - name: metric
+        in: query
+        schema:
+          type: string
+          enum:
+          - revenue
+          - orders
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dashboard_series"
+  "/api/v1/dashboard/summary":
+    get:
+      summary: Dashboard summary KPIs
+      tags:
+      - Dashboard
+      security:
+      - Bearer: {}
+      parameters:
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/dashboard_summary"
   "/api/v1/customers":
     get:
       summary: All Customers
@@ -2492,3 +2586,65 @@ components:
           type: string
       required:
       - name
+    dashboard_summary:
+      type: object
+      properties:
+        revenue_cents:
+          type: integer
+        orders_count:
+          type: integer
+        open_orders_count:
+          type: integer
+        average_ticket_cents:
+          type: integer
+        currency:
+          type: string
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+        items_by_type:
+          type: object
+          additionalProperties:
+            type: integer
+    dashboard_series:
+      type: object
+      properties:
+        metric:
+          type: string
+        grain:
+          type: string
+        currency:
+          type: string
+          nullable: true
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+        points:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              value:
+                type: integer
+    dashboard_kitchen:
+      type: object
+      properties:
+        open_dish_count:
+          type: integer
+        avg_prep_seconds:
+          type: integer
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date

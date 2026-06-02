@@ -78,6 +78,7 @@ Rails.application.routes.draw do
 
       get 'dashboard/summary', to: 'dashboard#summary'
       get 'dashboard/series', to: 'dashboard#series'
+      get 'dashboard/kitchen', to: 'dashboard#kitchen'
 
       namespace :platform do
         resources :organizations, except: :create do

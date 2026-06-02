@@ -56,4 +56,13 @@ RSpec.describe Api::V1::DashboardController, type: :request do
       expect(response.parsed_body['points']).to be_an(Array)
     end
   end
+
+  describe 'GET /api/v1/dashboard/kitchen' do
+    it 'returns kitchen metrics for admin' do
+      get '/api/v1/dashboard/kitchen', params: { from:, to: }, headers: auth_header(admin)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('open_dish_count', 'avg_prep_seconds')
+    end
+  end
 end
