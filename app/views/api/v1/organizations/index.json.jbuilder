@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @records do |organization|
-    json.partial! 'organization', organization: organization
+    json.partial! 'api/v1/organizations/organization', organization: organization
   end
 end
 

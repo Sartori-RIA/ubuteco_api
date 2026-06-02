@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @records do |user|
-    json.partial! 'user', user: user
+    json.partial! 'api/v1/organizations/users/user', user: user
   end
 end
 
