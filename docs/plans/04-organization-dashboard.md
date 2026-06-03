@@ -1,6 +1,6 @@
 # Plan: Organization dashboard (charts & analytics)
 
-**Status:** in progress  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — dashboard](../../../ubuteco-react/docs/plans/04-organization-dashboard.md)  
 **Branch:** `feature/organization-dashboard`  
