@@ -45,7 +45,7 @@ RSpec.describe Api::V1::OrdersController, type: :request do
     end
 
     it 'throws error with invalid params' do
-      attributes = attributes_for(:order)
+      attributes = attributes_for(:order).merge(discount: -1)
       post api_v1_orders_path, params: attributes.to_json, headers: auth_header(@waiter)
       expect(response).to have_http_status(:unprocessable_content)
     end

@@ -11,7 +11,9 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
   path '/api/v1/beer_styles' do
     get 'All Beer Styles' do
       tags 'Beer Styles'
+      security [Bearer: {}]
       response 200, 'Ok' do
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/beer_styles'
         run_test!
       end
@@ -37,8 +39,10 @@ RSpec.describe Api::V1::BeerStylesController, type: :request do
   path '/api/v1/beer_styles/{id}' do
     get 'Show Beer Style' do
       tags 'Beer Styles'
+      security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
       response 200, 'Ok' do
+        let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @beer_styles.sample.id }
         schema '$ref' => '#/components/schemas/beer_style'
         run_test!

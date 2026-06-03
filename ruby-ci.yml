@@ -1,26 +1,13 @@
-# root/ruby-ci.yml
+# ruby.ci.com build packs — keep aligned with .github/workflows/ci.yml (Ruby 4.0.1, Postgres 16).
+# GitHub Actions is the canonical CI for this repo.
 
 version: 1
 
 build_packs:
   rails: {}
   ruby:
-    version: 3.2.2
-  node_js:
-    # Available versions: [12..19]
-    version: 14.15.0
+    version: 4.0.1
   postgresql:
-    # Available versions: [9..16]
-    version: '12'
+    version: "16"
   redis:
-    # Available versions: [5.0, 6.0, 6.2, 7.0, 7.2]
-    version: '6.2'
-  image_magick:
-    # Available versions: [7.0.10-58]
-    version: 7.0.10-58
-  geckodriver:
-    # Available versions: [0.29.1, 0.30.0, 0.31.0, 0.32.0]
-    version: 0.29.1
-  libvips:
-    # Available versions: [8.8.2]
-    version: 8.8.2
+    version: "7.2"

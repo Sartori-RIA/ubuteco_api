@@ -290,9 +290,18 @@ RSpec.configure do |config|
             required: %w[name quantity_stock valid_until price]
           },
           makers: {
-            type: :array,
-            items: {
-              '$ref' => '#/components/schemas/maker'
+            type: :object,
+            required: %w[meta data],
+            properties: {
+              data: {
+                type: :array,
+                items: {
+                  '$ref' => '#/components/schemas/maker'
+                }
+              },
+              meta: {
+                '$ref' => '#/components/schemas/pagination_meta'
+              }
             }
           },
           maker: {

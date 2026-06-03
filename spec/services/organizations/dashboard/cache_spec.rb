@@ -16,7 +16,7 @@ RSpec.describe Organizations::Dashboard::Cache do
 
   it 'caches dashboard payloads by org and params' do
     calls = 0
-    block = lambda do
+    block = lambda do |*_args|
       calls += 1
       { value: 1 }
     end

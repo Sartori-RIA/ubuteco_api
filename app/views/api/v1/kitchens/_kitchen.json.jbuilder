@@ -17,6 +17,6 @@ end
 
 if kitchen.item.present?
   json.order_item do
-    json.extract! kitchen.item, :id, :name
+    json.extract! kitchen.item, :id, :name, :price_cents, :price_currency
   end
 end

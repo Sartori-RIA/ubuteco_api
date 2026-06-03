@@ -3,7 +3,10 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      load_and_authorize_resource except: :index
+      skip_before_action :authenticate_user!, only: :email_available?
+      skip_load_resource only: :email_available?
+      skip_authorize_resource only: :email_available?
+      load_and_authorize_resource except: %i[index email_available?]
 
       def index
         authorize! :read, User

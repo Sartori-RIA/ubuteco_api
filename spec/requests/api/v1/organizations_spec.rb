@@ -55,9 +55,10 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       tags 'Organizations'
       security [Bearer: {}]
       parameter name: :id, in: :path, type: :string
-      response 204, 'No Content' do
+      response 422, 'Unprocessable' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
