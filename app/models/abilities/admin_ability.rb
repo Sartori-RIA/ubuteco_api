@@ -11,6 +11,7 @@ module Abilities
       customer_search(controller_name:)
       products_permissions(user)
       orders_permissions(user:, params:, controller_name:)
+      dashboard_permissions(controller_name:)
     end
 
     def products_permissions(user)
