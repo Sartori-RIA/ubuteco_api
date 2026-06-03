@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::DrinksController, type: :request do
   let!(:organization) { create(:organization) }
   let!(:admin) { organization.user }
-  let!(:makers) { create_list(:maker, 10, organization: organization) }
-  let!(:drinks) { create_list(:drink, 10, organization: organization, maker: makers.sample) }
+  let!(:drinks) { create_list(:drink, 10, organization: organization) }
 
   describe '#GET /api/drinks' do
     it 'requests all drinks' do

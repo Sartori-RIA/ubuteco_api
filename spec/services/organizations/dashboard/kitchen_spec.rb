@@ -20,7 +20,7 @@ RSpec.describe Organizations::Dashboard::Kitchen do
       updated_at: 1.hour.ago
     )
 
-    closed_order = create(:order, :closed, organization:)
+    closed_order = create(:order, :open, organization:)
     ready_dish = create(:dish, organization:)
     create(
       :order_item,
@@ -31,6 +31,7 @@ RSpec.describe Organizations::Dashboard::Kitchen do
       created_at: Time.utc(2026, 5, 22, 12, 0, 0),
       updated_at: Time.utc(2026, 5, 22, 12, 10, 0)
     )
+    closed_order.update_column(:status, Order.statuses[:closed])
   end
 
   it 'returns open dish count and average prep seconds' do

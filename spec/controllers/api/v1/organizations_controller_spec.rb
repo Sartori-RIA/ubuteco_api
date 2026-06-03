@@ -89,9 +89,11 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
   end
 
   describe '#DELETE /api/organizations/:id' do
-    it 'deletes organization' do
+    it 'does not delete organization while the owner user still exists' do
       delete api_v1_organization_path(organization.id), headers: auth_header(admin)
-      expect(response).to have_http_status(:no_content)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(Organization.exists?(organization.id)).to be(true)
     end
   end
 end

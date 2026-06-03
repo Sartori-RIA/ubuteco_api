@@ -15,7 +15,6 @@ class Maker < ApplicationRecord
 
   validates :name, :country, presence: true
 
-  has_many :drinks, dependent: :destroy
   has_many :beers, dependent: :destroy
 
   belongs_to :organization

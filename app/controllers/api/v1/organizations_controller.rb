@@ -26,6 +26,8 @@ module Api
         else
           render json: @organization.errors.full_messages, status: :unprocessable_content
         end
+      rescue ActiveRecord::InvalidForeignKey, ActiveRecord::DeleteRestrictionError => e
+        render json: [e.message], status: :unprocessable_content
       end
 
       def phone_available?

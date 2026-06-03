@@ -36,6 +36,7 @@ module Abilities
       can :manage, Role
       can %i[manage style_available?], BeerStyle
       can %i[manage style_available?], WineStyle
+      can :read, Order
     end
 
     def organization_users_support(organization_id:, controller_name:)

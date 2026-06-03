@@ -4,7 +4,7 @@ require 'swagger_helper'
 
 RSpec.describe ResetPasswordsController, type: :request do
   before :all do
-    @user = create(:user, :admin)
+    @user = create(:organization).user
   end
 
   path '/auth/reset_passwords' do
