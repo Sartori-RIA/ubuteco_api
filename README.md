@@ -1,12 +1,9 @@
 # uButeco
 
-[![Build Status](https://travis-ci.org/Sartori-RIA/ubuteco_api.svg?branch=master)](https://travis-ci.org/Sartori-RIA/ubuteco_api)
-[![Maintainability](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/maintainability)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/5b3164bf7155c93f2b40/test_coverage)](https://codeclimate.com/github/Sartori-RIA/ubuteco_api/test_coverage)
+[![CI](https://github.com/Sartori-RIA/ubuteco_api/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Sartori-RIA/ubuteco_api/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Sartori-RIA/ubuteco_api/graph/badge.svg)](https://codecov.io/gh/Sartori-RIA/ubuteco_api)
 [![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop-hq/rubocop-rails)
 ![GitHub](https://img.shields.io/github/license/sartori-ria/ubuteco_api)
-![GitHub all releases](https://img.shields.io/github/downloads/sartori-ria/ubuteco_api/total)
-![GitHub Repo stars](https://img.shields.io/github/stars/sartori-ria/ubuteco_api?style=social)
 
 ### System architecture
 

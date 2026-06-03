@@ -33,7 +33,7 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 | 2 | [Locale & currency](./02-locale-and-currency.md) | completed | P1 | #1 |
 | 10 | [Users admin API](./10-users-admin-api.md) | not started | P1 | #1 |
 | 6 | [Order lifecycle](./06-order-lifecycle.md) | not started | P1 | #1 |
-| 4 | [Organization dashboard](./04-organization-dashboard.md) | in progress | P1 | #1, #2 |
+| 4 | [Organization dashboard](./04-organization-dashboard.md) | completed | P1 | #1, #2 |
 | 7 | [Search / OpenSearch ops](./07-search-operations.md) | in progress | P2 | #1 |
 | 8 | [API contract & CI/CD](./08-api-contract-and-ci.md) | not started | P2 | — |
 | 9 | [Inventory & stock](./09-inventory-stock.md) | not started | P2 | #6 |
