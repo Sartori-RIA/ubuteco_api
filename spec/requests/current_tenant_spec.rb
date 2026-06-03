@@ -22,12 +22,12 @@ RSpec.describe 'Current tenant context', type: :request do
       expect(response).to have_http_status(:forbidden)
     end
 
-    it 'allows super admin without an organization' do
+    it 'forbids super admin on org operational routes without platform context' do
       super_admin = create(:user, :super_admin, organization: nil)
 
       get api_v1_orders_path, headers: auth_header(super_admin)
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'allows customer without an organization' do
