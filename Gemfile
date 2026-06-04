@@ -57,6 +57,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'simplecov-console'
+  gem 'simplecov-cobertura'
   gem 'rspec-sidekiq'
   gem 'database_cleaner-active_record'
 end
