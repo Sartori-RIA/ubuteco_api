@@ -1,8 +1,12 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
-# If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+cd /rails
+
+bundle check >/dev/null 2>&1 || bundle install
+
+if [ "${SKIP_DB_PREPARE:-}" != "1" ]; then
+  bin/rails db:prepare
 fi
 
-exec "${@}"
+exec "$@"

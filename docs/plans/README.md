@@ -38,7 +38,7 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 | 8 | [API contract & CI/CD](./08-api-contract-and-ci.md) | not started | P2 | — |
 | 9 | [Inventory & stock](./09-inventory-stock.md) | not started | P2 | #6 |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | P2 | #1 |
-| 5 | [Platform hardening](./05-platform-hardening.md) | not started | Ongoing | all |
+| 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md) — org/users UI, settings deletion, testing, performance.
 

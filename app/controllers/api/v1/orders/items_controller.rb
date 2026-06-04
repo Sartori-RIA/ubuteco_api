@@ -23,10 +23,10 @@ module Api
             @item = OrderItem.includes(:item).find(@item.id)
             render :show, status: :created
           else
-            render json: @item.errors.full_messages, status: :unprocessable_content
+            render_model_errors(@item)
           end
         rescue OrderItem::InsufficientStock
-          render json: ['Insufficient stock'], status: :unprocessable_content
+          render_api_errors([{ code: "insufficient_stock", message: "Insufficient stock" }])
         end
 
         def update
@@ -34,7 +34,7 @@ module Api
 
           OrderItem.transaction do
             unless @item.update(update_params)
-              render json: @item.errors.full_messages, status: :unprocessable_content
+              render_model_errors(@item)
               raise ActiveRecord::Rollback
             end
 
@@ -46,14 +46,14 @@ module Api
           @item = OrderItem.includes(:item).find(@item.id)
           render :show, status: :ok
         rescue OrderItem::InsufficientStock
-          render json: ['Insufficient stock'], status: :unprocessable_content
+          render_api_errors([{ code: "insufficient_stock", message: "Insufficient stock" }])
         end
 
         def destroy
           if @item.destroy
             head :no_content
           else
-            render json: @item.errors.full_messages, status: :unprocessable_content
+            render_model_errors(@item)
           end
         end
 

@@ -1,20 +1,39 @@
+x-api-env: &api-env
+  RAILS_ENV: development
+  DB_HOST: db
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+  REDIS_URL: redis://cache:6379/0
+  OPENSEARCH_URL: http://opensearch-node1:9200
+  MAILER_ADDRESS: mailcatcher
+  MAILER_PORT: 1025
+  MAILER_USER_NAME: example@email.com
+  MAILER_PASSWORD: ""
+  MAILER_DOMAIN: localhost
+  MAILER_HOST: localhost
+  JWT_SECRET: dev-jwt-secret
+  SECRET_KEY_BASE: dev-secret-key-base-local-docker-only
+  SESSION_SECRET_TOKEN: dev-session-token
+  ANYCABLE_SECRET: anycable-local-secret
+  ANYCABLE_HTTP_BROADCAST_URL: http://anycable-ws:8090/_broadcast
+  ANYCABLE_WEBSOCKET_URL: ws://localhost:8080/api/cable
+
 services:
 
   db:
-    image: postgres
+    image: postgres:16
     container_name: ubuteco_db
     ports:
       - 5432:5432
     tty: true
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-
-#  adminer:
-#    image: adminer
-#    container_name: ubuteco_adminer
-#    ports:
-#      - 8080:8080
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   mailcatcher:
     image: schickling/mailcatcher
@@ -24,98 +43,147 @@ services:
       - 1080:1080
       - 1025:1025
 
-
   opensearch-node1:
     image: opensearchproject/opensearch:2.11.1
     container_name: opensearch-node1
     environment:
-      - cluster.name=opensearch-cluster # Name the cluster
-      - node.name=opensearch-node1 # Name the node that will run in this container
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2 # Nodes to look for when discovering the cluster
-      - cluster.initial_cluster_manager_nodes=opensearch-node1,opensearch-node2 # Nodes eligibile to serve as cluster manager
-      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
-      - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
-      - "DISABLE_SECURITY_PLUGIN=true" # Disables Security plugin
+      cluster.name: opensearch-cluster
+      node.name: opensearch-node1
+      discovery.seed_hosts: opensearch-node1,opensearch-node2
+      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
+      bootstrap.memory_lock: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+      DISABLE_SECURITY_PLUGIN: "true"
     ulimits:
       memlock:
-        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        soft: -1
         hard: -1
       nofile:
-        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+        soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+      - opensearch-data1:/usr/share/opensearch/data
     ports:
-      - 9200:9200 # REST API
-      - 9600:9600 # Performance Analyzer
+      - 9200:9200
+      - 9600:9600
     networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
+      - opensearch-net
+
   opensearch-node2:
     image: opensearchproject/opensearch:2.11.1
     container_name: opensearch-node2
     environment:
-      - cluster.name=opensearch-cluster # Name the cluster
-      - node.name=opensearch-node2 # Name the node that will run in this container
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2 # Nodes to look for when discovering the cluster
-      - cluster.initial_cluster_manager_nodes=opensearch-node1,opensearch-node2 # Nodes eligibile to serve as cluster manager
-      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
-      - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
-      - "DISABLE_SECURITY_PLUGIN=true" # Disables Security plugin
+      cluster.name: opensearch-cluster
+      node.name: opensearch-node2
+      discovery.seed_hosts: opensearch-node1,opensearch-node2
+      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
+      bootstrap.memory_lock: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+      DISABLE_SECURITY_PLUGIN: "true"
     ulimits:
       memlock:
-        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        soft: -1
         hard: -1
       nofile:
-        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+        soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data2:/usr/share/opensearch/data # Creates volume called opensearch-data2 and mounts it to the container
+      - opensearch-data2:/usr/share/opensearch/data
     networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
+      - opensearch-net
+
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:2.11.1
     container_name: opensearch-dashboards
     ports:
-      - 5601:5601 # Map host port 5601 to container port 5601
+      - 5601:5601
     expose:
-      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
+      - "5601"
     environment:
-      - 'OPENSEARCH_HOSTS=["http://opensearch-node1:9200","http://opensearch-node2:9200"]'
-      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
+      OPENSEARCH_HOSTS: '["http://opensearch-node1:9200","http://opensearch-node2:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
     networks:
       - opensearch-net
 
   cache:
-    image: redis:6.2-alpine
+    image: redis:7-alpine
+    container_name: ubuteco_redis
     restart: always
     ports:
-      - '6379:6379'
-    #command: redis-server --save 20 1 --loglevel warning
+      - 6379:6379
     volumes:
       - cache:/data
 
-  # AnyCable WebSocket server (kitchen live updates). Rails RPC runs on the host via embedded gRPC.
+  api:
+    build: .
+    container_name: ubuteco_api
+    ports:
+      - 3000:3000
+    environment:
+      <<: *api-env
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      mailcatcher:
+        condition: service_started
+      opensearch-node1:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/up || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+    networks:
+      - default
+      - opensearch-net
+    stdin_open: true
+    tty: true
+
+  sidekiq:
+    build: .
+    container_name: ubuteco_sidekiq
+    command: bundle exec sidekiq
+    environment:
+      <<: *api-env
+      SKIP_DB_PREPARE: "1"
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - default
+      - opensearch-net
+
   anycable-ws:
     image: anycable/anycable-go:1.6
     container_name: ubuteco_anycable_ws
     ports:
-      - '8080:8080'
-      - '8090:8090'
+      - 8080:8080
+      - 8090:8090
     environment:
       ANYCABLE_HOST: "0.0.0.0"
       ANYCABLE_PORT: 8080
       ANYCABLE_PATH: "/api/cable"
       ANYCABLE_HTTP_BROADCAST_PORT: 8090
       ANYCABLE_BROADCAST_ADAPTER: http
-      ANYCABLE_RPC_HOST: "host.docker.internal:50051"
+      ANYCABLE_RPC_HOST: "${ANYCABLE_RPC_HOST:-api:50051}"
       ANYCABLE_SECRET: "anycable-local-secret"
       ANYCABLE_REDIS_URL: "redis://cache:6379/0"
       ANYCABLE_ALLOWED_ORIGINS: "*"
       ANYCABLE_DEBUG: "true"
     depends_on:
-      - cache
+      cache:
+        condition: service_started
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -124,5 +192,8 @@ volumes:
   opensearch-data2:
   cache:
     driver: local
+  bundle:
+    driver: local
+
 networks:
   opensearch-net:

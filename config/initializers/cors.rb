@@ -7,11 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins CorsOrigins.allowed
 
-    resource '*',
+    resource "*",
              headers: :any,
-             expose: [:Authorization, :Total, :Page, :'Per-Page'],
+             expose: [:Authorization, :Total, :Page, :"Per-Page"],
              methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end

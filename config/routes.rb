@@ -4,6 +4,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get "/up", to: "health#show"
 
   if Rails.env.development?
     mount Sidekiq::Web => '/sidekiq'
