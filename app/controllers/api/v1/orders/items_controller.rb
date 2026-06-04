@@ -30,27 +30,18 @@ module Api
         end
 
         def update
-          previous_quantity = @item.quantity
+          @item = ::Orders::UpdateItem.call(order_item: @item, params: update_params)
 
-          OrderItem.transaction do
-            unless @item.update(update_params)
-              render_model_errors(@item)
-              raise ActiveRecord::Rollback
-            end
-
-            @item.apply_quantity_change!(previous_quantity:)
+          if @item.errors.empty?
+            @item = OrderItem.includes(:item).find(@item.id)
+            render :show, status: :ok
+          else
+            render_model_errors(@item)
           end
-
-          return if performed?
-
-          @item = OrderItem.includes(:item).find(@item.id)
-          render :show, status: :ok
-        rescue OrderItem::InsufficientStock
-          render_api_errors([{ code: "insufficient_stock", message: "Insufficient stock" }])
         end
 
         def destroy
-          if @item.destroy
+          if ::Orders::RemoveItem.call(order_item: @item)
             head :no_content
           else
             render_model_errors(@item)

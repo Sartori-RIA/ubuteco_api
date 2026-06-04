@@ -32,15 +32,19 @@ module Api
           return head :forbidden
         end
 
-        if organization.closed?
-          return render json: ['Kitchen is closed'], status: :forbidden
-        end
+        @kitchen = ::Kitchen::UpdateItemStatus.call(
+          order_item: @kitchen,
+          status: update_params[:status],
+          organization:
+        )
 
-        if @kitchen.update(update_params)
-          render :show, status: :ok
-        else
+        if @kitchen.errors.any?
           render json: @kitchen.errors.full_messages, status: :unprocessable_content
+        else
+          render :show, status: :ok
         end
+      rescue Kitchen::UpdateItemStatus::KitchenClosed
+        render json: ["Kitchen is closed"], status: :forbidden
       end
 
       protected

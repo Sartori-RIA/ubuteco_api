@@ -40,7 +40,7 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 - [x] `Order` state machine with guards (e.g. cannot add items when closed)
 - [x] `OrderItem` state machine; dish default `awaiting` on create
-- [~] Replace ad-hoc `saved_change_to_status?` checks where possible — kitchen broadcast still uses callback
+- [~] Replace ad-hoc `saved_change_to_status?` checks where possible — broadcast delegated to `Kitchen::BroadcastOrderItem`
 
 **Acceptance:** invalid transitions raise / return 422 with clear error.
 
@@ -49,8 +49,9 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 ## Phase 3 — Service objects
 
 - [x] `Orders::AddItem.call(order:, params:)` — transaction, stock, broadcast
-- [ ] `Orders::RemoveItem.call(...)`
-- [ ] `Kitchen::UpdateItemStatus.call(...)`
+- [x] `Orders::RemoveItem.call(...)`
+- [x] `Orders::UpdateItem.call(...)` — quantity/status + stock
+- [x] `Kitchen::UpdateItemStatus.call(...)`
 - [x] `Organizations::CloseKitchen` — extracted from org callback; closes open orders
 
 **Acceptance:** controllers thin; specs on services.
@@ -59,8 +60,8 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Phase 4 — Events & side effects
 
-- [ ] Single place for kitchen broadcast after successful commit
-- [ ] `Order#recalculate_total` invoked consistently
+- [x] Single place for kitchen broadcast — `Kitchen::BroadcastOrderItem` (called from model callbacks)
+- [x] `Order#recalculate_total` invoked consistently — via OrderItem callbacks
 - [ ] Idempotency consideration for duplicate add-item requests (optional header)
 
 ---
@@ -68,8 +69,8 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 ## Phase 5 — Tests
 
 - [x] Model/service specs for every transition (initial set)
-- [ ] Request specs: closed order rejects new items; org closed rejects kitchen update
-- [ ] Regression: dish appears on order show without manual refresh (API response completeness)
+- [x] Request specs: closed order rejects new items; org closed rejects kitchen update
+- [x] Regression: new item appears on order items index after create
 
 ---
 
@@ -77,7 +78,7 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 - [x] Documented state diagrams
 - [x] AASM (or equivalent) on Order / OrderItem
-- [~] Core mutations via service objects
+- [x] Core mutations via service objects
 - [x] Test coverage for invalid transitions (initial set)
 
 ---

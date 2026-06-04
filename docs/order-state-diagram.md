@@ -91,6 +91,8 @@ Statuses `cooking`, `ready`, `empty_stock` are **not used** on non-dish lines (i
 | Service | Responsibility |
 |---------|----------------|
 | `Orders::AddItem` | Build + save item, stock + total side effects |
+| `Orders::UpdateItem` | Update quantity/status with stock adjustment |
+| `Orders::RemoveItem` | Destroy item and release stock |
+| `Kitchen::UpdateItemStatus` | Kitchen status transition with org guard |
+| `Kitchen::BroadcastOrderItem` | Single entry point for AnyCable kitchen payloads |
 | `Organizations::CloseKitchen` | Bulk-close open orders when org kitchen closes |
-| `Kitchen::UpdateItemStatus` | *(planned)* kitchen status transitions with org guard |
-| `Orders::RemoveItem` | *(planned)* destroy + stock release |
