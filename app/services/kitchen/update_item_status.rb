@@ -16,6 +16,7 @@ module Kitchen
 
     def call
       raise KitchenClosed if @organization.closed?
+      return @order_item if @status.blank?
 
       @order_item.update(status: @status)
       @order_item

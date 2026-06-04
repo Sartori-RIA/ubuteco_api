@@ -59,8 +59,9 @@ module OrderItemStateMachine
   end
 
   def status_transition_must_be_allowed
-    from = status_was.to_sym
-    to = status.to_sym
+    from = status_was&.to_sym
+    to = status&.to_sym
+    return if to.nil?
     return if from == to
 
     allowed = dish? ? DISH_TRANSITIONS[from] : NON_DISH_TRANSITIONS[from]
