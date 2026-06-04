@@ -17,9 +17,9 @@ module Api
 
         def create
           authorize! :create, OrderItem.new(order: @order)
-          @item = @order.order_items.build(create_params)
+          @item = ::Orders::AddItem.call(order: @order, params: create_params)
 
-          if @item.save
+          if @item.persisted?
             @item = OrderItem.includes(:item).find(@item.id)
             render :show, status: :created
           else

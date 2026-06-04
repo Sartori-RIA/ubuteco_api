@@ -3,8 +3,9 @@
 class OrderItem < ApplicationRecord
   class InsufficientStock < StandardError; end
 
+  include OrderItemStateMachine
+
   around_create :reserve_stock_unless_dish
-  before_validation :set_default_status_for_dish, on: :create, if: :dish?
   after_create :recalculate_total
   after_create_commit :broadcast_kitchen_create, if: :dish?
 
@@ -98,10 +99,6 @@ class OrderItem < ApplicationRecord
 
   def recalculate_total
     order.recalculate_total
-  end
-
-  def set_default_status_for_dish
-    self.status ||= :awaiting
   end
 
   def reserve_stock_unless_dish

@@ -3,6 +3,7 @@
 class Order < ApplicationRecord
   include OrganizationScoped
   include OrganizationReindexable
+  include OrderStateMachine
 
   extend Pagy::Search
 
