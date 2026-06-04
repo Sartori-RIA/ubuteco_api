@@ -28,7 +28,7 @@ Full architecture diagram: [README.md](../README.md#system-architecture).
 ```bash
 cd ubuteco_api
 cp .env-example .env   # optional when using compose defaults
-docker compose up -d --build
+docker compose --profile app up -d --build
 docker compose logs -f api   # first boot runs db:prepare
 ```
 
@@ -43,7 +43,7 @@ npm run dev
 
 ### Host Rails (infra only in Docker)
 
-If you prefer `bin/rails s` on the host, start infra without the API containers:
+If you prefer `bin/rails s` on the host, start **infra only** (services `api` and `sidekiq` use compose profile `app`):
 
 ```bash
 docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 opensearch-dashboards anycable-ws

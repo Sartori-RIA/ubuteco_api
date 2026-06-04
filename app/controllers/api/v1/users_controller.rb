@@ -20,7 +20,7 @@ module Api
         if @user.save
           render :show, status: :created
         else
-          render json: @user.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@user)
         end
       end
 
@@ -28,7 +28,7 @@ module Api
         if @user.update(update_params)
           render :show
         else
-          render json: @user.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@user)
         end
       end
 
@@ -36,7 +36,7 @@ module Api
         if @user.destroy
           head :no_content
         else
-          render json: @user.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@user)
         end
       end
 

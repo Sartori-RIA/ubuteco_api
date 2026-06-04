@@ -15,7 +15,7 @@ module Api
         if @table.save
           render :show, status: :created
         else
-          render json: @table.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@table)
         end
       end
 
@@ -23,7 +23,7 @@ module Api
         if @table.update(update_params)
           render :show, status: :ok
         else
-          render json: @table.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@table)
         end
       end
 
@@ -31,7 +31,7 @@ module Api
         if @table.destroy
           head :no_content
         else
-          render json: @table.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@table)
         end
       end
 

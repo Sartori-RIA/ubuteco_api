@@ -33,6 +33,10 @@ gem "searchkick", "6.0.3"
 gem 'sidekiq', '~> 8.1'
 gem 'rswag', '~> 2.13'
 
+group :development do
+  gem 'bullet'
+end
+
 group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'

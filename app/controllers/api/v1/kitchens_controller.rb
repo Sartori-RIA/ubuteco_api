@@ -33,13 +33,16 @@ module Api
         end
 
         if organization.closed?
-          return render json: ['Kitchen is closed'], status: :forbidden
+          return render_api_errors(
+            [{ code: "kitchen_closed", message: "Kitchen is closed" }],
+            status: :forbidden
+          )
         end
 
         if @kitchen.update(update_params)
           render :show, status: :ok
         else
-          render json: @kitchen.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@kitchen)
         end
       end
 

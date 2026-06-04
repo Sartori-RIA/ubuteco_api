@@ -16,7 +16,7 @@ module Api
         if @organization.update(update_params)
           render :show
         else
-          render json: @organization.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@organization)
         end
       end
 
@@ -24,10 +24,10 @@ module Api
         if @organization.destroy
           head :no_content
         else
-          render json: @organization.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@organization)
         end
       rescue ActiveRecord::InvalidForeignKey, ActiveRecord::DeleteRestrictionError => e
-        render json: [e.message], status: :unprocessable_content
+        render_api_errors([{ code: "delete_restriction", message: e.message }])
       end
 
       def phone_available?

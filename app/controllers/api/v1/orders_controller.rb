@@ -12,9 +12,12 @@ module Api
           extra_where[:status] = params[:status]
         end
         @pagy, @records = pagy_search_authorized(Order, extra_where:)
+        preload_order_associations(@records)
       end
 
-      def show; end
+      def show
+        @order = Order.includes(:table, :organization, :user).find(@order.id)
+      end
 
       def create
         @order = Order.new(create_params)
@@ -22,7 +25,7 @@ module Api
         if @order.save
           render :show, status: :created
         else
-          render json: @order.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@order)
         end
       end
 
@@ -31,7 +34,7 @@ module Api
           @order.recalculate_total if @order.saved_change_to_discount_cents?
           render :show, status: :ok
         else
-          render json: @order.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@order)
         end
       end
 
@@ -39,7 +42,7 @@ module Api
         if @order.destroy
           head :no_content
         else
-          render json: @order.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@order)
         end
       end
 
@@ -55,6 +58,15 @@ module Api
         return params[:organization_id] if current_user.role.name == 'CUSTOMER'
 
         Current.organization_id
+      end
+
+      def preload_order_associations(records)
+        return if records.blank?
+
+        ActiveRecord::Associations::Preloader.new(
+          records:,
+          associations: %i[table organization user]
+        ).call
       end
 
       def update_params

@@ -78,7 +78,8 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
             headers: auth_header(admin)
 
       expect(response).to have_http_status(:unprocessable_content)
-      expect(response.parsed_body.join(' ')).to match(/blank/i)
+      messages = response.parsed_body.fetch('errors').pluck('message').join(' ')
+      expect(messages).to match(/blank/i)
     end
 
     it 'throws error with invalid params' do

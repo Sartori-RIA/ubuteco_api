@@ -23,7 +23,7 @@ module Api
         if @food.save
           render :show, status: :created
         else
-          render json: @food.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@food)
         end
       end
 
@@ -31,7 +31,7 @@ module Api
         if @food.update(update_params)
           render :show, status: :ok
         else
-          render json: @food.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@food)
         end
       end
 
@@ -39,7 +39,7 @@ module Api
         if @food.destroy
           head :no_content
         else
-          render json: @food.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@food)
         end
       end
 

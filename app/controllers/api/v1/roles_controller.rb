@@ -15,7 +15,7 @@ module Api
         if @role.save
           render :show, status: :created
         else
-          render json: @role.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@role)
         end
       end
 
@@ -23,7 +23,7 @@ module Api
         if @role.update(update_params)
           render :show, status: :ok
         else
-          render json: @role.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@role)
         end
       end
 
@@ -31,7 +31,7 @@ module Api
         if @role.destroy
           head :no_content
         else
-          render json: @role.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@role)
         end
       end
 

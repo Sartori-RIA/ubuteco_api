@@ -128,7 +128,7 @@ docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 ```bash
 cd ubuteco_api
 cp .env-example .env          # optional; compose sets dev defaults
-docker compose up -d --build  # first boot runs db:prepare (create + migrate)
+docker compose --profile app up -d --build  # first boot runs db:prepare (create + migrate)
 ```
 
 Seed reference data and fake dev data:
@@ -158,7 +158,7 @@ CABLE_URL=ws://localhost:8080/api/cable
 
 Use your LAN IP instead of `localhost` when testing from another device.
 
-**Host Rails (optional)** — infra only in Docker, Rails on the machine:
+**Host Rails (optional)** — infra only in Docker (`api`/`sidekiq` use compose profile `app`):
 
 ```bash
 docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 opensearch-dashboards anycable-ws
@@ -169,7 +169,7 @@ bin/rails s
 bundle exec sidekiq   # separate terminal
 ```
 
-Full details: [docs/dev-setup.md](docs/dev-setup.md)
+Full details: [docs/dev-setup.md](docs/dev-setup.md) · [docs/deploy-runbook.md](docs/deploy-runbook.md) (staging/production)
 
 ### Database tasks
 
@@ -202,6 +202,18 @@ bundle exec rspec
 docker compose exec api bundle exec rspec   # inside API container
 ```
 
+### CI (required checks)
+
+Pull requests to `master` must pass [GitHub Actions](.github/workflows/ci.yml):
+
+| Step | Command |
+|------|---------|
+| Brakeman | `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error` |
+| bundler-audit | `bin/bundler-audit check --update` |
+| RSpec | `bundle exec rspec` (Postgres + OpenSearch service containers) |
+
+Local full CI script: `bin/ci` (adds RuboCop). Coverage uploads to Codecov on push.
+
 ### Swagger 
 
 + `http://localhost:3000/api-docs`
@@ -224,7 +236,7 @@ Kitchen and other Action Cable channels use **[AnyCable](https://anycable.io)** 
 
 **Local setup (Docker API — default)**
 
-1. `docker compose up -d --build` (includes `anycable-ws`; RPC → `api:50051`)
+1. `docker compose --profile app up -d --build` (includes `anycable-ws`; RPC → `api:50051`)
 2. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
 
 **Local setup (host Rails)**

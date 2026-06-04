@@ -117,6 +117,7 @@ services:
       - cache:/data
 
   api:
+    profiles: ["app"]
     build: .
     container_name: ubuteco_api
     ports:
@@ -148,6 +149,7 @@ services:
     tty: true
 
   sidekiq:
+    profiles: ["app"]
     build: .
     container_name: ubuteco_sidekiq
     command: bundle exec sidekiq

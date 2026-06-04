@@ -18,7 +18,7 @@ module Api
         if @maker.save
           render :show, status: :created
         else
-          render json: @maker.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@maker)
         end
       end
 
@@ -26,7 +26,7 @@ module Api
         if @maker.update(update_params)
           render :show, status: :ok
         else
-          render json: @maker.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@maker)
         end
       end
 
@@ -34,7 +34,7 @@ module Api
         if @maker.destroy
           head :no_content
         else
-          render json: @maker.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@maker)
         end
       end
 
