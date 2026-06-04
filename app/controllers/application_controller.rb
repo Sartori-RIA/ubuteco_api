@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   def append_info_to_payload(payload)
     super
     payload[:user_id] = current_user&.id
-    payload[:organization_id] = Current.organization_id if defined?(Current)
+    payload[:organization_id] = current_user&.organization_id
   end
 
   rescue_from CanCan::AccessDenied do |exception|

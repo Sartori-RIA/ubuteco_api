@@ -12,6 +12,7 @@ RSpec.describe "Platform hardening", type: :request do
 
   def expect_errors_response!(code: nil)
     body = response.parsed_body
+    expect(body).to be_a(Hash)
     expect(body).to include("errors")
     expect(body["errors"]).to be_an(Array)
     expect(body["errors"].first).to include("code", "message")
@@ -76,13 +77,16 @@ RSpec.describe "Platform hardening", type: :request do
     let!(:kitchen_item) { create(:order_item, order: open_order, item: dish, status: :awaiting) }
 
     it "returns kitchen_closed error when organization is closed" do
-      organization.update!(operational_status: :closed)
+      # Skip CloseKitchen callback so the order stays open and the controller
+      # reaches UpdateItemStatus (CanCan requires order.status == :open).
+      organization.update_column(:operational_status, Organization.operational_statuses[:closed])
 
       put api_v1_kitchen_path(kitchen_item),
           params: { status: "cooking" }.to_json,
           headers: auth_header(kitchen_user)
 
       expect(response).to have_http_status(:forbidden)
+      expect(response.media_type).to eq("application/json")
       expect_errors_response!(code: "kitchen_closed")
     end
 
