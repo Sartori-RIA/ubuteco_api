@@ -108,6 +108,13 @@ bundle exec rspec
 bundle exec rspec spec/path/to_spec.rb
 ```
 
+**Docker** — install test gems and run with `RAILS_ENV=test`:
+
+```bash
+docker compose exec -e RAILS_ENV=test api bundle install
+docker compose exec -e RAILS_ENV=test api bundle exec rspec
+```
+
 ## Swagger
 
 Generated from rswag specs. After API contract changes, regenerate when the plan requires it (see plan 08).

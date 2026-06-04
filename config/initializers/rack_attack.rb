@@ -66,4 +66,7 @@ class Rack::Attack
       req.ip == "127.0.0.1" || req.ip == "::1"
     end
   end
+
+  # Disabled in test by default; rack_attack_spec enables explicitly.
+  Rack::Attack.enabled = false if Rails.env.test?
 end

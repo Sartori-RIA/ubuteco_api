@@ -48,6 +48,24 @@ RSpec.configure do |config|
             type: :array,
             items: { type: :string }
           },
+          errors_response: {
+            type: :object,
+            required: %w[errors],
+            properties: {
+              errors: {
+                type: :array,
+                items: {
+                  type: :object,
+                  required: %w[code message],
+                  properties: {
+                    code: { type: :string },
+                    field: { type: :string },
+                    message: { type: :string }
+                  }
+                }
+              }
+            }
+          },
           beers: {
             type: :object,
             required: %w[meta data],
