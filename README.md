@@ -7,9 +7,11 @@
 
 ### System architecture
 
-High-level view of how the main pieces connect in **local development** (Next.js + Rails on the host, infrastructure in Docker Compose).
+High-level view of how the main pieces connect in **local development** (Docker Compose runs infra + API + Sidekiq; Next.js on the host).
 
 ![uButeco system architecture](docs/system-architecture.png)
+
+> **Note:** The diagram may still show Rails on the host. The recommended dev flow runs **API and Sidekiq in Docker** — see [Quick Start](#quick-start) and [docs/dev-setup.md](docs/dev-setup.md).
 
 **Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md) — multi-tenant through CI/CD, order lifecycle, inventory, users API, and more.
 
@@ -19,7 +21,7 @@ High-level view of how the main pieces connect in **local development** (Next.js
 
 | Component | Role | Default URL / port |
 |-----------|------|-------------------|
-| **ubuteco-react** (Next.js) | Staff UI (orders, kitchen, catalog, settings) — **only active frontend** | `http://localhost:3001` |
+| **ubuteco-react** (Next.js) | Staff UI (orders, kitchen, catalog, settings) — **only active frontend** | `http://localhost:3001` (or `:4000` if busy) |
 | **Rails API** (Puma) | REST API, JWT auth, business logic, Active Storage | `http://localhost:3000` |
 | **PostgreSQL** | Primary database (orders, menu, orgs, users) | `localhost:5432` |
 | **Redis** | Sidekiq queue; AnyCable pub/sub | `localhost:6379` |
@@ -57,7 +59,7 @@ flowchart TB
     NEXT["Next.js\nubuteco-react :3001"]
   end
 
-  subgraph app["Application (host)"]
+  subgraph app["Application (Docker Compose)"]
     RAILS["Rails API\nPuma :3000"]
     SIDEKIQ["Sidekiq workers"]
     GRPC["AnyCable gRPC\n:50051 embedded"]
@@ -110,28 +112,95 @@ docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 + [Frontend (Next.js)](../ubuteco-react) — **sole active UI** (Angular `ubuteco_spa` abandoned, not maintained)
 + [Swagger Docs](https://sartori-ria.github.io/ubuteco_api/)
 
-+ With Docker
-  + Docker
-  + Docker compose
-  
-+ Without Docker
-  + Postgres
-  + Rails 7.1.x
-  + Ruby 3.2.2
++ With Docker (recommended)
+  + Docker + Docker Compose
+  + Optional: Ruby/Bundler on the host if you run Rails outside containers
+
++ Without Docker (host Rails + Docker infra)
+  + PostgreSQL 16, Redis 7, OpenSearch 2.x (or use Compose for infra only)
+  + Rails 8.x
+  + Ruby 4.0.1 (see `.ruby-version`)
 
 ### Quick Start
 
-1. `cp config/application.yml.example config/application.yml` -> create environment file
-2. `docker-compose up -d` -> start docker environment
-3. `docker exec -it ubuteco_api /bin/bash` -> enter in docker container
-4. `rails db:setup` -> create tables and database updates
-5. `rails db:migrate` -> create tables and database updates
-6. `rails db:seed` -> populate database with real data
-7. `rails db:populate` -> populate database with fake data
-8. `rspec` -> run all tests
-9. `bundle exec rails parallel:setup` -> setup the db for parallel specs
-10. `bundle exec rails parallel:spec` -> run all specs in parallel
-11. `rails s -b 0.0.0.0` -> start server
+**Docker (recommended)** — API, Sidekiq, Postgres, Redis, OpenSearch, AnyCable, Mailcatcher:
+
+```bash
+cd ubuteco_api
+cp .env-example .env          # optional; compose sets dev defaults
+docker compose up -d --build  # first boot runs db:prepare (create + migrate)
+```
+
+Seed reference data and fake dev data:
+
+```bash
+docker compose exec api bin/rails db:seed
+docker compose exec api bin/rails db:populate
+```
+
+Verify: `curl http://localhost:3000/up` → `{"status":"ok","redis":"ok"}`
+
+**React** (sibling repo, separate terminal):
+
+```bash
+cd ../ubuteco-react
+cp .env.example .env   # or create .env — see ubuteco-react/docs/dev-setup.md
+npm install
+npm run dev            # often :3001 or :4000 — check terminal output
+```
+
+React `.env` example:
+
+```env
+API_URL=http://localhost:3000/api
+CABLE_URL=ws://localhost:8080/api/cable
+```
+
+Use your LAN IP instead of `localhost` when testing from another device.
+
+**Host Rails (optional)** — infra only in Docker, Rails on the machine:
+
+```bash
+docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 opensearch-dashboards anycable-ws
+# In .env: ANYCABLE_RPC_HOST=host.docker.internal:50051
+bundle install
+bin/rails db:create db:migrate db:seed db:populate
+bin/rails s
+bundle exec sidekiq   # separate terminal
+```
+
+Full details: [docs/dev-setup.md](docs/dev-setup.md)
+
+### Database tasks
+
+| Task | Purpose |
+|------|---------|
+| `db:migrate` | Apply schema migrations |
+| `db:seed` | Reference data (roles, beer/wine styles) |
+| `db:populate` | Fake catalog + dev users (run **after** seed) |
+
+Docker:
+
+```bash
+docker compose exec api bin/rails db:migrate
+docker compose exec api bin/rails db:seed
+docker compose exec api bin/rails db:populate
+```
+
+Fresh database:
+
+```bash
+docker compose exec api bin/rails db:drop db:create db:migrate db:seed db:populate
+```
+
+Host: replace `docker compose exec api` with `bin/rails`.
+
+### Tests
+
+```bash
+bundle exec rspec
+docker compose exec api bundle exec rspec   # inside API container
+```
 
 ### Swagger 
 
@@ -153,11 +222,17 @@ docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 
 Kitchen and other Action Cable channels use **[AnyCable](https://anycable.io)** (`anycable-go` + embedded gRPC in Puma). See [System architecture](#system-architecture) above.
 
-**Local setup**
+**Local setup (Docker API — default)**
 
-1. `docker-compose up -d cache anycable-ws`
-2. `bin/rails s` (embedded gRPC on `:50051`)
-3. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
+1. `docker compose up -d --build` (includes `anycable-ws`; RPC → `api:50051`)
+2. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
+
+**Local setup (host Rails)**
+
+1. `docker compose up -d cache anycable-ws` (+ db, opensearch as needed)
+2. Set `ANYCABLE_RPC_HOST=host.docker.internal:50051` in `.env`
+3. `bin/rails s` (embedded gRPC on `:50051`)
+4. Next.js: `CABLE_URL=ws://localhost:8080/api/cable`
 
 **Channels:** `KitchenChannel` → stream `kitchens_{organization_id}`.
 

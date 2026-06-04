@@ -1,7 +1,8 @@
 # Plan: Platform hardening (API)
 
-**Status:** not started  
+**Status:** in progress  
 **Project:** ubuteco_api  
+**Branch:** `feature/platform-hardening`  
 **Priority:** Ongoing (parallel to feature plans)  
 **Estimated effort:** spread across sprints
 
@@ -16,11 +17,11 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 ## 1. Security & authorization
 
 - [ ] **IDOR audit** — covered in [01-multi-tenant](./01-multi-tenant.md); re-verify after each new resource
-- [ ] **rack-attack**: throttle `/auth/sign_in`, `/auth/sign_up`, search endpoints
-- [ ] **JWT**: document expiry; consider refresh token or denylist on logout
-- [ ] **CORS**: replace `origins '*'` with env-based allowlist in staging/production
-- [ ] **AnyCable**: explicit `ANYCABLE_ALLOWED_ORIGINS` in prod; rotate `ANYCABLE_SECRET`
-- [ ] **Secrets**: no secrets in repo; credentials/env for JWT, AnyCable, OpenSearch
+- [x] **rack-attack**: throttle `/auth/sign_in`, `/auth/sign_up`, search endpoints
+- [x] **JWT**: document expiry; consider refresh token or denylist on logout — documented in [api-conventions.md](./api-conventions.md) (refresh TBD)
+- [x] **CORS**: replace `origins '*'` with env-based allowlist; dev defaults include Next.js ports `:3001`, `:4000`
+- [ ] **AnyCable**: explicit `ANYCABLE_ALLOWED_ORIGINS` in prod; rotate `ANYCABLE_SECRET` — env documented; prod config TBD
+- [x] **Secrets**: no secrets in repo; credentials/env for JWT, AnyCable, OpenSearch — `.env-example` updated
 
 **Done when:** Brakeman + bundler-audit clean; rate limits in staging.
 
@@ -28,11 +29,8 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 ## 2. API design & consistency
 
-- [ ] **Error format** standard:
-  ```json
-  { "errors": [{ "code": "validation_error", "field": "email", "message": "..." }] }
-  ```
-- [ ] Migrate controllers gradually from `render json: model.errors.full_messages`
+- [x] **Error format** standard — `ApiErrorRenderable` + [api-conventions.md](./api-conventions.md)
+- [~] Migrate controllers gradually from `render json: model.errors.full_messages` — pilot: `Orders::ItemsController`
 - [ ] **Service objects** for multi-step flows:
   - `Orders::AddItem`, `Orders::RecalculateTotal`
   - `Kitchen::UpdateItemStatus`
@@ -41,7 +39,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 - [ ] **Idempotency-Key** header on `POST` order items / create order (optional Redis store)
 - [ ] **Serializers**: evaluate Blueprinter vs Jbuilder consistency
 
-**Done when:** style guide in `docs/plans/api-conventions.md` (create when starting).
+**Done when:** style guide maintained in [api-conventions.md](./api-conventions.md); legacy error arrays migrated incrementally.
 
 ---
 
@@ -60,7 +58,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 ## 4. Observability
 
 - [ ] **Structured logging**: org_id, user_id, request_id in Lograge/JSON logs
-- [ ] **Health check** `/up`: extend with Redis ping (optional OpenSearch)
+- [x] **Health check** `/up`: extend with Redis ping (optional OpenSearch)
 - [ ] **Sidekiq**: monitor dead queue; alert on growth
 - [ ] **Action Cable / AnyCable**: keep dev transmit logs; reduce noise in prod
 
@@ -74,6 +72,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 - [ ] **OpenAPI / rswag** synced with controllers (kitchen, operational_status, dashboard when added)
 - [ ] **Parallel specs** stable in CI
 - [ ] **Coverage** threshold for models/abilities/services (team choice)
+- [x] **Brakeman + bundler-audit** in GitHub Actions
 
 **Done when:** CI required checks documented in README.
 
@@ -95,7 +94,23 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 - [ ] Keep `KitchenCableBroadcaster` broadcast-only under AnyCable
 - [ ] Integration spec: broadcast reaches channel (optional system test with AnyCable)
-- [ ] Document dev stack in [README](../README.md#system-architecture)
+- [ ] Document dev stack in [README](../README.md#system-architecture) — Docker-first Quick Start updated; diagram PNG still shows host Rails (optional follow-up)
+
+---
+
+## 8. Docker — API application
+
+**Current state:** `docker-compose.yml` runs **infra + API + Sidekiq** (`ubuteco_api`, `ubuteco_sidekiq`, Postgres, Redis 7, OpenSearch, AnyCable-go, Mailcatcher). Host-Rails flow remains optional — see [dev-setup.md](../dev-setup.md).
+
+- [x] **`Dockerfile`** — Ruby 4.0.1-slim image; Bundler install; Puma as default CMD
+- [x] **Compose services** — `api` (Puma) and `sidekiq`; internal network names for `db`, `cache`, OpenSearch, AnyCable
+- [x] **Environment** — compose env for container dev (`DB_HOST=db`, `REDIS_URL`, `OPENSEARCH_URL`, `ANYCABLE_RPC_HOST`, JWT/secrets)
+- [x] **One-command dev** — `docker compose up -d --build` starts infra + API
+- [x] **README / dev-setup** — Docker-first Quick Start; seed/populate documented
+- [ ] **Dev vs host transition** — optional compose profile for infra-only (host Rails)
+- [ ] **Staging / deploy path** — same image in staging; link to deploy runbook in §6
+
+**Done when:** staging can run the API container with the same compose topology as production.
 
 ---
 
@@ -105,7 +120,8 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 2. Error format + one service object pilot  
 3. Bullet / N+1  
 4. Logging  
-5. Production infra before go-live  
+5. Dockerize API (dev + staging parity with existing compose)  
+6. Production infra before go-live  
 
 ---
 
@@ -118,6 +134,8 @@ This plan has **no single finish line**. Close subsections independently; review
 ## References
 
 - [System architecture](../system-architecture.png)
+- [api-conventions.md](./api-conventions.md)
+- `docker-compose.yml` (infra + `api` + `sidekiq`)
 - `config/initializers/cors.rb`
-- `config/initializers/rack_attack.rb` (create if missing)
-- `.github/` / `config/ci.rb`
+- `config/initializers/rack_attack.rb`
+- `.github/workflows/ci.yml`

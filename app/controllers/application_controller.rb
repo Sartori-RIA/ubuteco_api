@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include ApiErrorRenderable
   include CanCan::ControllerAdditions
   include Devise::Controllers::Helpers
   include Pagy::Method

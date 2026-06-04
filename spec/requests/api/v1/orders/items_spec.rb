@@ -50,7 +50,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
         let(:Authorization) { auth_header(@user)['Authorization'] }
         let(:order_id) { @order.id }
         let(:params) { {} }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe Api::V1::Orders::ItemsController, type: :request do
         let(:order_id) { @order.id }
         let(:item_id) { @order.order_items.sample.id }
         let(:params) { { quantity: -1 } }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end

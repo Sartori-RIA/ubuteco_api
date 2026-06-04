@@ -1,0 +1,15 @@
+.git
+.github
+log/*
+tmp/*
+coverage
+.env
+.env.*
+!.env-example
+node_modules
+storage/*
+public/uploads/*
+spec/fixtures/files/*
+docs/dist
+*.md
+!README.md

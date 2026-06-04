@@ -66,6 +66,12 @@ jobs:
       - name: Prepare database
         run: bin/rails db:create db:schema:load
 
+      - name: Run Brakeman
+        run: bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error
+
+      - name: Run bundler-audit
+        run: bin/bundler-audit check --update
+
       - name: Run specs
         run: bundle exec rspec
 
