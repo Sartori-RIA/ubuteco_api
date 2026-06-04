@@ -3,8 +3,9 @@
 class OrderItem < ApplicationRecord
   class InsufficientStock < StandardError; end
 
+  include OrderItemStateMachine
+
   around_create :reserve_stock_unless_dish
-  before_validation :set_default_status_for_dish, on: :create, if: :dish?
   after_create :recalculate_total
   after_create_commit :broadcast_kitchen_create, if: :dish?
 
@@ -49,59 +50,19 @@ class OrderItem < ApplicationRecord
   end
 
   def broadcast_kitchen_create
-    unless kitchen_broadcastable?
-      log_kitchen_broadcast_skipped('create')
-      return
-    end
-
-    message('create')
-  end
-
-  def message(action)
-    record = OrderItem.includes(:item, order: :table).find(id)
-    payload = ApplicationController.render(
-      template: 'api/v1/kitchens/_kitchen',
-      locals: { kitchen: record }
-    )
-    msg = {
-      obj: JSON.parse(payload),
-      action:
-    }
-    Rails.logger.info(
-      "[KitchenCable] broadcast #{action} order_item=#{record.id} org=#{record.order.organization_id}"
-    )
-    KitchenCableBroadcaster.deliver(organization_id: record.order.organization_id, message: msg)
+    Kitchen::BroadcastOrderItem.call(order_item: self, action: "create")
   end
 
   def broadcast_kitchen_status
-    unless kitchen_broadcastable?
-      log_kitchen_broadcast_skipped('update')
-      return
-    end
+    return unless saved_change_to_status?
 
-    message('update') if saved_change_to_status?
+    Kitchen::BroadcastOrderItem.call(order_item: self, action: "update")
   end
 
   private
 
-  def kitchen_broadcastable?
-    order.open? && order.organization.reload.open?
-  end
-
-  def log_kitchen_broadcast_skipped(action)
-    org = order.organization
-    Rails.logger.info(
-      "[KitchenCable] skipped broadcast #{action} order_item=#{id} " \
-      "order_open=#{order.open?} org_open=#{org.open?} org_id=#{org.id}"
-    )
-  end
-
   def recalculate_total
     order.recalculate_total
-  end
-
-  def set_default_status_for_dish
-    self.status ||= :awaiting
   end
 
   def reserve_stock_unless_dish

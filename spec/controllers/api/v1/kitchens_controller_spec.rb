@@ -21,7 +21,9 @@ RSpec.describe Api::V1::KitchensController, type: :request do
     let!(:item) { @orders.sample.order_items.sample }
 
     it 'updates order' do
-      put api_v1_kitchen_path(id: item.id), params: item.to_json, headers: auth_header(@kitchen)
+      put api_v1_kitchen_path(id: item.id),
+          params: { status: 'cooking' }.to_json,
+          headers: auth_header(@kitchen)
       expect(response).to have_http_status(:ok)
     end
   end

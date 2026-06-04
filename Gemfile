@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '4.0.1'
 
+gem 'aasm', '~> 5.5'
 gem 'bootsnap', '~> 1.23', require: false
 gem 'cancancan', '~> 3.6', '>= 3.6.1'
 gem 'devise', '~> 5.0', '>= 5.0.4'
@@ -60,6 +61,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'simplecov-console'
+  gem 'simplecov-cobertura'
   gem 'rspec-sidekiq'
   gem 'database_cleaner-active_record'
 end

@@ -31,11 +31,11 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 - [x] **Error format** standard — `ApiErrorRenderable` + [api-conventions.md](./api-conventions.md)
 - [x] Migrate controllers from `render json: model.errors.full_messages` — all `api/v1` controllers use `render_model_errors` / `render_api_errors`
-- [~] **Service objects** for multi-step flows — see [06-order-lifecycle](./06-order-lifecycle.md) (in progress on separate branch):
-  - `Orders::AddItem`, `Orders::RecalculateTotal`
-  - `Kitchen::UpdateItemStatus`
-  - `Organizations::CloseKitchen`
-- [~] **State machines** (AASM) for `Order` and `OrderItem` — plan 06, not merged to master yet
+- [~] **Service objects** for multi-step flows — merged from [06-order-lifecycle](./06-order-lifecycle.md):
+  - [x] `Orders::AddItem`, `Orders::UpdateItem`, `Orders::RemoveItem`
+  - [x] `Kitchen::UpdateItemStatus`, `Organizations::CloseKitchen`
+  - [ ] `Orders::RecalculateTotal` (optional extract)
+- [x] **State machines** (AASM) for `Order` and `OrderItem` — merged from plan 06
 - [ ] **Idempotency-Key** header on `POST` order items / create order (optional Redis store)
 - [ ] **Serializers**: evaluate Blueprinter vs Jbuilder consistency
 

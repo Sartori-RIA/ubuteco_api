@@ -1,7 +1,8 @@
 # Plan: Order lifecycle (domain)
 
-**Status:** not started  
+**Status:** in progress  
 **Project:** ubuteco_api (primary)  
+**Branch:** `feature/order-lifecycle`  
 **Companion:** [ubuteco-react — testing](../../../ubuteco-react/docs/plans/05-testing.md) *(orders/kitchen regression)*  
 **Priority:** P1  
 **Depends on:** [01-multi-tenant](./01-multi-tenant.md) (recommended)  
@@ -27,9 +28,9 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Phase 1 — Document transitions
 
-- [ ] State diagram for `Order` (open → closed, who can close)
-- [ ] State diagram for `OrderItem` (dish vs non-dish, stock paths)
-- [ ] Table: role × allowed action (waiter add item, kitchen update status, admin close org kitchen → auto-close orders)
+- [x] State diagram for `Order` (open → closed, who can close)
+- [x] State diagram for `OrderItem` (dish vs non-dish, stock paths)
+- [x] Table: role × allowed action (waiter add item, kitchen update status, admin close org kitchen → auto-close orders)
 
 **Acceptance:** diagram in this file or `docs/order-state-diagram.md`.
 
@@ -37,9 +38,9 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Phase 2 — State machines (AASM or similar)
 
-- [ ] `Order` state machine with guards (e.g. cannot add items when closed)
-- [ ] `OrderItem` state machine; dish default `awaiting` on create
-- [ ] Replace ad-hoc `saved_change_to_status?` checks where possible
+- [x] `Order` state machine with guards (e.g. cannot add items when closed)
+- [x] `OrderItem` state machine; dish default `awaiting` on create
+- [~] Replace ad-hoc `saved_change_to_status?` checks where possible — broadcast delegated to `Kitchen::BroadcastOrderItem`
 
 **Acceptance:** invalid transitions raise / return 422 with clear error.
 
@@ -47,10 +48,11 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Phase 3 — Service objects
 
-- [ ] `Orders::AddItem.call(order:, params:)` — transaction, stock, broadcast
-- [ ] `Orders::RemoveItem.call(...)`
-- [ ] `Kitchen::UpdateItemStatus.call(...)`
-- [ ] `Organizations::CloseKitchen` already closes orders — link to order close service
+- [x] `Orders::AddItem.call(order:, params:)` — transaction, stock, broadcast
+- [x] `Orders::RemoveItem.call(...)`
+- [x] `Orders::UpdateItem.call(...)` — quantity/status + stock
+- [x] `Kitchen::UpdateItemStatus.call(...)`
+- [x] `Organizations::CloseKitchen` — extracted from org callback; closes open orders
 
 **Acceptance:** controllers thin; specs on services.
 
@@ -58,30 +60,30 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Phase 4 — Events & side effects
 
-- [ ] Single place for kitchen broadcast after successful commit
-- [ ] `Order#recalculate_total` invoked consistently
+- [x] Single place for kitchen broadcast — `Kitchen::BroadcastOrderItem` (called from model callbacks)
+- [x] `Order#recalculate_total` invoked consistently — via OrderItem callbacks
 - [ ] Idempotency consideration for duplicate add-item requests (optional header)
 
 ---
 
 ## Phase 5 — Tests
 
-- [ ] Model/service specs for every transition
-- [ ] Request specs: closed order rejects new items; org closed rejects kitchen update
-- [ ] Regression: dish appears on order show without manual refresh (API response completeness)
+- [x] Model/service specs for every transition (initial set)
+- [x] Request specs: closed order rejects new items; org closed rejects kitchen update
+- [x] Regression: new item appears on order items index after create
 
 ---
 
 ## Definition of done
 
-- [ ] Documented state diagrams
-- [ ] AASM (or equivalent) on Order / OrderItem
-- [ ] Core mutations via service objects
-- [ ] Test coverage for invalid transitions
+- [x] Documented state diagrams
+- [x] AASM (or equivalent) on Order / OrderItem
+- [x] Core mutations via service objects
+- [x] Test coverage for invalid transitions (initial set)
 
 ---
 
 ## References
 
-- `app/models/order.rb`, `order_item.rb`
+- `docs/order-state-diagram.md`
 - `app/controllers/api/v1/orders_controller.rb`, `orders/items_controller.rb`
