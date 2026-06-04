@@ -36,7 +36,7 @@ gem 'rswag', '~> 2.13'
 group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platforms: %i[mri windows]
   gem 'factory_bot_rails', '~> 6.5', '>= 6.5.1'
   gem 'faker', '~> 3.6'
   gem 'fuubar', '~> 2.5', '>= 2.5.1'
@@ -60,6 +60,6 @@ group :test do
   gem 'database_cleaner-active_record'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem "anycable-rails", "~> 1.6"
