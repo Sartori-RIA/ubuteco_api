@@ -34,7 +34,7 @@ RSpec.describe Api::V1::WinesController, type: :request do
       response 422, 'Invalid request' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:params) { {} }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe Api::V1::WinesController, type: :request do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @wines.sample.id }
         let(:params) { { name: nil } }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end
