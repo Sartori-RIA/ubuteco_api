@@ -2,6 +2,7 @@
 
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
+  require 'simplecov-cobertura'
 
   SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
