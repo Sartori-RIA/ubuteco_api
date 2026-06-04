@@ -2,14 +2,7 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 
-if ENV['RAILS_ENV'] == 'test'
-  require 'simplecov'
-  SimpleCov.start :rails do
-    enable_coverage :branch
-    add_group 'Abilities', 'app/models/abilities'
-    command_name 'rspec'
-  end
-end
+require 'support/simplecov'
 
 require File.expand_path('../config/environment', __dir__)
 

@@ -13,6 +13,7 @@ RSpec.describe "Rack::Attack throttles", type: :request do
 
   after do
     Rack::Attack.reset!
+    Rack::Attack.enabled = false
   end
 
   describe "POST /auth/sign_in" do

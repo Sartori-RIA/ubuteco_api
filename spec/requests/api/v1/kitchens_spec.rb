@@ -30,7 +30,7 @@ RSpec.describe Api::V1::KitchensController, type: :request do
       response 200, 'Ok' do
         let(:Authorization) { auth_header(@kitchen)['Authorization'] }
         let(:id) { @orders.sample.order_items.sample.id }
-        let(:params) { attributes_for(:order_item) }
+        let(:params) { { status: "cooking" } }
         schema '$ref' => '#/components/schemas/kitchen_item'
         run_test!
       end

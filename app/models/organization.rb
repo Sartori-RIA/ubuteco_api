@@ -66,9 +66,6 @@ class Organization < ApplicationRecord
   end
 
   def close_open_orders_when_kitchen_closes
-    closed_count = orders.open.update_all(status: Order.statuses[:closed], updated_at: Time.current)
-    Rails.logger.info(
-      "[Kitchen] organization=#{id} operational_status=closed auto_closed_orders=#{closed_count}"
-    )
+    Organizations::CloseKitchen.call(organization: self)
   end
 end
