@@ -1,8 +1,9 @@
 # Plan: Order lifecycle (domain)
 
-**Status:** in progress  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
-**Branch:** `feature/order-lifecycle`  
+**GitHub:** [Sartori-RIA/ubuteco_api#38](https://github.com/Sartori-RIA/ubuteco_api/pull/38) (merged)  
+**Branch:** `master`  
 **Companion:** [ubuteco-react — testing](../../../ubuteco-react/docs/plans/05-testing.md) *(orders/kitchen regression)*  
 **Priority:** P1  
 **Depends on:** [01-multi-tenant](./01-multi-tenant.md) (recommended)  
@@ -18,11 +19,11 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 ## Current state
 
-- `Order`: statuses include open/closed (enum).
-- `OrderItem`: statuses (`awaiting`, `cooking`, `ready`, …), stock hooks on create/update/destroy.
-- Kitchen broadcasts via `after_*_commit` on `OrderItem`.
-- Front had race on `refreshOrder` vs `addOrderItem` (partially fixed with request ids).
-- No formal transition matrix or invalid-state guards.
+- `Order` / `OrderItem`: AASM state machines with guards and 422 on invalid transitions.
+- Kitchen broadcasts via `Kitchen::BroadcastOrderItem` (model callbacks).
+- Mutations via service objects (`Orders::*`, `Kitchen::UpdateItemStatus`, `Organizations::CloseKitchen`).
+- Controllers thin; `ApiErrorRenderable` returns structured errors (#39).
+- Optional follow-up: idempotency header for duplicate add-item (see Phase 4).
 
 ---
 
@@ -40,7 +41,7 @@ Centralize **order and order-item state rules** in explicit domain logic (state 
 
 - [x] `Order` state machine with guards (e.g. cannot add items when closed)
 - [x] `OrderItem` state machine; dish default `awaiting` on create
-- [~] Replace ad-hoc `saved_change_to_status?` checks where possible — broadcast delegated to `Kitchen::BroadcastOrderItem`
+- [x] Replace ad-hoc `saved_change_to_status?` checks where possible — broadcast delegated to `Kitchen::BroadcastOrderItem`
 
 **Acceptance:** invalid transitions raise / return 422 with clear error.
 
