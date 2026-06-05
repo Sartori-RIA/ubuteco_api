@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    attributes:
+      order:
+        discount: Desconto
+        status: Status
+        table: Mesa

@@ -51,6 +51,7 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 
 - [x] `SetOrganizationRegional` concern on `ApplicationController` (`I18n.with_locale` + fallbacks)
 - [x] Fallback chain: org locale → `I18n.default_locale`
+- [x] Attribute labels: `config/locales/models/{resource}/{locale}.yml` (`en`, `pt-BR`, `es`)
 - [x] v1: ignore `Accept-Language`; org locale only (see [ADR 002](../decisions/002-org-locale-not-user-locale.md))
 
 **Acceptance:** validation errors match org locale in request specs.

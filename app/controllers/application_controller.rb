@@ -11,6 +11,12 @@ class ApplicationController < ActionController::API
 
   prepend_before_action :authenticate_user!
 
+  def append_info_to_payload(payload)
+    super
+    payload[:user_id] = current_user&.id
+    payload[:organization_id] = current_user&.organization_id
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
     head :forbidden

@@ -43,7 +43,7 @@ npm run dev
 
 ### Host Rails (infra only in Docker)
 
-If you prefer `bin/rails s` on the host, start infra without the API containers:
+If you prefer `bin/rails s` on the host, start **infra only** (list services explicitly — do not start `api` or `sidekiq`):
 
 ```bash
 docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 opensearch-dashboards anycable-ws

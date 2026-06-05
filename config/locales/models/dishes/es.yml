@@ -1,0 +1,7 @@
+es:
+  activerecord:
+    attributes:
+      dish:
+        name: Nombre
+        quantity_stock: Stock
+        price: Precio

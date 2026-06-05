@@ -47,7 +47,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
         let(:params) { { name: nil } }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
       response 422, 'Unprocessable' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         let(:id) { @organization.id }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end

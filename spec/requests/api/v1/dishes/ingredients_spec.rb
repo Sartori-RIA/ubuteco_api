@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
         let(:Authorization) { auth_header(@user)['Authorization'] }
         let(:dish_id) { @dish.id }
         let(:params) { {} }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe Api::V1::Dishes::IngredientsController, type: :request do
         let(:dish_id) { @dish.id }
         let(:id) { @dish.dish_ingredients.sample.id }
         let(:params) { { quantity: -1 } }
-        schema '$ref' => '#/components/schemas/errors_object'
+        schema '$ref' => '#/components/schemas/errors_response'
         run_test!
       end
     end

@@ -18,7 +18,7 @@ module Api
         if @drink.save
           render :show, status: :created
         else
-          render json: @drink.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@drink)
         end
       end
 
@@ -26,7 +26,7 @@ module Api
         if @drink.update(update_params)
           render :show, status: :ok
         else
-          render json: @drink.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@drink)
         end
       end
 
@@ -34,7 +34,7 @@ module Api
         if @drink.destroy
           head :no_content
         else
-          render json: @drink.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@drink)
         end
       end
 

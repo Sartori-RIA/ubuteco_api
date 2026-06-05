@@ -2,7 +2,7 @@
 
 **Status:** in progress  
 **Project:** ubuteco_api  
-**Branch:** `feature/platform-hardening`  
+**Branch:** `feature/platform-hardening-continued`  
 **Priority:** Ongoing (parallel to feature plans)  
 **Estimated effort:** spread across sprints
 
@@ -30,12 +30,12 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 ## 2. API design & consistency
 
 - [x] **Error format** standard — `ApiErrorRenderable` + [api-conventions.md](./api-conventions.md)
-- [~] Migrate controllers gradually from `render json: model.errors.full_messages` — pilot: `Orders::ItemsController`
-- [ ] **Service objects** for multi-step flows:
-  - `Orders::AddItem`, `Orders::RecalculateTotal`
-  - `Kitchen::UpdateItemStatus`
-  - `Organizations::CloseKitchen`
-- [ ] **State machines** (AASM) for `Order` and `OrderItem` status transitions
+- [x] Migrate controllers from `render json: model.errors.full_messages` — all `api/v1` controllers use `render_model_errors` / `render_api_errors`
+- [~] **Service objects** for multi-step flows — merged from [06-order-lifecycle](./06-order-lifecycle.md):
+  - [x] `Orders::AddItem`, `Orders::UpdateItem`, `Orders::RemoveItem`
+  - [x] `Kitchen::UpdateItemStatus`, `Organizations::CloseKitchen`
+  - [ ] `Orders::RecalculateTotal` (optional extract)
+- [x] **State machines** (AASM) for `Order` and `OrderItem` — merged from plan 06
 - [ ] **Idempotency-Key** header on `POST` order items / create order (optional Redis store)
 - [ ] **Serializers**: evaluate Blueprinter vs Jbuilder consistency
 
@@ -45,7 +45,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 ## 3. Performance
 
-- [ ] **Bullet** in development; fix N+1 on orders#show, kitchens#index, list endpoints
+- [x] **Bullet** in development; fix N+1 on orders#show, kitchens#index (index already `includes`; orders index/show preload associations)
 - [ ] **Strict loading** (`strict_loading_by_default` in dev) on hot paths
 - [ ] **Searchkick**: scope reindex jobs; avoid full-class `ReindexJob` without org filter
 - [ ] **Database**: review composite indexes with [04-organization-dashboard](./04-organization-dashboard.md)
@@ -57,7 +57,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 ## 4. Observability
 
-- [ ] **Structured logging**: org_id, user_id, request_id in Lograge/JSON logs
+- [~] **Structured logging**: org_id, user_id, request_id in Lograge/JSON logs — `append_info_to_payload` on `ApplicationController`; Lograge TBD for prod JSON
 - [x] **Health check** `/up`: extend with Redis ping (optional OpenSearch)
 - [ ] **Sidekiq**: monitor dead queue; alert on growth
 - [ ] **Action Cable / AnyCable**: keep dev transmit logs; reduce noise in prod
@@ -68,13 +68,12 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 ## 5. Quality & CI
 
-- [ ] **Cross-tenant specs** — [01-multi-tenant](./01-multi-tenant.md)
+- [~] **Cross-tenant specs** — expanded `access_spec` (tables, beers, orgs); search cross-tenant → plan 07
 - [ ] **OpenAPI / rswag** synced with controllers (kitchen, operational_status, dashboard when added)
 - [ ] **Parallel specs** stable in CI
 - [ ] **Coverage** threshold for models/abilities/services (team choice)
 - [x] **Brakeman + bundler-audit** in GitHub Actions
-
-**Done when:** CI required checks documented in README.
+- [x] **CI required checks** documented in README
 
 ---
 
@@ -84,7 +83,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 - [ ] **Sidekiq queues**: `default`, `searchkick`, `mailers` with concurrency config
 - [ ] **OpenSearch**: managed cluster URL via env; security plugin in prod
 - [ ] **AnyCable**: separate `anycable-go` service; not `allowed_origins *`
-- [ ] **Deploy runbook**: link from README (Procfile, env vars, migrations, reindex)
+- [ ] **Deploy runbook**: link from README (Procfile, env vars, migrations, reindex) — [docs/deploy-runbook.md](../deploy-runbook.md) (draft)
 
 **Done when:** staging environment matches production topology.
 
@@ -107,8 +106,8 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 - [x] **Environment** — compose env for container dev (`DB_HOST=db`, `REDIS_URL`, `OPENSEARCH_URL`, `ANYCABLE_RPC_HOST`, JWT/secrets)
 - [x] **One-command dev** — `docker compose up -d --build` starts infra + API
 - [x] **README / dev-setup** — Docker-first Quick Start; seed/populate documented
-- [ ] **Dev vs host transition** — optional compose profile for infra-only (host Rails)
-- [ ] **Staging / deploy path** — same image in staging; link to deploy runbook in §6
+- [x] **Dev vs host transition** — infra-only: start named services without `api`/`sidekiq` (see dev-setup)
+- [~] **Staging / deploy path** — same image in staging; [deploy-runbook.md](../deploy-runbook.md) draft
 
 **Done when:** staging can run the API container with the same compose topology as production.
 

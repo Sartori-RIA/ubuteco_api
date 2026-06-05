@@ -17,7 +17,7 @@ module Api
         if @wine.save
           render :show, status: :created
         else
-          render json: @wine.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@wine)
         end
       end
 
@@ -25,7 +25,7 @@ module Api
         if @wine.update(update_params)
           render :show
         else
-          render json: @wine.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@wine)
         end
       end
 
@@ -33,7 +33,7 @@ module Api
         if @wine.destroy
           head :no_content
         else
-          render json: @wine.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@wine)
         end
       end
 

@@ -1,0 +1,6 @@
+es:
+  activerecord:
+    attributes:
+      maker:
+        name: Nombre
+        country: País

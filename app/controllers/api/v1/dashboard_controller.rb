@@ -17,7 +17,7 @@ module Api
         end
         render :summary
       rescue ::Organizations::Dashboard::RangeParser::InvalidRange => e
-        render json: [e.message], status: :unprocessable_content
+        render_api_errors([{ code: "invalid_range", message: e.message }])
       end
 
       def series
@@ -38,7 +38,7 @@ module Api
         end
         render :series
       rescue ::Organizations::Dashboard::RangeParser::InvalidRange => e
-        render json: [e.message], status: :unprocessable_content
+        render_api_errors([{ code: "invalid_range", message: e.message }])
       end
 
       def kitchen
@@ -55,7 +55,7 @@ module Api
         end
         render :kitchen
       rescue ::Organizations::Dashboard::RangeParser::InvalidRange => e
-        render json: [e.message], status: :unprocessable_content
+        render_api_errors([{ code: "invalid_range", message: e.message }])
       end
 
       private

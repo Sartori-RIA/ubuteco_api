@@ -16,7 +16,7 @@ module Api
         if @beer_style.save
           render :show, status: :created
         else
-          render json: @beer_style.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@beer_style)
         end
       end
 
@@ -24,7 +24,7 @@ module Api
         if @beer_style.update(update_params)
           render :show, status: :ok
         else
-          render json: @beer_style.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@beer_style)
         end
       end
 
@@ -32,7 +32,7 @@ module Api
         if @beer_style.destroy
           head :no_content
         else
-          render json: @beer_style.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@beer_style)
         end
       end
 

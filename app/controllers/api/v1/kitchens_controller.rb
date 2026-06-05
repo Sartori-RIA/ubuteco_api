@@ -39,12 +39,12 @@ module Api
         )
 
         if @kitchen.errors.any?
-          render json: @kitchen.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@kitchen)
         else
           render :show, status: :ok
         end
       rescue Kitchen::UpdateItemStatus::KitchenClosed
-        render json: ["Kitchen is closed"], status: :forbidden
+        render_api_errors([{ code: "kitchen_closed", message: "Kitchen is closed" }], status: :forbidden)
       end
 
       protected

@@ -17,7 +17,7 @@ module Api
         if @dish.save
           render :show, json: @dish, status: :created
         else
-          render json: @dish.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@dish)
         end
       end
 
@@ -25,7 +25,7 @@ module Api
         if @dish.update(update_params)
           render :show
         else
-          render json: @dish.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@dish)
         end
       end
 
@@ -33,7 +33,7 @@ module Api
         if @dish.destroy
           head :no_content
         else
-          render json: @dish.errors.full_messages, status: :unprocessable_content
+          render_model_errors(@dish)
         end
       end
 

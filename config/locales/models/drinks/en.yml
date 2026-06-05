@@ -1,0 +1,7 @@
+en:
+  activerecord:
+    attributes:
+      drink:
+        name: Name
+        quantity_stock: Stock quantity
+        price: Price

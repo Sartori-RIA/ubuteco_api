@@ -15,7 +15,7 @@ module Api
           if @ingredient.save
             render :show, status: :created
           else
-            render json: @ingredient.errors.full_messages, status: :unprocessable_content
+            render_model_errors(@ingredient)
           end
         end
 
@@ -23,7 +23,7 @@ module Api
           if @ingredient.update(update_params)
             render :show, status: :ok
           else
-            render json: @ingredient.errors.full_messages, status: :unprocessable_content
+            render_model_errors(@ingredient)
           end
         end
 
@@ -31,7 +31,7 @@ module Api
           if @ingredient.destroy
             head :no_content
           else
-            render json: @ingredient.errors.full_messages, status: :unprocessable_content
+            render_model_errors(@ingredient)
           end
         end
 

@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    attributes:
+      beer_style:
+        name: Name

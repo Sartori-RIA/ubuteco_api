@@ -1,0 +1,6 @@
+es:
+  activerecord:
+    attributes:
+      user:
+        name: Nombre
+        email: Correo electrónico

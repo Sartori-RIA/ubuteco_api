@@ -38,6 +38,34 @@ RSpec.describe 'Cross-tenant access', type: :request do
     end
   end
 
+  describe 'tables' do
+    let!(:table_b) { create(:table, organization: organization_b) }
+
+    it 'forbids show on another organization table' do
+      get api_v1_table_path(table_b), headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe 'beers' do
+    let!(:beer_b) { create(:beer, organization: organization_b) }
+
+    it 'forbids show on another organization beer' do
+      get api_v1_beer_path(beer_b), headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe 'organizations' do
+    it 'forbids show on another organization' do
+      get api_v1_organization_path(organization_b), headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'kitchen queue' do
     let(:customer_b) { create(:user, :customer) }
     let!(:order_b) { create(:order, :with_items, organization: organization_b, user: customer_b) }

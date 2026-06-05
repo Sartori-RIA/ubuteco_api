@@ -1,0 +1,9 @@
+es:
+  activerecord:
+    attributes:
+      organization:
+        name: Nombre
+        phone: Teléfono
+        locale: Idioma
+        default_currency: Moneda predeterminada
+        timezone: Zona horaria
