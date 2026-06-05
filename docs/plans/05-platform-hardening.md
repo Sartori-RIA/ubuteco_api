@@ -104,9 +104,9 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 - [x] **`Dockerfile`** — Ruby 4.0.1-slim image; Bundler install; Puma as default CMD
 - [x] **Compose services** — `api` (Puma) and `sidekiq`; internal network names for `db`, `cache`, OpenSearch, AnyCable
 - [x] **Environment** — compose env for container dev (`DB_HOST=db`, `REDIS_URL`, `OPENSEARCH_URL`, `ANYCABLE_RPC_HOST`, JWT/secrets)
-- [x] **One-command dev** — `docker compose --profile app up -d --build` starts infra + API
+- [x] **One-command dev** — `docker compose up -d --build` starts infra + API
 - [x] **README / dev-setup** — Docker-first Quick Start; seed/populate documented
-- [x] **Dev vs host transition** — compose profile `app` on `api`/`sidekiq`; infra-only: `docker compose up -d` without profile
+- [x] **Dev vs host transition** — infra-only: start named services without `api`/`sidekiq` (see dev-setup)
 - [~] **Staging / deploy path** — same image in staging; [deploy-runbook.md](../deploy-runbook.md) draft
 
 **Done when:** staging can run the API container with the same compose topology as production.

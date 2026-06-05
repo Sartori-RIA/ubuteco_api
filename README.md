@@ -128,7 +128,7 @@ docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 ```bash
 cd ubuteco_api
 cp .env-example .env          # optional; compose sets dev defaults
-docker compose --profile app up -d --build  # first boot runs db:prepare (create + migrate)
+docker compose up -d --build  # first boot runs db:prepare (create + migrate)
 ```
 
 Seed reference data and fake dev data:
@@ -158,7 +158,7 @@ CABLE_URL=ws://localhost:8080/api/cable
 
 Use your LAN IP instead of `localhost` when testing from another device.
 
-**Host Rails (optional)** — infra only in Docker (`api`/`sidekiq` use compose profile `app`):
+**Host Rails (optional)** — infra only in Docker (omit `api` and `sidekiq`):
 
 ```bash
 docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 opensearch-dashboards anycable-ws
@@ -236,7 +236,7 @@ Kitchen and other Action Cable channels use **[AnyCable](https://anycable.io)** 
 
 **Local setup (Docker API — default)**
 
-1. `docker compose --profile app up -d --build` (includes `anycable-ws`; RPC → `api:50051`)
+1. `docker compose up -d --build` (includes `anycable-ws`; RPC → `api:50051`)
 2. Next.js: `CABLE_URL=ws://localhost:8080/api/cable` in `ubuteco-react/.env`
 
 **Local setup (host Rails)**
