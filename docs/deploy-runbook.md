@@ -13,7 +13,7 @@ Staging/production checklist for **ubuteco_api**. Topology should match [docker-
 1. Build and push the Docker image (same `Dockerfile` as dev).
 2. Run migrations: `bin/rails db:migrate`
 3. Restart **Puma** and **Sidekiq** workers.
-4. After schema/index changes: `bin/rails searchkick:reindex` (or org-scoped tasks when available — see plan 07).
+4. After schema/index changes: `bin/rails searchkick:reindex:model[ModelName]` or `searchkick:reindex:organization[ORG_ID]` — see [search-operations-runbook.md](search-operations-runbook.md).
 5. Smoke test:
    - `GET /up` → `{ "status": "ok", "redis": "ok" }`
    - Sign in, list orders, kitchen WebSocket receives a broadcast

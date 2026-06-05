@@ -22,6 +22,13 @@ class ApplicationController < ActionController::API
     head :forbidden
   end
 
+  rescue_from SearchkickAuthorizable::SearchUnavailableError do |_exception|
+    render_api_errors(
+      [{ code: "search_unavailable", message: "Search is temporarily unavailable" }],
+      status: :service_unavailable
+    )
+  end
+
   private
 
   # See the wiki for details:

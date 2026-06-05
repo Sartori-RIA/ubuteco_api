@@ -3,6 +3,13 @@
 module SearchkickAuthorizable
   extend ActiveSupport::Concern
 
+  class SearchUnavailableError < StandardError; end
+
+  SEARCH_UNAVAILABLE = [
+    Faraday::Error,
+    Searchkick::Error
+  ].freeze
+
   private
 
   def pagy_search_authorized(model, action: :read, extra_where: {}, **options)
@@ -16,6 +23,9 @@ module SearchkickAuthorizable
       **options
     )
     pagy(:searchkick, search)
+  rescue *SEARCH_UNAVAILABLE => e
+    Rails.logger.warn("[search] unavailable: #{e.class}: #{e.message}")
+    raise SearchUnavailableError, e.message
   end
 
   def searchkick_where_for(model, action: :read)

@@ -48,7 +48,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 - [x] **Bullet** in development; fix N+1 on orders#show, kitchens#index (index already `includes`; orders index/show preload associations)
 - [ ] **Strict loading** (`strict_loading_by_default` in dev) on hot paths
-- [ ] **Searchkick**: scope reindex jobs; avoid full-class `ReindexJob` without org filter
+- [x] **Searchkick**: per-record async indexing + maintenance rake tasks — [07-search-operations](./07-search-operations.md) (completed)
 - [ ] **Database**: review composite indexes with [04-organization-dashboard](./04-organization-dashboard.md)
 - [ ] **Fragment caching** — low priority for API-only; skip unless HTML partials grow
 
@@ -69,7 +69,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 ## 5. Quality & CI
 
-- [x] **Cross-tenant specs** — expanded `access_spec` (tables, beers, orgs, dashboard); search cross-tenant → [07-search-operations](./07-search-operations.md)
+- [x] **Cross-tenant specs** — expanded `access_spec`; search isolation in `spec/security/cross_tenant/search_spec.rb`
 - [~] **OpenAPI / rswag** synced with controllers — 422 responses use `errors_response` schema (#39); kitchen `kitchen_closed`, operational_status, dashboard gaps remain
 - [ ] **Parallel specs** stable in CI
 - [x] **Coverage** — Codecov patch on #39; `spec/requests/platform_hardening_spec.rb`; Bullet initializer excluded in `codecov.yml`
@@ -81,7 +81,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 ## 6. Production infrastructure
 
 - [ ] **Active Storage** → S3 + CDN URLs
-- [ ] **Sidekiq queues**: `default`, `searchkick`, `mailers` with concurrency config
+- [x] **Sidekiq queues**: `searchkick`, `default`, `mailers` (`config/sidekiq.yml`)
 - [ ] **OpenSearch**: managed cluster URL via env; security plugin in prod
 - [ ] **AnyCable**: separate `anycable-go` service; not `allowed_origins *`
 - [x] **Deploy runbook** (draft) — [docs/deploy-runbook.md](../deploy-runbook.md); link from README (#39)

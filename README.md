@@ -99,13 +99,27 @@ flowchart TB
 
 #### Search (OpenSearch + Searchkick)
 
-Indexed models include **User**, **Order**, **Organization**, **Beer**, **Wine**, **Drink**, **Food**, **Dish**, **Maker** (`searchkick callbacks: :async`). Writes go to PostgreSQL first; Sidekiq updates OpenSearch. API search endpoints read from OpenSearch with CanCanCan-scoped filters (`SearchkickAuthorizable`).
+Indexed models include **User**, **Order**, **Organization**, **Beer**, **Wine**, **Drink**, **Food**, **Dish**, **Maker** (`searchkick callbacks: :async`). Writes go to PostgreSQL first; Sidekiq updates OpenSearch on the **`searchkick`** queue (`ReindexJob` and Searchkick ActiveJob workers). API search endpoints read from OpenSearch with CanCanCan-scoped filters (`SearchkickAuthorizable`).
 
 Start the search stack:
 
 ```bash
-docker-compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
+docker compose up -d opensearch-node1 opensearch-node2 opensearch-dashboards
 ```
+
+Verify OpenSearch:
+
+```bash
+curl -s http://localhost:9200 | head -c 200
+```
+
+Sidekiq must listen to `searchkick` before `default` (see `config/sidekiq.yml`). Docker Compose runs `bundle exec sidekiq`, which loads that config automatically. Host Sidekiq:
+
+```bash
+bundle exec sidekiq -C config/sidekiq.yml
+```
+
+Operations: [search-operations-runbook.md](docs/search-operations-runbook.md)
 
 ### Requirements
 
@@ -166,7 +180,7 @@ docker compose up -d db cache mailcatcher opensearch-node1 opensearch-node2 open
 bundle install
 bin/rails db:create db:migrate db:seed db:populate
 bin/rails s
-bundle exec sidekiq   # separate terminal
+bundle exec sidekiq -C config/sidekiq.yml   # separate terminal
 ```
 
 Full details: [docs/dev-setup.md](docs/dev-setup.md) · [docs/deploy-runbook.md](docs/deploy-runbook.md) (staging/production)

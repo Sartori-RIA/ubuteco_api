@@ -2,7 +2,6 @@
 
 class Organization < ApplicationRecord
   include AttachmentUrlHelper
-  include OrganizationReindexable
 
   extend Pagy::Search
 

@@ -3,7 +3,6 @@
 class Product < ApplicationRecord
   include AttachmentUrlHelper
   include OrganizationScoped
-  include OrganizationReindexable
   include ImmediateSearchkickIndexing
 
   self.abstract_class = true
