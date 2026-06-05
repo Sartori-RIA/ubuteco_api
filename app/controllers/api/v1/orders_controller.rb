@@ -63,10 +63,7 @@ module Api
       def preload_order_associations(records)
         return if records.blank?
 
-        ActiveRecord::Associations::Preloader.new(
-          records:,
-          associations: %i[table organization user]
-        ).call
+        ActiveRecord::Associations::Preloader.new(records:, associations: %i[table organization user]).call
       end
 
       def update_params

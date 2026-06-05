@@ -7,6 +7,7 @@ RSpec.describe "Platform hardening", type: :request do
   let(:admin) { organization.user }
   let(:waiter) { create(:user, :waiter, organization: organization) }
   let(:kitchen_user) { create(:user, :kitchen, organization: organization) }
+  let(:super_admin) { create(:user, :super_admin, organization: nil) }
   let(:from) { 6.days.ago.to_date.iso8601 }
   let(:to) { Date.current.iso8601 }
 
@@ -117,14 +118,126 @@ RSpec.describe "Platform hardening", type: :request do
     end
   end
 
+  describe "destroy failure errors" do
+    def stub_failed_destroy!(model_class)
+      allow_any_instance_of(model_class).to receive(:destroy) do |record|
+        record.errors.add(:base, "Cannot delete")
+        false
+      end
+    end
+
+    it "returns errors_response when destroy fails" do
+      beer = create(:beer, organization: organization)
+      stub_failed_destroy!(Beer)
+      delete api_v1_beer_path(beer), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      beer_style = create(:beer_style)
+      stub_failed_destroy!(BeerStyle)
+      delete api_v1_beer_style_path(beer_style), headers: auth_header(super_admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      dish = create(:dish, organization: organization)
+      stub_failed_destroy!(Dish)
+      delete api_v1_dish_path(dish), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      dish = create(:dish, :with_ingredients, organization: organization)
+      ingredient = dish.dish_ingredients.first
+      stub_failed_destroy!(DishIngredient)
+      delete api_v1_dish_ingredient_path(dish, ingredient), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      drink = create(:drink, organization: organization)
+      stub_failed_destroy!(Drink)
+      delete api_v1_drink_path(drink), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      food = create(:food, organization: organization)
+      stub_failed_destroy!(Food)
+      delete api_v1_food_path(food), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      maker = create(:maker, organization: organization)
+      stub_failed_destroy!(Maker)
+      delete api_v1_maker_path(maker), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      table = create(:table, organization: organization)
+      stub_failed_destroy!(Table)
+      delete api_v1_table_path(table), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      user = create(:user, :waiter, organization: organization)
+      stub_failed_destroy!(User)
+      delete api_v1_user_path(user), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      wine = create(:wine, organization: organization)
+      stub_failed_destroy!(Wine)
+      delete api_v1_wine_path(wine), headers: auth_header(admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      wine_style = create(:wine_style)
+      stub_failed_destroy!(WineStyle)
+      delete api_v1_wine_style_path(wine_style), headers: auth_header(super_admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      role = create(:role)
+      stub_failed_destroy!(Role)
+      delete api_v1_role_path(role), headers: auth_header(super_admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      other_org = create(:organization)
+      stub_failed_destroy!(Organization)
+      delete api_v1_organization_path(other_org), headers: auth_header(other_org.user)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+    end
+  end
+
+  describe "platform organization errors" do
+    it "returns errors_response on invalid update and failed destroy" do
+      target = create(:organization)
+
+      put api_v1_platform_organization_path(target),
+          params: { name: nil }.to_json,
+          headers: auth_header(super_admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+
+      allow_any_instance_of(Organization).to receive(:destroy) do |record|
+        record.errors.add(:base, "Cannot delete")
+        false
+      end
+      delete api_v1_platform_organization_path(target), headers: auth_header(super_admin)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+    end
+  end
+
   describe "orders association preloading" do
-    it "preloads associations on index when orders exist" do
+    it "preloads associations on index when orders exist", search: true do
       create(:order, organization: organization, user: waiter)
+      reindex_searchkick!(Order)
 
       get api_v1_orders_path, headers: auth_header(waiter)
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.dig("data")).to be_an(Array)
+      expect(response.parsed_body.dig("data")).not_to be_empty
     end
 
     it "returns ok for index with no orders" do
@@ -152,9 +265,8 @@ RSpec.describe "Platform hardening", type: :request do
     let!(:kitchen_item) { create(:order_item, order: open_order, item: dish, status: :awaiting) }
 
     it "returns kitchen_closed error when organization is closed" do
-      # Skip CloseKitchen callback so the order stays open and the controller
-      # reaches UpdateItemStatus (CanCan requires order.status == :open).
-      organization.update_column(:operational_status, Organization.operational_statuses[:closed])
+      allow(Kitchen::UpdateItemStatus).to receive(:call)
+        .and_raise(Kitchen::UpdateItemStatus::KitchenClosed)
 
       put api_v1_kitchen_path(kitchen_item),
           params: { status: "cooking" }.to_json,
