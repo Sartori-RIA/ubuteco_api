@@ -57,7 +57,7 @@ Then on the host:
 bundle install
 bin/rails db:create db:migrate
 bin/rails s
-bundle exec sidekiq   # separate terminal
+bundle exec sidekiq -C config/sidekiq.yml   # searchkick, default, mailers
 ```
 
 ## Environment

@@ -1,5 +1,6 @@
 :concurrency: 5
 :max_retries: 1
 :queues:
+  - searchkick
   - default
   - mailers

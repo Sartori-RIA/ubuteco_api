@@ -48,7 +48,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 
 - [x] **Bullet** in development; fix N+1 on orders#show, kitchens#index (index already `includes`; orders index/show preload associations)
 - [ ] **Strict loading** (`strict_loading_by_default` in dev) on hot paths
-- [ ] **Searchkick**: scope reindex jobs; avoid full-class `ReindexJob` without org filter
+- [ ] **Searchkick**: scope reindex jobs; avoid full-class `ReindexJob` without org filter — [07-search-operations](./07-search-operations.md) Phase 2
 - [ ] **Database**: review composite indexes with [04-organization-dashboard](./04-organization-dashboard.md)
 - [ ] **Fragment caching** — low priority for API-only; skip unless HTML partials grow
 
@@ -81,7 +81,7 @@ Cross-cutting improvements: security, API consistency, performance, observabilit
 ## 6. Production infrastructure
 
 - [ ] **Active Storage** → S3 + CDN URLs
-- [ ] **Sidekiq queues**: `default`, `searchkick`, `mailers` with concurrency config
+- [~] **Sidekiq queues**: `default`, `searchkick`, `mailers` with concurrency config — `searchkick` queue live (#07 Phase 1)
 - [ ] **OpenSearch**: managed cluster URL via env; security plugin in prod
 - [ ] **AnyCable**: separate `anycable-go` service; not `allowed_origins *`
 - [x] **Deploy runbook** (draft) — [docs/deploy-runbook.md](../deploy-runbook.md); link from README (#39)

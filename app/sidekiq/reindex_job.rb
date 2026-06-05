@@ -2,8 +2,7 @@
 
 class ReindexJob
   include Sidekiq::Job
-  queue_as :default
-  sidekiq_options retry: 1, dead: false
+  sidekiq_options queue: :searchkick, retry: 1, dead: false
 
   def perform(model_name, organization_id = nil)
     Current.organization = Organization.find_by(id: organization_id) if organization_id.present?

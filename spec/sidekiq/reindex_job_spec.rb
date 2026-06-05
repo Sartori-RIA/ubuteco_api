@@ -18,4 +18,8 @@ RSpec.describe ReindexJob, type: :job do
     described_class.new.perform('Organization', nil)
     expect(Current.organization).to be_nil
   end
+
+  it 'enqueues on the searchkick queue' do
+    expect(described_class.get_sidekiq_options['queue']).to eq(:searchkick)
+  end
 end

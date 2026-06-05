@@ -2,7 +2,8 @@
 
 **Status:** in progress  
 **Project:** ubuteco_api  
-**Branch:** partial work on `master` / `feature/locale-and-currency`
+**Branch:** `feature/search-operations`  
+**GitHub:** *(open)*
 
 ---
 
@@ -17,7 +18,8 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 - Searchkick on User, Order, Organization, Beer, Wine, Drink, Food, Dish, Maker (`callbacks: :async`).
 - `ReindexJob` accepts `organization_id` and calls `reindex_for_organization` when present (`OrganizationScoped`).
 - `OrganizationReindexable` enqueues org-scoped reindex on commit; `ImmediateSearchkickIndexing` on `Product` subclasses reindexes on create (sync, for fresh search).
-- Sidekiq queues: `default`, `mailers` only — **no dedicated `searchkick` queue yet**.
+- Sidekiq queues: **`searchkick`**, `default`, `mailers` (`config/sidekiq.yml`); Searchkick ActiveJob + `ReindexJob` use `searchkick` queue.
+- Active Job adapter: `:sidekiq` in development and production.
 - OpenSearch: 2-node cluster in docker-compose; Rails uses `localhost:9200`.
 - Search reads via `SearchkickAuthorizable` + CanCanCan.
 
@@ -25,9 +27,9 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 
 ## Phase 1 — Sidekiq queue
 
-- [ ] Add `searchkick` queue in `config/sidekiq.yml`
-- [ ] Configure Searchkick to use `searchkick` queue
-- [ ] Document worker command: `bundle exec sidekiq -q searchkick -q default -q mailers`
+- [x] Add `searchkick` queue in `config/sidekiq.yml`
+- [x] Configure Searchkick to use `searchkick` queue (`config/initializers/searchkick.rb`)
+- [x] Document worker command: `bundle exec sidekiq -C config/sidekiq.yml` (README, dev-setup)
 
 ---
 
@@ -45,13 +47,13 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 
 - [x] Audit every `search_data` includes `organization_id` (catalog products)
 - [x] Verify `pagy_search_authorized` always merges org filter
-- [ ] Cross-tenant search spec (user A query never returns org B hit)
+- [x] Cross-tenant search spec (user A query never returns org B hit) — `spec/security/cross_tenant/search_spec.rb`
 
 ---
 
 ## Phase 4 — Operations runbook
 
-- [ ] README section: start OpenSearch, verify `curl localhost:9200`
+- [~] **OpenSearch / README** — verify `curl localhost:9200` documented (README); full runbook → Phase 4 below
 - [ ] Rake tasks: `searchkick:reindex:all` (staging), per-model, per-org
 - [ ] Behavior when OpenSearch unavailable: graceful degradation vs 503 (decide + implement)
 
@@ -68,9 +70,9 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 ## Definition of done
 
 - [ ] Async reindex does not rebuild entire DB on every beer update
-- [ ] `searchkick` queue in Sidekiq
+- [x] `searchkick` queue in Sidekiq
 - [ ] Runbook in README or this plan
-- [ ] Tenant-safe search tests
+- [x] Tenant-safe search tests
 
 ---
 
