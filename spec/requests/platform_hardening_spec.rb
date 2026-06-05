@@ -49,9 +49,84 @@ RSpec.describe "Platform hardening", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
       expect_errors_response!(code: "delete_restriction")
     end
+
+    it "returns errors_response on invalid beer create" do
+      post api_v1_beers_path,
+           params: {}.to_json,
+           headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+    end
+
+    it "returns errors_response on invalid maker update" do
+      maker = create(:maker, organization: organization)
+
+      put api_v1_maker_path(maker),
+          params: { name: nil }.to_json,
+          headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+    end
+
+    it "returns errors_response when order destroy fails" do
+      order = create(:order, organization: organization, user: waiter)
+      allow_any_instance_of(Order).to receive(:destroy) do |record|
+        record.errors.add(:base, "Cannot delete order")
+        false
+      end
+
+      delete api_v1_order_path(order), headers: auth_header(waiter)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "validation_error")
+    end
+
+    it "uses organization locale for validation messages and field keys" do
+      organization.update!(locale: "pt-BR")
+      admin.reload
+
+      post api_v1_beers_path,
+           params: {}.to_json,
+           headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      errors = response.parsed_body.fetch("errors")
+      messages = errors.pluck("message").join(" ")
+      fields = errors.pluck("field")
+
+      expect(messages).to include("Nome não pode ficar em branco")
+      expect(messages).to include("Fabricante é obrigatório(a)")
+      expect(fields).to include("name", "maker")
+    end
+
+    it "uses English attribute labels when organization locale is en" do
+      organization.update!(locale: "en")
+      admin.reload
+
+      post api_v1_beers_path,
+           params: {}.to_json,
+           headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      messages = response.parsed_body.fetch("errors").pluck("message").join(" ")
+
+      expect(messages).to match(/Name.*blank/i)
+      expect(messages).to match(/Maker must exist/i)
+    end
   end
 
   describe "orders association preloading" do
+    it "preloads associations on index when orders exist" do
+      create(:order, organization: organization, user: waiter)
+
+      get api_v1_orders_path, headers: auth_header(waiter)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.dig("data")).to be_an(Array)
+    end
+
     it "returns ok for index with no orders" do
       empty_org = create(:organization)
       empty_waiter = create(:user, :waiter, organization: empty_org)
@@ -102,6 +177,15 @@ RSpec.describe "Platform hardening", type: :request do
   end
 
   describe "dashboard invalid ranges" do
+    it "returns invalid_range on summary" do
+      get "/api/v1/dashboard/summary",
+          params: { from: to, to: from },
+          headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect_errors_response!(code: "invalid_range")
+    end
+
     it "returns invalid_range on series" do
       get "/api/v1/dashboard/series",
           params: { from: to, to: from, metric: "revenue", grain: "day" },
