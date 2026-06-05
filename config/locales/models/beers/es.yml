@@ -1,0 +1,11 @@
+es:
+  activerecord:
+    attributes:
+      beer:
+        name: Nombre
+        maker: Fabricante
+        beer_style: Estilo de cerveza
+        ibu: IBU
+        abv: Grado alcohólico
+        quantity_stock: Stock
+        price: Precio

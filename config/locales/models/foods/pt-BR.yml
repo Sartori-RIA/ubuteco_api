@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    attributes:
+      food:
+        name: Nome
+        quantity_stock: Estoque
+        price: Preço

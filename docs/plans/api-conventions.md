@@ -40,7 +40,7 @@ Legacy `render json: model.errors.full_messages` is migrated gradually.
 
 ### Locale
 
-Validation `message` strings use the organization locale via `SetOrganizationRegional` (`I18n.with_locale`). Attribute labels come from `config/locales/activerecord.*.yml` (`activerecord.attributes.{model}.{field}`). The `field` key in each error is the machine name (e.g. `beer_style`) for client-side mapping.
+Validation `message` strings use the organization locale via `SetOrganizationRegional` (`I18n.with_locale`). Attribute labels live under `config/locales/models/{model}/{locale}.yml` (`activerecord.attributes.{model}.{field}`). The `field` key in each error is the machine name (e.g. `beer_style`) for client-side mapping.
 
 ---
 

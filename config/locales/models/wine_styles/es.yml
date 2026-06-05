@@ -1,0 +1,5 @@
+es:
+  activerecord:
+    attributes:
+      wine_style:
+        name: Nombre

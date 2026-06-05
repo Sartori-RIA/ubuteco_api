@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    attributes:
+      beer:
+        name: Name
+        maker: Maker
+        beer_style: Beer style
+        ibu: IBU
+        abv: ABV
+        quantity_stock: Stock quantity
+        price: Price

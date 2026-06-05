@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    attributes:
+      table:
+        name: Name

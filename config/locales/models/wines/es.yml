@@ -1,0 +1,9 @@
+es:
+  activerecord:
+    attributes:
+      wine:
+        name: Nombre
+        maker: Fabricante
+        wine_style: Estilo de vino
+        quantity_stock: Stock
+        price: Precio

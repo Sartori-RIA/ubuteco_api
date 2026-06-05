@@ -1,0 +1,7 @@
+en:
+  activerecord:
+    attributes:
+      order:
+        discount: Discount
+        status: Status
+        table: Table
