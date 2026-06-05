@@ -117,7 +117,11 @@ services:
       - cache:/data
 
   api:
-    build: .
+    build:
+      context: .
+      args:
+        RAILS_ENV: development
+        BUNDLE_WITHOUT: ""
     container_name: ubuteco_api
     ports:
       - 3000:3000
@@ -148,9 +152,13 @@ services:
     tty: true
 
   sidekiq:
-    build: .
+    build:
+      context: .
+      args:
+        RAILS_ENV: development
+        BUNDLE_WITHOUT: ""
     container_name: ubuteco_sidekiq
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -C config/sidekiq.yml
     environment:
       <<: *api-env
       SKIP_DB_PREPARE: "1"
