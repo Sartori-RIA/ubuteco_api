@@ -4,7 +4,7 @@ class User < ApplicationRecord
   include AttachmentUrlHelper
   include Devise::JWT::RevocationStrategies::Allowlist
   include OrganizationScoped
-  include OrganizationReindexable
+
   extend Pagy::Search
 
   searchkick callbacks: :async

@@ -1,6 +1,6 @@
 # Plan: OpenSearch / Searchkick operations
 
-**Status:** in progress  
+**Status:** completed  
 **Project:** ubuteco_api  
 **Branch:** `feature/search-operations`  
 **GitHub:** *(open)*
@@ -16,12 +16,12 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 ## Current state
 
 - Searchkick on User, Order, Organization, Beer, Wine, Drink, Food, Dish, Maker (`callbacks: :async`).
-- `ReindexJob` accepts `organization_id` and calls `reindex_for_organization` when present (`OrganizationScoped`).
-- `OrganizationReindexable` enqueues org-scoped reindex on commit; `ImmediateSearchkickIndexing` on `Product` subclasses reindexes on create (sync, for fresh search).
-- Sidekiq queues: **`searchkick`**, `default`, `mailers` (`config/sidekiq.yml`); Searchkick ActiveJob + `ReindexJob` use `searchkick` queue.
-- Active Job adapter: `:sidekiq` in development and production.
-- OpenSearch: 2-node cluster in docker-compose; Rails uses `localhost:9200`.
-- Search reads via `SearchkickAuthorizable` + CanCanCan.
+- Async indexing via Sidekiq **`searchkick`** queue; no org-wide reindex on every model commit.
+- `ReindexJob` — single-record or org-scoped batch only; full-class via guarded rake task.
+- `ImmediateSearchkickIndexing` — sync reindex on catalog product **create**.
+- Active Job adapter `:sidekiq` in development and production.
+- Search reads via `SearchkickAuthorizable` + CanCanCan; OpenSearch down → **503** `search_unavailable`.
+- Runbook: [search-operations-runbook.md](../search-operations-runbook.md).
 
 ---
 
@@ -36,10 +36,10 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 ## Phase 2 — Scoped reindex job
 
 - [x] `ReindexJob` accepts `organization_id` and scopes via `reindex_for_organization`
-- [x] `OrganizationReindexable` enqueues with org id (not full-class blind reindex by default path)
+- [x] Removed `OrganizationReindexable` org-wide `after_commit` — rely on Searchkick `:async` per record
 - [x] `ImmediateSearchkickIndexing` on create for catalog products (sync `reindex(refresh: true)`)
-- [ ] Enqueue single-record reindex `{ model, id }` on update (today still org-wide batch on commit)
-- [ ] Full-class reindex: admin-only rake task only
+- [x] `ReindexJob` single-record path (`record_id`) for maintenance enqueue
+- [x] Full-class reindex: `ALLOW_FULL_SEARCH_REINDEX=1 bin/rails searchkick:reindex:all` only
 
 ---
 
@@ -47,31 +47,31 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 
 - [x] Audit every `search_data` includes `organization_id` (catalog products)
 - [x] Verify `pagy_search_authorized` always merges org filter
-- [x] Cross-tenant search spec (user A query never returns org B hit) — `spec/security/cross_tenant/search_spec.rb`
+- [x] Cross-tenant search spec — `spec/security/cross_tenant/search_spec.rb`
 
 ---
 
 ## Phase 4 — Operations runbook
 
-- [~] **OpenSearch / README** — verify `curl localhost:9200` documented (README); full runbook → Phase 4 below
-- [ ] Rake tasks: `searchkick:reindex:all` (staging), per-model, per-org
-- [ ] Behavior when OpenSearch unavailable: graceful degradation vs 503 (decide + implement)
+- [x] README: start OpenSearch, verify `curl localhost:9200`
+- [x] Rake tasks: `searchkick:reindex:all`, `searchkick:reindex:model[]`, `searchkick:reindex:organization[]`
+- [x] OpenSearch unavailable → 503 `search_unavailable` (no silent empty results)
 
 ---
 
 ## Phase 5 — Production
 
-- [ ] `OPENSEARCH_URL` / credentials via env
-- [ ] Security plugin enabled in prod (unlike dev compose)
-- [ ] Index prefix per environment
+- [x] `OPENSEARCH_URL` via env (`config/initializers/searchkick.rb`, `.env-example`)
+- [x] Security plugin documented for prod (dev compose stays open — runbook)
+- [x] Index prefix per environment (`SEARCHKICK_INDEX_PREFIX`)
 
 ---
 
 ## Definition of done
 
-- [ ] Async reindex does not rebuild entire DB on every beer update
+- [x] Async reindex does not rebuild entire DB on every beer update
 - [x] `searchkick` queue in Sidekiq
-- [ ] Runbook in README or this plan
+- [x] Runbook in [search-operations-runbook.md](../search-operations-runbook.md)
 - [x] Tenant-safe search tests
 
 ---
@@ -79,4 +79,6 @@ Reliable full-text search in dev and prod: scoped reindexing, dedicated queue, t
 ## References
 
 - `app/sidekiq/reindex_job.rb`
+- `app/services/searchkick_reindex.rb`
+- `lib/tasks/searchkick_reindex.rake`
 - `app/controllers/concerns/searchkick_authorizable.rb`

@@ -3,7 +3,6 @@
 class Maker < ApplicationRecord
   include AttachmentUrlHelper
   include OrganizationScoped
-  include OrganizationReindexable
 
   extend Pagy::Search
 

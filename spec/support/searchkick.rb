@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 
-SEARCHKICK_MODELS = [
-  User,
-  Beer,
-  Drink,
-  Food,
-  Dish,
-  Wine,
-  Maker,
-  Order,
-  Organization
-].freeze
+SEARCHKICK_MODELS = SearchkickModels.all
 
 module SearchkickTestHelper
   def reindex_searchkick!(*models)

@@ -119,6 +119,8 @@ Sidekiq must listen to `searchkick` before `default` (see `config/sidekiq.yml`).
 bundle exec sidekiq -C config/sidekiq.yml
 ```
 
+Operations: [search-operations-runbook.md](docs/search-operations-runbook.md)
+
 ### Requirements
 
 + [Frontend (Next.js)](../ubuteco-react) — **sole active UI** (Angular `ubuteco_spa` abandoned, not maintained)
