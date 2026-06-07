@@ -29,14 +29,14 @@ RSpec.describe Order, type: :model do
       order = create(:order, :closed)
 
       expect(order.update(status: :open)).to be false
-      expect(order.errors[:status]).to include("cannot transition from closed to open")
+      expect(order.errors.details[:status].first).to include(error: :invalid_transition, from: "closed", to: "open")
     end
 
     it "rejects transitions from payed" do
       order = create(:order, :payed)
 
       expect(order.update(status: :open)).to be false
-      expect(order.errors[:status]).to include("cannot transition from payed to open")
+      expect(order.errors.details[:status].first).to include(error: :invalid_transition, from: "payed", to: "open")
     end
   end
 end

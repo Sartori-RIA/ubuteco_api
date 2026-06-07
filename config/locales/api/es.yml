@@ -1,0 +1,7 @@
+es:
+  api:
+    errors:
+      insufficient_stock: Stock insuficiente
+      search_unavailable: La búsqueda no está disponible temporalmente
+      kitchen_closed: La cocina está cerrada
+      delete_restriction: No se puede eliminar este registro porque tiene datos dependientes

@@ -24,7 +24,7 @@ module Organizations
         points = case @metric
                  when 'revenue' then revenue_points
                  when 'orders' then orders_points
-                 else raise RangeParser::InvalidRange, 'unsupported metric'
+                 else raise RangeParser::InvalidRange, I18n.t('dashboard.errors.unsupported_metric')
                  end
 
         {
@@ -40,8 +40,8 @@ module Organizations
       private
 
       def validate_options!
-        raise RangeParser::InvalidRange, 'unsupported grain' unless GRAINS.include?(@grain)
-        raise RangeParser::InvalidRange, 'unsupported metric' unless METRICS.include?(@metric)
+        raise RangeParser::InvalidRange, I18n.t('dashboard.errors.unsupported_grain') unless GRAINS.include?(@grain)
+        raise RangeParser::InvalidRange, I18n.t('dashboard.errors.unsupported_metric') unless METRICS.include?(@metric)
       end
 
       def revenue_points

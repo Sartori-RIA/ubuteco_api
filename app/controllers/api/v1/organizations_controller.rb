@@ -26,8 +26,8 @@ module Api
         else
           render_model_errors(@organization)
         end
-      rescue ActiveRecord::InvalidForeignKey, ActiveRecord::DeleteRestrictionError => e
-        render_api_errors([{ code: "delete_restriction", message: e.message }])
+      rescue ActiveRecord::InvalidForeignKey, ActiveRecord::DeleteRestrictionError
+        render_i18n_api_error(:delete_restriction)
       end
 
       def phone_available?

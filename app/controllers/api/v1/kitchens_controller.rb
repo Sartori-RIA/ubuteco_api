@@ -44,7 +44,7 @@ module Api
           render :show, status: :ok
         end
       rescue Kitchen::UpdateItemStatus::KitchenClosed
-        render_api_errors([{ code: "kitchen_closed", message: "Kitchen is closed" }], status: :forbidden)
+        render_i18n_api_error(:kitchen_closed, status: :forbidden)
       end
 
       protected

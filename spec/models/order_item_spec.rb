@@ -13,7 +13,7 @@ RSpec.describe OrderItem, type: :model do
       item = build(:order_item, order: order, item: beer)
 
       expect(item).not_to be_valid
-      expect(item.errors[:item]).to include('currency does not match order')
+      expect(item.errors.details[:item].first).to include(error: :currency_mismatch)
     end
 
     it 'accepts items when currency matches the order' do

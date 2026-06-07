@@ -1,0 +1,7 @@
+en:
+  dashboard:
+    errors:
+      from_after_to: From date must be on or before to date
+      range_exceeds_max: Range cannot exceed %{max} days
+      unsupported_metric: Unsupported metric
+      unsupported_grain: Unsupported grain

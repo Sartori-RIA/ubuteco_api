@@ -21,6 +21,13 @@ module ApiErrorRenderable
     render_api_errors(errors, status:)
   end
 
+  def render_i18n_api_error(code, status: :unprocessable_content, **options)
+    render_api_errors(
+      [{ code: code.to_s, message: I18n.t("api.errors.#{code}", **options) }],
+      status:
+    )
+  end
+
   def normalize_api_error(error)
     case error
     when Hash

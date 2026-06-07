@@ -24,7 +24,7 @@ module Orders
 
       @order_item
     rescue OrderItem::InsufficientStock
-      @order_item.errors.add(:quantity, "insufficient stock")
+      @order_item.errors.add(:quantity, :insufficient_stock)
       @order_item
     end
   end

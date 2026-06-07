@@ -26,7 +26,7 @@ module Api
             render_model_errors(@item)
           end
         rescue OrderItem::InsufficientStock
-          render_api_errors([{ code: "insufficient_stock", message: "Insufficient stock" }])
+          render_i18n_api_error(:insufficient_stock)
         end
 
         def update
