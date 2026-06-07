@@ -39,7 +39,7 @@ RSpec.describe Organization, type: :model do
     end
 
     it 'rejects unknown locale' do
-      organization.locale = 'fr'
+      organization.locale = 'zzz'
       expect(organization).not_to be_valid
       expect(organization.errors[:locale]).to be_present
     end
