@@ -4,7 +4,7 @@ Structured plans for uButeco API (`ubuteco_api`). Each document is self-containe
 
 **AI assistants:** read [AGENTS.md](../../AGENTS.md) first, then [docs/context/](../context/) for stable architecture. New plans: copy [TEMPLATE.md](./TEMPLATE.md).
 
-**Workflow:** updating plans or backlog entries → commit on **`master`** (no PR). Code for a plan → `feature/<slug>` branch.
+**Workflow:** updating plans or backlog entries → commit on **`master`** (no PR). Code for a plan → `feature/<slug>` branch. **Before PR:** update plan status on the branch; **small commits** — see [workflow-plans-and-git.md](../workflow-plans-and-git.md).
 
 **Active frontend:** [ubuteco-react](../../../ubuteco-react) only. Angular `ubuteco_spa` is abandoned — no SPA migration or parity plans.
 

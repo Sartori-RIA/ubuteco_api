@@ -1,0 +1,45 @@
+---
+description: Update plans before PRs; small focused commits; one plan per PR
+alwaysApply: true
+---
+
+# Plan & git workflow (ubuteco)
+
+Applies to **ubuteco_api** and **ubuteco-react** when implementing `docs/plans/`.
+
+## Before opening a PR (mandatory)
+
+1. Open the plan doc (`docs/plans/NN-*.md`) and the repo `docs/plans/README.md`.
+2. Mark completed phases with `[x]`, set header **`Status: completed`** (or `in progress` if deliberately partial).
+3. Include plan doc updates in the **same feature branch / PR** as the code (preferred), so reviewers see scope = done.
+4. PR title/body must name the plan (e.g. "plan 09") and link `docs/plans/...`.
+
+Plan-only edits with **no code** may still go direct to `master` / `main` per AGENTS.md — but **never open a plan PR without updating the plan first**.
+
+## Commits: small and focused
+
+One logical change per commit. Split roughly as:
+
+| Prefix | When |
+|--------|------|
+| `docs(...)` | Plan status, README tracking, context docs |
+| `feat(...)` | New behavior / UI / API |
+| `test(...)` | Specs only |
+| `fix(...)` | Bugfix |
+| `refactor(...)` | i18n, extract, no behavior change |
+
+Avoid single giant commits mixing unrelated plans, drive-by refactors, or "plan + feat + refactor" together unless truly atomic.
+
+## Branching
+
+- One plan → one branch → one PR: `feature/<plan-slug>`.
+- Do not mix unrelated plans on the same branch.
+
+## PR checklist
+
+- [ ] Plan doc + README status updated
+- [ ] Small commit history (reviewable steps)
+- [ ] Test plan in PR body
+- [ ] Companion repo linked if cross-stack (API ↔ React)
+
+Full reference: each repo's `docs/workflow-plans-and-git.md`.
