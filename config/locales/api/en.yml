@@ -5,3 +5,5 @@ en:
       search_unavailable: Search is temporarily unavailable
       kitchen_closed: Kitchen is closed
       delete_restriction: Cannot delete this record because it has dependent data
+      account_deletion_forbidden: You are not allowed to delete your own account
+      role_assignment_forbidden: You cannot assign this role

@@ -10,6 +10,7 @@ module Abilities
     def initialize(user:, params:, controller_name:)
       super()
       can_manage_self(user:, controller_name:)
+      cannot :destroy, User, id: user.id
       customer_search(controller_name:)
 
       if platform_controller?(controller_name)

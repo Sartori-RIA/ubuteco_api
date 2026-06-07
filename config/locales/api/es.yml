@@ -5,3 +5,5 @@ es:
       search_unavailable: La búsqueda no está disponible temporalmente
       kitchen_closed: La cocina está cerrada
       delete_restriction: No se puede eliminar este registro porque tiene datos dependientes
+      account_deletion_forbidden: No tienes permiso para eliminar tu propia cuenta
+      role_assignment_forbidden: No puedes asignar este rol
