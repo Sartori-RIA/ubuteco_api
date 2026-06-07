@@ -31,7 +31,7 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 |---|------|--------|----------|------------|
 | 1 | [Multi-tenant](./01-multi-tenant.md) | completed | P0 | — |
 | 2 | [Locale & currency](./02-locale-and-currency.md) | completed | P1 | #1 |
-| 10 | [Users admin API](./10-users-admin-api.md) | not started | P1 | #1 |
+| 10 | [Users admin API](./10-users-admin-api.md) | completed | P1 | #1 |
 | 6 | [Order lifecycle](./06-order-lifecycle.md) | completed | P1 | #1 |
 | 4 | [Organization dashboard](./04-organization-dashboard.md) | completed | P1 | #1, #2 |
 | 7 | [Search / OpenSearch ops](./07-search-operations.md) | completed | P2 | #1 |
@@ -47,7 +47,7 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 | [09 Inventory & stock](./09-inventory-stock.md) | [#42](https://github.com/Sartori-RIA/ubuteco_api/pull/42) | Stock adjust, low stock, `stock_movements` audit |
 | [02 Locale & currency](./02-locale-and-currency.md) | [#43](https://github.com/Sartori-RIA/ubuteco_api/pull/43) | Locales `en-CA`, `fr-CA`, `fr`; fallbacks for API messages |
 
-**Next up (not started):** [10 Users admin API](./10-users-admin-api.md), [08 API contract & CI/CD](./08-api-contract-and-ci.md).
+**Next up (not started):** [08 API contract & CI/CD](./08-api-contract-and-ci.md), [03 Subscription plans](./03-subscription-plans.md).
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md) — org/users UI, settings deletion, testing, performance.
 
