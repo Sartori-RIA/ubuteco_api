@@ -19,7 +19,11 @@ class ApplicationController < ActionController::API
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug { "Access denied on #{exception.action} #{exception.subject.inspect}" }
-    head :forbidden
+    if account_deletion_denied?(exception)
+      render_i18n_api_error(:account_deletion_forbidden, status: :forbidden)
+    else
+      head :forbidden
+    end
   end
 
   rescue_from SearchkickAuthorizable::SearchUnavailableError do |_exception|
@@ -55,5 +59,15 @@ class ApplicationController < ActionController::API
     else
       Abilities::BaseAbility.new
     end
+  end
+
+  def account_deletion_denied?(exception)
+    return false unless exception.action == :destroy
+
+    subject = exception.subject
+    target = subject if subject.is_a?(User)
+    return false if target.blank?
+
+    target.id == current_user&.id
   end
 end

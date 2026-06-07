@@ -57,9 +57,52 @@ RSpec.describe Api::V1::UsersController, type: :request do
   end
 
   describe '#DELETE /api/users/:id' do
-    it 'deletes user' do
+    it 'allows org admin to delete their own account' do
       delete api_v1_user_path(admin.id), headers: auth_header(admin)
       expect(response).to have_http_status(:no_content)
+    end
+
+    it 'allows org admin to delete staff in the same organization' do
+      staff = create(:user, :kitchen, organization: organization)
+      delete api_v1_user_path(staff.id), headers: auth_header(admin)
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'forbids kitchen staff from deleting their own account' do
+      kitchen_user = create(:user, :kitchen, organization: organization)
+      delete api_v1_user_path(kitchen_user.id), headers: auth_header(kitchen_user)
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body.dig('errors', 0, 'code')).to eq('account_deletion_forbidden')
+    end
+
+    it 'forbids super admin from deleting their own account' do
+      super_admin = create(:user, :super_admin)
+      delete api_v1_user_path(super_admin.id), headers: auth_header(super_admin)
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body.dig('errors', 0, 'code')).to eq('account_deletion_forbidden')
+    end
+  end
+
+  describe 'role assignment guard' do
+    let!(:super_admin_role) { Role.find_by(name: 'SUPER_ADMIN') || create(:super_admin) }
+
+    it 'forbids org admin from creating a user with SUPER_ADMIN role' do
+      attributes = attributes_for(:user).merge(
+        role_id: super_admin_role.id,
+        organization_id: organization.id
+      )
+      post api_v1_users_path, params: attributes.to_json, headers: auth_header(admin)
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body.dig('errors', 0, 'code')).to eq('role_assignment_forbidden')
+    end
+
+    it 'forbids org admin from promoting a user to SUPER_ADMIN' do
+      staff = create(:user, :kitchen, organization: organization)
+      put api_v1_user_path(staff.id),
+          params: { role_id: super_admin_role.id }.to_json,
+          headers: auth_header(admin)
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body.dig('errors', 0, 'code')).to eq('role_assignment_forbidden')
     end
   end
 end

@@ -22,7 +22,16 @@ module Abilities
     end
 
     def can_manage_self(user:, controller_name:)
-      can :manage, User, id: user.id unless controller_name == 'Api::V1::Customers'
+      return if controller_name == 'Api::V1::Customers'
+
+      can %i[read update], User, id: user.id
+      return unless org_admin?(user)
+
+      can :destroy, User, id: user.id
+    end
+
+    def org_admin?(user)
+      user.role&.name == 'ADMIN'
     end
 
     def can_manage_organization_users(organization_id:, controller_name:)

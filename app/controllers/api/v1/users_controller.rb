@@ -8,6 +8,8 @@ module Api
       skip_authorize_resource only: :email_available?
       load_and_authorize_resource except: %i[index email_available?]
 
+      before_action :authorize_assignable_role!, only: %i[create update]
+
       def index
         authorize! :read, User
         @pagy, @records = pagy_search_authorized(User)
@@ -54,6 +56,17 @@ module Api
 
       def update_params
         params.permit(:name, :email, :password, :avatar, :role_id)
+      end
+
+      def authorize_assignable_role!
+        role_id = params[:role_id]
+        return if role_id.blank?
+
+        role = Role.find_by(id: role_id)
+        return if role.blank?
+        return unless role.name == 'SUPER_ADMIN'
+
+        render_i18n_api_error(:role_assignment_forbidden, status: :forbidden)
       end
     end
   end

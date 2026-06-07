@@ -5,3 +5,5 @@ pt-BR:
       search_unavailable: A busca está temporariamente indisponível
       kitchen_closed: A cozinha está fechada
       delete_restriction: Não é possível excluir este registro porque existem dados dependentes
+      account_deletion_forbidden: Você não tem permissão para excluir sua própria conta
+      role_assignment_forbidden: Você não pode atribuir este perfil
