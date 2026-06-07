@@ -40,6 +40,15 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | P2 | #1 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 
+## Recent merges (Jun 2026)
+
+| Plan | PR | Notes |
+|------|-----|-------|
+| [09 Inventory & stock](./09-inventory-stock.md) | [#42](https://github.com/Sartori-RIA/ubuteco_api/pull/42) | Stock adjust, low stock, `stock_movements` audit |
+| [02 Locale & currency](./02-locale-and-currency.md) | [#43](https://github.com/Sartori-RIA/ubuteco_api/pull/43) | Locales `en-CA`, `fr-CA`, `fr`; fallbacks for API messages |
+
+**Next up (not started):** [10 Users admin API](./10-users-admin-api.md), [08 API contract & CI/CD](./08-api-contract-and-ci.md).
+
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md) — org/users UI, settings deletion, testing, performance.
 
 When starting a plan, update its header `Status:` and check boxes as you go. Use branch `feature/<plan-slug>` (one plan per branch).

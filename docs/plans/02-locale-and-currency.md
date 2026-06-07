@@ -16,7 +16,7 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 ## Current state
 
 - `money-rails`: per-model `price_currency`; org default applied per request via `SetOrganizationRegional`.
-- Rails i18n: `pt-BR`, `en` in `config/initializers/i18n.rb`; switched per request via `SetOrganizationRegional`.
+- Rails i18n: `pt-BR`, `en`, `es`, `en-CA`, `fr`, `fr-CA` in `config/initializers/i18n.rb`; switched per request via `SetOrganizationRegional`.
 - Migration `20260601120000_add_locale_settings_to_organizations` applied — `locale`, `default_currency`, `timezone` on `organizations`.
 
 ---
@@ -127,6 +127,12 @@ Each organization configures **locale**, **default currency**, and **timezone**.
 ## Follow-up (not blocking)
 
 - [ ] Dashboard date boundaries using org timezone — see [04-organization-dashboard](./04-organization-dashboard.md)
+
+---
+
+## Also shipped (post–PR #32)
+
+- [x] Locales `en-CA`, `fr-CA`, `fr` with i18n fallbacks — PR [#43](https://github.com/Sartori-RIA/ubuteco_api/pull/43)
 
 ---
 
