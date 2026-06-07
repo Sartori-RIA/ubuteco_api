@@ -8,7 +8,8 @@ RSpec.describe Organizations::Dashboard::Summary do
   let(:to) { '2026-05-26' }
 
   around do |example|
-    travel_to Time.utc(2026, 5, 26, 15, 0, 0) { example.run }
+    travel_to Time.utc(2026, 5, 26, 15, 0, 0)
+    example.run
   end
 
   before do
