@@ -13,6 +13,8 @@ paths:
       summary: All Beer Styles
       tags:
       - Beer Styles
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: Ok
@@ -39,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -50,6 +52,8 @@ paths:
       summary: Show Beer Style
       tags:
       - Beer Styles
+      security:
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -87,7 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -165,7 +169,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -215,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -236,100 +240,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/dashboard/kitchen":
-    get:
-      summary: Dashboard kitchen metrics
-      tags:
-      - Dashboard
-      security:
-      - Bearer: {}
-      parameters:
-      - name: from
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      - name: to
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/dashboard_kitchen"
-  "/api/v1/dashboard/series":
-    get:
-      summary: Dashboard time series
-      tags:
-      - Dashboard
-      security:
-      - Bearer: {}
-      parameters:
-      - name: from
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      - name: to
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      - name: grain
-        in: query
-        schema:
-          type: string
-          enum:
-          - day
-      - name: metric
-        in: query
-        schema:
-          type: string
-          enum:
-          - revenue
-          - orders
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/dashboard_series"
-  "/api/v1/dashboard/summary":
-    get:
-      summary: Dashboard summary KPIs
-      tags:
-      - Dashboard
-      security:
-      - Bearer: {}
-      parameters:
-      - name: from
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      - name: to
-        in: query
-        required: true
-        schema:
-          type: string
-          format: date
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/dashboard_summary"
   "/api/v1/customers":
     get:
       summary: All Customers
@@ -384,7 +294,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -414,13 +324,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/theme"
+                "$ref": "#/components/schemas/dish_ingredient"
         '422':
           description: Invalid request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -479,7 +389,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -529,7 +439,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -583,7 +493,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -633,7 +543,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -687,7 +597,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -737,7 +647,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -830,7 +740,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -880,7 +790,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -945,7 +855,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -981,7 +891,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1040,7 +950,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1086,7 +996,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1107,86 +1017,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/api/v1/organizations/{organization_id}/themes":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      security:
-      - Bearer: {}
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/themes"
-  "/api/v1/organizations/{organization_id}/themes/{theme_id}":
-    get:
-      summary: Show organization theme
-      tags:
-      - Organization Theme
-      security:
-      - Bearer: {}
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: theme_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/theme"
-    put:
-      summary: Update organization theme
-      tags:
-      - Organization Theme
-      security:
-      - Bearer: {}
-      parameters:
-      - name: organization_id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: theme_id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/theme"
-        '422':
-          description: Invalid request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/errors_object"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/theme"
   "/api/v1/organizations/{organization_id}/users":
     get:
       summary: All Organization users
@@ -1261,7 +1091,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1280,8 +1110,12 @@ paths:
         schema:
           type: string
       responses:
-        '204':
-          description: No Content
+        '422':
+          description: Unprocessable
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_response"
   "/api/v1/roles":
     get:
       summary: All Roles
@@ -1315,7 +1149,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1365,7 +1199,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1419,7 +1253,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1469,7 +1303,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1510,7 +1344,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1560,7 +1394,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1586,6 +1420,8 @@ paths:
       summary: All Wine Styles
       tags:
       - Wine Styles
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: Ok
@@ -1612,7 +1448,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1623,6 +1459,8 @@ paths:
       summary: Show Wine Style
       tags:
       - Wine Styles
+      security:
+      - Bearer: {}
       parameters:
       - name: id
         in: path
@@ -1660,7 +1498,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1731,7 +1569,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1781,7 +1619,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errors_object"
+                "$ref": "#/components/schemas/errors_response"
       requestBody:
         content:
           application/json:
@@ -1970,6 +1808,25 @@ components:
       type: array
       items:
         type: string
+    errors_response:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+            - code
+            - message
+            properties:
+              code:
+                type: string
+              field:
+                type: string
+              message:
+                type: string
     beers:
       type: object
       required:
@@ -2273,9 +2130,17 @@ components:
       - valid_until
       - price
     makers:
-      type: array
-      items:
-        "$ref": "#/components/schemas/maker"
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/maker"
+        meta:
+          "$ref": "#/components/schemas/pagination_meta"
     maker:
       type: object
       properties:
@@ -2406,6 +2271,12 @@ components:
           type: integer
         logo_url:
           type: string
+        locale:
+          type: string
+        default_currency:
+          type: string
+        timezone:
+          type: string
       required:
       - id
     new_organization:
@@ -2460,17 +2331,6 @@ components:
       required:
       - name
       - chairs
-    themes:
-      type: array
-      items:
-        "$ref": "#/components/schemas/theme"
-    theme:
-      type: object
-      properties:
-        id:
-          type: integer
-      required:
-      - id
     users:
       type: object
       required:
@@ -2586,65 +2446,3 @@ components:
           type: string
       required:
       - name
-    dashboard_summary:
-      type: object
-      properties:
-        revenue_cents:
-          type: integer
-        orders_count:
-          type: integer
-        open_orders_count:
-          type: integer
-        average_ticket_cents:
-          type: integer
-        currency:
-          type: string
-        from:
-          type: string
-          format: date
-        to:
-          type: string
-          format: date
-        items_by_type:
-          type: object
-          additionalProperties:
-            type: integer
-    dashboard_series:
-      type: object
-      properties:
-        metric:
-          type: string
-        grain:
-          type: string
-        currency:
-          type: string
-          nullable: true
-        from:
-          type: string
-          format: date
-        to:
-          type: string
-          format: date
-        points:
-          type: array
-          items:
-            type: object
-            properties:
-              date:
-                type: string
-                format: date
-              value:
-                type: integer
-    dashboard_kitchen:
-      type: object
-      properties:
-        open_dish_count:
-          type: integer
-        avg_prep_seconds:
-          type: integer
-        from:
-          type: string
-          format: date
-        to:
-          type: string
-          format: date
