@@ -1,0 +1,7 @@
+pt-BR:
+  dashboard:
+    errors:
+      from_after_to: A data inicial deve ser anterior ou igual à data final
+      range_exceeds_max: O intervalo não pode exceder %{max} dias
+      unsupported_metric: Métrica não suportada
+      unsupported_grain: Granularidade não suportada

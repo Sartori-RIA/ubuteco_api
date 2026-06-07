@@ -1,0 +1,7 @@
+en:
+  api:
+    errors:
+      insufficient_stock: Insufficient stock
+      search_unavailable: Search is temporarily unavailable
+      kitchen_closed: Kitchen is closed
+      delete_restriction: Cannot delete this record because it has dependent data

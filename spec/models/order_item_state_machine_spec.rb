@@ -29,7 +29,7 @@ RSpec.describe OrderItem, type: :model do
 
     it "rejects skipping cooking (awaiting to ready)" do
       expect(item.update(status: :ready)).to be false
-      expect(item.errors[:status]).to include("cannot transition from awaiting to ready")
+      expect(item.errors.details[:status].first).to include(error: :invalid_transition, from: :awaiting, to: :ready)
     end
 
     it "allows cancel from awaiting" do
@@ -47,7 +47,7 @@ RSpec.describe OrderItem, type: :model do
 
     it "rejects kitchen-only statuses" do
       expect(item.update(status: :cooking)).to be false
-      expect(item.errors[:status]).to include("cannot transition from awaiting to cooking")
+      expect(item.errors.details[:status].first).to include(error: :invalid_transition, from: :awaiting, to: :cooking)
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe OrderItem, type: :model do
       item = build(:order_item, order: closed_order, item: drink)
 
       expect(item).not_to be_valid
-      expect(item.errors[:order]).to include("must be open to add items")
+      expect(item.errors.details[:order].first).to include(error: :must_be_open)
     end
   end
 end

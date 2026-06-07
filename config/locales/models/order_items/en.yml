@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    errors:
+      models:
+        order_item:
+          attributes:
+            quantity:
+              insufficient_stock: Insufficient stock
+            item:
+              organization_mismatch: must belong to the same organization as the order
+              currency_mismatch: currency does not match order
+            order:
+              must_be_open: must be open to add items
+            status:
+              invalid_transition: "cannot transition from %{from} to %{to}"

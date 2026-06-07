@@ -5,3 +5,9 @@ es:
         discount: Descuento
         status: Estado
         table: Mesa
+    errors:
+      models:
+        order:
+          attributes:
+            status:
+              invalid_transition: "no se puede cambiar de %{from} a %{to}"

@@ -42,6 +42,6 @@ module OrderStateMachine
     allowed = PERMITTED_TRANSITIONS.fetch(from, [])
     return if allowed.include?(to)
 
-    errors.add(:status, "cannot transition from #{from} to #{to}")
+    errors.add(:status, :invalid_transition, from:, to:)
   end
 end

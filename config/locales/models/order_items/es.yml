@@ -1,0 +1,15 @@
+es:
+  activerecord:
+    errors:
+      models:
+        order_item:
+          attributes:
+            quantity:
+              insufficient_stock: Stock insuficiente
+            item:
+              organization_mismatch: debe pertenecer a la misma organización que el pedido
+              currency_mismatch: la moneda no coincide con el pedido
+            order:
+              must_be_open: debe estar abierto para agregar ítems
+            status:
+              invalid_transition: "no se puede cambiar de %{from} a %{to}"

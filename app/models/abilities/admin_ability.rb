@@ -23,6 +23,11 @@ module Abilities
       can :manage, Maker, organization_id: user.organization_id
       can :manage, Table, organization_id: user.organization_id
       can :manage, Wine, organization_id: user.organization_id
+      can :read, :inventory
+      can :adjust_stock, Beer, organization_id: user.organization_id
+      can :adjust_stock, Wine, organization_id: user.organization_id
+      can :adjust_stock, Drink, organization_id: user.organization_id
+      can :adjust_stock, Food, organization_id: user.organization_id
       cannot %i[edit create destroy], BeerStyle
       cannot %i[edit create destroy], WineStyle
     end

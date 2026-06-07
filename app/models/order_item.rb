@@ -7,12 +7,15 @@ class OrderItem < ApplicationRecord
 
   around_create :reserve_stock_unless_dish
   after_create :recalculate_total
+  after_create :record_stock_movement_on_create, unless: :dish?
+  after_update :record_stock_movement_on_quantity_change, if: :saved_change_to_quantity?
   after_create_commit :broadcast_kitchen_create, if: :dish?
 
   after_update :recalculate_total
   after_update_commit :broadcast_kitchen_status, if: :dish?
 
   around_destroy :release_stock_unless_dish
+  before_destroy :record_stock_movement_on_destroy, unless: :dish?
   after_destroy :recalculate_total
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
@@ -23,6 +26,7 @@ class OrderItem < ApplicationRecord
 
   belongs_to :order
   belongs_to :item, polymorphic: true
+  has_many :stock_movements, dependent: :nullify
 
   enum :status, { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
@@ -99,7 +103,7 @@ class OrderItem < ApplicationRecord
     product.with_lock do
       new_stock = product.quantity_stock + delta
       if new_stock.negative?
-        errors.add(:quantity, 'insufficient stock')
+        errors.add(:quantity, :insufficient_stock)
         raise InsufficientStock
       end
 
@@ -117,7 +121,7 @@ class OrderItem < ApplicationRecord
 
     return if item.organization_id == order.organization_id
 
-    errors.add(:item, 'must belong to the same organization as the order')
+    errors.add(:item, :organization_mismatch)
   end
 
   def item_currency_matches_order
@@ -129,7 +133,7 @@ class OrderItem < ApplicationRecord
 
     return if item.price_currency.to_s.upcase == order_currency.to_s.upcase
 
-    errors.add(:item, 'currency does not match order')
+    errors.add(:item, :currency_mismatch)
   end
 
   def order_must_be_open
@@ -137,7 +141,7 @@ class OrderItem < ApplicationRecord
 
     return if order.open?
 
-    errors.add(:order, 'must be open to add items')
+    errors.add(:order, :must_be_open)
   end
 
   def sufficient_stock_available
@@ -145,6 +149,43 @@ class OrderItem < ApplicationRecord
 
     return if item.quantity_stock >= quantity
 
-    errors.add(:quantity, 'insufficient stock')
+    errors.add(:quantity, :insufficient_stock)
+  end
+
+  def record_stock_movement_on_create
+    return unless stockable_item?
+
+    Inventory::RecordMovement.call(
+      organization: order.organization,
+      product: item,
+      delta: -quantity,
+      order_item: self
+    )
+  end
+
+  def record_stock_movement_on_destroy
+    return unless stockable_item?
+
+    Inventory::RecordMovement.call(
+      organization: order.organization,
+      product: item,
+      delta: quantity,
+      order_item: self
+    )
+  end
+
+  def record_stock_movement_on_quantity_change
+    return if dish? || !stockable_item?
+
+    previous_quantity, = saved_change_to_quantity
+    stock_delta = previous_quantity - quantity
+    return if stock_delta.zero?
+
+    Inventory::RecordMovement.call(
+      organization: order.organization,
+      product: item,
+      delta: stock_delta,
+      order_item: self
+    )
   end
 end
