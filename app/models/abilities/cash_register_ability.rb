@@ -20,6 +20,11 @@ module Abilities
       can :read, Drink, organization_id: user.organization_id
       can :read, Food, organization_id: user.organization_id
       can :read, Maker, organization_id: user.organization_id
+      can :read, :inventory
+      can :adjust_stock, Beer, organization_id: user.organization_id
+      can :adjust_stock, Wine, organization_id: user.organization_id
+      can :adjust_stock, Drink, organization_id: user.organization_id
+      can :adjust_stock, Food, organization_id: user.organization_id
     end
 
     def orders_permissions(user:, params:, controller_name:)

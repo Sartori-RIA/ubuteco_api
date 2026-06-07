@@ -1,0 +1,6 @@
+pt-BR:
+  inventory:
+    errors:
+      not_stockable: Produto não possui controle de estoque
+      adjustment_zero: O ajuste não pode ser zero
+      insufficient_stock: Estoque insuficiente

@@ -81,6 +81,13 @@ Rails.application.routes.draw do
       get 'dashboard/series', to: 'dashboard#series'
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
 
+      get 'inventory/low_stock', to: 'inventory#low_stock'
+
+      patch 'beers/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'beers' }
+      patch 'wines/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'wines' }
+      patch 'drinks/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'drinks' }
+      patch 'foods/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'foods' }
+
       namespace :platform do
         resources :organizations, except: :create do
           scope module: :organizations do
