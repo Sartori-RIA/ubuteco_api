@@ -31,6 +31,13 @@ RSpec.describe Organization, type: :model do
       expect(organization).to be_valid
     end
 
+    it 'accepts French locale' do
+      organization.locale = 'fr'
+      organization.default_currency = 'EUR'
+      organization.timezone = 'Europe/Paris'
+      expect(organization).to be_valid
+    end
+
     it 'rejects unknown locale' do
       organization.locale = 'fr'
       expect(organization).not_to be_valid
