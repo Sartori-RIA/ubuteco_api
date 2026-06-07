@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -202,6 +202,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_120000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "stock_movements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delta", null: false
+    t.bigint "order_item_id"
+    t.bigint "organization_id", null: false
+    t.bigint "product_id", null: false
+    t.string "product_type", null: false
+    t.string "reason"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["order_item_id"], name: "index_stock_movements_on_order_item_id"
+    t.index ["organization_id", "created_at"], name: "index_stock_movements_on_organization_id_and_created_at"
+    t.index ["organization_id"], name: "index_stock_movements_on_organization_id"
+    t.index ["product_type", "product_id"], name: "index_stock_movements_on_product"
+    t.index ["user_id"], name: "index_stock_movements_on_user_id"
+  end
+
   create_table "tables", force: :cascade do |t|
     t.integer "chairs"
     t.datetime "created_at", null: false
@@ -295,6 +312,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_120000) do
   add_foreign_key "orders", "tables"
   add_foreign_key "orders", "users"
   add_foreign_key "organizations", "users"
+  add_foreign_key "stock_movements", "order_items"
+  add_foreign_key "stock_movements", "organizations"
+  add_foreign_key "stock_movements", "users"
   add_foreign_key "tables", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "users", "roles"
