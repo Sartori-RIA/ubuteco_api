@@ -10,6 +10,8 @@ Structured plans for uButeco API (`ubuteco_api`). Each document is self-containe
 
 **Multi-tenant decision (approved):** shared PostgreSQL schema + `organization_id` + `Current` — not schema-per-tenant. See [01-multi-tenant.md](./01-multi-tenant.md#architecture-decision-approved).
 
+**Subscription / billing:** [03 Subscription plans](./03-subscription-plans.md) is **last** — implement only after all other feature plans and meaningful progress on [05 Platform hardening](./05-platform-hardening.md). Do not start billing before the core product surface is stable.
+
 ## Tracking
 
 | Layer | Purpose |
@@ -27,6 +29,8 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 
 ## Suggested implementation order
 
+Ordered by priority. **#3 is deferred to the end** (see note above).
+
 | # | Plan | Status | Priority | Depends on |
 |---|------|--------|----------|------------|
 | 1 | [Multi-tenant](./01-multi-tenant.md) | completed | P0 | — |
@@ -34,22 +38,25 @@ When a plan gets an issue, add `**GitHub:** owner/repo#NN` to the plan header (s
 | 10 | [Users admin API](./10-users-admin-api.md) | completed | P1 | #1 |
 | 6 | [Order lifecycle](./06-order-lifecycle.md) | completed | P1 | #1 |
 | 4 | [Organization dashboard](./04-organization-dashboard.md) | completed | P1 | #1, #2 |
+| 9 | [Inventory & stock](./09-inventory-stock.md) | completed | P2 | #6 |
 | 7 | [Search / OpenSearch ops](./07-search-operations.md) | completed | P2 | #1 |
 | 8 | [API contract & CI/CD](./08-api-contract-and-ci.md) | not started | P2 | — |
-| 9 | [Inventory & stock](./09-inventory-stock.md) | completed | P2 | #6 |
-| 3 | [Subscription plans](./03-subscription-plans.md) | not started | P2 | #1 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
+| 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
 ## Recent merges (Jun 2026)
 
 | Plan | PR | Notes |
 |------|-----|-------|
+| [10 Users admin API](./10-users-admin-api.md) | [#44](https://github.com/Sartori-RIA/ubuteco_api/pull/44) | Self-delete policy, SUPER_ADMIN role guard, structured errors |
 | [09 Inventory & stock](./09-inventory-stock.md) | [#42](https://github.com/Sartori-RIA/ubuteco_api/pull/42) | Stock adjust, low stock, `stock_movements` audit |
 | [02 Locale & currency](./02-locale-and-currency.md) | [#43](https://github.com/Sartori-RIA/ubuteco_api/pull/43) | Locales `en-CA`, `fr-CA`, `fr`; fallbacks for API messages |
 
-**Next up (not started):** [08 API contract & CI/CD](./08-api-contract-and-ci.md), [03 Subscription plans](./03-subscription-plans.md).
+**In progress:** [05 Platform hardening](./05-platform-hardening.md).
 
-Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md) — org/users UI, settings deletion, testing, performance.
+**Next up:** [08 API contract & CI/CD](./08-api-contract-and-ci.md) — then continue hardening. **Last:** [03 Subscription plans](./03-subscription-plans.md).
+
+Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 
 When starting a plan, update its header `Status:` and check boxes as you go. Use branch `feature/<plan-slug>` (one plan per branch).
 
