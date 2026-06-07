@@ -1,6 +1,14 @@
 # Workflow: plans, commits, and PRs
 
-Human + AI reference for uButeco. Cursor rule: [`.cursor/rules/plan-and-git-workflow.mdc`](../.cursor/rules/plan-and-git-workflow.mdc).
+**Canonical source** for plan/git workflow in uButeco — use this file for any agent or human.
+
+| Copy | Audience |
+|------|----------|
+| **This file** (`docs/workflow-plans-and-git.md`) | Source of truth — Copilot, Claude, CI, humans |
+| [`.cursor/rules/plan-and-git-workflow.mdc`](../.cursor/rules/plan-and-git-workflow.mdc) | Cursor-only summary (`alwaysApply`); keep in sync with this doc |
+| [AGENTS.md](../AGENTS.md) | Entry point — links here in *Before you code* |
+
+When editing workflow rules, **change this file first**, then mirror to `.cursor/rules/`.
 
 ## Flow
 

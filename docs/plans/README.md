@@ -2,7 +2,7 @@
 
 Structured plans for uButeco API (`ubuteco_api`). Each document is self-contained: goals, current state, phases, acceptance criteria, and links to the React companion when the front is involved.
 
-**AI assistants:** read [AGENTS.md](../../AGENTS.md) first, then [docs/context/](../context/) for stable architecture. New plans: copy [TEMPLATE.md](./TEMPLATE.md).
+**AI assistants:** read [AGENTS.md](../../AGENTS.md) first (includes [workflow-plans-and-git.md](../workflow-plans-and-git.md) — canonical for all agents), then [docs/context/](../context/) for stable architecture. New plans: copy [TEMPLATE.md](./TEMPLATE.md).
 
 **Workflow:** updating plans or backlog entries → commit on **`master`** (no PR). Code for a plan → `feature/<slug>` branch. **Before PR:** update plan status on the branch; **small commits** — see [workflow-plans-and-git.md](../workflow-plans-and-git.md).
 

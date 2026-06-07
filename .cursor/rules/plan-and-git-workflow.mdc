@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Plan & git workflow (ubuteco)
 
+> **Mirror** of [`docs/workflow-plans-and-git.md`](../docs/workflow-plans-and-git.md) — edit the doc first, then sync this file.
+
 Applies to **ubuteco_api** and **ubuteco-react** when implementing `docs/plans/`.
 
 ## Before opening a PR (mandatory)

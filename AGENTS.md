@@ -17,8 +17,9 @@ Instructions for AI assistants working in this repository.
 ## Before you code
 
 1. Read [docs/plans/README.md](docs/plans/README.md) — pick **one plan**, check status and dependencies.
-2. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
-3. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
+2. Read [docs/workflow-plans-and-git.md](docs/workflow-plans-and-git.md) — small commits, update plan before PR (**canonical** for all agents; not only Cursor).
+3. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
+4. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
 
 ## Branching
 
@@ -54,6 +55,7 @@ Instructions for AI assistants working in this repository.
 | Area | Path |
 |------|------|
 | Plans | `docs/plans/` |
+| Workflow (plans, commits, PRs) | `docs/workflow-plans-and-git.md` |
 | Context | `docs/context/` |
 | ADRs | `docs/decisions/` |
 | Tenant | `app/models/current.rb`, `app/controllers/concerns/set_current_tenant.rb` |
