@@ -72,8 +72,14 @@ jobs:
       - name: Run bundler-audit
         run: bin/bundler-audit check --update
 
+      - name: Run RuboCop
+        run: bin/rubocop
+
       - name: Run specs
         run: bundle exec rspec
+
+      - name: Check OpenAPI drift
+        run: bundle exec rake openapi:drift_check
 
       - name: Upload coverage to Codecov
         if: always()
