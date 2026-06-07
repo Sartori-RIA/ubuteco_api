@@ -3,6 +3,16 @@
 namespace :db do
   desc 'Erase and Fill database'
   task populate: :environment do
+    Searchkick.callbacks(false) do
+      populate_catalog_and_users!
+    end
+
+    puts 'Reindexing OpenSearch (Searchkick)...'
+    SearchkickReindex.all!
+    puts 'Done.'
+  end
+
+  def populate_catalog_and_users!
     [
       OrderItem,
       Order,
@@ -44,26 +54,7 @@ namespace :db do
 
     admin.update(organization_id: organization.id)
 
-    User.create_with(
-      password: default_pwd,
-      name: 'user kitchen',
-      role: Role.find_by(name: 'KITCHEN'),
-      organization_id: organization.id
-    ).find_or_create_by!(email: 'kitchen@email.com')
-
-    User.create_with(
-      password: default_pwd,
-      name: 'user waiter',
-      role: Role.find_by(name: 'WAITER'),
-      organization_id: organization.id
-    ).find_or_create_by!(email: 'waiter@email.com')
-
-    User.create_with(
-      password: default_pwd,
-      name: 'user CASH REGISTER',
-      role: Role.find_by(name: 'CASH_REGISTER'),
-      organization_id: organization.id
-    ).find_or_create_by!(email: 'cash_register@email.com')
+    sync_org_staff!(organization:, default_pwd:)
 
     User.create_with(
       password: default_pwd,
@@ -148,6 +139,24 @@ namespace :db do
         food: organization.foods.sample,
         quantity: Faker::Number.between(from: 1, to: 2)
       ).first_or_create
+    end
+  end
+
+  def sync_org_staff!(organization:, default_pwd:)
+    [
+      ['kitchen@email.com', 'user kitchen', 'KITCHEN'],
+      ['waiter@email.com', 'user waiter', 'WAITER'],
+      ['cash_register@email.com', 'user CASH REGISTER', 'CASH_REGISTER']
+    ].each do |email, name, role_name|
+      role = Role.find_by!(name: role_name)
+      user = User.find_or_initialize_by(email: email)
+      user.assign_attributes(
+        password: default_pwd,
+        name: name,
+        role: role,
+        organization: organization
+      )
+      user.save!
     end
   end
 end

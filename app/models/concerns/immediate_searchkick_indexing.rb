@@ -13,6 +13,7 @@ module ImmediateSearchkickIndexing
 
   def reindex_for_immediate_search
     return unless respond_to?(:reindex)
+    return unless Searchkick.callbacks?
 
     reindex(refresh: true)
   end

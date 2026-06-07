@@ -17,6 +17,8 @@ x-api-env: &api-env
   ANYCABLE_SECRET: anycable-local-secret
   ANYCABLE_HTTP_BROADCAST_URL: http://anycable-ws:8090/_broadcast
   ANYCABLE_WEBSOCKET_URL: ws://localhost:8080/api/cable
+  # Bind gRPC on all interfaces so anycable-go (separate container) can reach api:50051
+  ANYCABLE_RPC_HOST: "0.0.0.0:50051"
 
 services:
 
@@ -184,7 +186,7 @@ services:
       ANYCABLE_PATH: "/api/cable"
       ANYCABLE_HTTP_BROADCAST_PORT: 8090
       ANYCABLE_BROADCAST_ADAPTER: http
-      ANYCABLE_RPC_HOST: "${ANYCABLE_RPC_HOST:-api:50051}"
+      ANYCABLE_RPC_HOST: "api:50051"
       ANYCABLE_SECRET: "anycable-local-secret"
       ANYCABLE_REDIS_URL: "redis://cache:6379/0"
       ANYCABLE_ALLOWED_ORIGINS: "*"
