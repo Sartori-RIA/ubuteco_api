@@ -15,8 +15,8 @@ class OrderItem < ApplicationRecord
   after_update_commit :broadcast_kitchen_status, if: :dish?
 
   around_destroy :release_stock_unless_dish
+  before_destroy :record_stock_movement_on_destroy, unless: :dish?
   after_destroy :recalculate_total
-  after_destroy :record_stock_movement_on_destroy, unless: :dish?
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
   validate :item_matches_order_organization
@@ -26,6 +26,7 @@ class OrderItem < ApplicationRecord
 
   belongs_to :order
   belongs_to :item, polymorphic: true
+  has_many :stock_movements, dependent: :nullify
 
   enum :status, { awaiting: 0, cooking: 1, ready: 2, with_the_client: 3, canceled: 4, empty_stock: 5 }
 
