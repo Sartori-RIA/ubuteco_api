@@ -38,6 +38,16 @@ jobs:
           --health-timeout 5s
           --health-retries 12
 
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       RAILS_ENV: test
       CI: true
@@ -48,6 +58,7 @@ jobs:
       SECRET_KEY_BASE: ci-secret-key-base-for-test-suite-only
       SESSION_SECRET_TOKEN: ci-session-secret
       ANYCABLE_SECRET: ci-anycable-secret
+      REDIS_URL: redis://localhost:6379/0
       MAILER_ADDRESS: 127.0.0.1
       MAILER_PORT: 1025
       MAILER_USER_NAME: ci@example.com

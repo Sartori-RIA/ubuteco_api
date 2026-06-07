@@ -668,6 +668,54 @@ paths:
       responses:
         '204':
           description: No Content
+  "/api/v1/inventory/low_stock":
+    get:
+      summary: Low stock inventory
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+  "/api/v1/beers/{id}/stock":
+    patch:
+      summary: Adjust beer stock
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/beer"
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                adjustment:
+                  type: integer
+                reason:
+                  type: string
+              required:
+              - adjustment
   "/api/v1/kitchens":
     get:
       summary: All Dishes to make
@@ -1116,6 +1164,50 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/errors_response"
+  "/api/v1/platform/organizations":
+    get:
+      summary: List organizations (platform)
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+        '403':
+          description: Forbidden
+  "/api/v1/platform/organizations/{id}":
+    get:
+      summary: Show organization (platform)
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+  "/api/v1/platform/organizations/{organization_id}/users":
+    get:
+      summary: List organization users (platform)
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
   "/api/v1/roles":
     get:
       summary: All Roles
