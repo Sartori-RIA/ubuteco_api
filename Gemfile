@@ -24,7 +24,7 @@ gem "opensearch-ruby", "~> 2.1.0"
 gem 'pagy', '~> 43.2', '>= 43.2.9'
 gem 'paranoia', '~> 3.1'
 gem 'pg', '~> 1.6', '>= 1.6.3'
-gem 'puma', '~> 7.2'
+gem 'puma', '~> 7.2', '>= 7.2.1'
 gem 'rack', '~> 3.2', '>= 3.2.6'
 gem 'rack-attack', '~> 6.8'
 gem 'rack-cors', '~> 3.0'
