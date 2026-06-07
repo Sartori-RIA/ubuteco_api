@@ -20,6 +20,17 @@ RSpec.describe Organization, type: :model do
       expect(organization).to be_valid
     end
 
+    it 'accepts Canadian locale and currency' do
+      organization.locale = 'en-CA'
+      organization.default_currency = 'CAD'
+      organization.timezone = 'America/Toronto'
+      expect(organization).to be_valid
+
+      organization.locale = 'fr-CA'
+      organization.timezone = 'America/Montreal'
+      expect(organization).to be_valid
+    end
+
     it 'rejects unknown locale' do
       organization.locale = 'fr'
       expect(organization).not_to be_valid
