@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 namespace :openapi do
-  CANONICAL = Rails.root.join('swagger/v1/swagger.yaml')
-  DOCS_COPY = Rails.root.join('docs/swagger.yaml')
-
   desc 'Copy canonical OpenAPI spec to docs/swagger.yaml (static Swagger UI site)'
-  task :sync_docs do
-    unless CANONICAL.exist?
-      abort "Missing canonical spec: #{CANONICAL}. Run rake rswag:specs:swaggerize first."
-    end
+  task sync_docs: :environment do
+    canonical = Rails.root.join('swagger/v1/swagger.yaml')
+    docs_copy = Rails.root.join('docs/swagger.yaml')
+    abort "Missing canonical spec: #{canonical}. Run rake rswag:specs:swaggerize first." unless canonical.exist?
 
-    FileUtils.cp(CANONICAL, DOCS_COPY)
-    puts "Synced #{DOCS_COPY} from #{CANONICAL}"
+    FileUtils.cp(canonical, docs_copy)
+    puts "Synced #{docs_copy} from #{canonical}"
   end
 
   desc 'Regenerate OpenAPI from rswag and sync docs/swagger.yaml'

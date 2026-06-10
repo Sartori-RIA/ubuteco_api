@@ -48,12 +48,29 @@ On the feature branch (same PR as code):
 
 Exception: plan/backlog **text-only** edits with no implementation can go straight to **`master`** (no PR), per [AGENTS.md](../AGENTS.md).
 
-## 4. Open PR
+## 4. Quality gates **before** opening the PR
+
+Run locally on the feature branch — **must pass** before `git push` / `gh pr create`. Matches [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+
+| Check | Command |
+|-------|---------|
+| **RuboCop** | `bin/rubocop` |
+| **RSpec** (specs) | `bundle exec rspec` |
+| **Code coverage** | Generated with RSpec (`coverage/` — SimpleCov); confirm no unexpected drops on changed areas |
+| **Brakeman** | `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error` |
+| **bundler-audit** | `bin/bundler-audit check --update` |
+| **OpenAPI drift** (if API contract changed) | `bundle exec rake openapi:drift_check` |
+
+**Shortcut:** `bin/ci` runs RuboCop, Brakeman, bundler-audit, RSpec, and OpenAPI drift (plus seeds). Requires local Postgres and env vars — see [dev-setup.md](./dev-setup.md).
+
+Do not open a PR with failing specs, RuboCop offenses, Brakeman warnings, or bundler-audit vulnerabilities.
+
+## 5. Open PR
 
 - One plan per PR when possible; finish the plan in that PR.
 - Body: summary bullets, link to plan file, test plan checklist.
 - Cross-repo: link companion PR (e.g. API #42 ↔ React #26).
 
-## 5. After merge
+## 6. After merge
 
 - README status should already be `completed` from step 3.
