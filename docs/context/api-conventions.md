@@ -48,9 +48,12 @@ Active Storage for attachments (e.g. org logo, avatars). URLs may appear as `log
 
 ## Swagger / contract
 
+- **Canonical spec:** `swagger/v1/swagger.yaml` — generated from rswag request specs (`rake rswag:specs:swaggerize`).
+- **Static docs site:** `docs/swagger.yaml` is a copy for GitHub Pages Swagger UI — sync with `rake openapi:sync_docs` or `rake openapi:refresh`.
+- **CI:** `rake openapi:drift_check` regenerates and fails if committed YAML differs.
 - Specs: `spec/requests/api/v1/*_spec.rb` with rswag
 - Schema definitions: `spec/swagger_helper.rb`
-- Regenerate when plan 08 or feature work requires contract sync
+- Regenerate after API contract changes: `bundle exec rake openapi:refresh`
 
 ## Idempotency / migrations
 
