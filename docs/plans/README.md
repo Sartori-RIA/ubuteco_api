@@ -64,6 +64,8 @@ When starting a plan, update its header `Status:` and check boxes as you go. Use
 
 | Doc | Purpose |
 |-----|---------|
-| [context/](../context/) | Architecture, roles, API conventions |
+| [context/](../context/) | Architecture, roles, API conventions, domain docs |
+| [context/common-ai-pitfalls.md](../context/common-ai-pitfalls.md) | Frequent agent mistakes |
+| [context/testing.md](../context/testing.md) | RSpec, rswag, cross-tenant patterns |
 | [decisions/](../decisions/) | ADRs (permanent decisions) |
 | [dev-setup.md](../dev-setup.md) | Ports, docker, migrations |

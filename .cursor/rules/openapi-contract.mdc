@@ -1,0 +1,28 @@
+---
+description: OpenAPI contract and rswag patterns when changing API surface
+globs: app/controllers/**/*.rb,spec/requests/**/*.rb,spec/swagger_helper.rb,swagger/**/*.yaml,docs/swagger.yaml
+alwaysApply: false
+---
+
+# OpenAPI contract (ubuteco_api)
+
+Canonical contract: [ADR 005](../../docs/decisions/005-openapi-as-contract-source.md).
+
+## Before changing JSON shape or routes
+
+1. Read `config/routes.rb` and `swagger/v1/swagger.yaml`.
+2. Mirror nearest existing controller + rswag spec in `spec/requests/api/v1/`.
+
+## After API contract changes
+
+1. Update rswag request spec (`errors_response` schema for 422/403).
+2. Run `bundle exec rake openapi:refresh` or `openapi:drift_check`.
+3. Commit `swagger/v1/swagger.yaml` and `docs/swagger.yaml`.
+
+## Errors
+
+Use structured format via `ApiErrorRenderable` — [ADR 004](../../docs/decisions/004-structured-api-errors.md). Do not return bare string arrays.
+
+## Testing
+
+See [testing.md](../../docs/context/testing.md).

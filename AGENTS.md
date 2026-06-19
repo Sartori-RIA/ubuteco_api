@@ -18,8 +18,10 @@ Instructions for AI assistants working in this repository.
 
 1. Read [docs/plans/README.md](docs/plans/README.md) — pick **one plan**, check status and dependencies.
 2. Read [docs/workflow-plans-and-git.md](docs/workflow-plans-and-git.md) — small commits, update plan before PR (**canonical** for all agents; not only Cursor).
-3. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
-4. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
+3. Read [docs/context/common-ai-pitfalls.md](docs/context/common-ai-pitfalls.md) — frequent agent mistakes in this repo.
+4. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
+5. Read domain context for your plan area (orders, users, inventory, etc.) — see [Key paths](#key-paths).
+6. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
 
 ## Branching
 
@@ -47,9 +49,9 @@ Instructions for AI assistants working in this repository.
 
 - Tenant logic: `Current.user` / `Current.organization` — see `app/models/current.rb`.
 - Org-owned records: scope by `organization_id`; never trust `organization_id` from client params on create.
-- Errors: JSON array of strings, often `422` with `errors.full_messages`.
-- Specs: RSpec; request specs for API; mirror patterns in `spec/controllers/api/v1/`.
-- After controller/schema changes: update Swagger (`spec/swagger_helper.rb`) when the plan calls for it.
+- Errors: structured JSON via `ApiErrorRenderable` — `{ errors: [{ code, field?, message }] }`. Use `render_model_errors` / `render_api_errors`. See [docs/context/api-conventions.md](docs/context/api-conventions.md) and [ADR 004](docs/decisions/004-structured-api-errors.md).
+- Specs: RSpec; request specs for API; cross-tenant cases required for org-scoped resources. See [docs/context/testing.md](docs/context/testing.md).
+- After controller/schema changes: update rswag + run `openapi:drift_check` when the contract changes — [ADR 005](docs/decisions/005-openapi-as-contract-source.md).
 
 ## Key paths
 
@@ -57,8 +59,14 @@ Instructions for AI assistants working in this repository.
 |------|------|
 | Plans | `docs/plans/` |
 | Workflow (plans, commits, PRs) | `docs/workflow-plans-and-git.md` |
-| Context | `docs/context/` |
+| AI pitfalls | `docs/context/common-ai-pitfalls.md` |
+| Context (stable) | `docs/context/` |
+| Orders & kitchen | `docs/context/orders-lifecycle.md` |
+| Users & platform | `docs/context/users-and-platform.md` |
+| Inventory & stock | `docs/context/inventory-stock.md` |
+| Testing patterns | `docs/context/testing.md` |
 | ADRs | `docs/decisions/` |
+| OpenAPI (canonical) | `swagger/v1/swagger.yaml` |
 | Tenant | `app/models/current.rb`, `app/controllers/concerns/set_current_tenant.rb` |
 | Abilities | `app/models/abilities/` |
 | Platform (super admin) | `app/controllers/api/v1/platform/` |

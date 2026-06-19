@@ -15,7 +15,7 @@ High-level view of how the main pieces connect in **local development** (Docker 
 
 **Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md) — multi-tenant through CI/CD, order lifecycle, inventory, users API, and more.
 
-**AI assistants:** [AGENTS.md](AGENTS.md) · [docs/context/](docs/context/) · [docs/dev-setup.md](docs/dev-setup.md)
+**AI assistants:** [AGENTS.md](AGENTS.md) · [docs/context/](docs/context/) (incl. [pitfalls](docs/context/common-ai-pitfalls.md), [testing](docs/context/testing.md)) · [docs/dev-setup.md](docs/dev-setup.md)
 
 #### Components
 

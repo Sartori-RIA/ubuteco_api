@@ -57,3 +57,17 @@ config/routes.rb
 
 - [001-shared-schema-multi-tenant.md](../decisions/001-shared-schema-multi-tenant.md)
 - [003-react-only-frontend.md](../decisions/003-react-only-frontend.md)
+- [004-structured-api-errors.md](../decisions/004-structured-api-errors.md)
+- [005-openapi-as-contract-source.md](../decisions/005-openapi-as-contract-source.md)
+
+## Domain context (for feature work)
+
+| Domain | Doc |
+|--------|-----|
+| Orders & kitchen | [orders-lifecycle.md](./orders-lifecycle.md) |
+| Users & platform admin | [users-and-platform.md](./users-and-platform.md) |
+| Inventory & stock | [inventory-stock.md](./inventory-stock.md) |
+| API conventions | [api-conventions.md](./api-conventions.md) |
+| Roles summary | [roles-and-access.md](./roles-and-access.md) |
+| Testing | [testing.md](./testing.md) |
+| AI pitfalls | [common-ai-pitfalls.md](./common-ai-pitfalls.md) |
