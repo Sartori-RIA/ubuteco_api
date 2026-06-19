@@ -60,6 +60,7 @@ Run locally on the feature branch — **must pass** before `git push` / `gh pr c
 | **Brakeman** | `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error` |
 | **bundler-audit** | `bin/bundler-audit check --update` |
 | **OpenAPI drift** (if API contract changed) | `bundle exec rake openapi:drift_check` |
+| **Plan status drift** (if plan docs changed) | `bin/plans_drift_check` |
 
 **Shortcut:** `bin/ci` runs RuboCop, Brakeman, bundler-audit, RSpec, and OpenAPI drift (plus seeds). Requires local Postgres and env vars — see [dev-setup.md](./dev-setup.md).
 

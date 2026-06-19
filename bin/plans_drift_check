@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Verifies docs/plans/README.md status column matches each plan's **Status:** header.
+# Usage: bin/plans_drift_check
+
+ROOT = File.expand_path("..", __dir__)
+PLANS_DIR = File.join(ROOT, "docs/plans")
+README = File.join(PLANS_DIR, "README.md")
+
+KNOWN_STATUSES = [
+  "not started",
+  "in progress",
+  "completed"
+].freeze
+
+def normalize_status(raw)
+  text = raw.to_s.strip.downcase.gsub(/\s*\(.*\)\z/, "").strip
+  KNOWN_STATUSES.find { |s| text.start_with?(s) } || text
+end
+
+def parse_readme_table
+  entries = []
+  File.readlines(README, chomp: true).each do |line|
+    next unless line.match?(/^\|\s*\d+\s*\|/)
+
+    parts = line.split("|").map(&:strip).reject(&:empty?)
+    next if parts.size < 3
+
+    link = parts[1]
+    link_match = link&.match(/\A\[.+?\]\(\.\/(.+?)\)\z/)
+    next unless link_match
+
+    file = link_match[1]
+    readme_status = normalize_status(parts[2])
+    entries << { file: file, readme_status: readme_status }
+  end
+  entries
+end
+
+def plan_header_status(path)
+  content = File.read(path)
+  match = content.match(/\*\*Status:\*\*\s*(.+)/)
+  return nil unless match
+
+  normalize_status(match[1])
+end
+
+entries = parse_readme_table
+errors = []
+
+if entries.empty?
+  warn "plans_drift_check: no plan rows found in #{README}"
+  exit 1
+end
+
+entries.each do |entry|
+  path = File.join(PLANS_DIR, entry[:file])
+  unless File.file?(path)
+    errors << "#{entry[:file]}: listed in README but file missing"
+    next
+  end
+
+  header_status = plan_header_status(path)
+  if header_status.nil?
+    errors << "#{entry[:file]}: missing **Status:** header"
+    next
+  end
+
+  next if header_status == entry[:readme_status]
+
+  errors << "#{entry[:file]}: README=#{entry[:readme_status].inspect} header=#{header_status.inspect}"
+end
+
+if errors.any?
+  warn "Plan status drift detected (#{errors.size}):"
+  errors.each { |e| warn "  - #{e}" }
+  warn "Update docs/plans/README.md or the plan **Status:** header so they match."
+  exit 1
+end
+
+puts "Plan status OK (#{entries.size} plans checked)."

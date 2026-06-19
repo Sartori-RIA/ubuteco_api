@@ -15,7 +15,7 @@ Stable reference for how ubuteco_api is structured. For active work items, see [
 | Search | Searchkick + org filters via `SearchkickAuthorizable` |
 | Real-time | AnyCable streams keyed by org (e.g. kitchen) |
 
-Jobs and console **must** set `Current` explicitly or pass `organization_id` — there is no automatic tenant in Sidekiq.
+Jobs and console **must** set `Current` explicitly or pass `organization_id` — there is no automatic tenant in Sidekiq. See [ADR 006](../decisions/006-jobs-and-current-tenant.md).
 
 ## API surface
 
@@ -59,6 +59,7 @@ config/routes.rb
 - [003-react-only-frontend.md](../decisions/003-react-only-frontend.md)
 - [004-structured-api-errors.md](../decisions/004-structured-api-errors.md)
 - [005-openapi-as-contract-source.md](../decisions/005-openapi-as-contract-source.md)
+- [006-jobs-and-current-tenant.md](../decisions/006-jobs-and-current-tenant.md)
 
 ## Domain context (for feature work)
 
@@ -67,6 +68,9 @@ config/routes.rb
 | Orders & kitchen | [orders-lifecycle.md](./orders-lifecycle.md) |
 | Users & platform admin | [users-and-platform.md](./users-and-platform.md) |
 | Inventory & stock | [inventory-stock.md](./inventory-stock.md) |
+| Search & OpenSearch | [search-and-opensearch.md](./search-and-opensearch.md) |
+| Dashboard | [dashboard.md](./dashboard.md) |
+| i18n & money | [i18n-and-money.md](./i18n-and-money.md) |
 | API conventions | [api-conventions.md](./api-conventions.md) |
 | Roles summary | [roles-and-access.md](./roles-and-access.md) |
 | Testing | [testing.md](./testing.md) |

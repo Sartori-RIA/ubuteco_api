@@ -1,6 +1,6 @@
 # OpenSearch / Searchkick runbook
 
-Operations guide for **ubuteco_api** search. See also [plan 07](./plans/07-search-operations.md).
+Operations guide for **ubuteco_api** search. Context: [search-and-opensearch.md](./context/search-and-opensearch.md). Plan: [07-search-operations.md](./plans/07-search-operations.md).
 
 ## Dev stack
 

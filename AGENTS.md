@@ -2,6 +2,8 @@
 
 Instructions for AI assistants working in this repository.
 
+**Also:** [CLAUDE.md](CLAUDE.md) (Claude Code) · [.github/copilot-instructions.md](.github/copilot-instructions.md) (GitHub Copilot) — both point here.
+
 ## Stack
 
 - Ruby 4 / Rails 8.1 API-only
@@ -19,14 +21,16 @@ Instructions for AI assistants working in this repository.
 1. Read [docs/plans/README.md](docs/plans/README.md) — pick **one plan**, check status and dependencies.
 2. Read [docs/workflow-plans-and-git.md](docs/workflow-plans-and-git.md) — small commits, update plan before PR (**canonical** for all agents; not only Cursor).
 3. Read [docs/context/common-ai-pitfalls.md](docs/context/common-ai-pitfalls.md) — frequent agent mistakes in this repo.
-4. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
-5. Read domain context for your plan area (orders, users, inventory, etc.) — see [Key paths](#key-paths).
-6. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
+4. Small API bugs / polish: [docs/backlog/README.md](docs/backlog/README.md) — promote to a plan if scope grows.
+5. Read [docs/context/architecture.md](docs/context/architecture.md) for tenant model and request flow.
+6. Read domain context for your plan area — see [Key paths](#key-paths).
+7. Read [docs/dev-setup.md](docs/dev-setup.md) for ports and local commands.
 
 ## Branching
 
 - **Implementation** (code): one plan = one branch — `feature/<plan-slug>` (e.g. `feature/locale-and-currency`). Do not mix unrelated plans on the same branch.
 - **Plan docs** (`docs/plans/`, status checkboxes, new plan files): commit **directly on `master`** — no feature branch or PR required.
+- **Backlog docs** (`docs/backlog/`): commit **directly on `master`** when text-only.
 - **Other docs-only** (context, ADRs, dev-setup): also fine on `master`, or `docs/<topic>` if you prefer a short-lived branch.
 
 ## Plans, commits & PRs
@@ -58,12 +62,16 @@ Instructions for AI assistants working in this repository.
 | Area | Path |
 |------|------|
 | Plans | `docs/plans/` |
+| Backlog | `docs/backlog/` |
 | Workflow (plans, commits, PRs) | `docs/workflow-plans-and-git.md` |
 | AI pitfalls | `docs/context/common-ai-pitfalls.md` |
 | Context (stable) | `docs/context/` |
 | Orders & kitchen | `docs/context/orders-lifecycle.md` |
 | Users & platform | `docs/context/users-and-platform.md` |
 | Inventory & stock | `docs/context/inventory-stock.md` |
+| Search & OpenSearch | `docs/context/search-and-opensearch.md` |
+| Dashboard | `docs/context/dashboard.md` |
+| i18n & money | `docs/context/i18n-and-money.md` |
 | Testing patterns | `docs/context/testing.md` |
 | ADRs | `docs/decisions/` |
 | OpenAPI (canonical) | `swagger/v1/swagger.yaml` |
