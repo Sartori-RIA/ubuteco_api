@@ -92,6 +92,9 @@ jobs:
       - name: Check OpenAPI drift
         run: bundle exec rake openapi:drift_check
 
+      - name: Check plan status drift
+        run: bin/plans_drift_check
+
       - name: Upload coverage to Codecov
         if: always()
         uses: codecov/codecov-action@v5

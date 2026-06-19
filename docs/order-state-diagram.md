@@ -1,6 +1,6 @@
 # Order lifecycle — state diagrams
 
-Companion to [plan 06](./plans/06-order-lifecycle.md). Describes **current intended behaviour** after domain hardening.
+Companion to [plan 06](./plans/06-order-lifecycle.md) and [orders-lifecycle context](./context/orders-lifecycle.md). Describes **current intended behaviour** after domain hardening.
 
 ---
 

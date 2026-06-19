@@ -30,6 +30,7 @@ Plan-only edits with **no code** may go direct to **`master`** per AGENTS.md.
 | Brakeman | `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error` |
 | bundler-audit | `bin/bundler-audit check --update` |
 | OpenAPI drift (if contract changed) | `bundle exec rake openapi:drift_check` |
+| Plan status drift (if plan docs changed) | `bin/plans_drift_check` |
 
 Shortcut: `bin/ci`. Do not open a PR with failures.
 

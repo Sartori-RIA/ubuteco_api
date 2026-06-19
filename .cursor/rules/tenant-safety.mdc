@@ -1,0 +1,26 @@
+---
+description: Multi-tenant scoping, Current, and CanCan rules for API code
+globs: app/controllers/**/*.rb,app/models/**/*.rb,app/models/abilities/**/*.rb,app/services/**/*.rb
+alwaysApply: false
+---
+
+# Tenant safety (ubuteco_api)
+
+Shared-schema multi-tenant — see [ADR 001](../../docs/decisions/001-shared-schema-multi-tenant.md) and [architecture.md](../../docs/context/architecture.md).
+
+## Rules
+
+- Request context: `Current.user`, `Current.organization` (`SetCurrentTenant` on every request).
+- Org-owned records: scope by `organization_id`; abilities under `app/models/abilities/`.
+- **Never** trust client-supplied `organization_id` on create — merge from `current_user.organization_id` or `Current.organization`.
+- Do **not** add `default_scope` for tenant isolation.
+- Jobs/console: set `Current` explicitly or pass `organization_id` — Sidekiq has no automatic tenant.
+
+## New org-scoped resources
+
+- Add cross-tenant specs in `spec/security/cross_tenant/`.
+- Verify CanCan rules in the matching ability class for each role.
+
+## Pitfalls
+
+See [common-ai-pitfalls.md](../../docs/context/common-ai-pitfalls.md).

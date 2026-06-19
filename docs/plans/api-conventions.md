@@ -2,47 +2,15 @@
 
 **Status:** in progress (plan [05-platform-hardening](./05-platform-hardening.md))
 
+> **Stable reference:** error format, Swagger workflow, and request patterns live in [docs/context/api-conventions.md](../context/api-conventions.md), [ADR 004](../decisions/004-structured-api-errors.md), and [ADR 005](../decisions/005-openapi-as-contract-source.md). This file tracks hardening items still in flight.
+
 ---
 
 ## Error responses
 
-Prefer structured JSON over bare string arrays:
+See [context/api-conventions.md](../context/api-conventions.md#error-responses) and [ADR 004](../decisions/004-structured-api-errors.md).
 
-```json
-{
-  "errors": [
-    {
-      "code": "validation_error",
-      "field": "email",
-      "message": "Email has already been taken"
-    }
-  ]
-}
-```
-
-### Codes (initial set)
-
-| Code | HTTP | When |
-|------|------|------|
-| `validation_error` | 422 | ActiveRecord / model validation |
-| `insufficient_stock` | 422 | Order item stock guard |
-| `rate_limit_exceeded` | 429 | Rack::Attack throttle |
-| `error` | varies | Generic fallback during migration |
-
-### Controllers
-
-Include `ApiErrorRenderable` and use:
-
-- `render_model_errors(record)` — validation failures
-- `render_api_errors([{ code:, field:, message: }])` — domain errors
-
-Legacy `render json: model.errors.full_messages` is migrated gradually.
-
-### Locale
-
-Validation `message` strings use the organization locale via `SetOrganizationRegional` (`I18n.with_locale`). Attribute labels live under `config/locales/models/{model}/{locale}.yml` (`activerecord.attributes.{model}.{field}`). The `field` key in each error is the machine name (e.g. `beer_style`) for client-side mapping.
-
----
+Legacy `render json: model.errors.full_messages` is migrated gradually (plan 05).
 
 ## Auth (JWT)
 
