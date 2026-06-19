@@ -41,6 +41,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 9 | [Inventory & stock](./09-inventory-stock.md) | completed | P2 | #6 |
 | 7 | [Search / OpenSearch ops](./07-search-operations.md) | completed | P2 | #1 |
 | 8 | [API contract & CI/CD](./08-api-contract-and-ci.md) | completed | P2 | — |
+| 15 | [Product expiry alerts](./15-product-expiry-alerts.md) | not started | P2 | #9 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
@@ -54,7 +55,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **In progress:** [05 Platform hardening](./05-platform-hardening.md).
 
-**Next up:** [10 Document titles](../../../ubuteco-react/docs/plans/10-document-titles.md), [09 Frontend performance](../../../ubuteco-react/docs/plans/09-frontend-performance.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
+**Next up:** [15 Product expiry alerts](../../../ubuteco-react/docs/plans/15-product-expiry-alerts.md), [09 Frontend performance](../../../ubuteco-react/docs/plans/09-frontend-performance.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 
