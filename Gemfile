@@ -21,7 +21,7 @@ gem 'image_processing', '~> 1.13'
 gem 'aws-sdk-s3', '~> 1', require: false
 gem 'money-rails', '~> 3.0'
 gem "opensearch-ruby", "~> 2.1.0"
-gem 'pagy', '~> 43.2', '>= 43.2.9'
+gem 'pagy', '~> 43.5', '>= 43.5.6'
 gem 'paranoia', '~> 3.1'
 gem 'pg', '~> 1.6', '>= 1.6.3'
 gem 'puma', '~> 7.2', '>= 7.2.1'

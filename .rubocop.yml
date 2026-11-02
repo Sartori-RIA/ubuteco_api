@@ -21,6 +21,7 @@ AllCops:
     - 'config/initializers/*'
     - 'config/environments/*'
     - 'lib/tasks/populate.rake'
+    - 'lib/tasks/demo_orders.rake'
     - 'config/routes.rb'
     - 'spec/**/*.rb'
 
