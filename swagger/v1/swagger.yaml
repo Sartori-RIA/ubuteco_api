@@ -684,6 +684,32 @@ paths:
       responses:
         '200':
           description: Ok
+  "/api/v1/inventory/restock_suggestions":
+    get:
+      summary: Restock suggestions
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters:
+      - name: cover_days
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: window_days
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: explain
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Ok
   "/api/v1/inventory/low_stock":
     get:
       summary: Low stock inventory
