@@ -80,6 +80,7 @@ Rails.application.routes.draw do
       get 'dashboard/summary', to: 'dashboard#summary'
       get 'dashboard/series', to: 'dashboard#series'
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
+      get 'dashboard/brief', to: 'dashboard#brief'
 
       get 'inventory/low_stock', to: 'inventory#low_stock'
       get 'inventory/expiring', to: 'inventory#expiring'

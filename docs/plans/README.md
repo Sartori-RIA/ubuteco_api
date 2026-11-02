@@ -44,7 +44,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 15 | [Product expiry alerts](./15-product-expiry-alerts.md) | completed | P2 | #9 |
 | 16 | [AI foundation](./16-ai-foundation.md) | completed | P2 | #1, #5 |
 | 19 | [Restock suggestions](./19-restock-suggestions.md) | completed | P2 | #9 (#16 for AI phase only) |
-| 18 | [AI daily brief](./18-ai-daily-brief.md) | not started | P2 | #16, #4, #9 (#15 recommended) |
+| 18 | [AI daily brief](./18-ai-daily-brief.md) | completed | P2 | #16, #4, #9 (#15 recommended) |
 | 20 | [Semantic menu search](./20-semantic-menu-search.md) | not started | P3 | #7, #16 |
 | 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
@@ -61,9 +61,9 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **In progress:** [05 Platform hardening](./05-platform-hardening.md).
 
-**Next up:** [18 AI daily brief](./18-ai-daily-brief.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
+**Next up:** [20 Semantic menu search](./20-semantic-menu-search.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
 
-**AI track (16–21):** [16 AI foundation](./16-ai-foundation.md) and [19 Restock suggestions](./19-restock-suggestions.md) are in place. Next model feature is [18 AI daily brief](./18-ai-daily-brief.md). React companions: 17, 18, 19, 21; plan 20 has no UI work in v1.
+**AI track (16–21):** [16](./16-ai-foundation.md), [19](./19-restock-suggestions.md), and [18](./18-ai-daily-brief.md) are in place. Next is [20 Semantic menu search](./20-semantic-menu-search.md) (no React plan). Then [17](./17-ai-assistant.md) and [21](./21-ai-product-intake.md).
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 
