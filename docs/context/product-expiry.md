@@ -48,6 +48,10 @@ Authorized roles: **ADMIN**, **CASH_REGISTER** (`:read, :inventory`). Waiter and
 
 v1 does not block orders, send email, or adjust stock when a product expires. Beer and Food JSON already include `valid_until` on index/show.
 
+## Demo data
+
+`bin/rails db:populate` (after `db:seed`) adds beers and foods named `DEMO …` on the admin organization: due today, due in 3 days, already expired, and dated 21 days out so it stays off the default 7-day list. Random foods may also land inside the window.
+
 ## Key files
 
 ```

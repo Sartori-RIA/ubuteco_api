@@ -87,7 +87,7 @@ Order matters: **migrate → seed → populate** (`populate` needs roles and sty
 ```bash
 docker compose exec api bin/rails db:migrate
 docker compose exec api bin/rails db:seed      # roles, beer/wine styles
-docker compose exec api bin/rails db:populate  # fake catalog + dev users
+docker compose exec api bin/rails db:populate  # fake catalog + dev users; DEMO beers/foods for expiry
 ```
 
 Fresh database:
