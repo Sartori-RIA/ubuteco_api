@@ -13,6 +13,7 @@ RSpec.describe Api::V1::FoodsController, type: :request do
     get 'All Foods' do
       tags 'Foods'
       security [Bearer: {}]
+      parameter name: :mode, type: :string
       response 200, 'Ok' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/foods'

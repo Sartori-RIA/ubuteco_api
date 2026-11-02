@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Drink < Product
+  include CatalogEmbeddable
   extend Pagy::Search
 
-  searchkick callbacks: :async
+  searchkick callbacks: :async, knn: CatalogEmbeddable::KNN
 
   validates :quantity_stock, presence: true
 
@@ -13,6 +14,6 @@ class Drink < Product
     {
       name: name,
       organization_id: organization_id
-    }
+    }.merge(embedding_for_index)
   end
 end

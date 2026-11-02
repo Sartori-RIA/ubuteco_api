@@ -17,6 +17,7 @@ RSpec.describe Api::V1::BeersController, type: :request do
       security [Bearer: {}]
       parameter name: :q, type: :string
       parameter name: :page, type: :string
+      parameter name: :mode, type: :string
       response 200, 'Ok' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/beers'

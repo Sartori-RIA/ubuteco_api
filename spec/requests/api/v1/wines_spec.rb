@@ -15,6 +15,7 @@ RSpec.describe Api::V1::WinesController, type: :request do
     get 'All Wines' do
       tags 'Wines'
       security [Bearer: {}]
+      parameter name: :mode, type: :string
       response 200, 'Ok' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
         schema '$ref' => '#/components/schemas/wines'

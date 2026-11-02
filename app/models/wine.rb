@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Wine < Product
+  include CatalogEmbeddable
   extend Pagy::Search
 
-  searchkick callbacks: :async
+  searchkick callbacks: :async, knn: CatalogEmbeddable::KNN
 
   validates :abv,
             :quantity_stock,
@@ -25,6 +26,6 @@ class Wine < Product
       style: wine_style.name,
       grapes: grapes,
       organization_id: organization_id
-    }
+    }.merge(embedding_for_index)
   end
 end
