@@ -23,7 +23,7 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 | Decision | Recommendation (v1) |
 |----------|---------------------|
 | Products | Stockable only: Beer, Wine, Drink, Food (Dish has no stock) |
-| Consumption source | `stock_movements` with `order_item_id` present and `delta < 0` (sales), excluding manual adjustments |
+| Consumption source | Net of order-linked movements: `SUM(-delta)` where `order_item_id` is not null. Sales are negative deltas. Removing a line or lowering its quantity writes a **positive** delta with `order_item_id` (`OrderItem` stock callbacks) and must reduce consumption. Manual adjustments have no `order_item_id` and stay out. Filtering only `delta < 0` counts the sale and ignores the return. |
 | Method | Average daily consumption over last **28 days** in org timezone; weekday-weighted in v2 |
 | Target | Cover **7 days** (org setting later; env `RESTOCK_COVER_DAYS` default 7) |
 | Suggested qty | `max(0, ceil(avg_daily × cover_days) − quantity_stock)` |
@@ -43,12 +43,12 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 
 ## Phase 1 — Forecast query
 
-- [ ] `Inventory::RestockSuggestionsQuery` (org-scoped, SQL aggregate over `stock_movements` by `product_type, product_id`, day buckets in org timezone)
+- [ ] `Inventory::RestockSuggestionsQuery` (org-scoped, SQL aggregate over `stock_movements` by `product_type, product_id`, day buckets in org timezone). Consumption is `SUM(-delta)` where `order_item_id` IS NOT NULL, so order-linked returns reduce the total.
 - [ ] Output per product: `product_type, id, name, quantity_stock, avg_daily, days_of_cover, suggested_quantity, confidence`
 - [ ] Sort by `days_of_cover` ascending
 - [ ] Uses index `(organization_id, created_at)` — verify with `EXPLAIN` on seeded data
 
-**Acceptance:** specs for: no history, < 7 days, steady consumption, manual adjustments ignored, soft-deleted products excluded, timezone boundary.
+**Acceptance:** specs for: no history, < 7 days, steady consumption, manual adjustments ignored, order-linked returns (line removed or quantity decreased) reduce consumption, soft-deleted products excluded, timezone boundary.
 
 ---
 
@@ -66,7 +66,7 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 ## Phase 3 — AI explanation (optional)
 
 - [ ] `?explain=1` → adds `explanation` per top-N items via `Ai::Client` (`feature: RESTOCK_EXPLAIN`, `tier: :fast`), e.g. *"Sells ~6/day, 4 left — runs out tomorrow."*
-- [ ] Model receives only the computed numbers; same number guard as [18](./18-ai-daily-brief.md)
+- [ ] Model receives only pre-formatted display strings (counts, avg/day, days of cover, suggested qty). Same number guard as [18](./18-ai-daily-brief.md): those strings are the allow-list, not raw floats or cents.
 - [ ] Gated by `Ai.enabled_for?`; without AI the field is omitted (not an error)
 
 **Acceptance:** spec with `Ai::FakeClient`; disabled path returns suggestions without explanations.

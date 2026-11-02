@@ -26,7 +26,7 @@ This is the same building block as RAG (retrieve relevant items before answering
 |----------|---------------------|
 | Embeddings provider | **Decide in Phase 1 spike.** Options: Voyage AI (Anthropic's recommended partner), OpenAI `text-embedding-3-small`, or OpenSearch ML Commons neural plugin (self-hosted model). Pick on PT-BR quality + cost. |
 | Models indexed | Beer, Wine, Drink, Food, Dish |
-| Text embedded | name + description + style + maker + flavor (+ ingredient names for Dish). Dish has no `description` column — use name + ingredients. |
+| Text embedded | Only columns that exist. **Beer:** name, description, style, maker, abv, ibu. **Wine:** name, description, maker, style, grapes, visual, ripening (no flavor column). **Drink:** name, description, flavor. **Food:** name only. **Dish:** name + ingredient names (no `description`). |
 | When computed | Async in Sidekiq after create/update (only when embedded fields change) — never in the request |
 | Search mode | **Hybrid**: keyword + vector, merged; keyword-only fallback when AI disabled or embeddings missing |
 | Tenant isolation | Org filter applied **inside** the k-NN query (same `SearchkickAuthorizable` rules) |

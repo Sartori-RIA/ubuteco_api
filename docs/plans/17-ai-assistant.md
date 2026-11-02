@@ -25,7 +25,8 @@ The model never touches the database. It can only call a small set of **tools**,
 | Who | **ADMIN**, **CASH_REGISTER** (same as dashboard/inventory) |
 | Read or write | **Read-only** in v1. No tool creates/edits orders, stock or products. |
 | Data access | **Tool use over existing services** — no text-to-SQL. |
-| Conversations persisted? | Yes — `ai_conversations` + `ai_messages`, org-scoped, owned by user; soft-delete. Retention 90 days. |
+| Conversations persisted? | Yes — `ai_conversations` + `ai_messages`, org-scoped, owned by user; soft-delete (`deleted_at`). No automatic purge in v1. |
+| Tool authorization | Same ability classes as HTTP (`Abilities::AdminAbility` / `CashRegisterAbility`). Lift `:read, :dashboard` off the dashboard-controller gate. Do not pass a fake `controller_name`. |
 | Response delivery | v1: synchronous request with timeout (~25 s). v2: stream tokens over AnyCable (`AiAssistantChannel`). |
 | Language | Answer in the **organization locale** (`organizations.locale`). |
 | Money/dates | Tools return cents + currency and org-timezone dates; the model is told to not do its own math on raw values when a tool already returns totals. |
@@ -39,13 +40,16 @@ The model never touches the database. It can only call a small set of **tools**,
 - Customer-facing assistant (CUSTOMER role)
 - Voice input
 - RAG over uploaded documents (no document corpus exists yet)
+- Automatic purge of conversations (the 90-day idea needs a scheduler; the stack has no cron gem)
 
 ---
 
 ## Phase 1 — Tool registry
 
 - [ ] `Ai::Assistant::Tool` base: `name`, `description`, JSON `input_schema`, `required_ability` (e.g. `[:read, :dashboard]`), `call(user:, organization:, args:)`
-- [ ] Every tool runs `Ability.new(user).authorize!(*required_ability)` before executing
+- [ ] There is no `Ability` class. Build the same object as `ApplicationController#load_permissions`: `Abilities::AdminAbility` or `Abilities::CashRegisterAbility` with `user:`, `params:`, `controller_name:`.
+- [ ] `:read, :dashboard` is granted only when `controller_name == 'Api::V1::Dashboard'` (`Abilities::BaseAbility#dashboard_permissions`). Do not spoof that controller name from the assistant. Move `can :read, :dashboard` off the controller gate so ADMIN and CASH_REGISTER keep it on any request, then `authorize!(:read, :dashboard)` from the tool.
+- [ ] `:read, :inventory` and catalog `:read, <model>` are already granted for those roles with no controller check — authorize those as they are.
 - [ ] v1 tools (wrap existing code, no new queries if avoidable):
 
 | Tool | Wraps | Ability |
@@ -129,7 +133,7 @@ The model never touches the database. It can only call a small set of **tools**,
 - [ ] ADMIN/CASH_REGISTER can ask questions and get answers grounded in tool results
 - [ ] Every tool authorization-checked; cross-tenant specs pass
 - [ ] Evals ≥ 90 %; usage visible in `ai_usage_events`
-- [ ] Swagger documented; React companion plan created
+- [ ] Swagger documented; React companion plan updated if the contract changes (companion doc already exists)
 
 ---
 
@@ -138,5 +142,6 @@ The model never touches the database. It can only call a small set of **tools**,
 - `app/services/organizations/dashboard/`
 - `app/services/inventory/low_stock_query.rb`
 - `app/controllers/concerns/searchkick_authorizable.rb`
-- `app/models/abilities/`
+- `app/models/abilities/` (`base_ability.rb#dashboard_permissions` is controller-gated today)
+- `app/controllers/application_controller.rb` (`load_permissions`)
 - [docs/context/dashboard.md](../context/dashboard.md), [inventory-stock.md](../context/inventory-stock.md)

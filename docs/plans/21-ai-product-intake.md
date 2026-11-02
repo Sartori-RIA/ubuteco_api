@@ -60,9 +60,10 @@ The AI **only drafts**. Nothing is saved until the user reviews and confirms thr
 - [ ] `Catalog::Intake::LabelExtractor` — image to `Ai::Client` with a **strict JSON schema** for the target type (Beer: name, maker, style, abv, ibu, description; Wine: name, maker, style, …)
 - [ ] Validate output against schema; unknown style/maker → return as text suggestion + existing matches, not new IDs
 - [ ] `POST /api/v1/catalog/intake/label` (multipart image, `product_type`) → `{ draft: {...}, confidence, warnings: [] }`
+- [ ] Invalid model JSON → 502 `ai_invalid_output` (code reserved in [16](./16-ai-foundation.md))
 - [ ] Gated by `Ai.enabled_for?`
 
-**Acceptance:** spec with `Ai::FakeClient`; invalid JSON from model → 502 `ai_invalid_output`, no partial draft.
+**Acceptance:** spec with `Ai::FakeClient`; invalid JSON from model → 502 `ai_invalid_output` (code from plan 16), no partial draft.
 
 ---
 
@@ -94,7 +95,7 @@ The AI **only drafts**. Nothing is saved until the user reviews and confirms thr
 - [ ] NF-e XML import works without AI
 - [ ] Label photo produces a reviewable draft for Beer and Wine
 - [ ] Nothing persisted without explicit confirmation through existing endpoints
-- [ ] Swagger documented; React companion plan created
+- [ ] Swagger documented; React companion plan updated if the contract changes (companion doc already exists)
 
 ---
 

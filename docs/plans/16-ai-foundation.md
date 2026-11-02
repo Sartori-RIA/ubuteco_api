@@ -65,7 +65,7 @@ This plan ships **no user-facing AI**. It is the plumbing.
   - Raises `Ai::RateLimitedError`, `Ai::ProviderError` (wraps timeouts/5xx)
   - Returns a small value object (`text`, `tool_calls`, `usage`, `stop_reason`)
 - [ ] `Ai::Feature` constants — `ASSISTANT`, `DAILY_BRIEF`, `RESTOCK_EXPLAIN`, `MENU_SEARCH`, `PRODUCT_INTAKE` (no magic strings)
-- [ ] Map errors to structured API errors via `ApiErrorRenderable`: `ai_disabled` (403), `ai_rate_limited` (429), `ai_unavailable` (503)
+- [ ] Map errors to structured API errors via `ApiErrorRenderable`: `ai_disabled` (403), `ai_rate_limited` (429), `ai_unavailable` (503), `ai_invalid_output` (502). The last one is for a feature that asked for structured output and got a response that failed schema validation ([21](./21-ai-product-intake.md) raises it; the foundation only reserves the code).
 
 **Acceptance:** unit specs for disabled/ratelimited/provider-error paths using the fake client.
 
