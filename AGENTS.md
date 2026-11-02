@@ -69,6 +69,7 @@ Instructions for AI assistants working in this repository.
 | Orders & kitchen | `docs/context/orders-lifecycle.md` |
 | Users & platform | `docs/context/users-and-platform.md` |
 | Inventory & stock | `docs/context/inventory-stock.md` |
+| Product expiry | `docs/context/product-expiry.md` |
 | Search & OpenSearch | `docs/context/search-and-opensearch.md` |
 | Dashboard | `docs/context/dashboard.md` |
 | i18n & money | `docs/context/i18n-and-money.md` |

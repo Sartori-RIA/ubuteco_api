@@ -7,6 +7,26 @@ RSpec.describe Api::V1::InventoryController, type: :request do
   let!(:admin) { organization.user }
   let!(:beer) { create(:beer, organization: organization, quantity_stock: 10) }
 
+  path '/api/v1/inventory/expiring' do
+    get 'Expiring and expired inventory' do
+      tags 'Inventory'
+      security [Bearer: {}]
+      produces 'application/json'
+      parameter name: :include_expired, in: :query, type: :boolean, required: false
+
+      response '200', 'Ok' do
+        let(:Authorization) { auth_header(admin)['Authorization'] }
+        let(:include_expired) { true }
+
+        before do
+          create(:food, organization: organization, name: 'Expiring food', valid_until: 1.day.from_now)
+        end
+
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/inventory/low_stock' do
     get 'Low stock inventory' do
       tags 'Inventory'

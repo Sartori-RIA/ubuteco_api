@@ -668,6 +668,22 @@ paths:
       responses:
         '204':
           description: No Content
+  "/api/v1/inventory/expiring":
+    get:
+      summary: Expiring and expired inventory
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters:
+      - name: include_expired
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Ok
   "/api/v1/inventory/low_stock":
     get:
       summary: Low stock inventory
