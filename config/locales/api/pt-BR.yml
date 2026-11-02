@@ -7,3 +7,8 @@ pt-BR:
       delete_restriction: Não é possível excluir este registro porque existem dados dependentes
       account_deletion_forbidden: Você não tem permissão para excluir sua própria conta
       role_assignment_forbidden: Você não pode atribuir este perfil
+      password_too_short: A senha precisa ter pelo menos 12 caracteres
+      password_denied: A senha é parecida demais com o e-mail ou com o nome da organização
+      password_pwned: Esta senha apareceu em um vazamento de dados. Escolha outra
+      current_password_invalid: A senha atual está incorreta
+      reset_token_invalid: Este link é inválido ou expirou

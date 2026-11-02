@@ -7,3 +7,8 @@ es:
       delete_restriction: No se puede eliminar este registro porque tiene datos dependientes
       account_deletion_forbidden: No tienes permiso para eliminar tu propia cuenta
       role_assignment_forbidden: No puedes asignar este rol
+      password_too_short: La contraseña debe tener al menos 12 caracteres
+      password_denied: La contraseña se parece demasiado al correo o al nombre de la organización
+      password_pwned: Esta contraseña apareció en una filtración de datos. Elige otra
+      current_password_invalid: La contraseña actual es incorrecta
+      reset_token_invalid: Este enlace no es válido o ya expiró

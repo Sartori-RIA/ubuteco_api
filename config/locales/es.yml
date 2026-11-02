@@ -1,0 +1,7 @@
+es:
+  welcome:
+    set_password: "Elige una contraseña para entrar en uButeco"
+  password_reset:
+    subject: "Define tu contraseña en uButeco"
+    instruction: "Usa el enlace de abajo para elegir una nueva contraseña. No inicia sesión."
+    expiry: "El enlace caduca en 15 minutos y solo funciona una vez."

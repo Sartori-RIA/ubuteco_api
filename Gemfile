@@ -10,6 +10,7 @@ gem 'bootsnap', '~> 1.23', require: false
 gem 'cancancan', '~> 3.6', '>= 3.6.1'
 gem 'devise', '~> 5.0', '>= 5.0.4'
 gem 'devise-argon2', '~> 2.0', '>= 2.0.4'
+gem 'devise-pwned_password'
 gem 'devise-i18n', '~> 1.16'
 gem 'devise-jwt', '~> 0.13.0'
 gem 'dotenv-rails', '~> 3.2'
@@ -59,6 +60,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'webmock'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'simplecov-console'

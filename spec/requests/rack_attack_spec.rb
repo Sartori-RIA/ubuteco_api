@@ -29,6 +29,16 @@ RSpec.describe "Rack::Attack throttles", type: :request do
     end
   end
 
+  describe "POST /auth/password" do
+    it "returns 429 after too many reset requests from the same IP" do
+      6.times do
+        post "/auth/password", params: { email: "unknown@example.com" }
+      end
+
+      expect(response).to have_http_status(:too_many_requests)
+    end
+  end
+
   describe "GET /api/v1/beers with search" do
     it "returns 429 after too many search requests" do
       get "/api/v1/beers", params: { q: "ipa" }, headers: auth_header(admin)

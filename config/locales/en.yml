@@ -3,6 +3,11 @@ en:
     title: "Seja bem vindo ao uButeco"
     subject: "Seja bem vindo ao uButeco"
     text: "Seja bem vindo ao uButeco"
+    set_password: "Choose a password to enter uButeco"
+  password_reset:
+    subject: "Set your uButeco password"
+    instruction: "Use the link below to choose a new password. It does not sign you in."
+    expiry: "The link expires in 15 minutes and works only once."
   confirmations:
     title: "Confirmação de conta"
     instruction: "Para confirmar sua conta por favor clique no link abaixou ou copie a url abaixo e cole em seu navegador"

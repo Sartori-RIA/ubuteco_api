@@ -22,6 +22,11 @@ RSpec.describe PasswordsController, type: :request do
         let(:params) { { email: @user.email } }
         run_test!
       end
+
+      response '200', 'unknown email' do
+        let(:params) { { email: 'missing@email.com' } }
+        run_test!
+      end
     end
   end
 end
