@@ -32,6 +32,10 @@ Standard shape (all v1 controllers via `ApiErrorRenderable`):
 | `account_deletion_forbidden` | 403 | Non-admin self-delete |
 | `role_assignment_forbidden` | 403 | Assigning `SUPER_ADMIN` |
 | `rate_limit_exceeded` | 429 | Rack::Attack |
+| `ai_disabled` | 403 | Organization or global AI switch is off |
+| `ai_rate_limited` | 429 | Per-organization AI cap |
+| `ai_unavailable` | 503 | Model provider timeout or 5xx |
+| `ai_invalid_output` | 502 | Reserved: structured model output failed validation |
 | `search_unavailable` | 503 | OpenSearch down |
 | `error` | varies | Generic fallback |
 

@@ -748,6 +748,32 @@ paths:
       responses:
         '200':
           description: Ok
+  "/api/v1/inventory/restock_suggestions":
+    get:
+      summary: Restock suggestions
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters:
+      - name: cover_days
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: window_days
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: explain
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Ok
   "/api/v1/inventory/low_stock":
     get:
       summary: Low stock inventory
@@ -1244,6 +1270,33 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/errors_response"
+  "/api/v1/platform/ai_usage":
+    get:
+      summary: AI usage totals (platform)
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      parameters:
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ai_usage"
+        '403':
+          description: Forbidden
   "/api/v1/platform/organizations":
     get:
       summary: List organizations (platform)
@@ -2449,8 +2502,50 @@ components:
           type: string
         timezone:
           type: string
+        ai_enabled:
+          type: boolean
       required:
       - id
+    ai_usage:
+      type: object
+      required:
+      - from
+      - to
+      - items
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            required:
+            - organization_id
+            - feature
+            - day
+            - calls
+            - input_tokens
+            - output_tokens
+            - failed_calls
+            properties:
+              organization_id:
+                type: integer
+              organization_name:
+                type: string
+              feature:
+                type: string
+              day:
+                type: string
+              calls:
+                type: integer
+              input_tokens:
+                type: integer
+              output_tokens:
+                type: integer
+              failed_calls:
+                type: integer
     new_organization:
       type: object
       properties: {}

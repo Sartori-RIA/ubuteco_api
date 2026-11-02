@@ -14,7 +14,7 @@ RSpec.describe Abilities::KitchenAbility, type: :ability do
 
     context 'when is an kitchen' do
       context 'can' do
-        it { is_expected.to be_able_to(:manage, @user) }
+        it { is_expected.to be_able_to(:update, @user) }
         it { is_expected.to be_able_to(:read, @order.order_items.sample) }
         it { is_expected.to be_able_to(:update, @order.order_items.sample) }
 

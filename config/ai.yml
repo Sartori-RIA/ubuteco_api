@@ -1,0 +1,19 @@
+default: &default
+  tiers:
+    fast:
+      model: claude-haiku-5-5
+      max_tokens: 1024
+      timeout_seconds: 30
+    smart:
+      model: claude-sonnet-5-5
+      max_tokens: 4096
+      timeout_seconds: 60
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

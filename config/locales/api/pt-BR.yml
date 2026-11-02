@@ -7,4 +7,10 @@ pt-BR:
       delete_restriction: Não é possível excluir este registro porque existem dados dependentes
       account_deletion_forbidden: Você não tem permissão para excluir sua própria conta
       role_assignment_forbidden: Você não pode atribuir este perfil
+      ai_disabled: A IA está desligada para esta organização
+      ai_rate_limited: O limite de uso da IA foi atingido. Tente de novo em instantes
+      ai_unavailable: A IA está temporariamente indisponível
+      ai_invalid_output: A IA devolveu uma resposta que não pôde ser usada
+      ai_usage_range: Escolha uma data inicial igual ou anterior à data final
+      restock_range: A cobertura deve ser de 1 a 60 dias e a janela de histórico de 7 a 90 dias
       import_in_progress: Já existe uma importação na fila ou em execução
