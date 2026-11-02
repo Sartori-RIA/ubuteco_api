@@ -14,7 +14,8 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/*'
-    - '*/vendor//'
+    - 'vendor/**/*'
+    - '**/vendor/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'
     - 'db/schema.rb'
     - 'db/migrate/*'
