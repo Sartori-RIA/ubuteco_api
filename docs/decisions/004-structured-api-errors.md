@@ -27,7 +27,7 @@ All v1 API controllers use **`ApiErrorRenderable`** (included on `ApplicationCon
 - `render_api_errors([{ code:, field:, message: }])` — domain errors
 - `render_i18n_api_error(code, status:, **options)` — localized messages from `config/locales/api/*.yml`
 
-Known codes include: `validation_error`, `insufficient_stock`, `kitchen_closed`, `account_deletion_forbidden`, `role_assignment_forbidden`, `rate_limit_exceeded`, `search_unavailable`, `error` (fallback).
+Known codes include: `validation_error`, `insufficient_stock`, `kitchen_closed`, `account_deletion_forbidden`, `role_assignment_forbidden`, `rate_limit_exceeded`, `search_unavailable`, `ai_disabled`, `ai_rate_limited`, `ai_unavailable`, `ai_invalid_output`, `error` (fallback).
 
 Legacy string-array responses are **not** added to new code.
 

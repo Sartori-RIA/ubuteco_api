@@ -42,6 +42,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "ai_usage_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "feature", null: false
+    t.integer "input_tokens", default: 0, null: false
+    t.integer "latency_ms"
+    t.string "model"
+    t.bigint "organization_id", null: false
+    t.integer "output_tokens", default: 0, null: false
+    t.string "status", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["organization_id", "created_at"], name: "index_ai_usage_events_on_organization_id_and_created_at"
+    t.index ["organization_id"], name: "index_ai_usage_events_on_organization_id"
+    t.index ["user_id"], name: "index_ai_usage_events_on_user_id"
+  end
+
   create_table "allowlisted_jwts", force: :cascade do |t|
     t.string "aud"
     t.datetime "created_at", null: false
@@ -181,6 +197,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
   end
 
   create_table "organizations", force: :cascade do |t|
+    t.boolean "ai_enabled", default: false, null: false
     t.datetime "created_at", null: false
     t.string "default_currency", default: "BRL", null: false
     t.datetime "deleted_at"
@@ -325,6 +342,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_usage_events", "organizations"
+  add_foreign_key "ai_usage_events", "users"
   add_foreign_key "allowlisted_jwts", "users", on_delete: :cascade
   add_foreign_key "beers", "beer_styles"
   add_foreign_key "beers", "makers"

@@ -59,6 +59,17 @@ Lessons from real mistakes when using agents on this codebase. Read before large
 | Full-class reindex in app code | Use `ReindexJob` or rake with org/model scope; full rebuild needs `ALLOW_FULL_SEARCH_REINDEX=1`. |
 | Assume `Current` in Sidekiq jobs | Set `Current.organization` or pass `organization_id` — [ADR 006](../decisions/006-jobs-and-current-tenant.md). |
 
+## AI gateway
+
+| Pitfall | Correct approach |
+|---------|------------------|
+| Call the provider SDK from a feature | `Ai::Client.complete` — opt-in, limits, and usage. See [ai.md](./ai.md). |
+| Hardcode a model ID | Use a tier (`:fast` or `:smart`). |
+| Read `Current.organization` inside AI code | Pass `organization:` explicitly, including from jobs. |
+| Trust model output as data | Validate it into a schema. |
+| Put user-generated text in the system prompt | Put it in a delimited data block. |
+| Hit the real model in specs | `Ai::FakeClient`. WebMock blocks other HTTP. |
+
 ## Dashboard & i18n
 
 | Pitfall | Correct approach |

@@ -23,6 +23,14 @@ module Inventory
     ENV.fetch('EXPIRY_WARNING_DAYS', 7).to_i
   end
 
+  def self.restock_cover_days
+    ENV.fetch('RESTOCK_COVER_DAYS', 7).to_i
+  end
+
+  def self.restock_window_days
+    28
+  end
+
   def self.find_stockable!(product_type:, id:)
     klass = PRODUCT_TYPE_KEYS.fetch(product_type) { raise ActiveRecord::RecordNotFound }
     klass.find(id)

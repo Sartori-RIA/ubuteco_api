@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '4.0.1'
 
 gem 'aasm', '~> 5.5'
+gem 'anthropic', '~> 2.3'
 gem 'bootsnap', '~> 1.23', require: false
 gem 'cancancan', '~> 3.6', '>= 3.6.1'
 gem 'devise', '~> 5.0', '>= 5.0.4'
@@ -60,7 +61,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'webmock'
+  gem 'webmock', '~> 3.26'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'simplecov-console'

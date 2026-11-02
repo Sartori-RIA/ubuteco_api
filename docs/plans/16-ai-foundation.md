@@ -1,6 +1,6 @@
 # Plan: AI foundation (LLM gateway, usage, guardrails)
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api  
 **Companion:** [ubuteco-react — AI settings toggle](../../../ubuteco-react/docs/plans/16-ai-settings.md)  
 **Branch:** `feature/ai-foundation`  
@@ -45,10 +45,10 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 ## Phase 1 — Decision record & context doc
 
-- [ ] ADR `docs/decisions/007-ai-provider-and-gateway.md` — provider, tiers, no-content-logging default, opt-in per org
-- [ ] `docs/context/ai.md` — how to call `Ai::Client`, tiers, tenant rules, testing, pitfalls
-- [ ] Add AI rows to `docs/context/common-ai-pitfalls.md` (see *Pitfalls to document* below)
-- [ ] Link `ai.md` from `AGENTS.md` *Key paths*
+- [x] ADR `docs/decisions/007-ai-provider-and-gateway.md` — provider, tiers, no-content-logging default, opt-in per org
+- [x] `docs/context/ai.md` — how to call `Ai::Client`, tiers, tenant rules, testing, pitfalls
+- [x] Add AI rows to `docs/context/common-ai-pitfalls.md` (see *Pitfalls to document* below)
+- [x] Link `ai.md` from `AGENTS.md` *Key paths*
 
 **Acceptance:** ADR accepted; context doc reviewed.
 
@@ -56,16 +56,16 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 ## Phase 2 — Client
 
-- [ ] Add `anthropic` gem; `ANTHROPIC_API_KEY` in `.env-example` (never committed)
-- [ ] `config/ai.yml` (or initializer): tier → model ID, max tokens, timeouts; env overrides `AI_MODEL_FAST`, `AI_MODEL_SMART`
-- [ ] `Ai::Client` — single entry point:
+- [x] Add `anthropic` gem; `ANTHROPIC_API_KEY` in `.env-example` (never committed)
+- [x] `config/ai.yml` (or initializer): tier → model ID, max tokens, timeouts; env overrides `AI_MODEL_FAST`, `AI_MODEL_SMART`
+- [x] `Ai::Client` — single entry point:
   - `Ai::Client.complete(feature:, tier:, system:, messages:, tools: nil, organization:, user: nil)`
   - Requires `organization:` explicitly (do **not** read `Current` inside — works in jobs per [ADR 006](../decisions/006-jobs-and-current-tenant.md))
   - Raises `Ai::DisabledError` when org/global disabled
   - Raises `Ai::RateLimitedError`, `Ai::ProviderError` (wraps timeouts/5xx)
   - Returns a small value object (`text`, `tool_calls`, `usage`, `stop_reason`)
-- [ ] `Ai::Feature` constants — `ASSISTANT`, `DAILY_BRIEF`, `RESTOCK_EXPLAIN`, `MENU_SEARCH`, `PRODUCT_INTAKE` (no magic strings)
-- [ ] Map errors to structured API errors via `ApiErrorRenderable`: `ai_disabled` (403), `ai_rate_limited` (429), `ai_unavailable` (503)
+- [x] `Ai::Feature` constants — `ASSISTANT`, `DAILY_BRIEF`, `RESTOCK_EXPLAIN`, `MENU_SEARCH`, `PRODUCT_INTAKE` (no magic strings)
+- [x] Map errors to structured API errors via `ApiErrorRenderable`: `ai_disabled` (403), `ai_rate_limited` (429), `ai_unavailable` (503), `ai_invalid_output` (502). The last one is for a feature that asked for structured output and got a response that failed schema validation ([21](./21-ai-product-intake.md) raises it; the foundation only reserves the code).
 
 **Acceptance:** unit specs for disabled/ratelimited/provider-error paths using the fake client.
 
@@ -73,10 +73,10 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 ## Phase 3 — Org opt-in
 
-- [ ] Migration: `organizations.ai_enabled boolean default false null false`
-- [ ] Permit `ai_enabled` in org update for **ADMIN** only
-- [ ] Expose in organization JSON + rswag
-- [ ] `Ai.enabled_for?(organization)` = `AI_ENABLED` env && `organization.ai_enabled`
+- [x] Migration: `organizations.ai_enabled boolean default false null false`
+- [x] Permit `ai_enabled` in org update for **ADMIN** only
+- [x] Expose in organization JSON + rswag
+- [x] `Ai.enabled_for?(organization)` = `AI_ENABLED` env && `organization.ai_enabled`
 
 **Acceptance:** request spec — ADMIN toggles, WAITER cannot; cross-tenant spec.
 
@@ -84,10 +84,10 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 ## Phase 4 — Usage accounting & limits
 
-- [ ] Table `ai_usage_events`: `organization_id` (not null), `user_id`, `feature`, `model`, `input_tokens`, `output_tokens`, `latency_ms`, `status` (enum: ok, error, rate_limited, disabled), timestamps; index `(organization_id, created_at)`
-- [ ] Written by `Ai::Client` on every call (success or failure)
-- [ ] `Ai::RateLimiter` — Redis counters per `org:feature:minute` and `org:feature:day`
-- [ ] Platform read endpoint `GET /api/v1/platform/ai_usage` (SUPER_ADMIN) — totals per org/feature/day for cost watching
+- [x] Table `ai_usage_events`: `organization_id` (not null), `user_id`, `feature`, `model`, `input_tokens`, `output_tokens`, `latency_ms`, `status` (enum: ok, error, rate_limited, disabled), timestamps; index `(organization_id, created_at)`
+- [x] Written by `Ai::Client` on every call (success or failure)
+- [x] `Ai::RateLimiter` — Redis counters per `org:feature:minute` and `org:feature:day`
+- [x] Platform read endpoint `GET /api/v1/platform/ai_usage` (SUPER_ADMIN) — totals per org/feature/day for cost watching
 
 **Acceptance:** limiter spec (boundary at N and N+1); usage row written on error too.
 
@@ -95,10 +95,10 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 ## Phase 5 — Testing support
 
-- [ ] `Ai::FakeClient` selected in test env — deterministic canned responses, can script tool calls
-- [ ] Add `webmock` to test group; block real HTTP in specs
-- [ ] Shared example `it_behaves_like 'an AI feature gated by org opt-in'`
-- [ ] `spec/support/ai.rb` documented in `docs/context/testing.md`
+- [x] `Ai::FakeClient` selected in test env — deterministic canned responses, can script tool calls
+- [x] Add `webmock` to test group; block real HTTP in specs
+- [x] Shared example `it_behaves_like 'an AI feature gated by org opt-in'`
+- [x] `spec/support/ai.rb` documented in `docs/context/testing.md`
 
 **Acceptance:** `bundle exec rspec` passes with no `ANTHROPIC_API_KEY` set.
 
@@ -121,16 +121,16 @@ This plan ships **no user-facing AI**. It is the plumbing.
 
 - [ ] `bin/rails db:migrate` (organizations.ai_enabled, ai_usage_events) when DB available
 - [ ] Create Anthropic API key; set `ANTHROPIC_API_KEY`, `AI_ENABLED=1` on Railway (staging first)
-- [ ] Add `ai` queue to `config/sidekiq.yml`
+- [x] Add `ai` queue to `config/sidekiq.yml`
 
 ---
 
 ## Definition of done
 
-- [ ] `Ai::Client` callable with tiers, opt-in, limits, usage rows
-- [ ] Org `ai_enabled` toggle via API, ADMIN only
-- [ ] Specs green without network; rswag + `openapi:drift_check` pass
-- [ ] ADR 007 + `docs/context/ai.md` published
+- [x] `Ai::Client` callable with tiers, opt-in, limits, usage rows
+- [x] Org `ai_enabled` toggle via API, ADMIN only
+- [x] Specs green without network; rswag + `openapi:drift_check` pass
+- [x] ADR 007 + `docs/context/ai.md` published
 
 ---
 

@@ -7,6 +7,12 @@ es:
       delete_restriction: No se puede eliminar este registro porque tiene datos dependientes
       account_deletion_forbidden: No tienes permiso para eliminar tu propia cuenta
       role_assignment_forbidden: No puedes asignar este rol
+      ai_disabled: La IA está desactivada para esta organización
+      ai_rate_limited: Se alcanzó el límite de uso de la IA. Inténtalo de nuevo en un momento
+      ai_unavailable: La IA no está disponible temporalmente
+      ai_invalid_output: La IA devolvió una respuesta que no se pudo usar
+      ai_usage_range: Elige una fecha inicial igual o anterior a la fecha final
+      restock_range: La cobertura debe ser de 1 a 60 días y la ventana de historial de 7 a 90 días
       password_too_short: La contraseña debe tener al menos 12 caracteres
       password_denied: La contraseña se parece demasiado al correo o al nombre de la organización
       password_pwned: Esta contraseña apareció en una filtración de datos. Elige otra

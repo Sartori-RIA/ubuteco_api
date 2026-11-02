@@ -32,6 +32,22 @@ class ApplicationController < ActionController::API
     render_i18n_api_error(:search_unavailable, status: :service_unavailable)
   end
 
+  rescue_from Ai::DisabledError do
+    render_i18n_api_error(:ai_disabled, status: :forbidden)
+  end
+
+  rescue_from Ai::RateLimitedError do
+    render_i18n_api_error(:ai_rate_limited, status: :too_many_requests)
+  end
+
+  rescue_from Ai::ProviderError do
+    render_i18n_api_error(:ai_unavailable, status: :service_unavailable)
+  end
+
+  rescue_from Ai::InvalidOutputError do
+    render_i18n_api_error(:ai_invalid_output, status: :bad_gateway)
+  end
+
   private
 
   # See the wiki for details:
