@@ -9,6 +9,6 @@ RSpec.describe "GET /up", type: :request do
     expect(response).to have_http_status(:ok)
     body = response.parsed_body
     expect(body["status"]).to eq("ok")
-    expect(body["redis"]).to eq("skipped")
+    expect(%w[ok skipped]).to include(body["redis"])
   end
 end

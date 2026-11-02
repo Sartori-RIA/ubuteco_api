@@ -135,4 +135,45 @@ RSpec.describe 'Inventory API', type: :request do
       expect(response).to have_http_status(:forbidden)
     end
   end
+
+  describe 'GET /api/v1/inventory/restock_suggestions' do
+    let(:kitchen) { create(:user, :kitchen, organization: organization) }
+    let!(:beer) { create(:beer, organization:, name: 'House lager', quantity_stock: 4) }
+
+    it 'lists suggestions for admin and cash register' do
+      get '/api/v1/inventory/restock_suggestions', params: { cover_days: 7 }, headers: auth_header(admin)
+
+      expect(response).to have_http_status(:ok)
+      body = response.parsed_body
+      expect(body['cover_days']).to eq(7)
+      expect(body['window_days']).to eq(28)
+      expect(body['items'].pluck('name')).to include('House lager')
+      expect(body['items'].first).not_to have_key('explanation')
+
+      get '/api/v1/inventory/restock_suggestions', headers: auth_header(cash_register)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'forbids waiter and kitchen' do
+      get '/api/v1/inventory/restock_suggestions', headers: auth_header(waiter)
+      expect(response).to have_http_status(:forbidden)
+
+      get '/api/v1/inventory/restock_suggestions', headers: auth_header(kitchen)
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'rejects a cover window outside the allowed range' do
+      get '/api/v1/inventory/restock_suggestions', params: { cover_days: 90 }, headers: auth_header(admin)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.parsed_body['errors'].first['code']).to eq('validation_error')
+    end
+
+    it 'omits explanations when AI is off' do
+      get '/api/v1/inventory/restock_suggestions', params: { explain: 1 }, headers: auth_header(admin)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['items'].first).not_to have_key('explanation')
+    end
+  end
 end

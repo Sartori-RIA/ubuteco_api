@@ -9,6 +9,7 @@ json.extract! organization,
               :locale,
               :default_currency,
               :timezone,
+              :ai_enabled,
               :logo_url,
               :created_at,
               :updated_at

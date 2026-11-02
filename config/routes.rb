@@ -82,6 +82,7 @@ Rails.application.routes.draw do
 
       get 'inventory/low_stock', to: 'inventory#low_stock'
       get 'inventory/expiring', to: 'inventory#expiring'
+      get 'inventory/restock_suggestions', to: 'inventory#restock_suggestions'
 
       patch 'beers/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'beers' }
       patch 'wines/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'wines' }
@@ -89,6 +90,7 @@ Rails.application.routes.draw do
       patch 'foods/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'foods' }
 
       namespace :platform do
+        get 'ai_usage', to: 'ai_usage#index'
         resources :organizations, except: :create do
           scope module: :organizations do
             resources :users, only: :index

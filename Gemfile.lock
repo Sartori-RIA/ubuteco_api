@@ -80,6 +80,11 @@ GEM
     addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
     ansi (1.5.0)
+    anthropic (2.3.0)
+      base64 (~> 0.1)
+      connection_pool (>= 2, < 4)
+      opentelemetry-api (>= 1.2.4, < 2)
+      standardwebhooks (~> 1.0)
     anycable (1.6.4)
       anycable-core (= 1.6.4)
       grpc (~> 1.6)
@@ -398,6 +403,8 @@ GEM
     opensearch-transport (2.1.0)
       faraday (>= 1.0, < 3)
       multi_json
+    opentelemetry-api (1.11.1)
+      logger
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     pagy (43.8.1)
@@ -623,6 +630,7 @@ GEM
       terminal-table
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
+    standardwebhooks (1.1.0)
     stringio (3.2.0)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
@@ -675,6 +683,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 5.5)
+  anthropic (~> 2.3)
   anycable-rails (~> 1.6)
   aws-sdk-s3 (~> 1)
   bootsnap (~> 1.23)
@@ -729,7 +738,7 @@ DEPENDENCIES
   simplecov-cobertura
   simplecov-console
   tzinfo-data
-  webmock
+  webmock (~> 3.26)
 
 CHECKSUMS
   aasm (5.5.2) sha256=a3b874b33d9cbb3be4a2c77185c340a07fb46d7cd31911cbc49337e31d12612f
@@ -747,6 +756,7 @@ CHECKSUMS
   activesupport (8.1.4) sha256=891dd3fe43c4fc8391934b237b1189bb1f661c932a84a840043db9d46a4e80df
   addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
   ansi (1.5.0) sha256=5408253274e33d9d27d4a98c46d2998266fd51cba58a7eb9d08f50e57ed23592
+  anthropic (2.3.0) sha256=6b863da7bf40ca5f5416beb45ac0ecf779fd979ce66b3a37d3b6b9ef17479900
   anycable (1.6.4) sha256=a440dd44d4d8dc45b18751b041e775e0b98df458b1d8043b511903423a2f9118
   anycable-core (1.6.4) sha256=17073a3c744d7057e43bc7ed2cbdc1d50f173bb0c874109c55a49c7b95819396
   anycable-rails (1.6.2) sha256=954fd30f0f91825a06122da85abbf5b962d22fe0f4f3a2b5b262d4b98f5f3582
@@ -878,6 +888,7 @@ CHECKSUMS
   opensearch-api (2.2.0) sha256=12d7d3e0a71fc975686852276e7c6dd208a0752951babfdce6c228a4a6424d5f
   opensearch-ruby (2.1.0) sha256=3623995d7e26fa0e4d0db0b765f0618ea570e90b5ae4c6eb951ff50decf3ff93
   opensearch-transport (2.1.0) sha256=45860cf42598db46be62cab7ca4980780029846e06f70c262b47c07b38bd9db0
+  opentelemetry-api (1.11.1) sha256=d07f9987ea6240b3fd5ed5dd7450f93c58e403e0553e804069c23ae18ba61ff7
   orm_adapter (0.5.0) sha256=aa5d0be5d540cbb46d3a93e88061f4ece6a25f6e97d6a47122beb84fe595e9b9
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   pagy (43.8.1) sha256=8f136a4bded93b04c87bc385e8be24c8b5adbaab1c0fac1c4c0c63eddae9c2ff
@@ -956,6 +967,7 @@ CHECKSUMS
   simplecov-console (0.9.5) sha256=b1108bcfff5f210143e2b8301698c367b01586f20d25a73e95475a5df6fc6ff6
   simplecov-html (0.13.2) sha256=bd0b8e54e7c2d7685927e8d6286466359b6f16b18cb0df47b508e8d73c777246
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428
+  standardwebhooks (1.1.0) sha256=356ba711c14def4fb27310e4163b26bd5cccf325212c3440cabadd825e4be11f
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
