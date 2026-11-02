@@ -78,6 +78,15 @@ RSpec.describe 'Cross-tenant access', type: :request do
 
       expect(response).to have_http_status(:forbidden)
     end
+
+    it 'forbids turning AI on for another organization' do
+      patch api_v1_organization_path(organization_b),
+            params: { ai_enabled: true }.to_json,
+            headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(organization_b.reload.ai_enabled).to be(false)
+    end
   end
 
   describe 'kitchen queue' do

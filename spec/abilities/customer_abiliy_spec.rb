@@ -22,7 +22,7 @@ RSpec.describe Abilities::CustomerAbility, type: :ability do
 
     context 'when is an customer' do
       context 'can' do
-        it { is_expected.to be_able_to(:manage, @user) }
+        it { is_expected.to be_able_to(:update, @user) }
         it { is_expected.to be_able_to(:read, @beer) }
         it { is_expected.not_to be_able_to(:read, @other_beer) }
         it { is_expected.to be_able_to(:read, build(:dish, organization: @organization)) }

@@ -70,6 +70,7 @@ Instructions for AI assistants working in this repository.
 | Users & platform | `docs/context/users-and-platform.md` |
 | Inventory & stock | `docs/context/inventory-stock.md` |
 | Product expiry | `docs/context/product-expiry.md` |
+| AI gateway | `docs/context/ai.md` |
 | Search & OpenSearch | `docs/context/search-and-opensearch.md` |
 | Dashboard | `docs/context/dashboard.md` |
 | i18n & money | `docs/context/i18n-and-money.md` |

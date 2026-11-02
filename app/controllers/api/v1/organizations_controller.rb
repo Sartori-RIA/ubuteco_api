@@ -37,10 +37,16 @@ module Api
       protected
 
       def update_params
+        permitted = organization_params
+        permitted.delete(:ai_enabled) unless current_user&.role&.name == 'ADMIN'
+        permitted
+      end
+
+      def organization_params
         if can?(:manage, @organization)
           params.permit(
             :name, :phone, :user_id, :logo, :operational_status,
-            :locale, :default_currency, :timezone
+            :locale, :default_currency, :timezone, :ai_enabled
           )
         else
           params.permit(:operational_status)
