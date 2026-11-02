@@ -5,3 +5,7 @@ es:
       range_exceeds_max: El intervalo no puede exceder %{max} días
       unsupported_metric: Métrica no soportada
       unsupported_grain: Granularidad no soportada
+    brief:
+      template: "Ayer %{yesterday_revenue} (%{revenue_delta_percent}% frente a la semana pasada), %{yesterday_orders} pedidos, ticket promedio %{yesterday_average_ticket}. Hoy hasta ahora %{today_revenue} en %{today_orders} pedidos. Más vendidos: %{top_products}. Stock bajo: %{low_stock_count}. Por vencer: %{expiring_count}. Preparación media: %{avg_prep_minutes} min."
+      template_without_delta: "Ayer %{yesterday_revenue}, %{yesterday_orders} pedidos, ticket promedio %{yesterday_average_ticket}. Hoy hasta ahora %{today_revenue} en %{today_orders} pedidos. Más vendidos: %{top_products}. Stock bajo: %{low_stock_count}. Por vencer: %{expiring_count}. Preparación media: %{avg_prep_minutes} min."
+      no_products: ninguno

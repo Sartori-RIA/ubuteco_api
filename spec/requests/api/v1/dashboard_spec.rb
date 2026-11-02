@@ -57,6 +57,35 @@ RSpec.describe Api::V1::DashboardController, type: :request do
     end
   end
 
+  describe 'GET /api/v1/dashboard/brief' do
+    it 'returns a template brief for admin and cash register' do
+      get '/api/v1/dashboard/brief', headers: auth_header(admin)
+
+      expect(response).to have_http_status(:ok)
+      body = response.parsed_body
+      expect(body['source']).to eq('template')
+      expect(body['text']).to be_present
+      expect(body['facts']).to include('yesterday', 'today')
+
+      get '/api/v1/dashboard/brief', headers: auth_header(cashier)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'forbids waiter' do
+      get '/api/v1/dashboard/brief', headers: auth_header(waiter)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'does not include another organization in the facts' do
+      create(:beer, organization: other_org, name: 'Secret beer', quantity_stock: 0)
+
+      get '/api/v1/dashboard/brief', headers: auth_header(admin)
+
+      expect(response.parsed_body.dig('facts', 'low_stock_names')).not_to include('Secret beer')
+    end
+  end
+
   describe 'GET /api/v1/dashboard/kitchen' do
     it 'returns kitchen metrics for admin' do
       get '/api/v1/dashboard/kitchen', params: { from:, to: }, headers: auth_header(admin)

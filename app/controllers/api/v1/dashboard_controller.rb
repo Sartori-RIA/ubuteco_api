@@ -41,6 +41,18 @@ module Api
         render_api_errors([{ code: "invalid_range", message: e.message }])
       end
 
+      def brief
+        authorize! :read, :dashboard
+        organization = current_organization
+        return if organization.blank?
+
+        key = brief_cache_key(organization)
+        Rails.cache.delete(key) if refresh? && allow_refresh?(organization)
+        render json: Rails.cache.fetch(key, expires_in: 30.minutes) {
+          ::Organizations::DailyBrief::Compose.call(organization:, user: current_user)
+        }
+      end
+
       def kitchen
         authorize! :read, :dashboard
         organization = current_organization
@@ -59,6 +71,24 @@ module Api
       end
 
       private
+
+      def refresh?
+        ActiveModel::Type::Boolean.new.cast(params[:refresh])
+      end
+
+      def allow_refresh?(organization)
+        key = "dashboard:org:#{organization.id}:brief:refresh"
+        return false if Rails.cache.exist?(key)
+
+        Rails.cache.write(key, true, expires_in: 60.seconds)
+        true
+      end
+
+      def brief_cache_key(organization)
+        zone = Time.find_zone!(organization.timezone.presence || 'UTC')
+        date = Time.current.in_time_zone(zone).to_date
+        "dashboard:org:#{organization.id}:brief:#{date.iso8601}"
+      end
 
       def current_organization
         organization = Current.organization

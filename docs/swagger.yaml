@@ -250,6 +250,22 @@ paths:
       responses:
         '200':
           description: Ok
+  "/api/v1/dashboard/brief":
+    get:
+      summary: Daily brief
+      tags:
+      - Dashboard
+      security:
+      - Bearer: {}
+      parameters:
+      - name: refresh
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Ok
   "/api/v1/dishes/{dish_id}/ingredients":
     get:
       summary: All ingredients in dish
