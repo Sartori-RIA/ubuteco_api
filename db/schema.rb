@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_07_180000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -219,6 +219,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_180000) do
     t.index ["user_id"], name: "index_stock_movements_on_user_id"
   end
 
+  create_table "support_session_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "http_method", null: false
+    t.string "path", null: false
+    t.integer "status", null: false
+    t.bigint "support_session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["support_session_id"], name: "index_support_session_requests_on_support_session_id"
+  end
+
+  create_table "support_sessions", force: :cascade do |t|
+    t.bigint "actor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "ended_at"
+    t.datetime "expires_at", null: false
+    t.string "jti", null: false
+    t.bigint "organization_id", null: false
+    t.text "reason", null: false
+    t.datetime "started_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["actor_id"], name: "index_support_sessions_on_actor_id"
+    t.index ["actor_id"], name: "index_support_sessions_open_on_actor_id", where: "(ended_at IS NULL)"
+    t.index ["jti"], name: "index_support_sessions_on_jti", unique: true
+    t.index ["organization_id"], name: "index_support_sessions_on_organization_id"
+    t.index ["user_id"], name: "index_support_sessions_on_user_id"
+  end
+
   create_table "tables", force: :cascade do |t|
     t.integer "chairs"
     t.datetime "created_at", null: false
@@ -315,6 +343,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_180000) do
   add_foreign_key "stock_movements", "order_items", on_delete: :nullify
   add_foreign_key "stock_movements", "organizations"
   add_foreign_key "stock_movements", "users"
+  add_foreign_key "support_session_requests", "support_sessions"
+  add_foreign_key "support_sessions", "organizations"
+  add_foreign_key "support_sessions", "users"
+  add_foreign_key "support_sessions", "users", column: "actor_id"
   add_foreign_key "tables", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "users", "roles"

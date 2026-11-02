@@ -49,6 +49,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
 | 24 | [Password policy](./24-password-policy.md) | completed | P1 | #10 |
+| 23 | [Support impersonation](./23-support-impersonation.md) | completed | P2 | #1, #10, #24 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
