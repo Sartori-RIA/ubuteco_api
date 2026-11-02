@@ -7,3 +7,4 @@ pt-BR:
       delete_restriction: Não é possível excluir este registro porque existem dados dependentes
       account_deletion_forbidden: Você não tem permissão para excluir sua própria conta
       role_assignment_forbidden: Você não pode atribuir este perfil
+      import_in_progress: Já existe uma importação na fila ou em execução

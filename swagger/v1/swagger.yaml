@@ -240,6 +240,70 @@ paths:
       responses:
         '204':
           description: No Content
+  "/api/v1/catalog/imports":
+    post:
+      summary: Enqueue a catalog import
+      tags:
+      - Catalog imports
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '202':
+          description: queued
+        '409':
+          description: already running
+        '403':
+          description: not an admin
+        '422':
+          description: invalid csv
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        required: true
+    get:
+      summary: List catalog imports
+      tags:
+      - Catalog imports
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: ok
+  "/api/v1/catalog/imports/{id}":
+    get:
+      summary: Show a catalog import
+      tags:
+      - Catalog imports
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: queued without a runtime history
+  "/api/v1/catalog/imports/template":
+    get:
+      summary: Download an English CSV template
+      tags:
+      - Catalog imports
+      security:
+      - Bearer: {}
+      parameters:
+      - name: product_type
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: template
   "/api/v1/customers":
     get:
       summary: All Customers

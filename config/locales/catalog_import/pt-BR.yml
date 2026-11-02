@@ -1,0 +1,30 @@
+pt-BR:
+  catalog_import:
+    file:
+      missing_file: Escolha um arquivo CSV
+      too_large: O arquivo passa de 1 MB
+      bad_type: O arquivo não é um CSV
+      unknown_type: Tipo de produto desconhecido
+      empty: O arquivo não tem linhas de dados
+      too_many_rows: O arquivo tem mais de 500 linhas de dados
+      malformed: O arquivo não é um CSV válido
+      encoding: O arquivo precisa estar em UTF-8
+      duplicate_header: Uma coluna está repetida
+      unknown_header: Coluna desconhecida "%{header}"
+      missing_header: Falta a coluna "%{header}"
+    errors:
+      name_taken: O nome já existe
+      maker_missing: Fabricante "%{name}" não foi encontrado
+      beer_style_missing: Estilo de cerveja "%{name}" não foi encontrado
+      wine_style_missing: Estilo de vinho "%{name}" não foi encontrado
+      food_missing: Alimento "%{name}" não foi encontrado
+      duplicate_ingredient: O alimento "%{name}" aparece duas vezes
+      invalid_ingredient: Um ingrediente precisa ser "Nome do alimento:quantidade"
+      invalid_number: Um número não é válido
+      invalid_date: valid_until precisa ser AAAA-MM-DD
+  catalog_import_mailer:
+    finished:
+      subject: Importação do catálogo concluída
+      summary: "%{type}: %{created} criados, %{failed} com falha."
+      stopped: A importação parou. %{message}
+      line: "Linha %{line}: %{cause}"

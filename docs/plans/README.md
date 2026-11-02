@@ -48,6 +48,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 20 | [Semantic menu search](./20-semantic-menu-search.md) | not started | P3 | #7, #16 |
 | 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
+| 22 | [Catalog CSV import](./22-catalog-csv-import.md) | completed | P2 | #1, #9 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 

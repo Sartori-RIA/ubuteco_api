@@ -77,6 +77,14 @@ Rails.application.routes.draw do
       resources :wines
       resources :roles
 
+      namespace :catalog do
+        resources :imports, only: %i[index show create] do
+          collection do
+            get :template
+          end
+        end
+      end
+
       get 'dashboard/summary', to: 'dashboard#summary'
       get 'dashboard/series', to: 'dashboard#series'
       get 'dashboard/kitchen', to: 'dashboard#kitchen'

@@ -1,0 +1,14 @@
+<p><%= t("catalog_import_mailer.finished.summary", type: @import.product_type, created: @import.created_rows, failed: @import.failed_rows) %></p>
+
+<% if @import.status == "failed" %>
+  <p><%= t("catalog_import_mailer.finished.stopped", message: @import.error_message) %></p>
+<% end %>
+
+<% failed = @import.row_log.select { |entry| entry["status"] == "failed" } %>
+<% if failed.any? %>
+  <ul>
+    <% failed.each do |entry| %>
+      <li><%= t("catalog_import_mailer.finished.line", line: entry["line"], cause: Array(entry["errors"]).join(", ")) %></li>
+    <% end %>
+  </ul>
+<% end %>
