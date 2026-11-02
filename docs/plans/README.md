@@ -68,7 +68,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **AI track (16–21):** [16 AI foundation](./16-ai-foundation.md) comes first — every other AI plan calls the model through it. [19 Restock suggestions](./19-restock-suggestions.md) is mostly statistics and can start without it. React companions: 16 (settings toggle), 17, 18, 19, 21; plan 20 has no UI work in v1.
 
-**After the AI track, before subscription:** [22 Catalog CSV import](./22-catalog-csv-import.md). Then [24 Password policy](./24-password-policy.md) before [23 Support impersonation](./23-support-impersonation.md). Import is admin-only and runs on Sidekiq. Impersonation never reads or changes the password.
+**After the AI track, before subscription:** [22 Catalog CSV import](./22-catalog-csv-import.md). Then [24 Password policy](./24-password-policy.md) before [23 Support impersonation](./23-support-impersonation.md). Import is admin-only, English headers only, and runs on Sidekiq. Password policy checks breached passwords only when one is set; the recovery link expires, is single-use, and does not sign anyone in. Impersonation never reads or changes the password.
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 
