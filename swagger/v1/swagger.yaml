@@ -8,6 +8,51 @@ consumes:
 produces:
 - application/json
 paths:
+  "/api/v1/assistant/conversations":
+    get:
+      summary: List own conversations
+      tags:
+      - Assistant
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Ok
+    post:
+      summary: Create a conversation
+      tags:
+      - Assistant
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Created
+  "/api/v1/assistant/conversations/{id}/messages":
+    post:
+      summary: Ask the assistant
+      tags:
+      - Assistant
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+              - content
   "/api/v1/beer_styles":
     get:
       summary: All Beer Styles

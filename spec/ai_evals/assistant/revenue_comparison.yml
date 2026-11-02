@@ -1,0 +1,6 @@
+name: revenue comparison
+locale: en
+question: How much did I make this week compared to last week?
+expected_tools:
+  - sales_summary
+must_include: []
