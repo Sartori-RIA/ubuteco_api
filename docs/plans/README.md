@@ -49,6 +49,8 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
 | 22 | [Catalog CSV import](./22-catalog-csv-import.md) | not started | P2 | #1, #9 |
+| 24 | [Password policy](./24-password-policy.md) | not started | P1 | #10 |
+| 23 | [Support impersonation](./23-support-impersonation.md) | not started | P2 | #1, #10, #24 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
@@ -66,7 +68,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **AI track (16–21):** [16 AI foundation](./16-ai-foundation.md) comes first — every other AI plan calls the model through it. [19 Restock suggestions](./19-restock-suggestions.md) is mostly statistics and can start without it. React companions: 16 (settings toggle), 17, 18, 19, 21; plan 20 has no UI work in v1.
 
-**After the AI track, before subscription:** [22 Catalog CSV import](./22-catalog-csv-import.md). Admin only. The file is processed on Sidekiq; the admin gets an email and a status screen.
+**After the AI track, before subscription:** [22 Catalog CSV import](./22-catalog-csv-import.md). Then [24 Password policy](./24-password-policy.md) before [23 Support impersonation](./23-support-impersonation.md). Import is admin-only and runs on Sidekiq. Impersonation never reads or changes the password.
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 
