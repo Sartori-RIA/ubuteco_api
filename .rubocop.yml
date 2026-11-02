@@ -14,13 +14,15 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/*'
-    - '*/vendor//'
+    - 'vendor/**/*'
+    - '**/vendor/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'
     - 'db/schema.rb'
     - 'db/migrate/*'
     - 'config/initializers/*'
     - 'config/environments/*'
     - 'lib/tasks/populate.rake'
+    - 'lib/tasks/demo_orders.rake'
     - 'config/routes.rb'
     - 'spec/**/*.rb'
 

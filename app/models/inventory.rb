@@ -2,6 +2,7 @@
 
 module Inventory
   STOCKABLE_CLASSES = [Beer, Wine, Drink, Food].freeze
+  EXPIRY_CLASSES = [Beer, Food].freeze
 
   PRODUCT_TYPE_KEYS = {
     'beers' => Beer,
@@ -16,6 +17,10 @@ module Inventory
 
   def self.low_stock_threshold
     ENV.fetch('LOW_STOCK_THRESHOLD', 5).to_i
+  end
+
+  def self.expiry_warning_days
+    ENV.fetch('EXPIRY_WARNING_DAYS', 7).to_i
   end
 
   def self.find_stockable!(product_type:, id:)

@@ -48,6 +48,20 @@ RSpec.describe 'Cross-tenant access', type: :request do
     end
   end
 
+  describe 'expiring inventory' do
+    let!(:beer_b) do
+      create(:beer, organization: organization_b, name: 'Other beer', valid_until: 1.day.from_now)
+    end
+
+    it 'does not list products from another organization' do
+      get '/api/v1/inventory/expiring', headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:ok)
+      ids = response.parsed_body['items'].pluck('id')
+      expect(ids).not_to include(beer_b.id)
+    end
+  end
+
   describe 'beers' do
     let!(:beer_b) { create(:beer, organization: organization_b) }
 

@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
 
       get 'inventory/low_stock', to: 'inventory#low_stock'
+      get 'inventory/expiring', to: 'inventory#expiring'
 
       patch 'beers/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'beers' }
       patch 'wines/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'wines' }

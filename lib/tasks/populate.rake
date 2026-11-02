@@ -126,6 +126,7 @@ namespace :db do
         valid_until: Faker::Date.forward(days: 30)
       )
     end
+    seed_expiry_samples!(organization)
     100.times do
       Dish.create!(
         organization: organization,
@@ -139,6 +140,50 @@ namespace :db do
         food: organization.foods.sample,
         quantity: Faker::Number.between(from: 1, to: 2)
       ).first_or_create
+    end
+  end
+
+  # Named beers and foods so /inventory expiry has a stable demo:
+  # due today, due in 3 days, already expired, and 21 days out (outside the default 7-day window).
+  def seed_expiry_samples!(organization)
+    zone = Time.find_zone!(organization.timezone.presence || 'UTC')
+    today = Time.current.in_time_zone(zone).to_date
+    maker = organization.makers.sample
+    beer_style = BeerStyle.all.sample
+
+    [
+      ['DEMO IPA vence hoje', 0],
+      ['DEMO Lager vence em 3 dias', 3],
+      ['DEMO Stout vencida', -3],
+      ['DEMO Pilsen fora da janela', 21]
+    ].each do |name, offset|
+      on = today + offset
+      Beer.create!(
+        maker: maker,
+        beer_style: beer_style,
+        organization: organization,
+        ibu: 30,
+        abv: 5,
+        name: name,
+        price: 12,
+        quantity_stock: 20,
+        valid_until: zone.local(on.year, on.month, on.day, 12, 0)
+      )
+    end
+
+    [
+      ['DEMO pão vence amanhã', 1],
+      ['DEMO queijo vencido', -1],
+      ['DEMO arroz fora da janela', 21]
+    ].each do |name, offset|
+      on = today + offset
+      Food.create!(
+        organization: organization,
+        name: name,
+        price: 8,
+        quantity_stock: 10,
+        valid_until: zone.local(on.year, on.month, on.day, 12, 0)
+      )
     end
   end
 

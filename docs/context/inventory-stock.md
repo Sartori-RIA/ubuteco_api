@@ -48,3 +48,7 @@ Written on:
 `GET /api/v1/inventory/low_stock` — items at or below threshold for the current org.
 
 Authorized roles: **ADMIN**, **CASH_REGISTER**.
+
+## Expiry
+
+Beer and Food `valid_until` alerts: [product-expiry.md](./product-expiry.md).
