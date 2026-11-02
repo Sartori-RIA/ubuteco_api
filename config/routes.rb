@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       patch 'foods/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'foods' }
 
       namespace :platform do
+        get 'ai_usage', to: 'ai_usage#index'
         resources :organizations, except: :create do
           scope module: :organizations do
             resources :users, only: :index
