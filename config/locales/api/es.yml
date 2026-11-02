@@ -11,5 +11,6 @@ es:
       ai_rate_limited: Se alcanzó el límite de uso de la IA. Inténtalo de nuevo en un momento
       ai_unavailable: La IA no está disponible temporalmente
       ai_invalid_output: La IA devolvió una respuesta que no se pudo usar
+      invalid_document: No se pudo leer el archivo. Use JPEG, PNG, PDF o XML de NF-e de hasta 5 MB
       ai_usage_range: Elige una fecha inicial igual o anterior a la fecha final
       restock_range: La cobertura debe ser de 1 a 60 días y la ventana de historial de 7 a 90 días
