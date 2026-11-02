@@ -143,6 +143,9 @@ paths:
       - name: page
         schema:
           type: string
+      - name: mode
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
@@ -379,6 +382,10 @@ paths:
       - Dishes
       security:
       - Bearer: {}
+      parameters:
+      - name: mode
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
@@ -483,6 +490,10 @@ paths:
       - Drinks
       security:
       - Bearer: {}
+      parameters:
+      - name: mode
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
@@ -587,6 +598,10 @@ paths:
       - Foods
       security:
       - Bearer: {}
+      parameters:
+      - name: mode
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
@@ -1720,6 +1735,10 @@ paths:
       - Wines
       security:
       - Bearer: {}
+      parameters:
+      - name: mode
+        schema:
+          type: string
       responses:
         '200':
           description: Ok
