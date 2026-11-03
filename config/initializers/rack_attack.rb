@@ -34,6 +34,10 @@ class Rack::Attack
     req.ip if req.path == "/auth/sign_up" && req.post?
   end
 
+  throttle("password_resets/ip", limit: 5, period: 20.seconds) do |req|
+    req.ip if req.path == "/auth/password" && (req.post? || req.put?)
+  end
+
   ### Search abuse (OpenSearch-backed index endpoints) ###
 
   throttle("search/ip", limit: 60, period: 1.minute) do |req|

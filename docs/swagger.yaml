@@ -1996,24 +1996,6 @@ paths:
       responses:
         '204':
           description: No Content
-  "/auth/code":
-    post:
-      summary: Code received to reset your password
-      tags:
-      - Auth
-      parameters: []
-      responses:
-        '200':
-          description: Ok
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code: string
-              required:
-              - code
   "/auth/confirmations":
     get:
       summary: Account data after confirm
@@ -2039,7 +2021,7 @@ paths:
       parameters: []
       responses:
         '200':
-          description: Ok
+          description: unknown email
       requestBody:
         content:
           application/json:
@@ -2088,6 +2070,8 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/user"
+        '422':
+          description: current password missing
       requestBody:
         content:
           application/json:

@@ -25,7 +25,6 @@ Rails.application.routes.draw do
                sessions: 'sessions',
                registrations: 'registrations'
              }
-  post 'auth/code' => 'code_validations#create'
   put 'auth/reset_passwords' => 'reset_passwords#update'
 
   namespace :api, defaults: { format: :json } do

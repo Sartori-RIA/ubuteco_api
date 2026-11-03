@@ -1,27 +1,34 @@
 # frozen_string_literal: true
 
 class PasswordsController < Devise::PasswordsController
-  before_action :find_user
   respond_to :json
 
   def create
-    if @user.blank?
-      render json: {}, status: :not_found
+    user = User.find_by(email: params.require(:email))
+    deliver_reset_link(user) if user
+    head :ok
+  end
+
+  def update
+    user = User.reset_password_by_token(reset_attributes)
+    if user.errors.empty?
+      user.revoke_other_sessions!
+      head :ok
     else
-      code = @user.generate_code
-      @user.update(reset_password_token: code, reset_password_sent_at: Time.now.utc)
-      UserMailer.with(user: @user, code:).password_reset_code.deliver_now!
-      render json: {}, status: :ok
+      render_model_errors(user)
     end
   end
 
-  protected
+  private
 
-  def find_user
-    @user = User.find_by(email: required_params)
+  def deliver_reset_link(user)
+    token = user.issue_password_reset_token!
+    UserMailer.with(user:, reset_token: token).password_reset.deliver_now!
   end
 
-  def required_params
-    params.require(:email)
+  def reset_attributes
+    attrs = params.permit(:reset_password_token, :password, :password_confirmation).to_h.symbolize_keys
+    attrs[:password_confirmation] = attrs[:password] if attrs[:password_confirmation].blank?
+    attrs
   end
 end

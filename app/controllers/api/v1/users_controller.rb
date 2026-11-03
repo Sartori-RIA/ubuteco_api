@@ -3,6 +3,8 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      include SessionRevocation
+
       skip_before_action :authenticate_user!, only: :email_available?
       skip_load_resource only: :email_available?
       skip_authorize_resource only: :email_available?
@@ -27,7 +29,10 @@ module Api
       end
 
       def update
+        return render_i18n_api_error(:current_password_invalid) if password_change_unauthorized?
+
         if @user.update(update_params)
+          revoke_other_sessions!(@user) if params[:password].present?
           render :show
         else
           render_model_errors(@user)
@@ -56,6 +61,12 @@ module Api
 
       def update_params
         params.permit(:name, :email, :password, :avatar, :role_id)
+      end
+
+      def password_change_unauthorized?
+        return false if params[:password].blank?
+
+        params[:current_password].blank? || !@user.valid_password?(params[:current_password])
       end
 
       def authorize_assignable_role!

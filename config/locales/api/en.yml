@@ -15,3 +15,8 @@ en:
       ai_usage_range: Choose a start date that is on or before the end date
       restock_range: Cover days must be 1–60 and the history window must be 7–90 days
       import_in_progress: An import is already queued or running
+      password_too_short: Password must be at least 12 characters
+      password_denied: Password is too similar to the email or the organization name
+      password_pwned: This password has appeared in a data breach. Choose another one
+      current_password_invalid: Current password is incorrect
+      reset_token_invalid: This link is invalid or has expired

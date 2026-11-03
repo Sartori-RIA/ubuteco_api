@@ -21,7 +21,10 @@ class User < ApplicationRecord
          :trackable,
          :jwt_authenticatable,
          :argon2,
+         :pwned_password,
          jwt_revocation_strategy: self
+
+  include PasswordPolicy
 
   has_one_attached :avatar
   before_validation :set_initial_data, on: :create
@@ -46,16 +49,6 @@ class User < ApplicationRecord
 
   def send_reset_password_instructions; end
 
-  def generate_code
-    loop do
-      code = ''
-      6.times do
-        code += (0..9).to_a.sample.to_s
-      end
-      break code unless User.find_by(reset_password_token: code)
-    end
-  end
-
   def search_data
     {
       name: name,
@@ -74,14 +67,15 @@ class User < ApplicationRecord
   def set_initial_data
     return if organization_id.blank? || password.present?
 
-    @generated_password = Devise.friendly_token.first(8)
-    self.password = @generated_password
+    self.password = SecureRandom.base58(32)
     skip_confirmation!
+    @issue_set_password_link = true
   end
 
   def send_welcome
     return if Rails.env.development?
 
-    UserMailer.with(user: self, generated_password: @generated_password).welcome.deliver_now!
+    token = issue_password_reset_token! if @issue_set_password_link
+    UserMailer.with(user: self, reset_token: token).welcome.deliver_now!
   end
 end

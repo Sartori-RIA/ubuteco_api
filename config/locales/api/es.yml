@@ -15,3 +15,8 @@ es:
       ai_usage_range: Elige una fecha inicial igual o anterior a la fecha final
       restock_range: La cobertura debe ser de 1 a 60 días y la ventana de historial de 7 a 90 días
       import_in_progress: Ya hay una importación en la fila o en ejecución
+      password_too_short: La contraseña debe tener al menos 12 caracteres
+      password_denied: La contraseña se parece demasiado al correo o al nombre de la organización
+      password_pwned: Esta contraseña apareció en una filtración de datos. Elige otra
+      current_password_invalid: La contraseña actual es incorrecta
+      reset_token_invalid: Este enlace no es válido o ya expiró

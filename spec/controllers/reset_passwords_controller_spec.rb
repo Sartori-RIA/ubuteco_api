@@ -8,7 +8,7 @@ RSpec.describe ResetPasswordsController, type: :request do
   describe '#PUT /auth/reset_passwords' do
     it 'updates password when user forget then' do
       params = {
-        reset_params: { password: '123456789' }
+        reset_params: { password: 'brand-new-secret', current_password: 'factory-secret' }
       }
       put auth_reset_passwords_path,
           params: params.to_json,

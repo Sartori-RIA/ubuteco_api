@@ -27,20 +27,13 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
-  describe 'Reset password code' do
-    let!(:code) { '123456' }
+  describe 'password reset' do
     let!(:mail) do
-      described_class
-        .with(
-          user: user,
-          code: code
-        )
-        .password_reset_code
-        .deliver_now!
+      described_class.with(user: user, reset_token: 'raw-token').password_reset.deliver_now!
     end
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Código de verificação - uButeco')
+      expect(mail.subject).to eq(I18n.t('password_reset.subject'))
     end
 
     it 'renders the receiver email' do
@@ -55,8 +48,8 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.body.encoded).to match(user.name)
     end
 
-    it 'assigns reset code' do
-      expect(mail.body.encoded).to match(code)
+    it 'assigns the reset link' do
+      expect(mail.body.encoded).to include('token=raw-token')
     end
   end
 end

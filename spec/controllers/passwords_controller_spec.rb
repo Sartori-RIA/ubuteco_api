@@ -23,7 +23,7 @@ RSpec.describe PasswordsController, type: :request do
       post user_password_path,
            params: params.to_json,
            headers: unauthenticated_header
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

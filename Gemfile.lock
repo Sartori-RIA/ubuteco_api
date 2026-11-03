@@ -179,6 +179,9 @@ GEM
     devise-jwt (0.13.0)
       devise (>= 4.0.0, < 6.0.0)
       warden-jwt_auth (~> 0.10)
+    devise-pwned_password (0.2.0)
+      devise (>= 4, < 6)
+      pwned (~> 2.4)
     diff-lcs (1.6.2)
     docile (1.4.1)
     dotenv (3.2.0)
@@ -430,6 +433,7 @@ GEM
     public_suffix (7.0.5)
     puma (7.2.1)
       nio4r (~> 2.0)
+    pwned (2.4.1)
     racc (1.8.1)
     rack (3.2.8)
     rack-attack (6.8.0)
@@ -695,6 +699,7 @@ DEPENDENCIES
   devise-argon2 (~> 2.0, >= 2.0.4)
   devise-i18n (~> 1.16)
   devise-jwt (~> 0.13.0)
+  devise-pwned_password
   dotenv-rails (~> 3.2)
   factory_bot_rails (~> 6.5, >= 6.5.1)
   faker (~> 3.6)
@@ -793,6 +798,7 @@ CHECKSUMS
   devise-argon2 (2.0.4) sha256=b743833cfb5706f361ef8bda3ecb3cb7ae20adf599e82c845a7be0657ee08da3
   devise-i18n (1.16.0) sha256=a33306f90f317cfe92753a000064e3ba9dec3cab2d5d01ef40d30f4b6e24e753
   devise-jwt (0.13.0) sha256=19720e64815cd4ba8cdaf338a482f0237e7f1542cc6439212be7db211e731d64
+  devise-pwned_password (0.2.0) sha256=190f2456a20c53319549bda16c3b731ee3781d9d02717279211f0e51dea18f8a
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   docile (1.4.1) sha256=96159be799bfa73cdb721b840e9802126e4e03dfc26863db73647204c727f21e
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
@@ -905,6 +911,7 @@ CHECKSUMS
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
   puma (7.2.1) sha256=d7bf0e9cabd532e0d401e142cd94e3ac531e993610e2d80e6fbf9c26961414b0
+  pwned (2.4.1) sha256=e375b45e1cd78aded2c923737f75e09e64bc66582142c144bd85f4ce1fa0955d
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.2.8) sha256=1fecc85e463ebc7a2a945fff829ffcd549babeb1556384796fad946c28dc4ec7
   rack-attack (6.8.0) sha256=f2499fdebf85bcc05573a22dff57d24305ac14ec2e4156cd3c28d47cafeeecf2
