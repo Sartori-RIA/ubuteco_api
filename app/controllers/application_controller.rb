@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
   include Pagy::Method
   include SearchkickAuthorizable
   include SetCurrentTenant
+  include SupportImpersonation
   include SetOrganizationRegional
 
   prepend_before_action :authenticate_user!
@@ -15,6 +16,7 @@ class ApplicationController < ActionController::API
     super
     payload[:user_id] = current_user&.id
     payload[:organization_id] = current_user&.organization_id
+    payload[:impersonator_id] = Current.impersonator&.id
   end
 
   rescue_from CanCan::AccessDenied do |exception|

@@ -114,6 +114,7 @@ Rails.application.routes.draw do
 
       namespace :platform do
         get 'ai_usage', to: 'ai_usage#index'
+        resources :impersonations, only: %i[index create destroy]
         resources :organizations, except: :create do
           scope module: :organizations do
             resources :users, only: :index

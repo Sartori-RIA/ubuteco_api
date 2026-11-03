@@ -20,3 +20,7 @@ es:
       password_pwned: Esta contraseña apareció en una filtración de datos. Elige otra
       current_password_invalid: La contraseña actual es incorrecta
       reset_token_invalid: Este enlace no es válido o ya expiró
+      impersonation_forbidden: Esta acción no está disponible durante una sesión de soporte
+      impersonation_reason_invalid: Explica el motivo con 10 a 500 caracteres
+      impersonation_target_invalid: Elige un usuario de la organización que no sea super admin
+      impersonation_in_progress: Ya hay una sesión de soporte abierta

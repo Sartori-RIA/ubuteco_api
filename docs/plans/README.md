@@ -50,6 +50,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 21 | [AI product intake](./21-ai-product-intake.md) | completed | P3 | #16, #9 |
 | 22 | [Catalog CSV import](./22-catalog-csv-import.md) | completed | P2 | #1, #9 |
 | 24 | [Password policy](./24-password-policy.md) | completed | P1 | #10 |
+| 23 | [Support impersonation](./23-support-impersonation.md) | completed | P2 | #1, #10, #24 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
@@ -70,6 +71,8 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 **Catalog:** [22 Catalog CSV import](./22-catalog-csv-import.md) is in place.
 
 **Auth:** [24 Password policy](./24-password-policy.md) is in place.
+
+**Support:** [23 Support impersonation](./23-support-impersonation.md) is in place.
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 

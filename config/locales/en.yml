@@ -4,6 +4,13 @@ en:
     subject: "Seja bem vindo ao uButeco"
     text: "Seja bem vindo ao uButeco"
     set_password: "Choose a password to enter uButeco"
+  support_session:
+    mail:
+      subject: "A support session started in your organization"
+      title: "Support entered this account"
+      body: "%{name} opened a support session in %{organization}."
+      reason: "Reason: %{reason}"
+      expires: "It ends at %{time}."
   password_reset:
     subject: "Set your uButeco password"
     instruction: "Use the link below to choose a new password. It does not sign you in."

@@ -20,3 +20,7 @@ pt-BR:
       password_pwned: Esta senha apareceu em um vazamento de dados. Escolha outra
       current_password_invalid: A senha atual está incorreta
       reset_token_invalid: Este link é inválido ou expirou
+      impersonation_forbidden: Esta ação não está disponível durante uma sessão de suporte
+      impersonation_reason_invalid: Explique o motivo com 10 a 500 caracteres
+      impersonation_target_invalid: Escolha um usuário da organização que não seja super admin
+      impersonation_in_progress: Já existe uma sessão de suporte aberta

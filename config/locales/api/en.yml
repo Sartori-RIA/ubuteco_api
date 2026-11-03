@@ -20,3 +20,7 @@ en:
       password_pwned: This password has appeared in a data breach. Choose another one
       current_password_invalid: Current password is incorrect
       reset_token_invalid: This link is invalid or has expired
+      impersonation_forbidden: This action is not available during a support session
+      impersonation_reason_invalid: Explain the reason in 10 to 500 characters
+      impersonation_target_invalid: Choose a user who belongs to an organization and is not a super admin
+      impersonation_in_progress: A support session is already open

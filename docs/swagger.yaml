@@ -1373,6 +1373,61 @@ paths:
                 "$ref": "#/components/schemas/ai_usage"
         '403':
           description: Forbidden
+  "/api/v1/platform/impersonations":
+    post:
+      summary: Start a support session
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '403':
+          description: not a super admin
+        '422':
+          description: super admin target
+        '409':
+          description: already open
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                reason:
+                  type: string
+              required:
+              - user_id
+              - reason
+    get:
+      summary: List support sessions
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: ok
+  "/api/v1/platform/impersonations/{id}":
+    delete:
+      summary: End a support session
+      tags:
+      - Platform
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: ended
   "/api/v1/platform/organizations":
     get:
       summary: List organizations (platform)
