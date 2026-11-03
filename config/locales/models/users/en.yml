@@ -4,3 +4,9 @@ en:
       user:
         name: Name
         email: Email
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              pwned_password: has appeared in a data breach. Choose another one

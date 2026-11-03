@@ -4,3 +4,9 @@ es:
       user:
         name: Nombre
         email: Correo electrónico
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              pwned_password: apareció en una filtración de datos. Elige otra

@@ -25,12 +25,13 @@ namespace :db do
       Maker,
     ].each(&:delete_all)
 
-    default_pwd = '123123123'
-    super_admin = User.create_with(
-      password: default_pwd,
+    default_pwd = 'ubuteco-local-dev'
+    super_admin = upsert_demo_user!(
+      email: 'super@email.com',
       name: 'user super admin',
-      role: Role.find_by(name: 'SUPER_ADMIN'),
-    ).find_or_create_by!(email: 'super@email.com')
+      role_name: 'SUPER_ADMIN',
+      password: default_pwd
+    )
 
     super_org = Organization.create(
       name: Faker::Company.name,
@@ -40,11 +41,12 @@ namespace :db do
 
     super_admin.update(organization: super_org)
 
-    admin = User.create_with(
-      password: default_pwd,
+    admin = upsert_demo_user!(
+      email: 'admin@email.com',
       name: 'user admin',
-      role: Role.find_by(name: 'ADMIN'),
-    ).find_or_create_by!(email: 'admin@email.com')
+      role_name: 'ADMIN',
+      password: default_pwd
+    )
 
     organization = Organization.create(
       name: Faker::Company.name,
@@ -56,11 +58,12 @@ namespace :db do
 
     sync_org_staff!(organization:, default_pwd:)
 
-    User.create_with(
-      password: default_pwd,
+    upsert_demo_user!(
+      email: 'customer@email.com',
       name: 'user customer',
-      role: Role.find_by(name: 'CUSTOMER'),
-    ).find_or_create_by!(email: 'customer@email.com')
+      role_name: 'CUSTOMER',
+      password: default_pwd
+    )
 
     User.update_all(confirmed_at: Time.zone.now)
 
@@ -187,21 +190,25 @@ namespace :db do
     end
   end
 
+  def upsert_demo_user!(email:, name:, role_name:, password:, organization: nil)
+    user = User.find_or_initialize_by(email: email)
+    user.assign_attributes(
+      password: password,
+      name: name,
+      role: Role.find_by!(name: role_name),
+      organization: organization
+    )
+    user.save!
+    user
+  end
+
   def sync_org_staff!(organization:, default_pwd:)
     [
       ['kitchen@email.com', 'user kitchen', 'KITCHEN'],
       ['waiter@email.com', 'user waiter', 'WAITER'],
       ['cash_register@email.com', 'user CASH REGISTER', 'CASH_REGISTER']
     ].each do |email, name, role_name|
-      role = Role.find_by!(name: role_name)
-      user = User.find_or_initialize_by(email: email)
-      user.assign_attributes(
-        password: default_pwd,
-        name: name,
-        role: role,
-        organization: organization
-      )
-      user.save!
+      upsert_demo_user!(email:, name:, role_name:, password: default_pwd, organization:)
     end
   end
 end

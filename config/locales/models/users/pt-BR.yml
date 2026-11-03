@@ -4,3 +4,9 @@ pt-BR:
       user:
         name: Nome
         email: E-mail
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              pwned_password: apareceu em um vazamento de dados. Escolha outra
