@@ -1,0 +1,6 @@
+name: top seller
+locale: pt-BR
+question: O que mais vendeu ontem?
+expected_tools:
+  - top_products
+must_include: []

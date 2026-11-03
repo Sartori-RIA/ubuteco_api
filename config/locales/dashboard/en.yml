@@ -5,3 +5,7 @@ en:
       range_exceeds_max: Range cannot exceed %{max} days
       unsupported_metric: Unsupported metric
       unsupported_grain: Unsupported grain
+    brief:
+      template: "Yesterday %{yesterday_revenue} (%{revenue_delta_percent}% vs last week), %{yesterday_orders} orders, average ticket %{yesterday_average_ticket}. Today so far %{today_revenue} across %{today_orders} orders. Top sellers: %{top_products}. Low stock: %{low_stock_count}. Expiring: %{expiring_count}. Average prep: %{avg_prep_minutes} min."
+      template_without_delta: "Yesterday %{yesterday_revenue}, %{yesterday_orders} orders, average ticket %{yesterday_average_ticket}. Today so far %{today_revenue} across %{today_orders} orders. Top sellers: %{top_products}. Low stock: %{low_stock_count}. Expiring: %{expiring_count}. Average prep: %{avg_prep_minutes} min."
+      no_products: none

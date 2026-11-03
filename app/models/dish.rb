@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Dish < Product
+  include CatalogEmbeddable
   extend Pagy::Search
 
-  searchkick callbacks: :async
+  searchkick callbacks: :async, knn: CatalogEmbeddable::KNN
 
   belongs_to :organization
 
@@ -16,6 +17,6 @@ class Dish < Product
     {
       name: name,
       organization_id: organization_id
-    }
+    }.merge(embedding_for_index)
   end
 end

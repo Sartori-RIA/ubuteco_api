@@ -3,6 +3,11 @@
 module Ai
   # Rejects model text that contains a number the caller did not supply.
   class NumberGuard
+    def self.covers?(text, payload)
+      allowed = extracted(payload.to_json).to_set
+      extracted(text).all? { |token| allowed.include?(token) }
+    end
+
     def self.allowed?(text, numbers)
       allowed = numbers.flat_map { |value| forms(value) }.to_set
       extracted(text).all? { |token| allowed.include?(token) }

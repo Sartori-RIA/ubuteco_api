@@ -42,6 +42,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "ai_conversations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.bigint "organization_id", null: false
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["deleted_at"], name: "index_ai_conversations_on_deleted_at"
+    t.index ["organization_id", "user_id"], name: "index_ai_conversations_on_organization_id_and_user_id"
+    t.index ["organization_id"], name: "index_ai_conversations_on_organization_id"
+    t.index ["user_id"], name: "index_ai_conversations_on_user_id"
+  end
+
+  create_table "ai_messages", force: :cascade do |t|
+    t.bigint "ai_conversation_id", null: false
+    t.jsonb "content", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.string "role", null: false
+    t.string "tool_name"
+    t.datetime "updated_at", null: false
+    t.jsonb "usage"
+    t.index ["ai_conversation_id"], name: "index_ai_messages_on_ai_conversation_id"
+  end
+
   create_table "ai_usage_events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "feature", null: false
@@ -83,6 +107,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.text "description"
+    t.jsonb "embedding"
+    t.string "embedding_digest"
     t.decimal "ibu"
     t.bigint "maker_id"
     t.string "name"
@@ -96,6 +122,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.index ["deleted_at"], name: "index_beers_on_deleted_at"
     t.index ["maker_id"], name: "index_beers_on_maker_id"
     t.index ["organization_id"], name: "index_beers_on_organization_id"
+  end
+
+  create_table "catalog_imports", force: :cascade do |t|
+    t.integer "created_rows", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "enqueued_at"
+    t.text "error_message"
+    t.integer "failed_rows", default: 0, null: false
+    t.datetime "finished_at"
+    t.bigint "organization_id", null: false
+    t.integer "processed_rows", default: 0, null: false
+    t.string "product_type", null: false
+    t.jsonb "row_log", default: [], null: false
+    t.datetime "started_at"
+    t.string "status", default: "queued", null: false
+    t.integer "total_rows", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["organization_id", "status"], name: "index_catalog_imports_on_organization_id_and_status"
+    t.index ["organization_id"], name: "index_catalog_imports_on_organization_id"
+    t.index ["user_id"], name: "index_catalog_imports_on_user_id"
   end
 
   create_table "dish_ingredients", force: :cascade do |t|
@@ -112,6 +159,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
   create_table "dishes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
+    t.jsonb "embedding"
+    t.string "embedding_digest"
     t.string "name"
     t.bigint "organization_id"
     t.integer "price_cents", default: 0, null: false
@@ -126,6 +175,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.text "description"
+    t.jsonb "embedding"
+    t.string "embedding_digest"
     t.string "flavor"
     t.string "name"
     t.bigint "organization_id"
@@ -140,6 +191,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
   create_table "foods", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
+    t.jsonb "embedding"
+    t.string "embedding_digest"
     t.string "name"
     t.bigint "organization_id"
     t.integer "price_cents", default: 0, null: false
@@ -322,6 +375,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.text "description"
+    t.jsonb "embedding"
+    t.string "embedding_digest"
     t.string "grapes"
     t.bigint "maker_id"
     t.string "name"
@@ -342,12 +397,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_140000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_conversations", "organizations"
+  add_foreign_key "ai_conversations", "users"
+  add_foreign_key "ai_messages", "ai_conversations"
   add_foreign_key "ai_usage_events", "organizations"
   add_foreign_key "ai_usage_events", "users"
   add_foreign_key "allowlisted_jwts", "users", on_delete: :cascade
   add_foreign_key "beers", "beer_styles"
   add_foreign_key "beers", "makers"
   add_foreign_key "beers", "organizations"
+  add_foreign_key "catalog_imports", "organizations"
+  add_foreign_key "catalog_imports", "users"
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "foods"
   add_foreign_key "dishes", "organizations"
