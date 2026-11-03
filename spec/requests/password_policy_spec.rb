@@ -159,5 +159,48 @@ RSpec.describe 'Password policy', type: :request do
       get "/api/v1/users/#{account.id}", headers: headers
       expect(response).to have_http_status(:ok)
     end
+
+    it 'returns a password error when the current password is right and the new one is too short' do
+      account = create(:organization).user
+
+      put '/auth/reset_passwords',
+          params: { reset_params: { password: 'short', current_password: 'factory-secret' } }.to_json,
+          headers: auth_header(account)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.parsed_body['errors'].first['code']).to eq('password_too_short')
+    end
+
+    it 'changes the password when the session token cannot be read' do
+      account = create(:organization).user
+      allow_any_instance_of(Warden::JWTAuth::TokenDecoder).to receive(:call).and_wrap_original do |method, *args|
+        raise JWT::DecodeError, 'bad' if caller.any? { |line| line.include?('session_revocation') }
+
+        method.call(*args)
+      end
+
+      put '/auth/reset_passwords',
+          params: { reset_params: { password: 'brand-new-secret', current_password: 'factory-secret' } }.to_json,
+          headers: auth_header(account)
+
+      expect(response).to have_http_status(:ok)
+      expect(account.reload.valid_password?('brand-new-secret')).to be(true)
+      expect(account.allowlisted_jwts).to be_empty
+    end
+  end
+
+  describe 'PUT /api/v1/users/:id' do
+    it 'rejects a password change that does not include the current password' do
+      organization = create(:organization)
+      staff = create(:user, :kitchen, organization:)
+
+      put "/api/v1/users/#{staff.id}",
+          params: { password: 'brand-new-secret' }.to_json,
+          headers: auth_header(organization.user)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.parsed_body['errors'].first['code']).to eq('current_password_invalid')
+      expect(staff.reload.valid_password?('factory-secret')).to be(true)
+    end
   end
 end
