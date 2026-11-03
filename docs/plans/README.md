@@ -46,7 +46,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 19 | [Restock suggestions](./19-restock-suggestions.md) | completed | P2 | #9 (#16 for AI phase only) |
 | 18 | [AI daily brief](./18-ai-daily-brief.md) | completed | P2 | #16, #4, #9 (#15 recommended) |
 | 20 | [Semantic menu search](./20-semantic-menu-search.md) | completed | P3 | #7, #16 |
-| 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
+| 17 | [AI assistant](./17-ai-assistant.md) | completed | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
@@ -61,9 +61,9 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **In progress:** [05 Platform hardening](./05-platform-hardening.md).
 
-**Next up:** [17 AI assistant](./17-ai-assistant.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
+**Next up:** [21 AI product intake](./21-ai-product-intake.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
 
-**AI track (16–21):** [16](./16-ai-foundation.md), [19](./19-restock-suggestions.md), [18](./18-ai-daily-brief.md), and [20](./20-semantic-menu-search.md) are in place. Next is [17 AI assistant](./17-ai-assistant.md), then [21](./21-ai-product-intake.md).
+**AI track (16–21):** [16](./16-ai-foundation.md), [19](./19-restock-suggestions.md), [18](./18-ai-daily-brief.md), [20](./20-semantic-menu-search.md), and [17](./17-ai-assistant.md) are in place. Next is [21 AI product intake](./21-ai-product-intake.md).
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 

@@ -1,0 +1,8 @@
+es:
+  assistant:
+    timeout: No pude terminar a tiempo. Pregunta de nuevo, más corto.
+    too_many_tools: Necesité demasiadas consultas para responder. Pregunta una cosa a la vez.
+    empty: No pude armar una respuesta.
+    errors:
+      blank: Escribe una pregunta.
+      too_long: Esa pregunta es demasiado larga.

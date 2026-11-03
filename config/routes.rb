@@ -82,6 +82,14 @@ Rails.application.routes.draw do
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
       get 'dashboard/brief', to: 'dashboard#brief'
 
+      namespace :assistant do
+        resources :conversations, only: %i[index show create destroy] do
+          member do
+            post :messages
+          end
+        end
+      end
+
       get 'inventory/low_stock', to: 'inventory#low_stock'
       get 'inventory/expiring', to: 'inventory#expiring'
       get 'inventory/restock_suggestions', to: 'inventory#restock_suggestions'
