@@ -48,3 +48,19 @@ Written on:
 `GET /api/v1/inventory/low_stock` — items at or below threshold for the current org.
 
 Authorized roles: **ADMIN**, **CASH_REGISTER**.
+
+## Expiry
+
+Beer and Food `valid_until` alerts: [product-expiry.md](./product-expiry.md).
+
+## Restock suggestions
+
+`GET /api/v1/inventory/restock_suggestions` — what to buy, from sales already stored in `stock_movements`.
+
+Sales are movements with `order_item_id` and `delta < 0`. Manual adjustments are ignored. Average daily use is the units sold in the window divided by `window_days` (default 28, allowed 7–90). The window is calendar days in the organization timezone. Suggested quantity is `max(0, ceil(avg_daily × cover_days) − quantity_stock)`. `cover_days` defaults to `RESTOCK_COVER_DAYS` (7) and must be 1–60.
+
+Fewer than 7 distinct sale days → `confidence: low` and `suggested_quantity: null`. Soft-deleted products are omitted. Dish is not stockable.
+
+`?explain=1` adds `explanation` on up to 5 confident rows when `Ai.enabled_for?` is true. The sentence is dropped when it contains a number that is not in the computed facts. With AI off, the field is omitted and the list still returns.
+
+Authorized roles: **ADMIN**, **CASH_REGISTER**.

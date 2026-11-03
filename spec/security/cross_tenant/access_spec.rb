@@ -48,6 +48,32 @@ RSpec.describe 'Cross-tenant access', type: :request do
     end
   end
 
+  describe 'restock suggestions' do
+    let!(:beer_b) { create(:beer, organization: organization_b, name: 'Other beer', quantity_stock: 1) }
+
+    it 'does not list products from another organization' do
+      get '/api/v1/inventory/restock_suggestions', headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['items'].pluck('name')).not_to include('Other beer')
+      expect(response.parsed_body['items'].pluck('id')).not_to include(beer_b.id)
+    end
+  end
+
+  describe 'expiring inventory' do
+    let!(:beer_b) do
+      create(:beer, organization: organization_b, name: 'Other beer', valid_until: 1.day.from_now)
+    end
+
+    it 'does not list products from another organization' do
+      get '/api/v1/inventory/expiring', headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:ok)
+      ids = response.parsed_body['items'].pluck('id')
+      expect(ids).not_to include(beer_b.id)
+    end
+  end
+
   describe 'beers' do
     let!(:beer_b) { create(:beer, organization: organization_b) }
 
@@ -63,6 +89,15 @@ RSpec.describe 'Cross-tenant access', type: :request do
       get api_v1_organization_path(organization_b), headers: auth_header(admin_a)
 
       expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'forbids turning AI on for another organization' do
+      patch api_v1_organization_path(organization_b),
+            params: { ai_enabled: true }.to_json,
+            headers: auth_header(admin_a)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(organization_b.reload.ai_enabled).to be(false)
     end
   end
 

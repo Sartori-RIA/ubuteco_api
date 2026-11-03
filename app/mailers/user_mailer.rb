@@ -5,11 +5,13 @@ class UserMailer < ApplicationMailer
 
   def welcome
     @subject = t('welcome.subject')
+    @reset_url = reset_password_url
     mail to: @user.email, subject: @subject
   end
 
-  def password_reset_code
-    @subject = 'Código de verificação - uButeco'
+  def password_reset
+    @subject = t('password_reset.subject')
+    @reset_url = reset_password_url
     mail to: @user.email, subject: @subject
   end
 
@@ -17,7 +19,14 @@ class UserMailer < ApplicationMailer
 
   def load_user
     @user = params[:user]
-    @code = params[:code]
-    @generated_password = params[:generated_password]
+  end
+
+  def reset_password_url
+    token = params[:reset_token]
+    return if token.blank?
+
+    base = ENV.fetch('RESET_PASSWORD_URL', 'http://localhost:3000/reset-password')
+    separator = base.include?('?') ? '&' : '?'
+    "#{base}#{separator}token=#{URI.encode_www_form_component(token)}"
   end
 end

@@ -1,6 +1,6 @@
 # Plan: Catalog CSV import
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — catalog CSV import](../../../ubuteco-react/docs/plans/22-catalog-csv-import.md)  
 **Branch:** `feature/catalog-csv-import`  
@@ -149,10 +149,10 @@ While `running`, the record stores `processed_rows` and `total_rows`.
 
 ## Phase 1 — Parse
 
-- [ ] `Catalog::CsvImport::Table` reads the file, strips the BOM, picks `,` or `;` from the header, and accepts only the English keys
-- [ ] Decimal parser accepts `12.50` and `12,50`. A thousands separator is a row error
-- [ ] Unknown header, missing required header, empty file, and more than 500 data rows raise before any product is built
-- [ ] Row errors keep the spreadsheet line number (header is line 1)
+- [x] `Catalog::CsvImport::Table` reads the file, strips the BOM, picks `,` or `;` from the header, and accepts only the English keys
+- [x] Decimal parser accepts `12.50` and `12,50`. A thousands separator is a row error
+- [x] Unknown header, missing required header, empty file, and more than 500 data rows raise before any product is built
+- [x] Row errors keep the spreadsheet line number (header is line 1)
 
 **Acceptance:** parser specs for both delimiters, both decimal marks, a BOM, an English header, and a rejected Portuguese header. No database writes.
 
@@ -160,14 +160,14 @@ While `running`, the record stores `processed_rows` and `total_rows`.
 
 ## Phase 2 — Job, log, and mail
 
-- [ ] Migration `catalog_imports`: `organization_id`, `user_id`, `product_type`, `status`, `total_rows`, `created_rows`, `failed_rows`, `processed_rows`, `error_message`, `enqueued_at`, `started_at`, `finished_at`, `row_log` jsonb (default `[]`), timestamps. Index `(organization_id, status)`
-- [ ] `has_one_attached :file`. Purged in an `ensure` after the job finishes
-- [ ] `Catalog::CsvImportJob`, queue `:imports`, `retry: 0`. Add `imports` to `config/sidekiq.yml` (the worker only runs listed queues)
-- [ ] The job sets `Current.organization`, marks `running`, creates each valid row in its own transaction, appends `{ line, name, status, errors }` to `row_log`, then marks `completed`
-- [ ] On exception, mark `failed`, store `error_message`, keep the rows already written
-- [ ] `CatalogImportMailer` to `user.email`, delivered with `deliver_later` on the existing `mailers` queue. Subject and body in the organization locale (`pt-BR`, `en`, `es`)
-- [ ] The finished email states the type, how many rows were created, and how many failed. Each failed line is listed with its cause. A `failed` job says the import stopped and includes `error_message` plus any rows already created
-- [ ] Do not enqueue a second import for the same organization while one is `queued` or `running`
+- [x] Migration `catalog_imports`: `organization_id`, `user_id`, `product_type`, `status`, `total_rows`, `created_rows`, `failed_rows`, `processed_rows`, `error_message`, `enqueued_at`, `started_at`, `finished_at`, `row_log` jsonb (default `[]`), timestamps. Index `(organization_id, status)`
+- [x] `has_one_attached :file`. Purged in an `ensure` after the job finishes
+- [x] `Catalog::CsvImportJob`, queue `:imports`, `retry: 0`. Add `imports` to `config/sidekiq.yml` (the worker only runs listed queues)
+- [x] The job sets `Current.organization`, marks `running`, creates each valid row in its own transaction, appends `{ line, name, status, errors }` to `row_log`, then marks `completed`
+- [x] On exception, mark `failed`, store `error_message`, keep the rows already written
+- [x] `CatalogImportMailer` to `user.email`, delivered with `deliver_later` on the existing `mailers` queue. Subject and body in the organization locale (`pt-BR`, `en`, `es`)
+- [x] The finished email states the type, how many rows were created, and how many failed. Each failed line is listed with its cause. A `failed` job says the import stopped and includes `error_message` plus any rows already created
+- [x] Do not enqueue a second import for the same organization while one is `queued` or `running`
 
 **Acceptance:** job spec with a two-row file where the second row has a missing style. One beer exists, `row_log` has the line number and the cause, and the mailer is enqueued with that line. A raised error mid-file marks `failed` and does not retry. Cross-tenant maker does not match.
 
@@ -175,12 +175,12 @@ While `running`, the record stores `processed_rows` and `total_rows`.
 
 ## Phase 3 — Endpoints
 
-- [ ] `POST /api/v1/catalog/imports` multipart `file` and `product_type`. Admin only (`authorize! :create` on the matching catalog model). Returns **202** `{ id, status, estimated_start_at }`
-- [ ] `GET /api/v1/catalog/imports` lists the current organization's imports, newest first
-- [ ] `GET /api/v1/catalog/imports/:id` returns status, counts, `enqueued_at`, `started_at`, `finished_at`, `estimated_start_at`, `error_message`, and `row_log`. Another organization gets 404
-- [ ] Bad file or unknown `product_type`: 422, no row, no job. Busy organization: 409
-- [ ] `GET /api/v1/catalog/imports/template?product_type=beer` (and the other four types) returns a UTF-8 CSV with the English headers and one example row. The dish example uses the `|` ingredient format
-- [ ] rswag for 202, 409, 403, and the show payload
+- [x] `POST /api/v1/catalog/imports` multipart `file` and `product_type`. Admin only (`authorize! :create` on the matching catalog model). Returns **202** `{ id, status, estimated_start_at }`
+- [x] `GET /api/v1/catalog/imports` lists the current organization's imports, newest first
+- [x] `GET /api/v1/catalog/imports/:id` returns status, counts, `enqueued_at`, `started_at`, `finished_at`, `estimated_start_at`, `error_message`, and `row_log`. Another organization gets 404
+- [x] Bad file or unknown `product_type`: 422, no row, no job. Busy organization: 409
+- [x] `GET /api/v1/catalog/imports/template?product_type=beer` (and the other four types) returns a UTF-8 CSV with the English headers and one example row. The dish example uses the `|` ingredient format
+- [x] rswag for 202, 409, 403, and the show payload
 
 **Acceptance:** waiter and cash register get 403. Admin show includes `estimated_start_at` while queued and null when there is no finished import to measure. Template for each type parses back through Phase 1.
 
@@ -204,13 +204,13 @@ While `running`, the record stores `processed_rows` and `total_rows`.
 
 ## Definition of done
 
-- [ ] Only an organization admin can enqueue an import
-- [ ] The job runs on Sidekiq and the upload request does not create products
-- [ ] The status endpoint reports queued, running, completed, and failed, plus a start estimate when one can be computed
-- [ ] The admin receives an email when the job ends. Failed lines include the line number and the cause
-- [ ] Another organization's maker or food never matches
-- [ ] Swagger documents the import, the status, and the template
-- [ ] React companion plan is in place
+- [x] Only an organization admin can enqueue an import
+- [x] The job runs on Sidekiq and the upload request does not create products
+- [x] The status endpoint reports queued, running, completed, and failed, plus a start estimate when one can be computed
+- [x] The admin receives an email when the job ends. Failed lines include the line number and the cause
+- [x] Another organization's maker or food never matches
+- [x] Swagger documents the import, the status, and the template
+- [x] React companion plan is in place
 
 ---
 

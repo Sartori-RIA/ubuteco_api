@@ -3,7 +3,7 @@
 require 'swagger_helper'
 
 RSpec.describe SessionsController, type: :request do
-  let!(:user) { create(:user, password: '123123123') }
+  let!(:user) { create(:user, password: 'factory-secret') }
 
   path '/auth/sign_in' do
     post 'Sign In' do
@@ -17,7 +17,7 @@ RSpec.describe SessionsController, type: :request do
         required: %w[email password]
       }
       response '200', 'OK' do
-        let(:params) { { email: user.email, password: '123123123' } }
+        let(:params) { { email: user.email, password: 'factory-secret' } }
         run_test!
       end
       response '401', 'Unauthorized' do

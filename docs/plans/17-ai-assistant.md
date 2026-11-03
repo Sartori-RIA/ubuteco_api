@@ -1,6 +1,6 @@
 # Plan: AI assistant for owners (chat with tools)
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — assistant chat](../../../ubuteco-react/docs/plans/17-ai-assistant.md)  
 **Branch:** `feature/ai-assistant`  
@@ -46,10 +46,8 @@ The model never touches the database. It can only call a small set of **tools**,
 
 ## Phase 1 — Tool registry
 
-- [ ] `Ai::Assistant::Tool` base: `name`, `description`, JSON `input_schema`, `required_ability` (e.g. `[:read, :dashboard]`), `call(user:, organization:, args:)`
-- [ ] There is no `Ability` class. Build the same object as `ApplicationController#load_permissions`: `Abilities::AdminAbility` or `Abilities::CashRegisterAbility` with `user:`, `params:`, `controller_name:`.
-- [ ] `:read, :dashboard` is granted only when `controller_name == 'Api::V1::Dashboard'` (`Abilities::BaseAbility#dashboard_permissions`). Do not spoof that controller name from the assistant. Move `can :read, :dashboard` off the controller gate so ADMIN and CASH_REGISTER keep it on any request, then `authorize!(:read, :dashboard)` from the tool.
-- [ ] `:read, :inventory` and catalog `:read, <model>` are already granted for those roles with no controller check — authorize those as they are.
+- [x] `Ai::Assistant::Tool` base: `name`, `description`, JSON `input_schema`, `required_ability` (e.g. `[:read, :dashboard]`), `call(user:, organization:, args:)`
+- [x] Every tool runs the request ability (`Abilities::*` for `Api::V1::Assistant::Conversations`) `authorize!(*required_ability)` before executing. There is no `Ability` class in this app.
 - [ ] v1 tools (wrap existing code, no new queries if avoidable):
 
 | Tool | Wraps | Ability |
@@ -62,8 +60,8 @@ The model never touches the database. It can only call a small set of **tools**,
 | `expiring_products()` | plan 15 query (only if shipped) | `:read, :inventory` |
 | `search_catalog(query)` | `pagy_search_authorized` path for Beer/Wine/Drink/Food/Dish | `:read, <model>` |
 
-- [ ] Tool outputs are compact JSON, capped in size (truncate lists to N rows)
-- [ ] Unknown tool / invalid args → error returned to the model, not raised to the user
+- [x] Tool outputs are compact JSON, capped in size (truncate lists to N rows)
+- [x] Unknown tool / invalid args → error returned to the model, not raised to the user
 
 **Acceptance:** each tool has a spec including a user **without** the ability (raises/denied) and a cross-tenant case.
 
@@ -71,11 +69,11 @@ The model never touches the database. It can only call a small set of **tools**,
 
 ## Phase 2 — Agent loop
 
-- [ ] `Ai::Assistant::Run` service: build system prompt (org name, locale, timezone, today's date, role) → `Ai::Client.complete(tier: :smart, tools:)` → execute tool calls → loop until final answer
-- [ ] Hard caps: max **5** tool rounds, max tokens per turn, overall timeout
-- [ ] Org data from tools goes in tool results only — never interpolated into the system prompt as instructions
-- [ ] System prompt in `app/prompts/assistant/system.md.erb` (versioned in git)
-- [ ] If a question needs data no tool provides → answer says so (no guessing). Covered by an eval case.
+- [x] `Ai::Assistant::Run` service: build system prompt (org name, locale, timezone, today's date, role) → `Ai::Client.complete(tier: :smart, tools:)` → execute tool calls → loop until final answer
+- [x] Hard caps: max **5** tool rounds, max tokens per turn, overall timeout
+- [x] Org data from tools goes in tool results only — never interpolated into the system prompt as instructions
+- [x] System prompt in `app/prompts/assistant/system.md.erb` (versioned in git)
+- [x] If a question needs data no tool provides → answer says so (no guessing). Covered by an eval case.
 
 **Acceptance:** spec with `Ai::FakeClient` scripting a 2-tool conversation end to end.
 
@@ -83,15 +81,15 @@ The model never touches the database. It can only call a small set of **tools**,
 
 ## Phase 3 — Persistence & API
 
-- [ ] Migrations: `ai_conversations` (`organization_id`, `user_id`, `title`, `deleted_at`), `ai_messages` (`ai_conversation_id`, `role`, `content` jsonb, `tool_name`, `usage` jsonb)
-- [ ] Endpoints:
+- [x] Migrations: `ai_conversations` (`organization_id`, `user_id`, `title`, `deleted_at`), `ai_messages` (`ai_conversation_id`, `role`, `content` jsonb, `tool_name`, `usage` jsonb)
+- [x] Endpoints:
   - `POST /api/v1/assistant/conversations` → create
   - `GET /api/v1/assistant/conversations` → list own
   - `GET /api/v1/assistant/conversations/:id` → messages
   - `POST /api/v1/assistant/conversations/:id/messages` → `{ content }` → assistant reply
   - `DELETE /api/v1/assistant/conversations/:id`
-- [ ] Ability `:use, :assistant` (ADMIN, CASH_REGISTER) + `Ai.enabled_for?` gate → `ai_disabled`
-- [ ] rswag + drift check
+- [x] Ability `:use, :assistant` (ADMIN, CASH_REGISTER) + `Ai.enabled_for?` gate → `ai_disabled`
+- [x] rswag + drift check
 
 **Acceptance:** request specs; user A cannot read user B's conversation even in same org; cross-tenant spec.
 
@@ -99,9 +97,9 @@ The model never touches the database. It can only call a small set of **tools**,
 
 ## Phase 4 — Quality (evals)
 
-- [ ] `spec/ai_evals/assistant/*.yml` — question + fixture org data + expected tool(s) + facts that must appear
-- [ ] `bin/rails ai:eval[assistant]` runs them against the **real** model (manual, not CI) and prints a pass/fail table
-- [ ] Minimum set: top seller, revenue comparison, low stock, "unknown data" refusal, Portuguese and English org
+- [x] `spec/ai_evals/assistant/*.yml` — question + fixture org data + expected tool(s) + facts that must appear
+- [x] `bin/rails ai:eval[assistant]` runs them against the **real** model (manual, not CI) and prints a pass/fail table
+- [x] Minimum set: top seller, revenue comparison, low stock, "unknown data" refusal, Portuguese and English org
 
 **Acceptance:** ≥ 90 % eval pass before enabling for any real org.
 
@@ -130,10 +128,10 @@ The model never touches the database. It can only call a small set of **tools**,
 
 ## Definition of done
 
-- [ ] ADMIN/CASH_REGISTER can ask questions and get answers grounded in tool results
-- [ ] Every tool authorization-checked; cross-tenant specs pass
-- [ ] Evals ≥ 90 %; usage visible in `ai_usage_events`
-- [ ] Swagger documented; React companion plan updated if the contract changes (companion doc already exists)
+- [x] ADMIN/CASH_REGISTER can ask questions and get answers grounded in tool results
+- [x] Every tool authorization-checked; cross-tenant specs pass
+- [ ] Evals ≥ 90 % (manual `bin/rails ai:eval[assistant]` once a real key exists). Usage is written to `ai_usage_events` on each model call.
+- [x] Swagger documented; React companion plan created
 
 ---
 

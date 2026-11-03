@@ -1,6 +1,6 @@
 # Plan: Password policy
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — password policy](../../../ubuteco-react/docs/plans/24-password-policy.md)  
 **Branch:** `feature/password-policy`  
@@ -70,12 +70,12 @@ There is no `:lockable` and no idle timeout. The login throttle resets every 20 
 
 Today `POST /auth/code` finds the plaintext 6-digit code and issues a JWT. That route goes away as a login.
 
-- [ ] Forgot-password returns 200 for known and unknown emails. Mail goes out only when the user exists
-- [ ] The mail carries a single-use link. The stored value is a digest. It expires in 15 minutes and is deleted when the new password is saved
-- [ ] The link opens a set-password action. Success does not create a session. The person signs in afterwards with the new password
-- [ ] An expired or reused link returns 422 and does not issue a JWT
-- [ ] Rack::Attack throttles `POST /auth/password` and the set-password route by IP, tighter than the general 300-request bucket
-- [ ] Specs: expired link, reused link, unknown email still 200, a valid link that does not appear in `allowlisted_jwts` until a real sign-in
+- [x] Forgot-password returns 200 for known and unknown emails. Mail goes out only when the user exists
+- [x] The mail carries a single-use link. The stored value is a digest. It expires in 15 minutes and is deleted when the new password is saved
+- [x] The link opens a set-password action. Success does not create a session. The person signs in afterwards with the new password
+- [x] An expired or reused link returns 422 and does not issue a JWT
+- [x] Rack::Attack throttles `POST /auth/password` and the set-password route by IP, tighter than the general 300-request bucket
+- [x] Specs: expired link, reused link, unknown email still 200, a valid link that does not appear in `allowlisted_jwts` until a real sign-in
 
 **Acceptance:** a code from yesterday does not sign anyone in. Knowing the secret is not enough to enter the account. The database column is not the raw secret.
 
@@ -83,12 +83,12 @@ Today `POST /auth/code` finds the plaintext 6-digit code and issues a JWT. That 
 
 ## Phase 2 — Choosing a password
 
-- [ ] Minimum 12, the local denylist, and `devise-pwned_password` (`:pwned_password`, `min_password_matches` 100, `pwned_password_check_on_sign_in` false) on every path that sets `password`
-- [ ] Spec with WebMock: a password seen at least 100 times is rejected. A timeout or HTTP error does not reject it. Sign-in does not call the service
-- [ ] Update and settings require `current_password` when `password` is present. The single-use reset link does not
-- [ ] Staff create sends a set-password link instead of `friendly_token.first(8)`
-- [ ] Welcome mail no longer contains a password
-- [ ] After a successful change, other allowlisted JWTs for that user are deleted. The current session can stay
+- [x] Minimum 12, the local denylist, and `devise-pwned_password` (`:pwned_password`, `min_password_matches` 100, `pwned_password_check_on_sign_in` false) on every path that sets `password`
+- [x] Spec with WebMock: a password seen at least 100 times is rejected. A timeout or HTTP error does not reject it. Sign-in does not call the service
+- [x] Update and settings require `current_password` when `password` is present. The single-use reset link does not
+- [x] Staff create sends a set-password link instead of `friendly_token.first(8)`
+- [x] Welcome mail no longer contains a password
+- [x] After a successful change, other allowlisted JWTs for that user are deleted. The current session can stay
 
 **Acceptance:** `123123123` and a commonly breached password are rejected when setting a password. A settings change without `current_password` is 422. An old JWT from before the change is rejected. Sign-in of an existing password does not call Pwned Passwords.
 
@@ -96,27 +96,27 @@ Today `POST /auth/code` finds the plaintext 6-digit code and issues a JWT. That 
 
 ## Phase 3 — Contract
 
-- [ ] rswag for forgot-password (always 200), reset, and the current-password failure
-- [ ] Locales `pt-BR`, `en`, `es` for `password_too_short`, `password_denied`, `password_pwned`, and `current_password_invalid`
+- [x] rswag for forgot-password (always 200), reset, and the current-password failure
+- [x] Locales `pt-BR`, `en`, `es` for `password_too_short`, `password_denied`, `password_pwned`, and `current_password_invalid`
 
 ---
 
 ## Manual steps
 
-- [ ] None, unless the reset column needs a longer digest. If it does, `bin/rails db:migrate` and do not keep old plaintext codes
+- [x] None, unless the reset column needs a longer digest. If it does, `bin/rails db:migrate` and do not keep old plaintext codes
 
 ---
 
 ## Definition of done
 
-- [ ] New passwords are at least 12 characters, not on the local denylist, and rejected when Pwned Passwords has seen them at least 100 times
-- [ ] That breach check runs only when a password is set, and a failed call does not block the change
-- [ ] The reset link expires, is single-use, is not stored raw, and does not issue a JWT
-- [ ] Forgot-password does not reveal whether the email exists
-- [ ] Code and forgot-password routes are throttled
-- [ ] Password change revokes the user's other JWTs and requires the current password outside the reset link
-- [ ] No mail contains a reusable password
-- [ ] React companion plan is in place
+- [x] New passwords are at least 12 characters, not on the local denylist, and rejected when Pwned Passwords has seen them at least 100 times
+- [x] That breach check runs only when a password is set, and a failed call does not block the change
+- [x] The reset link expires, is single-use, is not stored raw, and does not issue a JWT
+- [x] Forgot-password does not reveal whether the email exists
+- [x] Code and forgot-password routes are throttled
+- [x] Password change revokes the user's other JWTs and requires the current password outside the reset link
+- [x] No mail contains a reusable password
+- [x] React companion plan is in place
 
 ---
 

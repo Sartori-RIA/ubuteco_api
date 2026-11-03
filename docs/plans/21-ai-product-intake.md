@@ -1,6 +1,6 @@
 # Plan: AI product intake (photo / invoice → product draft)
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — label photo & invoice intake](../../../ubuteco-react/docs/plans/21-ai-product-intake.md)  
 **Branch:** `feature/ai-product-intake`  

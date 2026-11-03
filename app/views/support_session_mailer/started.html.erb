@@ -1,0 +1,7 @@
+<h1><%= t('support_session.mail.title') %></h1>
+
+<p><%= t('support_session.mail.body', name: @actor.name, organization: @session.organization.name) %></p>
+
+<p><%= t('support_session.mail.reason', reason: @session.reason) %></p>
+
+<p><%= t('support_session.mail.expires', time: @session.expires_at.iso8601) %></p>

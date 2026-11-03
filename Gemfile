@@ -6,10 +6,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '4.0.1'
 
 gem 'aasm', '~> 5.5'
+gem 'anthropic', '~> 2.3'
 gem 'bootsnap', '~> 1.23', require: false
 gem 'cancancan', '~> 3.6', '>= 3.6.1'
+gem 'csv'
 gem 'devise', '~> 5.0', '>= 5.0.4'
 gem 'devise-argon2', '~> 2.0', '>= 2.0.4'
+gem 'devise-pwned_password'
 gem 'devise-i18n', '~> 1.16'
 gem 'devise-jwt', '~> 0.13.0'
 gem 'dotenv-rails', '~> 3.2'
@@ -21,7 +24,7 @@ gem 'image_processing', '~> 1.13'
 gem 'aws-sdk-s3', '~> 1', require: false
 gem 'money-rails', '~> 3.0'
 gem "opensearch-ruby", "~> 2.1.0"
-gem 'pagy', '~> 43.2', '>= 43.2.9'
+gem 'pagy', '~> 43.5', '>= 43.5.6'
 gem 'paranoia', '~> 3.1'
 gem 'pg', '~> 1.6', '>= 1.6.3'
 gem 'puma', '~> 7.2', '>= 7.2.1'
@@ -59,6 +62,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'webmock', '~> 3.26'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'simplecov-console'

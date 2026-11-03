@@ -7,3 +7,20 @@ en:
       delete_restriction: Cannot delete this record because it has dependent data
       account_deletion_forbidden: You are not allowed to delete your own account
       role_assignment_forbidden: You cannot assign this role
+      ai_disabled: AI is turned off for this organization
+      ai_rate_limited: AI rate limit reached. Try again shortly
+      ai_unavailable: AI is temporarily unavailable
+      ai_invalid_output: AI returned a response that could not be used
+      invalid_document: The file could not be read. Use a JPEG, PNG, PDF, or NF-e XML up to 5 MB
+      ai_usage_range: Choose a start date that is on or before the end date
+      restock_range: Cover days must be 1–60 and the history window must be 7–90 days
+      import_in_progress: An import is already queued or running
+      password_too_short: Password must be at least 12 characters
+      password_denied: Password is too similar to the email or the organization name
+      password_pwned: This password has appeared in a data breach. Choose another one
+      current_password_invalid: Current password is incorrect
+      reset_token_invalid: This link is invalid or has expired
+      impersonation_forbidden: This action is not available during a support session
+      impersonation_reason_invalid: Explain the reason in 10 to 500 characters
+      impersonation_target_invalid: Choose a user who belongs to an organization and is not a super admin
+      impersonation_in_progress: A support session is already open

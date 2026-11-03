@@ -48,7 +48,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       parameter name: :params, in: :body, type: :object, schema: { '$ref' => '#/components/schemas/user' }
       response '200', 'Ok' do
         let(:Authorization) { auth_header(@admin)['Authorization'] }
-        let(:params) { attributes_for(:user) }
+        let(:params) { attributes_for(:user).merge(current_password: 'factory-secret') }
         let(:id) { @users.sample.id }
         schema '$ref' => '#/components/schemas/user'
         run_test!

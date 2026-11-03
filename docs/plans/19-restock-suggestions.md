@@ -1,6 +1,6 @@
 # Plan: Restock suggestions (forecast + optional AI explanation)
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — restock tab](../../../ubuteco-react/docs/plans/19-restock-suggestions.md)  
 **Branch:** `feature/restock-suggestions`  
@@ -43,10 +43,10 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 
 ## Phase 1 — Forecast query
 
-- [ ] `Inventory::RestockSuggestionsQuery` (org-scoped, SQL aggregate over `stock_movements` by `product_type, product_id`, day buckets in org timezone). Consumption is `SUM(-delta)` where `order_item_id` IS NOT NULL, so order-linked returns reduce the total.
-- [ ] Output per product: `product_type, id, name, quantity_stock, avg_daily, days_of_cover, suggested_quantity, confidence`
-- [ ] Sort by `days_of_cover` ascending
-- [ ] Uses index `(organization_id, created_at)` — verify with `EXPLAIN` on seeded data
+- [x] `Inventory::RestockSuggestionsQuery` (org-scoped, SQL aggregate over `stock_movements` by `product_type, product_id`, day buckets in org timezone)
+- [x] Output per product: `product_type, id, name, quantity_stock, avg_daily, days_of_cover, suggested_quantity, confidence`
+- [x] Sort by `days_of_cover` ascending
+- [x] Uses index `(organization_id, created_at)` — verify with `EXPLAIN` on seeded data
 
 **Acceptance:** specs for: no history, < 7 days, steady consumption, manual adjustments ignored, order-linked returns (line removed or quantity decreased) reduce consumption, soft-deleted products excluded, timezone boundary.
 
@@ -54,10 +54,10 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 
 ## Phase 2 — API
 
-- [ ] `GET /api/v1/inventory/restock_suggestions` → `{ cover_days:, window_days:, items: [...] }` (parallel to `low_stock`)
-- [ ] Optional params: `cover_days` (1–60), `window_days` (7–90)
-- [ ] rswag + drift check
-- [ ] Update `docs/context/inventory-stock.md`
+- [x] `GET /api/v1/inventory/restock_suggestions` → `{ cover_days:, window_days:, items: [...] }` (parallel to `low_stock`)
+- [x] Optional params: `cover_days` (1–60), `window_days` (7–90)
+- [x] rswag + drift check
+- [x] Update `docs/context/inventory-stock.md`
 
 **Acceptance:** request specs; cross-tenant spec; WAITER/KITCHEN denied.
 
@@ -65,9 +65,9 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 
 ## Phase 3 — AI explanation (optional)
 
-- [ ] `?explain=1` → adds `explanation` per top-N items via `Ai::Client` (`feature: RESTOCK_EXPLAIN`, `tier: :fast`), e.g. *"Sells ~6/day, 4 left — runs out tomorrow."*
-- [ ] Model receives only pre-formatted display strings (counts, avg/day, days of cover, suggested qty). Same number guard as [18](./18-ai-daily-brief.md): those strings are the allow-list, not raw floats or cents.
-- [ ] Gated by `Ai.enabled_for?`; without AI the field is omitted (not an error)
+- [x] `?explain=1` → adds `explanation` per top-N items via `Ai::Client` (`feature: RESTOCK_EXPLAIN`, `tier: :fast`), e.g. *"Sells ~6/day, 4 left — runs out tomorrow."*
+- [x] Model receives only the computed numbers; same number guard as [18](./18-ai-daily-brief.md)
+- [x] Gated by `Ai.enabled_for?`; without AI the field is omitted (not an error)
 
 **Acceptance:** spec with `Ai::FakeClient`; disabled path returns suggestions without explanations.
 
@@ -75,15 +75,15 @@ Answer *"what do I need to buy, and how much?"* using the consumption already re
 
 ## Manual steps
 
-- [ ] None for Phases 1–2 (no migration)
+- [x] None for Phases 1–2 (no migration)
 
 ---
 
 ## Definition of done
 
-- [ ] Suggestions endpoint live, documented, tested across tenants and timezones
-- [ ] Context doc updated
-- [ ] Optional AI explanation behind org opt-in
+- [x] Suggestions endpoint live, documented, tested across tenants and timezones
+- [x] Context doc updated
+- [x] Optional AI explanation behind org opt-in
 
 ---
 

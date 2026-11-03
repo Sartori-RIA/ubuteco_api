@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
   include Pagy::Method
   include SearchkickAuthorizable
   include SetCurrentTenant
+  include SupportImpersonation
   include SetOrganizationRegional
 
   prepend_before_action :authenticate_user!
@@ -15,6 +16,7 @@ class ApplicationController < ActionController::API
     super
     payload[:user_id] = current_user&.id
     payload[:organization_id] = current_user&.organization_id
+    payload[:impersonator_id] = Current.impersonator&.id
   end
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -28,6 +30,22 @@ class ApplicationController < ActionController::API
 
   rescue_from SearchkickAuthorizable::SearchUnavailableError do |_exception|
     render_i18n_api_error(:search_unavailable, status: :service_unavailable)
+  end
+
+  rescue_from Ai::DisabledError do
+    render_i18n_api_error(:ai_disabled, status: :forbidden)
+  end
+
+  rescue_from Ai::RateLimitedError do
+    render_i18n_api_error(:ai_rate_limited, status: :too_many_requests)
+  end
+
+  rescue_from Ai::ProviderError do
+    render_i18n_api_error(:ai_unavailable, status: :service_unavailable)
+  end
+
+  rescue_from Ai::InvalidOutputError do
+    render_i18n_api_error(:ai_invalid_output, status: :bad_gateway)
   end
 
   private

@@ -34,6 +34,16 @@ class Rack::Attack
     req.ip if req.path == "/auth/sign_up" && req.post?
   end
 
+  throttle("password_resets/ip", limit: 5, period: 20.seconds) do |req|
+    req.ip if req.path == "/auth/password" && (req.post? || req.put?)
+  end
+
+  throttle("impersonations/actor", limit: 10, period: 1.hour) do |req|
+    if req.post? && req.path == "/api/v1/platform/impersonations"
+      Rack::Attack.impersonation_actor_id(req) || req.ip
+    end
+  end
+
   ### Search abuse (OpenSearch-backed index endpoints) ###
 
   throttle("search/ip", limit: 60, period: 1.minute) do |req|
@@ -59,6 +69,17 @@ class Rack::Attack
       },
       [{ errors: [{ code: "rate_limit_exceeded", message: "Retry later" }] }.to_json],
     ]
+  end
+
+  def self.impersonation_actor_id(req)
+    token = req.get_header("HTTP_AUTHORIZATION").to_s.split.last
+    return if token.blank?
+
+    segment = token.split(".")[1].to_s
+    segment += "=" * ((4 - (segment.length % 4)) % 4)
+    JSON.parse(Base64.urlsafe_decode64(segment))["sub"]
+  rescue StandardError
+    nil
   end
 
   if Rails.env.development?

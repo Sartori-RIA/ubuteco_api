@@ -110,3 +110,10 @@ SimpleCov via `spec/support/simplecov.rb`. Codecov in CI — avoid dropping cove
 - [ ] rswag update if public API contract changed
 - [ ] `openapi:drift_check` passes
 - [ ] Mirror patterns from nearest existing spec file
+
+## AI gateway specs
+
+- Test env uses `Ai::FakeClient` (`spec/support/ai.rb`). Enqueue `Ai.result(...)` or an `Ai::ProviderError`.
+- Set `AI_ENABLED=1` and `organization.update!(ai_enabled: true)` before a successful call.
+- `it_behaves_like 'an AI feature gated by org opt-in'` expects `organization` and `perform_ai_call`.
+- Do not set `ANTHROPIC_API_KEY` in specs. WebMock blocks HTTP other than localhost and OpenSearch.

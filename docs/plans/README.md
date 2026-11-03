@@ -41,16 +41,16 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 9 | [Inventory & stock](./09-inventory-stock.md) | completed | P2 | #6 |
 | 7 | [Search / OpenSearch ops](./07-search-operations.md) | completed | P2 | #1 |
 | 8 | [API contract & CI/CD](./08-api-contract-and-ci.md) | completed | P2 | — |
-| 15 | [Product expiry alerts](./15-product-expiry-alerts.md) | not started | P2 | #9 |
-| 16 | [AI foundation](./16-ai-foundation.md) | not started | P2 | #1, #5 |
-| 19 | [Restock suggestions](./19-restock-suggestions.md) | not started | P2 | #9 (#16 for AI phase only) |
-| 18 | [AI daily brief](./18-ai-daily-brief.md) | not started | P2 | #16, #4, #9 (#15 recommended) |
-| 20 | [Semantic menu search](./20-semantic-menu-search.md) | not started | P3 | #7, #16 |
-| 17 | [AI assistant](./17-ai-assistant.md) | not started | P3 | #16, #4, #9 |
-| 21 | [AI product intake](./21-ai-product-intake.md) | not started | P3 | #16, #9 |
-| 22 | [Catalog CSV import](./22-catalog-csv-import.md) | not started | P2 | #1, #9 |
-| 24 | [Password policy](./24-password-policy.md) | not started | P1 | #10 |
-| 23 | [Support impersonation](./23-support-impersonation.md) | not started | P2 | #1, #10, #24 |
+| 15 | [Product expiry alerts](./15-product-expiry-alerts.md) | completed | P2 | #9 |
+| 16 | [AI foundation](./16-ai-foundation.md) | completed | P2 | #1, #5 |
+| 19 | [Restock suggestions](./19-restock-suggestions.md) | completed | P2 | #9 (#16 for AI phase only) |
+| 18 | [AI daily brief](./18-ai-daily-brief.md) | completed | P2 | #16, #4, #9 (#15 recommended) |
+| 20 | [Semantic menu search](./20-semantic-menu-search.md) | completed | P3 | #7, #16 |
+| 17 | [AI assistant](./17-ai-assistant.md) | completed | P3 | #16, #4, #9 |
+| 21 | [AI product intake](./21-ai-product-intake.md) | completed | P3 | #16, #9 |
+| 22 | [Catalog CSV import](./22-catalog-csv-import.md) | completed | P2 | #1, #9 |
+| 24 | [Password policy](./24-password-policy.md) | completed | P1 | #10 |
+| 23 | [Support impersonation](./23-support-impersonation.md) | completed | P2 | #1, #10, #24 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
@@ -64,11 +64,15 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 
 **In progress:** [05 Platform hardening](./05-platform-hardening.md).
 
-**Next up:** [15 Product expiry alerts](../../../ubuteco-react/docs/plans/15-product-expiry-alerts.md), [09 Frontend performance](../../../ubuteco-react/docs/plans/09-frontend-performance.md). **Last:** [03 Subscription plans](./03-subscription-plans.md).
+**Next up:** [03 Subscription plans](./03-subscription-plans.md). That one stays last.
 
-**AI track (16–21):** [16 AI foundation](./16-ai-foundation.md) comes first — every other AI plan calls the model through it. [19 Restock suggestions](./19-restock-suggestions.md) is mostly statistics and can start without it. React companions: 16 (settings toggle), 17, 18, 19, 21; plan 20 has no UI work in v1.
+**AI track (16–21):** [16](./16-ai-foundation.md), [19](./19-restock-suggestions.md), [18](./18-ai-daily-brief.md), [20](./20-semantic-menu-search.md), [17](./17-ai-assistant.md), and [21](./21-ai-product-intake.md) are in place. Invoice photo evals still need real pictures.
 
-**After the AI track, before subscription:** [22 Catalog CSV import](./22-catalog-csv-import.md). Then [24 Password policy](./24-password-policy.md) before [23 Support impersonation](./23-support-impersonation.md). Import is admin-only, English headers only, and runs on Sidekiq. Password policy checks breached passwords only when one is set; the recovery link expires, is single-use, and does not sign anyone in. Impersonation never reads or changes the password.
+**Catalog:** [22 Catalog CSV import](./22-catalog-csv-import.md) is in place.
+
+**Auth:** [24 Password policy](./24-password-policy.md) is in place.
+
+**Support:** [23 Support impersonation](./23-support-impersonation.md) is in place.
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 

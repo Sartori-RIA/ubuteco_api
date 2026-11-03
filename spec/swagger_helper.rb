@@ -446,9 +446,35 @@ RSpec.configure do |config|
               logo_url: { type: :string },
               locale: { type: :string },
               default_currency: { type: :string },
-              timezone: { type: :string }
+              timezone: { type: :string },
+              ai_enabled: { type: :boolean }
             },
             required: %w[id]
+          },
+          ai_usage: {
+            type: :object,
+            required: %w[from to items],
+            properties: {
+              from: { type: :string },
+              to: { type: :string },
+              items: {
+                type: :array,
+                items: {
+                  type: :object,
+                  required: %w[organization_id feature day calls input_tokens output_tokens failed_calls],
+                  properties: {
+                    organization_id: { type: :integer },
+                    organization_name: { type: :string },
+                    feature: { type: :string },
+                    day: { type: :string },
+                    calls: { type: :integer },
+                    input_tokens: { type: :integer },
+                    output_tokens: { type: :integer },
+                    failed_calls: { type: :integer }
+                  }
+                }
+              }
+            }
           },
           new_organization: {
             type: :object,

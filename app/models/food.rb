@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Food < Product
+  include CatalogEmbeddable
   extend Pagy::Search
 
-  searchkick callbacks: :async
+  searchkick callbacks: :async, knn: CatalogEmbeddable::KNN
 
   has_many :dish_ingredients, dependent: :restrict_with_error
   has_many :dishes, through: :dish_ingredients
@@ -14,6 +15,6 @@ class Food < Product
     {
       name: name,
       organization_id: organization_id
-    }
+    }.merge(embedding_for_index)
   end
 end

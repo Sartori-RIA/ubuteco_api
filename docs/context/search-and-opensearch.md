@@ -75,6 +75,30 @@ spec/security/cross_tenant/search_spec.rb
 - Cross-tenant: `spec/security/cross_tenant/search_spec.rb`
 - Unavailable: `spec/requests/search_unavailable_spec.rb`
 
+## Semantic catalog search
+
+Beer, Wine, Drink, Food, and Dish indexes declare a 512-dimension `embedding` field (`CatalogEmbeddable::KNN`). Searchkick 6.0.3 sends the k-NN query; OpenSearch 2.11 runs it. The organization filter is the same `where` used by keyword search, inside the k-NN query.
+
+`EmbedProductJob` (queue `ai`) fills the vector after create/update when the embedded text changed. `embedding_digest` skips unchanged rows. The vector is also stored on the row so a later reindex keeps it.
+
+Catalog index endpoints accept `mode`:
+
+| `mode` | Behavior |
+|--------|----------|
+| `keyword` | Existing keyword search |
+| `semantic` | k-NN only. If the embedder or the vector query fails, keyword search |
+| `hybrid` | Keyword plus k-NN, merged with reciprocal rank fusion |
+| omitted | `hybrid` when `Ai.enabled_for?(organization)`, otherwise `keyword` |
+
+Query embeddings are cached for one hour. `VOYAGE_API_KEY` selects Voyage `voyage-3-lite`. With no key, or when the provider errors, the response stays keyword and does not 503. OpenSearch down is still `search_unavailable`.
+
+```bash
+bin/rails catalog:embed:organization[ORG_ID]
+bin/rails searchkick:reindex:model[Beer]
+```
+
+Decision: [ADR 008](../decisions/008-catalog-embeddings.md).
+
 ## AI pitfalls
 
 - Do not search without org filter — always `pagy_search_authorized`.

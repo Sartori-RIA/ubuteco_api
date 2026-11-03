@@ -1,0 +1,14 @@
+es:
+  welcome:
+    set_password: "Elige una contraseña para entrar en uButeco"
+  support_session:
+    mail:
+      subject: "Empezó una sesión de soporte en tu organización"
+      title: "Soporte entró en esta cuenta"
+      body: "%{name} abrió una sesión de soporte en %{organization}."
+      reason: "Motivo: %{reason}"
+      expires: "Termina a las %{time}."
+  password_reset:
+    subject: "Define tu contraseña en uButeco"
+    instruction: "Usa el enlace de abajo para elegir una nueva contraseña. No inicia sesión."
+    expiry: "El enlace caduca en 15 minutos y solo funciona una vez."

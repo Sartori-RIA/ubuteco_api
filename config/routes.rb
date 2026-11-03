@@ -25,7 +25,6 @@ Rails.application.routes.draw do
                sessions: 'sessions',
                registrations: 'registrations'
              }
-  post 'auth/code' => 'code_validations#create'
   put 'auth/reset_passwords' => 'reset_passwords#update'
 
   namespace :api, defaults: { format: :json } do
@@ -77,11 +76,36 @@ Rails.application.routes.draw do
       resources :wines
       resources :roles
 
+      namespace :catalog do
+        resources :imports, only: %i[index show create] do
+          collection do
+            get :template
+          end
+        end
+      end
+
       get 'dashboard/summary', to: 'dashboard#summary'
       get 'dashboard/series', to: 'dashboard#series'
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
+      get 'dashboard/brief', to: 'dashboard#brief'
+
+      namespace :assistant do
+        resources :conversations, only: %i[index show create destroy] do
+          member do
+            post :messages
+          end
+        end
+      end
+
+      namespace :catalog do
+        post 'intake/label', to: 'intake#label'
+      end
 
       get 'inventory/low_stock', to: 'inventory#low_stock'
+      post 'inventory/intake/nfe', to: 'inventory#nfe'
+      post 'inventory/intake/document', to: 'inventory#document'
+      get 'inventory/expiring', to: 'inventory#expiring'
+      get 'inventory/restock_suggestions', to: 'inventory#restock_suggestions'
 
       patch 'beers/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'beers' }
       patch 'wines/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'wines' }
@@ -89,6 +113,8 @@ Rails.application.routes.draw do
       patch 'foods/:id/stock', to: 'stock_adjustments#update', defaults: { product_type: 'foods' }
 
       namespace :platform do
+        get 'ai_usage', to: 'ai_usage#index'
+        resources :impersonations, only: %i[index create destroy]
         resources :organizations, except: :create do
           scope module: :organizations do
             resources :users, only: :index

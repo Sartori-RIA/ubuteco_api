@@ -24,7 +24,9 @@ class Organization < ApplicationRecord
   belongs_to :user, optional: true
   accepts_nested_attributes_for :user, allow_destroy: true, limit: 1
 
+  has_many :catalog_imports, dependent: :destroy
   has_many :users, dependent: :delete_all
+  has_many :support_sessions, dependent: :delete_all
   has_many :beers, dependent: :delete_all
   has_many :makers, dependent: :delete_all
   has_many :drinks, dependent: :delete_all

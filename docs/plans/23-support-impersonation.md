@@ -1,6 +1,6 @@
 # Plan: Support impersonation
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — support impersonation](../../../ubuteco-react/docs/plans/23-support-impersonation.md)  
 **Branch:** `feature/support-impersonation`  
@@ -49,11 +49,11 @@ A super admin can open the app as a user in organization A to reproduce a bug th
 
 ## Phase 1 — Session record
 
-- [ ] Migration `support_sessions`: `actor_id`, `user_id`, `organization_id`, `reason`, `jti`, `started_at`, `expires_at`, `ended_at`, timestamps. Index open sessions by `actor_id` where `ended_at` is null
-- [ ] `POST /api/v1/platform/impersonations` with `user_id` and `reason`. Returns the target JWT and the session id. 403 for anyone who is not a super admin. 422 for a missing reason, a super-admin target, or a user without an organization
-- [ ] The JWT is allowlisted like the others and expires at `expires_at` (30 minutes), not the normal one-day lifetime
-- [ ] `DELETE /api/v1/platform/impersonations/:id` sets `ended_at` and deletes that allowlisted JWT
-- [ ] `GET /api/v1/platform/impersonations` lists sessions for every super admin
+- [x] Migration `support_sessions`: `actor_id`, `user_id`, `organization_id`, `reason`, `jti`, `started_at`, `expires_at`, `ended_at`, timestamps. Index open sessions by `actor_id` where `ended_at` is null
+- [x] `POST /api/v1/platform/impersonations` with `user_id` and `reason`. Returns the target JWT and the session id. 403 for anyone who is not a super admin. 422 for a missing reason, a super-admin target, or a user without an organization
+- [x] The JWT is allowlisted like the others and expires at `expires_at` (30 minutes), not the normal one-day lifetime
+- [x] `DELETE /api/v1/platform/impersonations/:id` sets `ended_at` and deletes that allowlisted JWT
+- [x] `GET /api/v1/platform/impersonations` lists sessions for every super admin
 
 **Acceptance:** the response body and the logs do not contain the target password or its digest. A second start by the same actor returns 409. Entering another super admin returns 422.
 
@@ -61,11 +61,11 @@ A super admin can open the app as a user in organization A to reproduce a bug th
 
 ## Phase 2 — Request guard
 
-- [ ] `Current.impersonator` is the support user when the JWT carries the claim. `Current.user` and `Current.organization` stay the target, so abilities match that profile
-- [ ] Password and account routes reject the impersonation JWT with 403 `impersonation_forbidden`: `PUT /auth/reset_passwords`, user update when `password`, `email`, or `role_id` is present, user destroy, organization destroy
-- [ ] `append_info_to_payload` adds `impersonator_id` on these requests
-- [ ] Mutating requests (`POST`, `PUT`, `PATCH`, `DELETE`) write `support_session_id`, path, and status. Do not store the body
-- [ ] Ending the session or passing `expires_at` makes the JWT fail the allowlist
+- [x] `Current.impersonator` is the support user when the JWT carries the claim. `Current.user` and `Current.organization` stay the target, so abilities match that profile
+- [x] Password and account routes reject the impersonation JWT with 403 `impersonation_forbidden`: `PUT /auth/reset_passwords`, user update when `password`, `email`, or `role_id` is present, user destroy, organization destroy
+- [x] `append_info_to_payload` adds `impersonator_id` on these requests
+- [x] Mutating requests (`POST`, `PUT`, `PATCH`, `DELETE`) write `support_session_id`, path, and status. Do not store the body
+- [x] Ending the session or passing `expires_at` makes the JWT fail the allowlist
 
 **Acceptance:** as the impersonated admin, a beer can be created and the audit row names the support user. The same session cannot change the password or the email. A normal login of the target user still works and is not this session.
 
@@ -73,9 +73,9 @@ A super admin can open the app as a user in organization A to reproduce a bug th
 
 ## Phase 3 — Mail
 
-- [ ] `SupportSessionMailer` on the existing `mailers` queue
-- [ ] One mail to the target user and one to each organization `ADMIN`, in the organization locale
-- [ ] The mail says a super admin entered, the reason, and when it expires. It does not include a token
+- [x] `SupportSessionMailer` on the existing `mailers` queue
+- [x] One mail to the target user and one to each organization `ADMIN`, in the organization locale
+- [x] The mail says a super admin entered, the reason, and when it expires. It does not include a token
 
 **Acceptance:** mailer spec covers start. No mail on a rejected start.
 
@@ -98,13 +98,13 @@ A super admin can open the app as a user in organization A to reproduce a bug th
 
 ## Definition of done
 
-- [ ] Only a super admin can start a session, and only with a reason
-- [ ] The target password cannot be read or changed from that session
-- [ ] The session dies at 30 minutes or on leave, whichever comes first
-- [ ] Tenant admins are emailed, and every super admin can see the session
-- [ ] Mutating requests record the support user
-- [ ] Swagger documents start, show/list, and leave
-- [ ] React companion plan is in place
+- [x] Only a super admin can start a session, and only with a reason
+- [x] The target password cannot be read or changed from that session
+- [x] The session dies at 30 minutes or on leave, whichever comes first
+- [x] Tenant admins are emailed, and every super admin can see the session
+- [x] Mutating requests record the support user
+- [x] Swagger documents start, show/list, and leave
+- [x] React companion plan is in place
 
 ---
 

@@ -1,6 +1,6 @@
 # Plan: Product expiry alerts (API)
 
-**Status:** not started  
+**Status:** completed  
 **Project:** ubuteco_api (primary)  
 **Companion:** [ubuteco-react — expiry alerts UI](../../../ubuteco-react/docs/plans/15-product-expiry-alerts.md)  
 **Branch:** `feature/product-expiry-alerts`  
@@ -26,8 +26,8 @@ Help org staff **see products nearing expiration** before they spoil — list en
 | Drink | no | — | — |
 | Dish | no | — | — |
 
-- No `expiring_soon` / `expired` query endpoint.
-- No org-level “days before expiry” threshold (low stock uses `LOW_STOCK_THRESHOLD` env today).
+- `GET /api/v1/inventory/expiring` lists Beer and Food inside the warning window, plus expired rows unless `include_expired=false`.
+- Warning window is env `EXPIRY_WARNING_DAYS` (default 7), same shape as `LOW_STOCK_THRESHOLD`. An org column is still future work.
 - Date comparison must respect **org timezone** (see [i18n-and-money.md](../context/i18n-and-money.md)).
 
 ---
@@ -57,12 +57,12 @@ Help org staff **see products nearing expiration** before they spoil — list en
 
 ## Phase 1 — Domain & query
 
-- [ ] Document expiry rules in `docs/context/product-expiry.md` (mirror [inventory-stock.md](../context/inventory-stock.md))
-- [ ] `Inventory::ExpiringProductsQuery` (or `Catalog::ExpiringProductsQuery`):
+- [x] Document expiry rules in `docs/context/product-expiry.md` (mirror [inventory-stock.md](../context/inventory-stock.md))
+- [x] `Inventory::ExpiringProductsQuery` (or `Catalog::ExpiringProductsQuery`):
   - Scope: `organization_id`, models with `valid_until` (Beer, Food)
   - Compare calendar dates in org timezone (`SetOrganizationRegional` / org `timezone`)
   - Return `{ product_type, id, name, valid_until, days_remaining, status: expiring|expired }`
-- [ ] Shared module listing expiry-capable model classes (avoid hardcoding in controller)
+- [x] Shared module listing expiry-capable model classes (avoid hardcoding in controller)
 
 **Acceptance:** unit spec for boundary dates (today, tomorrow, yesterday, null `valid_until`).
 
@@ -70,11 +70,11 @@ Help org staff **see products nearing expiration** before they spoil — list en
 
 ## Phase 2 — API
 
-- [ ] `GET /api/v1/inventory/expiring` (or `/catalog/expiring`) — same auth as `low_stock` (`:read, :inventory`)
-- [ ] Response: `{ warning_days:, items: [...] }` (parallel to low_stock `{ threshold:, items: }`)
-- [ ] Optional query param `include_expired=true` (default true)
-- [ ] rswag + `openapi:drift_check`
-- [ ] Ensure Beer/Food JSON consistently exposes `valid_until` on index/show (verify jbuilder)
+- [x] `GET /api/v1/inventory/expiring` (or `/catalog/expiring`) — same auth as `low_stock` (`:read, :inventory`)
+- [x] Response: `{ warning_days:, items: [...] }` (parallel to low_stock `{ threshold:, items: }`)
+- [x] Optional query param `include_expired=true` (default true)
+- [x] rswag + `openapi:drift_check`
+- [x] Ensure Beer/Food JSON consistently exposes `valid_until` on index/show (verify jbuilder)
 
 **Acceptance:** request specs; cross-tenant spec (org A cannot see org B items).
 
@@ -82,17 +82,17 @@ Help org staff **see products nearing expiration** before they spoil — list en
 
 ## Phase 3 — Authorization & roles
 
-- [ ] Same roles as low stock: **ADMIN**, **CASH_REGISTER** read `:inventory`
-- [ ] Waiter/kitchen: no access (match [inventory-stock.md](../context/inventory-stock.md))
+- [x] Same roles as low stock: **ADMIN**, **CASH_REGISTER** read `:inventory`
+- [x] Waiter/kitchen: no access (match [inventory-stock.md](../context/inventory-stock.md))
 
 ---
 
 ## Phase 4 — Tests
 
-- [ ] Service/query specs (timezone edge cases)
-- [ ] Request spec for `GET .../expiring`
-- [ ] Cross-tenant: `spec/security/cross_tenant/` case
-- [ ] Mirror patterns from `spec/requests/inventory_spec.rb`
+- [x] Service/query specs (timezone edge cases)
+- [x] Request spec for `GET .../expiring`
+- [x] Cross-tenant: `spec/security/cross_tenant/` case
+- [x] Mirror patterns from `spec/requests/inventory_spec.rb`
 
 ---
 
@@ -106,17 +106,17 @@ Help org staff **see products nearing expiration** before they spoil — list en
 
 ## Manual steps
 
-- [ ] No migration required for v1 (columns exist on beers, foods)
+- [x] No migration required for v1 (columns exist on beers, foods)
 - [ ] If Phase 5 wine/drink: `bin/rails db:migrate` when DB available
 
 ---
 
 ## Definition of done
 
-- [ ] API lists expiring and expired beers/foods for current org
-- [ ] Date logic uses org timezone
-- [ ] Swagger documented; CI drift check passes
-- [ ] Context doc published; companion React plan linked
+- [x] API lists expiring and expired beers/foods for current org
+- [x] Date logic uses org timezone
+- [x] Swagger documented; CI drift check passes
+- [x] Context doc published; companion React plan linked
 
 ---
 

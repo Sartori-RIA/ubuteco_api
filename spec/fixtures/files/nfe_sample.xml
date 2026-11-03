@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe>
+      <det nItem="1">
+        <prod>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>Cerveja Lager</xProd>
+          <qCom>12.0000</qCom>
+          <uCom>UN</uCom>
+          <vUnCom>8.50</vUnCom>
+        </prod>
+      </det>
+      <det nItem="2">
+        <prod>
+          <cEAN>7891234567890</cEAN>
+          <xProd>Vinho Tinto</xProd>
+          <qCom>1.5000</qCom>
+          <uCom>UN</uCom>
+          <vUnCom>39.90</vUnCom>
+        </prod>
+      </det>
+    </infNFe>
+  </NFe>
+</nfeProc>

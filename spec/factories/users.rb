@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:name) { |n| "user_#{n}" }
     sequence(:email) { |n| "admin#{n}@email.com" }
 
-    password { 'password' }
+    password { 'factory-secret' }
 
     role
 
