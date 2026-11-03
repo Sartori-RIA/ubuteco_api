@@ -14,3 +14,4 @@ en:
       invalid_document: The file could not be read. Use a JPEG, PNG, PDF, or NF-e XML up to 5 MB
       ai_usage_range: Choose a start date that is on or before the end date
       restock_range: Cover days must be 1–60 and the history window must be 7–90 days
+      import_in_progress: An import is already queued or running

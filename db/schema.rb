@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -122,6 +122,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_190000) do
     t.index ["deleted_at"], name: "index_beers_on_deleted_at"
     t.index ["maker_id"], name: "index_beers_on_maker_id"
     t.index ["organization_id"], name: "index_beers_on_organization_id"
+  end
+
+  create_table "catalog_imports", force: :cascade do |t|
+    t.integer "created_rows", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "enqueued_at"
+    t.text "error_message"
+    t.integer "failed_rows", default: 0, null: false
+    t.datetime "finished_at"
+    t.bigint "organization_id", null: false
+    t.integer "processed_rows", default: 0, null: false
+    t.string "product_type", null: false
+    t.jsonb "row_log", default: [], null: false
+    t.datetime "started_at"
+    t.string "status", default: "queued", null: false
+    t.integer "total_rows", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["organization_id", "status"], name: "index_catalog_imports_on_organization_id_and_status"
+    t.index ["organization_id"], name: "index_catalog_imports_on_organization_id"
+    t.index ["user_id"], name: "index_catalog_imports_on_user_id"
   end
 
   create_table "dish_ingredients", force: :cascade do |t|
@@ -357,6 +378,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_190000) do
   add_foreign_key "beers", "beer_styles"
   add_foreign_key "beers", "makers"
   add_foreign_key "beers", "organizations"
+  add_foreign_key "catalog_imports", "organizations"
+  add_foreign_key "catalog_imports", "users"
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "foods"
   add_foreign_key "dishes", "organizations"

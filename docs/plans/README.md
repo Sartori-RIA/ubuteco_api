@@ -48,6 +48,7 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 | 20 | [Semantic menu search](./20-semantic-menu-search.md) | completed | P3 | #7, #16 |
 | 17 | [AI assistant](./17-ai-assistant.md) | completed | P3 | #16, #4, #9 |
 | 21 | [AI product intake](./21-ai-product-intake.md) | completed | P3 | #16, #9 |
+| 22 | [Catalog CSV import](./22-catalog-csv-import.md) | completed | P2 | #1, #9 |
 | 5 | [Platform hardening](./05-platform-hardening.md) | in progress | Ongoing | all |
 | 3 | [Subscription plans](./03-subscription-plans.md) | not started | **Last** | #1, #5 |
 
@@ -64,6 +65,8 @@ Ordered by priority. **#3 is deferred to the end** (see note above).
 **Next up:** [03 Subscription plans](./03-subscription-plans.md). That one stays last.
 
 **AI track (16–21):** [16](./16-ai-foundation.md), [19](./19-restock-suggestions.md), [18](./18-ai-daily-brief.md), [20](./20-semantic-menu-search.md), [17](./17-ai-assistant.md), and [21](./21-ai-product-intake.md) are in place. Invoice photo evals still need real pictures.
+
+**Catalog:** [22 Catalog CSV import](./22-catalog-csv-import.md) is in place.
 
 Frontend companions: [ubuteco-react/docs/plans](../../../ubuteco-react/docs/plans/README.md).
 

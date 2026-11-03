@@ -1,0 +1,8 @@
+<%= t("catalog_import_mailer.finished.summary", type: @import.product_type, created: @import.created_rows, failed: @import.failed_rows) %>
+<% if @import.status == "failed" %>
+<%= t("catalog_import_mailer.finished.stopped", message: @import.error_message) %>
+<% end %>
+<% @import.row_log.each do |entry| %>
+<% next unless entry["status"] == "failed" %>
+<%= t("catalog_import_mailer.finished.line", line: entry["line"], cause: Array(entry["errors"]).join(", ")) %>
+<% end %>
