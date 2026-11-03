@@ -76,11 +76,34 @@ Rails.application.routes.draw do
       resources :wines
       resources :roles
 
+      namespace :catalog do
+        resources :imports, only: %i[index show create] do
+          collection do
+            get :template
+          end
+        end
+      end
+
       get 'dashboard/summary', to: 'dashboard#summary'
       get 'dashboard/series', to: 'dashboard#series'
       get 'dashboard/kitchen', to: 'dashboard#kitchen'
+      get 'dashboard/brief', to: 'dashboard#brief'
+
+      namespace :assistant do
+        resources :conversations, only: %i[index show create destroy] do
+          member do
+            post :messages
+          end
+        end
+      end
+
+      namespace :catalog do
+        post 'intake/label', to: 'intake#label'
+      end
 
       get 'inventory/low_stock', to: 'inventory#low_stock'
+      post 'inventory/intake/nfe', to: 'inventory#nfe'
+      post 'inventory/intake/document', to: 'inventory#document'
       get 'inventory/expiring', to: 'inventory#expiring'
       get 'inventory/restock_suggestions', to: 'inventory#restock_suggestions'
 

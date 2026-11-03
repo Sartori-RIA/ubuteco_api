@@ -1,0 +1,6 @@
+name: low stock
+locale: en
+question: What is running low?
+expected_tools:
+  - low_stock
+must_include: []

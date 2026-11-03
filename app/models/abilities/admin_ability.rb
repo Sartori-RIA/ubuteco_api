@@ -10,8 +10,10 @@ module Abilities
       can_manage_self(user:, controller_name:)
       customer_search(controller_name:)
       products_permissions(user)
+      can :intake, :inventory
       orders_permissions(user:, params:, controller_name:)
       dashboard_permissions(controller_name:)
+      assistant_permissions(controller_name:)
     end
 
     def products_permissions(user)

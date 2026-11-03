@@ -11,6 +11,7 @@ All require auth + `:read, :dashboard` ability (typically **ADMIN**, **CASH_REGI
 | GET | `/api/v1/dashboard/summary` | `from`, `to` (ISO8601 dates) |
 | GET | `/api/v1/dashboard/series` | `from`, `to`, `grain` (default `day`), `metric` (default `revenue`) |
 | GET | `/api/v1/dashboard/kitchen` | `from`, `to` |
+| GET | `/api/v1/dashboard/brief` | optional `refresh=1` |
 
 Tenant: scoped to `Current.organization` — controller returns **403** if org missing.
 
@@ -31,8 +32,9 @@ Parsed by `Organizations::Dashboard::RangeParser`:
 | `Organizations::Dashboard::Kitchen` | Kitchen metrics |
 | `Organizations::Dashboard::RangeParser` | Timezone-aware from/to |
 | `Organizations::Dashboard::Cache` | Rails.cache, **3 min TTL** |
+| `Organizations::DailyBrief::Compose` | Yesterday + today paragraph. Cached 30 minutes per org and local date. `refresh=1` rebuilds it at most once a minute. |
 
-Controller stays thin — call services inside `Cache.fetch`.
+The brief uses completed orders (closed or paid) in the organization timezone. Numbers are computed in code. The model only writes the paragraph, and only when AI is enabled. A number that is not in the fact sheet, or a provider error, falls back to `dashboard.brief.template`. The endpoint does not fail because the model failed.
 
 ## Response shape
 

@@ -28,6 +28,31 @@ module Api
         }
       end
 
+      def nfe
+        authorize! :intake, :inventory
+        upload = Inventory::Intake::Upload.new(params[:file], allowed: Inventory::Intake::Upload::XML)
+        lines = Inventory::Intake::NfeXmlParser.call(upload.bytes)
+        render json: { lines: Inventory::Intake::Matcher.call(organization: Current.organization, lines:) }
+      rescue Inventory::Intake::Upload::Invalid, Inventory::Intake::NfeXmlParser::Invalid
+        invalid_document
+      end
+
+      def document
+        authorize! :intake, :inventory
+        raise Ai::DisabledError unless Ai.enabled_for?(Current.organization)
+
+        upload = Inventory::Intake::Upload.new(params[:file], allowed: Inventory::Intake::Upload::DOCUMENTS)
+        lines = Inventory::Intake::DocumentExtractor.call(
+          organization: Current.organization,
+          user: current_user,
+          bytes: upload.image_bytes,
+          media_type: upload.media_type
+        )
+        render json: { lines: Inventory::Intake::Matcher.call(organization: Current.organization, lines:) }
+      rescue Inventory::Intake::Upload::Invalid
+        invalid_document
+      end
+
       def restock_suggestions
         authorize! :read, :inventory
 
@@ -76,6 +101,13 @@ module Api
         return true if params[:include_expired].nil?
 
         ActiveModel::Type::Boolean.new.cast(params[:include_expired]) != false
+      end
+
+      def invalid_document
+        render_api_errors(
+          [{ code: 'invalid_document', message: I18n.t('api.errors.invalid_document') }],
+          status: :unprocessable_content
+        )
       end
     end
   end

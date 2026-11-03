@@ -9,6 +9,7 @@ gem 'aasm', '~> 5.5'
 gem 'anthropic', '~> 2.3'
 gem 'bootsnap', '~> 1.23', require: false
 gem 'cancancan', '~> 3.6', '>= 3.6.1'
+gem 'csv'
 gem 'devise', '~> 5.0', '>= 5.0.4'
 gem 'devise-argon2', '~> 2.0', '>= 2.0.4'
 gem 'devise-pwned_password'

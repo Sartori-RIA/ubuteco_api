@@ -71,5 +71,12 @@ module Abilities
 
       can :read, :dashboard
     end
+
+    def assistant_permissions(controller_name:)
+      return unless controller_name == 'Api::V1::Assistant::Conversations'
+
+      can :use, :assistant
+      can :read, :dashboard
+    end
   end
 end
