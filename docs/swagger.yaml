@@ -1353,6 +1353,57 @@ paths:
       responses:
         '200':
           description: Ok
+  "/api/v1/inventory/intake/nfe":
+    post:
+      summary: Parse an NF-e XML into stock lines
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        required: true
+  "/api/v1/inventory/intake/document":
+    post:
+      summary: Draft stock lines from an invoice photo or PDF
+      tags:
+      - Inventory
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        required: true
+  "/api/v1/catalog/intake/label":
+    post:
+      summary: Draft a product from a label photo
+      tags:
+      - Catalog
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: Ok
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        required: true
   "/api/v1/roles":
     get:
       summary: All Roles

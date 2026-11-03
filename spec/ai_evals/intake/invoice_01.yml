@@ -1,0 +1,3 @@
+name: invoice photo 1
+image:
+note: Add an anonymised invoice photo before running bin/rails ai:eval[intake]
