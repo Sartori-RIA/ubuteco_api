@@ -1,0 +1,8 @@
+en:
+  assistant:
+    timeout: I could not finish that in time. Ask again with a shorter question.
+    too_many_tools: I needed too many lookups to answer. Ask one thing at a time.
+    empty: I could not produce an answer.
+    errors:
+      blank: Write a question.
+      too_long: That question is too long.

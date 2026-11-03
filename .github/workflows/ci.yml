@@ -86,6 +86,9 @@ jobs:
       - name: Run RuboCop
         run: bin/rubocop
 
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends imagemagick
+
       - name: Run specs
         run: bundle exec rspec
 

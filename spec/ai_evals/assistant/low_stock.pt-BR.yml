@@ -1,0 +1,6 @@
+name: estoque baixo
+locale: pt-BR
+question: O que está acabando?
+expected_tools:
+  - low_stock
+must_include: []
