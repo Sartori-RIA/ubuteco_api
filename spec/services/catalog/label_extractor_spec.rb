@@ -45,6 +45,25 @@ RSpec.describe Catalog::Intake::LabelExtractor do
     expect(payload[:confidence]).to eq('high')
   end
 
+  it 'fills a wine draft and leaves a missing abv empty' do
+    Ai::FakeClient.enqueue(
+      Ai.result(text: '{"name":"Malbec","maker":null,"style":null,"abv":null,"grapes":"Malbec","vintage":2020,"description":""}')
+    )
+
+    payload = described_class.call(
+      organization:, user:, bytes: png, media_type: 'image/png', product_type: 'wine'
+    )
+
+    expect(payload[:draft]).to include(name: 'Malbec', grapes: 'Malbec', vintage_wine: 2020, abv: nil, wine_style_id: nil)
+    expect(payload[:confidence]).to eq('high')
+  end
+
+  it 'rejects an unknown product type' do
+    expect do
+      described_class.call(organization:, user:, bytes: png, media_type: 'image/png', product_type: 'food')
+    end.to raise_error(ArgumentError, 'unknown product type')
+  end
+
   it 'rejects text that is not the expected JSON' do
     Ai::FakeClient.enqueue(Ai.result(text: 'not json'))
 
