@@ -13,7 +13,28 @@ High-level view of how the main pieces connect in **local development** (Docker 
 
 > **Note:** The diagram may still show Rails on the host. The recommended dev flow runs **API and Sidekiq in Docker** — see [Quick Start](#quick-start) and [docs/dev-setup.md](docs/dev-setup.md).
 
-**Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md) — multi-tenant through CI/CD, order lifecycle, inventory, users API, and more.
+**Roadmap / improvement plans:** [docs/plans/README.md](docs/plans/README.md).
+
+### Product surface
+
+Shipped behavior. When a plan in that tracker is marked completed, add its row here in the same change.
+
+| Area | Behavior |
+|------|----------|
+| Orders, kitchen, catalog, users | REST under `/api/v1`. Kitchen live updates go through AnyCable |
+| Inventory | Low stock, expiring products, stock adjustments with an audit trail |
+| Dashboard | `summary`, `series`, `kitchen`, and `brief` |
+| AI gateway | One shared `ANTHROPIC_API_KEY`. Each organization opts in with `organizations.ai_enabled`. Calls run only when `AI_ENABLED` is also true |
+| Daily brief | `GET /api/v1/dashboard/brief` |
+| Restock | `GET /api/v1/inventory/restock_suggestions`. `explain=1` asks the model; the quantities do not |
+| Semantic search | Voyage embeddings when `VOYAGE_API_KEY` is set. Without it, search stays keyword |
+| Assistant | `/api/v1/assistant/conversations` |
+| Product intake | Label photo: `POST /api/v1/catalog/intake/label` (beer or wine). Invoice: `POST /api/v1/inventory/intake/nfe` (XML) and `POST /api/v1/inventory/intake/document` (photo or PDF) |
+| Catalog CSV | `POST /api/v1/catalog/imports` for beer, drink, wine, food, and dish. Worker queue `imports` |
+| Password policy | At least 12 characters, denylist of the email local-part and organization name, breached-password check. Not rechecked on sign-in |
+| Support | `/api/v1/platform/impersonations` for a super admin |
+
+Sidekiq queues, in order: `searchkick`, `default`, `mailers`, `ai`, `imports`.
 
 **AI assistants:** [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) · [docs/context/](docs/context/) · [docs/backlog/](docs/backlog/) · [docs/dev-setup.md](docs/dev-setup.md)
 
@@ -25,7 +46,7 @@ High-level view of how the main pieces connect in **local development** (Docker 
 | **Rails API** (Puma) | REST API, JWT auth, business logic, Active Storage | `http://localhost:3000` |
 | **PostgreSQL** | Primary database (orders, menu, orgs, users) | `localhost:5432` |
 | **Redis** | Sidekiq queue; AnyCable pub/sub | `localhost:6379` |
-| **Sidekiq** | Background jobs (Searchkick indexing, etc.) | (no HTTP; uses Redis) |
+| **Sidekiq** | Background jobs (search index, mail, AI, catalog CSV imports) | (no HTTP; uses Redis) |
 | **OpenSearch** | Full-text search index (via Searchkick) | `http://localhost:9200` |
 | **OpenSearch Dashboards** | Search cluster UI (dev/debug) | `http://localhost:5601` |
 | **anycable-go** | WebSocket server (real-time) | WS `ws://localhost:8080/api/cable`, broadcast `:8090` |
@@ -276,7 +297,7 @@ Kitchen and other Action Cable channels use **[AnyCable](https://anycable.io)** 
   + `super@email.com`
 
 + passwords:
-  + `123123123`
+  + `ubuteco-local-dev`
   
 ## Contributing
 
