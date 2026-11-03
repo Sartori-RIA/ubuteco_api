@@ -96,23 +96,18 @@ RSpec.describe 'Password policy', type: :request do
     it 'rejects a breached password and accepts one when the service fails' do
       user
       allow_any_instance_of(Pwned::Password).to receive(:pwned_count).and_call_original
-      WebMock.enable!
-      WebMock.disable_net_connect!(allow_localhost: true)
 
       hash = Digest::SHA1.hexdigest('brand-new-secret').upcase
-      WebMock.stub_request(:get, "https://api.pwnedpasswords.com/range/#{hash.first(5)}")
-             .to_return(status: 200, body: "#{hash[5..]}:100\r\n")
+      stub_request(:get, "https://api.pwnedpasswords.com/range/#{hash.first(5)}")
+        .to_return(status: 200, body: "#{hash[5..]}:100\r\n")
 
       user.password = 'brand-new-secret'
       expect(user).not_to be_valid
       expect(user.errors.where(:password, :pwned_password)).to be_present
 
-      WebMock.stub_request(:get, %r{api\.pwnedpasswords\.com/range/}).to_timeout
+      stub_request(:get, %r{api\.pwnedpasswords\.com/range/}).to_timeout
       user.password = 'service-down-secret'
       expect(user).to be_valid
-    ensure
-      WebMock.disable!
-      WebMock.allow_net_connect!
     end
 
     it 'does not call Pwned Passwords on sign-in' do
